@@ -22,8 +22,9 @@ Route::get('/', function () {
 
 
 Route::prefix('admin')->group(function () {
-    Route::get('/', [AdminLoginController::class, 'login']);
-    Route::get('/login', [AdminLoginController::class, 'login'])->name('admin-login');
+    Route::get('/', [AdminLoginController::class, 'showLoginForm']);
+    Route::get('/login', [AdminLoginController::class, 'showLoginForm'])->name('admin-login');
+    Route::post('/login', [AdminLoginController::class, 'showLoginForm'])->name('admin-login');
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin-dashboard');
     Route::prefix('products')->group(function () {
         Route::get('/categories', [ProductCategoryController::class, 'categories_list'])->name('admin-products-categories');

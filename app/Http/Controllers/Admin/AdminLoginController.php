@@ -27,6 +27,10 @@ class AdminLoginController extends Controller
      * @var string
      */
     protected $redirectTo = '/admin/dashboard';
+    public function showLoginForm(Request $request)
+    {
+        return view('admin.login', []);
+    }
     public function login(Request $request)
     {
         return view('admin.login', []);

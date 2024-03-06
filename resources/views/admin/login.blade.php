@@ -12,7 +12,7 @@
                             </div>
                             <h4>Hello! Welcome to got....</h4>
                             <h6 class="font-weight-light">Login in to explore...</h6>
-                            <form class="pt-3" id="admin-login">
+                            <form class="pt-3" id="admin-login" ethod="POST" action="{{ route('admin-login') }}">
                                 <div class="form-group">
                                     <input type="email" class="form-control form-control-lg" id="exampleInputEmail1"
                                         placeholder="Username" name="username">
@@ -22,7 +22,7 @@
                                         placeholder="Password" name="password">
                                 </div>
                                 <div class="mt-3">
-                                        <button type="button" class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn">Sign In</button>
+                                        <button type="submit" class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn">Sign In</button>
                                 </div>
                             </form>
                         </div>
