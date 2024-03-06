@@ -15,11 +15,11 @@
             </a>
             <div class="collapse" id="ui-basic">
                 <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a class="nav-link" href="{{url('categories')}}">Categories</a>
+                    <li class="nav-item"> <a class="nav-link" href="{{url('admin/products/categories')}}">Categories</a>
                     </li>
-                    <li class="nav-item"> <a class="nav-link" href="{{url('brands')}}">Brands</a>
+                    <li class="nav-item"> <a class="nav-link" href="{{url('admin/products/brands')}}">Brands</a>
                     </li>
-                    <li class="nav-item"> <a class="nav-link" href="{{url('states')}}">States</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="{{url('admin/master/states')}}">States</a></li>
                 </ul>
             </div>
         </li>

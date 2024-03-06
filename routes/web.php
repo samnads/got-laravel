@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\ProductCategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,4 +24,8 @@ Route::prefix('admin')->group(function () {
     Route::get('/', [AdminController::class, 'login']);
     Route::get('/login', [AdminController::class, 'login']);
     Route::get('/dashboard', [AdminController::class, 'dashboard']);
+    Route::prefix('products')->group(function () {
+        Route::get('/', [AdminController::class, 'login']);
+        Route::get('/categories', [ProductCategoryController::class, 'categories_list']);
+    });
 });
