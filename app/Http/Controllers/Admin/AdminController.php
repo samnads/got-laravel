@@ -7,9 +7,14 @@ use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
-    public function login(Request $request)
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
     {
-        return view('admin.login', []);
+        $this->middleware('auth');
     }
     public function index(Request $request)
     {

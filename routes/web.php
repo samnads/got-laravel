@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\AdminLoginController;
 use App\Http\Controllers\Admin\ProductCategoryController;
 
 /*
@@ -21,10 +22,14 @@ Route::get('/', function () {
 
 
 Route::prefix('admin')->group(function () {
-    //Route::get('/', [AdminController::class, 'login']);
-    Route::get('/login', [AdminController::class, 'login'])->name('admin-login');
+    Route::get('/', [AdminLoginController::class, 'login']);
+    Route::get('/login', [AdminLoginController::class, 'login'])->name('admin-login');
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin-dashboard');
     Route::prefix('products')->group(function () {
         Route::get('/categories', [ProductCategoryController::class, 'categories_list'])->name('admin-products-categories');
     });
 });
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
