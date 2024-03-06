@@ -20,7 +20,7 @@ Route::get('/', function () {
 
 
 Route::prefix('admin')->group(function () {
-    Route::get('/f', [AdminController::class, 'index']);
+    Route::get('/', [AdminController::class, 'login']);
     Route::get('/login', [AdminController::class, 'login']);
     Route::get('/dashboard', [AdminController::class, 'dashboard']);
 });

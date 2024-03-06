@@ -1,4 +1,4 @@
-@extends('components.layouts.admin', ['body_css_class' => 'admin-class'])
+@extends('components.layouts.admin-login', ['body_css_class' => 'admin-class'])
 @section('title', 'Login')
 @section('content')
     <div class="container-scroller">
@@ -8,7 +8,7 @@
                     <div class="col-lg-4 mx-auto">
                         <div class="auth-form-light text-left p-5">
                             <div class="brand-logo">
-                                <img src="{{ asset('admin/images/logo.svg') }}">
+                                <img src="{{ asset('assets/admin/images/logo.svg') }}">
                             </div>
                             <h4>Hello! Welcome to got....</h4>
                             <h6 class="font-weight-light">Login in to explore...</h6>
