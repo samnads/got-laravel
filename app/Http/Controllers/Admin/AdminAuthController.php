@@ -18,13 +18,13 @@ class AdminAuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->route('admin-dashboard');
+            return redirect()->route('admin.dashboard');
         }
         return back()->withErrors([]);
     }
     public function logout(Request $request)
     {
         Auth::logout();
-        return redirect()->route('admin-login');
+        return redirect()->route('admin.login');
     }
 }

@@ -25,7 +25,7 @@
                     <a class="dropdown-item" href="#">
                         <i class="mdi mdi-cached me-2 text-success"></i> Activity Log </a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="{{ route('admin-logout') }}"
+                    <a class="dropdown-item" href="{{ route('admin.do-logout') }}"
                         onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                         <i class="mdi mdi-logout me-2 text-primary"></i> Signout </a>
@@ -42,7 +42,7 @@
             <span class="mdi mdi-menu"></span>
         </button>
     </div>
-    <form id="logout-form" action="{{ route('admin-logout') }}" method="POST" class="d-none">
+    <form id="logout-form" action="{{ route('admin.do-logout') }}" method="POST" class="d-none">
         @csrf
     </form>
 </nav>

@@ -12,7 +12,7 @@
                             </div>
                             <h4>Hello! Welcome to got....</h4>
                             <h6 class="font-weight-light">Login in to explore...</h6>
-                            <form class="pt-3" id="admin-login" method="POST" action="{{ route('do-admin-login') }}">
+                            <form class="pt-3" id="admin-login" method="POST" action="{{ route('admin.do-login') }}">
                                 @csrf
                                 <div class="form-group">
                                     <input type="text" class="form-control form-control-lg" placeholder="Username" name="username" value="admin@example.com">

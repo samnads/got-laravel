@@ -22,18 +22,19 @@ Route::get('/', function () {
 });
 
 
-Route::prefix('admin')->middleware([AdminAuthWeb::class])->group(function () {
-    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin-dashboard');
+Route::prefix('admin')->name('admin.')->middleware([AdminAuthWeb::class])->group(function () {
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
     Route::prefix('master')->group(function () {
-        Route::get('/product-categories', [AdminProductCategoryController::class, 'categories_list'])->name('admin-products-categories');
-        Route::get('/product-category/new', [AdminProductCategoryController::class, 'new_category'])->name('admin-products-categories');
+        Route::get('/product-categories', [AdminProductCategoryController::class, 'categories_list'])->name('products-categories');
+        Route::get('/product-category/new', [AdminProductCategoryController::class, 'new_category'])->name('products-categories');
+        Route::post('/product-category/save', [AdminProductCategoryController::class, 'save_category'])->name('products-categories');
         //Route::get('/brands', [AdminProductCategoryController::class, 'categories_list'])->name('admin-products-categories');
         //Route::get('/states', [AdminProductCategoryController::class, 'categories_list'])->name('admin-products-categories');
         //Route::get('/districts', [AdminProductCategoryController::class, 'categories_list'])->name('admin-products-categories');
     });
 });
-Route::prefix('admin')->group(function () {
-    Route::get('/', [AdminController::class, 'index'])->name('admin-login');
-    Route::post('/login', [AdminAuthController::class, 'login'])->name('do-admin-login');
-    Route::post('/logout', [AdminAuthController::class, 'logout'])->name('admin-logout');
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('/', [AdminController::class, 'index'])->name('login');
+    Route::post('/login', [AdminAuthController::class, 'login'])->name('do-login');
+    Route::post('/logout', [AdminAuthController::class, 'logout'])->name('do-logout');
 });

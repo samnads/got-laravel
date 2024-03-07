@@ -21,7 +21,7 @@ class AdminAuthWeb
             return $next($request);
         }
         else{
-            return redirect()->route('admin-login');
+            return redirect()->route('admin.login');
         }
         //return $next($request);
     }

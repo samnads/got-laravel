@@ -1,59 +1,50 @@
 @extends('components.layouts.admin', ['body_css_class' => 'admin-class'])
 @section('title', 'Product Categories')
 @section('content')
-    <div class="col-lg-12 grid-margin">
-        <div class="card">
-            <div class="card-body">
-                <div style="display: flex" class="m-3">
-                    <h2 class="card-title float-left">Category List</h4>
-                        <div style="margin-left: auto;">
-                            <a role="button" href="{{ url('admin/master/product-category/new') }}"><button type="button"
-                                    class="btn btn-inverse-dark btn-icon">
-                                    <i class="mdi mdi-plus"></i>
-                                </button></a>
+    <div class="row">
+        <div class="col-md-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <div class="chartjs-size-monitor">
+                        <div class="chartjs-size-monitor-expand">
+                            <div class=""></div>
                         </div>
+                        <div class="chartjs-size-monitor-shrink">
+                            <div class=""></div>
+                        </div>
+                    </div>
+                    <div class="clearfix">
+                        <div style="display: flex">
+                            <h4 class="card-title float-left">Add Category</h4>
+                            <div style="margin-left: auto;">
+                                <a href="http://localhost/cloudveins/got/admin/manage_category"><button type="button"
+                                        class="btn btn-inverse-dark btn-icon">
+                                        <i class="mdi mdi-view-headline"></i>
+                                        </button></a>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 offset-sm-3">
+                            <form enctype="multipart/form-data"
+                                method="post" accept-charset="utf-8" action="{{ route('save-product-category') }}">
+                                @csrf
+                                <div class="form-group">
+                                    <label>Enter Category</label>
+                                    <input type="text" class="form-control" name="category" placeholder="Enter Category">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Upload Category Image</label>
+                                    <input type="file" name="Category_image" class="form-control">
+                                </div>
+
+                                <div>
+                                    <button type="submit" class="btn btn-gradient-dark w-100">Submit</button>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
                 </div>
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Category #</th>
-                            <th>Parent</th>
-                            <th>Name</th>
-                            <th>Description</th>
-                            <th>Thumbnail</th>
-                            <th>Quick Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @for ($i = 0; $i <= 10; $i++)
-                            <tr>
-                                <td>{{ $i + 1 }}</td>
-                                <td> Herman Beck </td>
-                                <td>
-                                    <div class="progress">
-                                        <div class="progress-bar bg-success" role="progressbar" style="width: 25%"
-                                            aria-valuenow="{{ $i + 1 }}" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </td>
-                                <td> $ 77.99 </td>
-                                <td> May 15, 2015 </td>
-                                <td>
-                                    <div class="btn-group" role="group" aria-label="Basic example">
-                                        <button type="button" class="btn btn-outline-info">
-                                            <i class="mdi mdi-grease-pencil"></i>
-                                        </button>
-                                        <button type="button" class="btn btn-outline-success">
-                                            <i class="mdi mdi-eye"></i>
-                                        </button>
-                                        <button type="button" class="btn btn-outline-danger">
-                                            <i class="mdi mdi-delete"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                        @endfor
-                    </tbody>
-                </table>
             </div>
         </div>
     </div>
