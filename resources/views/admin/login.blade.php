@@ -15,12 +15,10 @@
                             <form class="pt-3" id="admin-login" method="POST" action="{{ route('do-admin-login') }}">
                                 @csrf
                                 <div class="form-group">
-                                    <input type="email" class="form-control form-control-lg" id="exampleInputEmail1"
-                                        placeholder="Username" name="username">
+                                    <input type="text" class="form-control form-control-lg" placeholder="Username" name="username" value="admin@example.com">
                                 </div>
                                 <div class="form-group">
-                                    <input type="password" class="form-control form-control-lg" id="exampleInputPassword1"
-                                        placeholder="Password" name="password">
+                                    <input type="password" class="form-control form-control-lg" placeholder="Password" name="password" value="12345">
                                 </div>
                                 <div class="mt-3">
                                         <button type="submit" class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn">Sign In</button>
