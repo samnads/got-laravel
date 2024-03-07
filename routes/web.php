@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminController;
-use App\Http\Controllers\Admin\AdminLoginController;
+use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\ProductCategoryController;
 use App\Http\Middleware\AdminAuthWeb;
 
@@ -32,5 +32,5 @@ Route::prefix('admin')->middleware([AdminAuthWeb::class])->group(function () {
 });
 Route::prefix('admin')->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('admin-login');
-    Route::post('/login', [AdminLoginController::class, 'login'])->name('do-admin-login');
+    Route::post('/login', [AdminAuthController::class, 'login'])->name('do-admin-login');
 });
