@@ -28,8 +28,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
         Route::prefix('master')->group(function () {
             Route::get('/product-categories', [AdminProductCategoryController::class, 'categories_list'])->name('products-categories');
-            Route::get('/product-category/new', [AdminProductCategoryController::class, 'new_category'])->name('products-categories');
-            Route::post('/product-category/save', [AdminProductCategoryController::class, 'save_category'])->name('products-categories');
+            Route::get('/product-category/new', [AdminProductCategoryController::class, 'new_category'])->name('new-product-category');
+            Route::post('/product-category/save', [AdminProductCategoryController::class, 'save_category'])->name('save-product-category');
             //Route::get('/brands', [AdminProductCategoryController::class, 'categories_list'])->name('admin-products-categories');
             //Route::get('/states', [AdminProductCategoryController::class, 'categories_list'])->name('admin-products-categories');
             //Route::get('/districts', [AdminProductCategoryController::class, 'categories_list'])->name('admin-products-categories');

@@ -17,7 +17,7 @@
                         <div style="display: flex">
                             <h4 class="card-title float-left">Add Category</h4>
                             <div style="margin-left: auto;">
-                                <a href="http://localhost/cloudveins/got/admin/manage_category"><button type="button"
+                                <a href="{{ route('admin.products-categories') }}"><button type="button"
                                         class="btn btn-inverse-dark btn-icon">
                                         <i class="mdi mdi-view-headline"></i>
                                         </button></a>
@@ -25,7 +25,7 @@
                         </div>
                         <div class="col-sm-6 offset-sm-3">
                             <form enctype="multipart/form-data"
-                                method="post" accept-charset="utf-8" action="{{ route('save-product-category') }}">
+                                method="post" accept-charset="utf-8" action="{{ route('admin.save-product-category') }}">
                                 @csrf
                                 <div class="form-group">
                                     <label>Enter Category</label>
