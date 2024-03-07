@@ -33,4 +33,5 @@ Route::prefix('admin')->middleware([AdminAuthWeb::class])->group(function () {
 Route::prefix('admin')->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('admin-login');
     Route::post('/login', [AdminAuthController::class, 'login'])->name('do-admin-login');
+    Route::post('/logout', [AdminAuthController::class, 'logout'])->name('admin-logout');
 });

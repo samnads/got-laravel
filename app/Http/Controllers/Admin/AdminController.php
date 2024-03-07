@@ -13,6 +13,7 @@ class AdminController extends Controller
         if (Auth::check()) {
             // The user is logged in...
             return redirect()->route('admin-dashboard');
+            //return view('admin.dashboard', []);
         }
         return view('admin.login', []);
     }

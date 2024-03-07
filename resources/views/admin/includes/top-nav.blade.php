@@ -1,8 +1,8 @@
 <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
     <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-        <a class="navbar-brand brand-logo" href="{{url('admin')}}"><img src="{{ asset('assets/admin/images/logo.png') }}"
-                alt="logo" /></a>
-        <a class="navbar-brand brand-logo-mini" href="{{url('admin')}}"><img
+        <a class="navbar-brand brand-logo" href="{{ url('admin') }}"><img
+                src="{{ asset('assets/admin/images/logo.png') }}" alt="logo" /></a>
+        <a class="navbar-brand brand-logo-mini" href="{{ url('admin') }}"><img
                 src="{{ asset('assets/admin/images/logo-mini.png') }}" alt="logo" /></a>
     </div>
     <div class="navbar-menu-wrapper d-flex align-items-stretch">
@@ -25,7 +25,9 @@
                     <a class="dropdown-item" href="#">
                         <i class="mdi mdi-cached me-2 text-success"></i> Activity Log </a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">
+                    <a class="dropdown-item" href="{{ route('admin-logout') }}"
+                        onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
                         <i class="mdi mdi-logout me-2 text-primary"></i> Signout </a>
                 </div>
             </li>
@@ -40,4 +42,7 @@
             <span class="mdi mdi-menu"></span>
         </button>
     </div>
+    <form id="logout-form" action="{{ route('admin-logout') }}" method="POST" class="d-none">
+        @csrf
+    </form>
 </nav>
