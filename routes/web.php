@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdminAuthController;
-use App\Http\Controllers\Admin\ProductCategoryController;
+use App\Http\Controllers\Admin\AdminProductCategoryController;
 use App\Http\Middleware\AdminAuthWeb;
 
 /*
@@ -25,9 +25,11 @@ Route::get('/', function () {
 Route::prefix('admin')->middleware([AdminAuthWeb::class])->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin-dashboard');
     Route::prefix('master')->group(function () {
-        Route::get('/categories', [ProductCategoryController::class, 'categories_list'])->name('admin-products-categories');
-        Route::get('/brands', [ProductCategoryController::class, 'categories_list'])->name('admin-products-categories');
-        Route::get('/states', [ProductCategoryController::class, 'categories_list'])->name('admin-products-categories');
+        Route::get('/product-categories', [AdminProductCategoryController::class, 'categories_list'])->name('admin-products-categories');
+        Route::get('/product-category/new', [AdminProductCategoryController::class, 'new_category'])->name('admin-products-categories');
+        //Route::get('/brands', [AdminProductCategoryController::class, 'categories_list'])->name('admin-products-categories');
+        //Route::get('/states', [AdminProductCategoryController::class, 'categories_list'])->name('admin-products-categories');
+        //Route::get('/districts', [AdminProductCategoryController::class, 'categories_list'])->name('admin-products-categories');
     });
 });
 Route::prefix('admin')->group(function () {

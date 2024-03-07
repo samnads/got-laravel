@@ -15,7 +15,7 @@
             </a>
             <div class="collapse" id="ui-master">
                 <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a class="nav-link" href="{{ url('admin/master/categories') }}">Categories</a>
+                    <li class="nav-item"> <a class="nav-link" href="{{ url('admin/master/product-categories') }}">Product Categories</a>
                     </li>
                     <li class="nav-item"> <a class="nav-link" href="{{ url('admin/master/brands') }}">Brands</a>
                     </li>
