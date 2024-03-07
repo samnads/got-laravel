@@ -1,5 +1,5 @@
-@extends('components.layouts.admin-login', ['body_css_class' => 'admin'])
-@section('title', 'Admin Login')
+@extends('components.layouts.vendor-login', ['body_css_class' => 'vendor'])
+@section('title', 'Vendor Login')
 @section('content')
     <div class="container-scroller">
         <div class="container-fluid page-body-wrapper full-page-wrapper">
@@ -12,10 +12,10 @@
                             </div>
                             <h4>Hello! Welcome to got....</h4>
                             <h6 class="font-weight-light">Login in to explore...</h6>
-                            <form class="pt-3" id="admin-login" method="POST" action="{{ route('admin.do-login') }}">
+                            <form class="pt-3" id="admin-login" method="POST" action="{{ route('vendor.do-login') }}">
                                 @csrf
                                 <div class="form-group">
-                                    <input type="text" class="form-control form-control-lg" placeholder="Username" name="username" value="admin@example.com">
+                                    <input type="text" class="form-control form-control-lg" placeholder="Username" name="username" value="vendor@example.com">
                                 </div>
                                 <div class="form-group">
                                     <input type="password" class="form-control form-control-lg" placeholder="Password" name="password" value="12345">

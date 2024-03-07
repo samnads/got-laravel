@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Auth;
 
 class VendorAuthWeb
 {
@@ -15,6 +16,12 @@ class VendorAuthWeb
      */
     public function handle(Request $request, Closure $next): Response
     {
-        return $next($request);
+        if (Auth::guard('vendor')->check()) {
+            // The user is logged in...
+            return $next($request);
+        } else {
+            return redirect()->route('vendor.login');
+        }
+        //return $next($request);
     }
 }
