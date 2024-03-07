@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdminLoginController;
 use App\Http\Controllers\Admin\ProductCategoryController;
+use App\Http\Middleware\AdminAuthWeb;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,10 +22,7 @@ Route::get('/', function () {
 });
 
 
-Route::prefix('admin')->group(function () {
-    Route::get('/', [AdminLoginController::class, 'showLoginForm']);
-    Route::get('/login', [AdminLoginController::class, 'showLoginForm'])->name('admin-login');
-    Route::post('/login', [AdminLoginController::class, 'showLoginForm'])->name('admin-login');
+Route::prefix('admin')->middleware([AdminAuthWeb::class])->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin-dashboard');
     Route::prefix('master')->group(function () {
         Route::get('/categories', [ProductCategoryController::class, 'categories_list'])->name('admin-products-categories');
@@ -32,7 +30,7 @@ Route::prefix('admin')->group(function () {
         Route::get('/states', [ProductCategoryController::class, 'categories_list'])->name('admin-products-categories');
     });
 });
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::prefix('admin')->group(function () {
+    Route::get('/', [AdminController::class, 'index'])->name('admin-login');
+    Route::post('/login', [AdminLoginController::class, 'login'])->name('do-admin-login');
+});
