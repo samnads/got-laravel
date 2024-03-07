@@ -1,5 +1,5 @@
 @extends('components.layouts.admin', ['body_css_class' => 'admin-class'])
-@section('title', 'Dashboard')
+@section('title', 'Admin Dashboard')
 @section('content')
     <div class="row">
         <div class="col-md-4 stretch-card grid-margin">
