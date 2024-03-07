@@ -7,86 +7,65 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false"
-                aria-controls="ui-basic">
+            <a class="nav-link" data-bs-toggle="collapse" href="#ui-master" aria-expanded="false"
+                aria-controls="ui-master">
                 <span class="menu-title">Masters</span>
                 <i class="menu-arrow"></i>
                 <i class="mdi mdi-crosshairs-gps menu-icon"></i>
             </a>
-            <div class="collapse" id="ui-basic">
+            <div class="collapse" id="ui-master">
                 <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a class="nav-link" href="{{url('admin/products/categories')}}">Categories</a>
+                    <li class="nav-item"> <a class="nav-link" href="{{ url('admin/master/categories') }}">Categories</a>
                     </li>
-                    <li class="nav-item"> <a class="nav-link" href="{{url('admin/products/brands')}}">Brands</a>
+                    <li class="nav-item"> <a class="nav-link" href="{{ url('admin/master/brands') }}">Brands</a>
                     </li>
-                    <li class="nav-item"> <a class="nav-link" href="{{url('admin/master/states')}}">States</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="{{ url('admin/master/states') }}">States</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="{{ url('admin/master/districts') }}">District</a>
+                    </li>
                 </ul>
             </div>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false"
-                aria-controls="ui-basic">
-                <span class="menu-title">Basic UI Elements</span>
+            <a class="nav-link" data-bs-toggle="collapse" href="#ui-vendor" aria-expanded="false"
+                aria-controls="ui-vendor">
+                <span class="menu-title">Vendor</span>
                 <i class="menu-arrow"></i>
                 <i class="mdi mdi-crosshairs-gps menu-icon"></i>
             </a>
-            <div class="collapse" id="ui-basic">
+            <div class="collapse" id="ui-vendor">
                 <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a class="nav-link" href="../../pages/ui-features/buttons.html">Buttons</a>
+                    <li class="nav-item"> <a class="nav-link" href="{{ url('admin/vendors/add') }}">Add Vendor</a>
                     </li>
-                    <li class="nav-item"> <a class="nav-link"
-                            href="../../pages/ui-features/typography.html">Typography</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="{{ url('admin/vendors') }}">List
+                            Vendors</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="{{ url('vendors/blocked') }}">Blocked Vendors</a>
+                    </li>
                 </ul>
             </div>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="../../pages/icons/mdi.html">
-                <span class="menu-title">Icons</span>
-                <i class="mdi mdi-contacts menu-icon"></i>
+            <a class="nav-link" data-bs-toggle="collapse" href="#ui-ads" aria-expanded="false" aria-controls="ui-ad">
+                <span class="menu-title">Ads Management</span>
+                <i class="menu-arrow"></i>
+                <i class="mdi mdi-crosshairs-gps menu-icon"></i>
             </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="../../pages/forms/basic_elements.html">
-                <span class="menu-title">Forms</span>
-                <i class="mdi mdi-format-list-bulleted menu-icon"></i>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="../../pages/charts/chartjs.html">
-                <span class="menu-title">Charts</span>
-                <i class="mdi mdi-chart-bar menu-icon"></i>
-            </a>
+            <div class="collapse" id="ui-ad">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a class="nav-link"
+                            href="{{ url('admin/advertisement/requests') }}">Requests</a>
+                    </li>
+                    <li class="nav-item"> <a class="nav-link" href="{{ url('admin/advertisement/add') }}">Add
+                            Advertisements</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="{{ url('admin/advertisement/list') }}">List
+                            Advertisements</a></li>
+                </ul>
+            </div>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="../../pages/tables/basic-table.html">
-                <span class="menu-title">Tables</span>
+                <span class="menu-title">Users</span>
                 <i class="mdi mdi-table-large menu-icon"></i>
             </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="collapse" href="#general-pages" aria-expanded="false"
-                aria-controls="general-pages">
-                <span class="menu-title">Sample Pages</span>
-                <i class="menu-arrow"></i>
-                <i class="mdi mdi-medical-bag menu-icon"></i>
-            </a>
-            <div class="collapse" id="general-pages">
-                <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a class="nav-link" href="../../pages/samples/blank-page.html">
-                            Blank Page </a></li>
-                    <li class="nav-item"> <a class="nav-link" href="../../pages/samples/login.html">
-                            Login
-                        </a></li>
-                    <li class="nav-item"> <a class="nav-link" href="../../pages/samples/register.html">
-                            Register </a></li>
-                    <li class="nav-item"> <a class="nav-link" href="../../pages/samples/error-404.html">
-                            404
-                        </a></li>
-                    <li class="nav-item"> <a class="nav-link" href="../../pages/samples/error-500.html">
-                            500
-                        </a></li>
-                </ul>
-            </div>
         </li>
     </ul>
 </nav>
