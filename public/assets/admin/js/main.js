@@ -1,7 +1,5 @@
-let _toast_title = null;
-let _toast_message = null;
-let _toast_type = null; 
-function toast(heading = 'Success', text = 'Default', type = 'info'){
+let _toast = null;
+function toast(heading = 'Success', text = 'Default', type = 'info') {
     $.toast({
         heading: heading,
         text: text,
@@ -11,7 +9,7 @@ function toast(heading = 'Success', text = 'Default', type = 'info'){
     })
 }
 $(document).ready(function () {
-    if (_toast_message){
-        toast(_toast_title, _toast_message, _toast_type);
+    if (_toast) {
+        toast(_toast.title, _toast.message, _toast.type);
     }
 });

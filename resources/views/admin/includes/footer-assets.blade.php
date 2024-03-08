@@ -10,10 +10,8 @@
     integrity="sha512-zlWWyZq71UMApAjih4WkaRpikgY9Bz1oXIW5G0fED4vk14JjGlQ1UmkGM392jEULP8jbNMiwLWdM8Z87Hu88Fw=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="{{ asset('assets/admin/js/main.js') }}"></script>
-@if(Session::get('message'))
-<script>
-    _toast_title = {!! Session::get('title') ? "'" . Session::get('title') . "'" : 'null' !!};
-    _toast_message = {!! Session::get('message') ? "'" . Session::get('message') . "'" : 'null' !!};
-    _toast_type = {!! Session::get('type') ? "'" . Session::get('type') . "'" : 'null' !!};
-</script>
+@if (Session::get('toast'))
+    <script>
+        _toast = {!! json_encode(Session::get('toast')) !!};
+    </script>
 @endif

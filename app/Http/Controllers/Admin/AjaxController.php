@@ -18,9 +18,7 @@ class AjaxController extends Controller
         $category->updated_at = now();
         $category->save();
         /******************** */
-        Session::flash('title', 'Success !');
-        Session::flash('message', 'Category Added Successfully !');
-        Session::flash('type', 'success');
+        Session::flash('toast', ['type' => 'success', 'title' => 'Success !', 'message' => 'Category <b>'.$category->name.'</b> Added Successfully !']);
         $response = ['status' => 'success', 'message' => 'Category Added Successfully !'];
         /********************* */
         return response()->json($response);
