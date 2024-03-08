@@ -15,12 +15,12 @@
             </a>
             <div class="collapse" id="ui-master">
                 <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a class="nav-link" href="{{ url('admin/master/product-categories') }}">Product Categories</a>
+                    <li class="nav-item"> <a class="nav-link" href="{{ url('admin/product-categories') }}">Product Categories</a>
                     </li>
-                    <li class="nav-item"> <a class="nav-link" href="{{ url('admin/master/brands') }}">Brands</a>
+                    <li class="nav-item"> <a class="nav-link" href="{{ url('admin/brands') }}">Brands</a>
                     </li>
-                    <li class="nav-item"> <a class="nav-link" href="{{ url('admin/master/states') }}">States</a></li>
-                    <li class="nav-item"> <a class="nav-link" href="{{ url('admin/master/districts') }}">District</a>
+                    <li class="nav-item"> <a class="nav-link" href="{{ url('admin/states') }}">States</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="{{ url('admin/districts') }}">District</a>
                     </li>
                 </ul>
             </div>

@@ -6,6 +6,7 @@ use App\Http\Controllers\Vendor\VendorController;
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Vendor\VendorAuthController;
 use App\Http\Controllers\Admin\AdminProductCategoryController;
+use App\Http\Controllers\Admin\AjaxController;
 use App\Http\Middleware\AdminAuthWeb;
 use App\Http\Middleware\VendorAuthWeb;
 
@@ -28,13 +29,11 @@ Route::get('/', function () {
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware([AdminAuthWeb::class])->group(function () {
         Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
-        Route::prefix('master')->group(function () {
-            Route::get('/product-categories', [AdminProductCategoryController::class, 'categories_list'])->name('products-categories');
-            Route::get('/product-category/new', [AdminProductCategoryController::class, 'new_category'])->name('new-product-category');
-            Route::post('/product-category/save', [AdminProductCategoryController::class, 'save_category'])->name('save-product-category');
-            //Route::get('/brands', [AdminProductCategoryController::class, 'categories_list'])->name('admin-products-categories');
-            //Route::get('/states', [AdminProductCategoryController::class, 'categories_list'])->name('admin-products-categories');
-            //Route::get('/districts', [AdminProductCategoryController::class, 'categories_list'])->name('admin-products-categories');
+        Route::get('/product-categories', [AdminProductCategoryController::class, 'categories_list'])->name('products-categories');
+        Route::get('/product-category/new', [AdminProductCategoryController::class, 'new_category'])->name('new-product-category');
+        Route::post('/product-category/save', [AdminProductCategoryController::class, 'save_category'])->name('save-product-category');
+        Route::prefix('ajax')->group(function () {
+            Route::post('/product-category/save', [AjaxController::class, 'save_product_category']);
         });
     });
     Route::middleware([])->group(function () {

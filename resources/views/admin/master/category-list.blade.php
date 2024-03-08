@@ -7,7 +7,7 @@
                 <div style="display: flex" class="m-3">
                     <h2 class="card-title float-left">Category List</h4>
                         <div style="margin-left: auto;">
-                            <a role="button" href="{{ url('admin/master/product-category/new') }}"><button type="button"
+                            <a role="button" href="{{ url('admin/product-category/new') }}"><button type="button"
                                     class="btn btn-inverse-dark btn-icon">
                                     <i class="mdi mdi-plus"></i>
                                 </button></a>
