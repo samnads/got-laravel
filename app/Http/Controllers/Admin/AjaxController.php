@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\ProductCategories;
+use Session;
 
 class AjaxController extends Controller
 {
@@ -16,7 +17,12 @@ class AjaxController extends Controller
         $category->created_at = now();
         $category->updated_at = now();
         $category->save();
-        $response = ['success' => true, 'message' => 'Category Added Successfully !'];
+        /******************** */
+        Session::flash('title', 'Success !');
+        Session::flash('message', 'Category Added Successfully !');
+        Session::flash('type', 'success');
+        $response = ['status' => 'success', 'message' => 'Category Added Successfully !'];
+        /********************* */
         return response()->json($response);
     }
 }

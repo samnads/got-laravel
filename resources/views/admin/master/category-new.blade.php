@@ -65,7 +65,7 @@
 @push('inline-scripts')
     <!-- Pushed Inline Scripts -->
     <script>
-        let _base_url = "{{url('')}}/";
+        let _base_url = "{{ url('') }}/";
 
         $(document).ready(function() {
             let new_category_validator = $('#new-category-form').validate({
@@ -99,11 +99,14 @@
                         //dataType: 'json',
                         data: $('#new-category-form').serialize(),
                         success: function(response) {
-                             alert('success');
+                            if (response.status == "success") {
+                                location.href = _base_url + 'admin/product-categories';
+                            } else {
+                                toast('Error !', response.message, 'error');
+                            }
                         },
                         error: function(response) {
-                            console.log($('#new-category-form').serialize());
-                            alert('error');
+                            toast('Error !', 'An error occured !', 'error');
                         },
                     });
                 }
