@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class ProductCategories extends Model
 {
     use HasFactory;
+    public function parent()
+    {
+        return $this->belongsTo('App\Models\ProductCategories', 'parent_id');
+    }
 }

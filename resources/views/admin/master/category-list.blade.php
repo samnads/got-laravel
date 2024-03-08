@@ -17,8 +17,8 @@
                     <thead>
                         <tr>
                             <th>Category #</th>
-                            <th>Parent</th>
                             <th>Name</th>
+                            <th>Parent</th>
                             <th>Description</th>
                             <th>Thumbnail</th>
                             <th>Actions</th>
@@ -29,7 +29,7 @@
                         <tr>
                             <td>{{ $key + 1 }}</td>
                             <td>{{$category->name}}</td>
-                            <td>{{$category->name}}</td>
+                            <td>{{@$category->parent->name}}</td>
                             <td>{{$category->description}}</td>
                             <td>~</td>
                             <td>

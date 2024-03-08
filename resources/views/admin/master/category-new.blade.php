@@ -24,7 +24,7 @@
                             </div>
                         </div>
                         <div class="col-sm-6 offset-sm-3">
-                            <form id="new-category-form" action="{{ route('admin.save-product-category') }}">
+                            <form id="new-category-form">
                                 @csrf
                                 <div class="form-group">
                                     <label>Category Name</label>
