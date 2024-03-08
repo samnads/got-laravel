@@ -10,8 +10,8 @@ class AdminProductCategoryController extends Controller
 {
     public function categories_list(Request $request)
     {
-        //$categories = 
-        return view('admin.master.category-list', []);
+        $data['categories'] = ProductCategories::orderByDesc('id')->get();
+        return view('admin.master.category-list', $data);
     }
     public function new_category(Request $request)
     {

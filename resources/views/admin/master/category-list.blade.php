@@ -21,37 +21,32 @@
                             <th>Name</th>
                             <th>Description</th>
                             <th>Thumbnail</th>
-                            <th>Quick Actions</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @for ($i = 0; $i <= 10; $i++)
-                            <tr>
-                                <td>{{ $i + 1 }}</td>
-                                <td> Herman Beck </td>
-                                <td>
-                                    <div class="progress">
-                                        <div class="progress-bar bg-success" role="progressbar" style="width: 25%"
-                                            aria-valuenow="{{ $i + 1 }}" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </td>
-                                <td> $ 77.99 </td>
-                                <td> May 15, 2015 </td>
-                                <td>
-                                    <div class="btn-group" role="group" aria-label="Basic example">
-                                        <button type="button" class="btn btn-outline-info">
-                                            <i class="mdi mdi-grease-pencil"></i>
-                                        </button>
-                                        <button type="button" class="btn btn-outline-success">
-                                            <i class="mdi mdi-eye"></i>
-                                        </button>
-                                        <button type="button" class="btn btn-outline-danger">
-                                            <i class="mdi mdi-delete"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                        @endfor
+                        @foreach($categories as $key => $category)
+                        <tr>
+                            <td>{{ $key + 1 }}</td>
+                            <td>{{$category->name}}</td>
+                            <td>{{$category->name}}</td>
+                            <td>{{$category->description}}</td>
+                            <td>~</td>
+                            <td>
+                                <div class="btn-group" role="group" aria-label="Basic example">
+                                    <button type="button" class="btn btn-outline-info">
+                                        <i class="mdi mdi-grease-pencil"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-outline-success">
+                                        <i class="mdi mdi-eye"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-outline-danger">
+                                        <i class="mdi mdi-delete"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
