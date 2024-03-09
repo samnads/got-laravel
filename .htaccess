@@ -11,8 +11,7 @@ RewriteCond %{REQUEST_FILENAME} -f
 RewriteRule ^ ^$1 [N]
 
 RewriteCond %{REQUEST_URI} (\.\w+$) [NC]
-#RewriteRule ^(.*)$ public/$1
-RewriteRule ^demo/(.*)$ public/$1 [L]
+RewriteRule ^(.*)$ public/$1
 
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
