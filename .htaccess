@@ -1,6 +1,6 @@
 RewriteEngine On
 RewriteBase /demo
-RewriteRule ^(.*)$ demo/public/$1 [L]
+RewriteRule ^(.*)$ public/$1 [L]
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^ index.php [L]
