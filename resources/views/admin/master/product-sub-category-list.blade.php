@@ -25,27 +25,26 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($categories as $key => $category)
-                        <tr>
-                            <td>{{ $key + 1 }}</td>
-                            <td>{{$category->name}}</td>
-                            <td>{{@$category->parent->name}}</td>
-                            <td>{{$category->description}}</td>
-                            <td>~</td>
-                            <td>
-                                <div class="btn-group" role="group" aria-label="Basic example">
-                                    <button type="button" class="btn btn-outline-info">
-                                        <i class="mdi mdi-grease-pencil"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-outline-success">
-                                        <i class="mdi mdi-eye"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-outline-danger">
-                                        <i class="mdi mdi-delete"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
+                        @foreach ($categories as $key => $category)
+                            <tr>
+                                <td>{{ $key + 1 }}</td>
+                                <td>{{ $category->name }}</td>
+                                <td>{{ @$category->parent->name }}</td>
+                                <td>{{ $category->description }}</td>
+                                <td>~</td>
+                                <td>
+                                    <div class="btn-group" role="group" aria-label="Basic example">
+                                        <a href="{{ url('admin/product/sub-category/edit/' . $category->id) }}"
+                                            class="btn btn-inverse-success btn-icon" title="Edit" style="padding: 13px;">
+                                            <i class="mdi mdi-pencil-box-outline"></i>
+                                        </a>
+                                        <button data-action="delete-category" data-id="{{ $category->id }}"
+                                            class="btn btn-inverse-danger btn-icon" title="Edit" style="padding: 13px;">
+                                            <i class="mdi mdi-delete"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
                         @endforeach
                     </tbody>
                 </table>
