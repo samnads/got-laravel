@@ -15,7 +15,7 @@ class AdminProductCategoryController extends Controller
     }
     public function sub_categories_list(Request $request)
     {
-        $data['categories'] = ProductCategories::orderByDesc('id')->get();
+        $data['categories'] = ProductCategories::where([['parent_id','!=','']])->orderByDesc('id')->get();
         return view('admin.master.category-list', $data);
     }
     public function new_category(Request $request)
