@@ -107,7 +107,7 @@
                 submitHandler: function(form) {
                     $.ajax({
                         type: 'POST',
-                        url: _base_url + "admin/ajax/product/category",
+                        url: _base_url + "admin/ajax/product/sub-category",
                         data: $('#new-sub-category-form').serialize(),
                         success: function(response) {
                             if (response.status == "success") {
