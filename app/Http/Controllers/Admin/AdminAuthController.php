@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Session;
 
 class AdminAuthController extends Controller
 {
@@ -18,6 +19,7 @@ class AdminAuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
+            Session::flash('toast', ['type' => 'info', 'title' => 'Hi, '. Auth::user()->name, 'message' => 'Welcome back...']);
             return redirect()->route('admin.dashboard');
         }
         return back()->withErrors([]);
@@ -25,6 +27,7 @@ class AdminAuthController extends Controller
     public function logout(Request $request)
     {
         Auth::logout();
+        Session::flash('toast', ['type' => 'success', 'title' => 'Success !', 'message' => 'Logged out successfully.']);
         return redirect()->route('admin.login');
     }
 }
