@@ -13,14 +13,26 @@ class AjaxController extends Controller
     {
         switch ($request->method()) {
             case 'POST':
-                $category = new ProductCategories();
-                $category->name = $request->name;
-                $category->description = $request->description;
-                $category->created_at = now();
-                $category->updated_at = now();
-                $category->save();
-                Session::flash('toast', ['type' => 'success', 'title' => 'Success !', 'message' => 'Category <b>' . $category->name . '</b> Added Successfully !']);
-                $response = ['status' => 'success', 'message' => 'Category Added Successfully.'];
+                if ($request->parent_id) {
+                    $category = new ProductCategories();
+                    $category->parent_id = $request->parent_id;
+                    $category->name = $request->name;
+                    $category->description = $request->description;
+                    $category->created_at = now();
+                    $category->updated_at = now();
+                    $category->save();
+                    Session::flash('toast', ['type' => 'success', 'title' => 'Success !', 'message' => 'Sub category <b>' . $category->name . '</b> added successfully.']);
+                    $response = ['status' => 'success', 'message' => 'Sub category added successfully.'];
+                } else {
+                    $category = new ProductCategories();
+                    $category->name = $request->name;
+                    $category->description = $request->description;
+                    $category->created_at = now();
+                    $category->updated_at = now();
+                    $category->save();
+                    Session::flash('toast', ['type' => 'success', 'title' => 'Success !', 'message' => 'Category <b>' . $category->name . '</b> added successfully.']);
+                    $response = ['status' => 'success', 'message' => 'Category added successfully.'];
+                }
                 break;
             case 'PUT':
                 $category = ProductCategories::find($request->category_id);

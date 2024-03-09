@@ -22,11 +22,16 @@ class AdminProductCategoryController extends Controller
     {
         $data['categories'] = ProductCategories::whereHas('parent' , function($query) {
             return $query->whereNull('deleted_at');
-        })->get();
+        })->orderByDesc('id')->get();
         return view('admin.master.product-sub-category-list', $data);
     }
     public function new_category(Request $request)
     {
         return view('admin.master.product-category-new', []);
+    }
+    public function new_sub_category(Request $request)
+    {
+        $data['parent_categories'] = ProductCategories::where([['parent_id', '=', null]])->orderByDesc('id')->get();
+        return view('admin.master.product-sub-category-new', $data);
     }
 }

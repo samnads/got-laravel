@@ -16,7 +16,7 @@
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <th>Category #</th>
+                            <th>Sl. No.</th>
                             <th>Name</th>
                             <th>Description</th>
                             <th>Thumbnail</th>

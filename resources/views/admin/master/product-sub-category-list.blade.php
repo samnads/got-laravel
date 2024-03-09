@@ -5,9 +5,9 @@
         <div class="card">
             <div class="card-body">
                 <div style="display: flex" class="m-3">
-                    <h2 class="card-title float-left">Category List</h4>
+                    <h2 class="card-title float-left">Sub Category List</h4>
                         <div style="margin-left: auto;">
-                            <a role="button" href="{{ url('admin/product-category/new') }}"><button type="button"
+                            <a role="button" href="{{ url('admin/product/sub-category/new') }}"><button type="button"
                                     class="btn btn-inverse-dark btn-icon">
                                     <i class="mdi mdi-plus"></i>
                                 </button></a>
@@ -16,7 +16,7 @@
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <th>Category #</th>
+                            <th>Sl. No.</th>
                             <th>Name</th>
                             <th>Parent</th>
                             <th>Description</th>

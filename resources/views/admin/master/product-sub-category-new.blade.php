@@ -1,5 +1,5 @@
 @extends('components.layouts.admin', ['body_css_class' => 'admin-class'])
-@section('title', 'Product Categories')
+@section('title', 'New Sub Category')
 @section('content')
     <div class="row">
         <div class="col-md-12 grid-margin stretch-card">
@@ -15,24 +15,34 @@
                     </div>
                     <div class="clearfix">
                         <div style="display: flex">
-                            <h4 class="card-title float-left">Add Category</h4>
+                            <h4 class="card-title float-left">Add Sub Category</h4>
                             <div style="margin-left: auto;">
-                                <a href="{{ route('admin.products-categories') }}"><button type="button"
+                                <a href="{{ route('admin.products-sub-categories') }}"><button type="button"
                                         class="btn btn-inverse-dark btn-icon">
                                         <i class="mdi mdi-view-headline"></i>
                                     </button></a>
                             </div>
                         </div>
                         <div class="col-sm-6 offset-sm-3">
-                            <form id="new-category-form">
+                            <form id="new-sub-category-form">
                                 @csrf
                                 <div class="form-group">
-                                    <label>Category Name</label>
-                                    <input type="text" class="form-control" name="name" placeholder="Enter Category">
+                                    <label>Sub Category</label>
+                                    <input type="text" class="form-control" name="name">
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="exampleTextarea1">Category Description</label>
+                                    <label>Parent Category</label>
+                                    <select class="form-control" name="parent_id">
+                                        <option value="">-- Select Parent Category --</option>
+                                        @foreach($parent_categories as $key => $parent_category)
+                                        <option value="{{$parent_category->id}}">{{$parent_category->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="exampleTextarea1">Description</label>
                                     <textarea class="form-control" id="exampleTextarea1"name="description" rows="4"></textarea>
                                 </div>
 
@@ -66,11 +76,14 @@
     <!-- Pushed Inline Scripts -->
     <script>
         $(document).ready(function() {
-            let new_category_validator = $('#new-category-form').validate({
+            let new_category_validator = $('#new-sub-category-form').validate({
                 focusInvalid: true,
                 ignore: [],
                 rules: {
                     "name": {
+                        required: true,
+                    },
+                    "parent_id": {
                         required: true,
                     },
                     "description": {
@@ -81,6 +94,9 @@
                     "name": {
                         required: "Enter category name",
                     },
+                    "parent_id": {
+                        required: "Select parent category",
+                    },
                     "description": {
                         required: "Enter category description",
                     }
@@ -89,16 +105,13 @@
                     error.insertAfter(element);
                 },
                 submitHandler: function(form) {
-                    //let submit_btn = $('button[type="submit"]', form);
-                    //submit_btn.html(loading_button_html).prop("disabled", true);
                     $.ajax({
                         type: 'POST',
                         url: _base_url + "admin/ajax/product/category",
-                        //dataType: 'json',
-                        data: $('#new-category-form').serialize(),
+                        data: $('#new-sub-category-form').serialize(),
                         success: function(response) {
                             if (response.status == "success") {
-                                location.href = _base_url + 'admin/product/categories';
+                                location.href = _base_url + 'admin/product/sub-categories';
                             } else {
                                 toast('Error !', response.message, 'error');
                             }
