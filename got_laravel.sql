@@ -1,4 +1,4 @@
--- Adminer 4.8.1 MySQL 10.10.2-MariaDB dump
+-- Adminer 4.8.1 MySQL 11.2.2-MariaDB dump
 
 SET NAMES utf8;
 SET time_zone = '+00:00';
@@ -6,6 +6,43 @@ SET foreign_key_checks = 0;
 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
 
 SET NAMES utf8mb4;
+
+DROP TABLE IF EXISTS `brands`;
+CREATE TABLE `brands` (
+  `brand_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `visibility` tinyint(4) NOT NULL DEFAULT 0,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`brand_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+DROP TABLE IF EXISTS `districts`;
+CREATE TABLE `districts` (
+  `district_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `state_id` bigint(20) unsigned NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `visibility` tinyint(1) NOT NULL DEFAULT 0,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`district_id`),
+  KEY `state_id` (`state_id`),
+  CONSTRAINT `districts_ibfk_1` FOREIGN KEY (`state_id`) REFERENCES `states` (`state_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+INSERT INTO `districts` (`district_id`, `state_id`, `name`, `visibility`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1,	1,	'Trivandrum',	1,	'2024-03-09 17:04:06',	'2024-03-09 17:04:06',	NULL),
+(2,	1,	'Kollam',	1,	'2024-03-09 17:04:06',	'2024-03-09 17:04:06',	NULL),
+(3,	1,	'Pathanamthitta',	1,	'2024-03-09 17:04:06',	'2024-03-09 17:04:06',	NULL),
+(4,	2,	'Kanniyakumari',	1,	'2024-03-09 17:04:06',	'2024-03-09 17:04:06',	NULL),
+(5,	2,	'Salem',	1,	'2024-03-09 17:04:06',	'2024-03-09 17:04:06',	NULL),
+(6,	2,	'Trichirappalli',	1,	'2024-03-09 17:04:06',	'2024-03-09 17:04:06',	NULL),
+(7,	3,	'Bengaluru (Bangalore) Rural',	1,	'2024-03-09 17:04:06',	'2024-03-09 17:04:06',	NULL),
+(8,	3,	'Bengaluru (Bangalore) Urban',	1,	'2024-03-09 17:04:06',	'2024-03-09 17:04:06',	NULL),
+(9,	3,	'Kodagu',	1,	'2024-03-09 17:04:06',	'2024-03-09 17:04:06',	NULL);
 
 DROP TABLE IF EXISTS `failed_jobs`;
 CREATE TABLE `failed_jobs` (
@@ -92,10 +129,21 @@ CREATE TABLE `product_categories` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO `product_categories` (`id`, `parent_id`, `name`, `description`, `image`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(68,	NULL,	'Cakes',	'dfdf',	NULL,	'2024-03-08 14:01:01',	'2024-03-08 14:01:01',	NULL),
-(69,	68,	'Plum Cakes',	'dfdf',	NULL,	'2024-03-08 14:01:10',	'2024-03-08 14:01:10',	NULL),
-(70,	68,	'Velvet Cakes',	'ssd',	NULL,	'2024-03-08 14:02:21',	'2024-03-08 14:02:21',	NULL),
-(71,	NULL,	'yu',	'yuyu',	NULL,	'2024-03-08 14:19:29',	'2024-03-08 14:19:29',	NULL);
+(81,	NULL,	'Cakes',	'dfdfdf',	NULL,	'2024-03-09 03:13:33',	'2024-03-09 03:21:58',	NULL),
+(82,	NULL,	'Grocery',	'er',	NULL,	'2024-03-09 03:13:41',	'2024-03-09 03:42:04',	NULL),
+(83,	82,	'dsd',	'dfdfdf',	NULL,	'2024-03-09 03:13:33',	'2024-03-09 03:13:33',	NULL),
+(84,	82,	'sdsd',	'er',	NULL,	'2024-03-09 03:13:41',	'2024-03-09 03:13:41',	NULL),
+(88,	82,	'sdsdghgh',	'er',	NULL,	'2024-03-09 03:13:41',	'2024-03-09 03:13:41',	NULL),
+(90,	82,	'sdsdghghgh',	'erghgh',	NULL,	'2024-03-09 03:13:41',	'2024-03-09 03:13:41',	NULL),
+(91,	81,	'sdsdghgh',	'er',	NULL,	'2024-03-09 03:13:41',	'2024-03-09 03:13:41',	NULL),
+(92,	81,	'sdsdghghgh',	'erghgh',	NULL,	'2024-03-09 03:13:41',	'2024-03-09 03:13:41',	NULL),
+(94,	NULL,	'dfdf',	'dfdf',	NULL,	'2024-03-09 03:37:07',	'2024-03-09 03:42:25',	NULL),
+(95,	81,	'sub cake',	'ssdsd',	NULL,	'2024-03-09 03:39:44',	'2024-03-09 03:39:44',	NULL),
+(96,	NULL,	'pp',	'trtrrrrrrrrr',	NULL,	'2024-03-09 05:15:54',	'2024-03-09 05:16:12',	NULL),
+(97,	82,	'cake 1',	'vvvdffd',	NULL,	'2024-03-09 05:21:22',	'2024-03-09 05:45:29',	NULL),
+(98,	81,	'eeeeeee',	'ererwerwe',	NULL,	'2024-03-09 05:47:02',	'2024-03-09 05:48:02',	NULL),
+(99,	NULL,	'5656',	'56',	NULL,	'2024-03-09 05:47:46',	'2024-03-09 05:47:46',	NULL),
+(100,	96,	'56',	'5656',	NULL,	'2024-03-09 05:47:55',	'2024-03-09 05:47:55',	NULL);
 
 DROP TABLE IF EXISTS `roles`;
 CREATE TABLE `roles` (
@@ -109,6 +157,22 @@ CREATE TABLE `roles` (
   UNIQUE KEY `roles_name_unique` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Every user role has thier own rights.';
 
+
+DROP TABLE IF EXISTS `states`;
+CREATE TABLE `states` (
+  `state_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(150) NOT NULL,
+  `visibility` tinyint(1) NOT NULL DEFAULT 0,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`state_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+INSERT INTO `states` (`state_id`, `name`, `visibility`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1,	'Kerala',	1,	'2024-03-09 16:58:06',	'2024-03-09 16:58:06',	NULL),
+(2,	'Tamilnadu',	1,	'2024-03-09 16:58:06',	'2024-03-09 16:58:06',	NULL),
+(3,	'Karnataka',	1,	'2024-03-09 16:58:31',	'2024-03-09 16:58:31',	NULL);
 
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
@@ -128,7 +192,7 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO `users` (`id`, `name`, `username`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1,	'Admin',	'admin@example.com',	'admin@example.com',	'2024-03-07 10:49:50',	'$2y$12$SjmwFDIffWTH4X84sgvv/.VFWHJdaCOH9i0P3s/mx.p8cqWSRHvIm',	'h1QNLEQ1GNUOiybFKWysqwCUjictEfHWrXOq2zzlJClet9dOKZzwt9yM7yEG',	'2024-03-07 10:49:50',	'2024-03-07 10:49:50',	NULL);
+(1,	'Admin',	'admin@example.com',	'admin@example.com',	'2024-03-07 10:49:50',	'$2y$12$SjmwFDIffWTH4X84sgvv/.VFWHJdaCOH9i0P3s/mx.p8cqWSRHvIm',	'SChWyX9YnmTYdWIjw7dopA1WfZw4nBSJjyyfvFnp68t52nX07ihx4S7XGETj',	'2024-03-07 10:49:50',	'2024-03-07 10:49:50',	NULL);
 
 DROP TABLE IF EXISTS `vendors`;
 CREATE TABLE `vendors` (
@@ -163,4 +227,4 @@ CREATE TABLE `vendors` (
 INSERT INTO `vendors` (`id`, `vendor_name`, `owner_name`, `gst_number`, `pan_number`, `mobile_number`, `country_id`, `state_id`, `district_id`, `location_id`, `address`, `latitude`, `longitude`, `accuracy`, `shop_thumbnail`, `username`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (1,	'Vendor XYZ',	'rer',	'erer',	'f',	're',	'ff',	'ds',	'df',	'd',	'sds',	'dsds',	'dsd',	'sds',	'dsd',	'vendor@example.com',	'vendor@example.com',	'2024-03-07 19:50:15',	'$2y$12$SjmwFDIffWTH4X84sgvv/.VFWHJdaCOH9i0P3s/mx.p8cqWSRHvIm',	'fPL7iVuEHEwppGsoeWPcuEjiiBbgJx2y4Twe2rTcqUTmQ4ITsiuXKGK3bfIv',	NULL,	NULL,	NULL);
 
--- 2024-03-08 19:55:47
+-- 2024-03-09 13:21:56
