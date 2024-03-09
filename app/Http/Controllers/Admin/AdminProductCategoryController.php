@@ -20,8 +20,10 @@ class AdminProductCategoryController extends Controller
     }
     public function sub_categories_list(Request $request)
     {
-        $data['categories'] = ProductCategories::where([['parent_id','!=',null]])->orderByDesc('id')->get();
-        return view('admin.master.category-list', $data);
+        $data['categories'] = ProductCategories::whereHas('parent' , function($query) {
+            return $query->whereNull('deleted_at');
+        })->get();
+        return view('admin.master.product-sub-category-list', $data);
     }
     public function new_category(Request $request)
     {
