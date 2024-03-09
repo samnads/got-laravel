@@ -15,9 +15,9 @@
             </a>
             <div class="collapse" id="ui-master">
                 <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a class="nav-link" href="{{ url('admin/product-categories') }}">Categories</a>
+                    <li class="nav-item"> <a class="nav-link" href="{{ url('admin/product/categories') }}">Categories</a>
                     </li>
-                    <li class="nav-item"> <a class="nav-link" href="{{ url('admin/product-sub-categories') }}">Sub Categories</a>
+                    <li class="nav-item"> <a class="nav-link" href="{{ url('admin/product/sub-categories') }}">Sub Categories</a>
                     </li>
                     <li class="nav-item"> <a class="nav-link" href="{{ url('admin/brands') }}">Brands</a>
                     </li>

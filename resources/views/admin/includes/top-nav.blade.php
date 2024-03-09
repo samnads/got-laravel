@@ -31,11 +31,6 @@
                         <i class="mdi mdi-logout me-2 text-primary"></i> Signout </a>
                 </div>
             </li>
-            <li class="nav-item d-none d-lg-block full-screen-link">
-                <a class="nav-link">
-                    <i class="mdi mdi-fullscreen" id="fullscreen-button"></i>
-                </a>
-            </li>
         </ul>
         <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
             data-toggle="offcanvas">

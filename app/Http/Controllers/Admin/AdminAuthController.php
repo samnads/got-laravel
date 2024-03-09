@@ -22,6 +22,7 @@ class AdminAuthController extends Controller
             Session::flash('toast', ['type' => 'info', 'title' => 'Hi, '. Auth::user()->name, 'message' => 'Welcome back...']);
             return redirect()->route('admin.dashboard');
         }
+        Session::flash('toast', ['type' => 'warning', 'title' => 'Authentication Error !', 'message' => 'Invalid login credentials']);
         return back()->withErrors([]);
     }
     public function logout(Request $request)
