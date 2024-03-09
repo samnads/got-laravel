@@ -36,7 +36,7 @@
                                             class="btn btn-inverse-success btn-icon" title="Edit" style="padding: 13px;">
                                             <i class="mdi mdi-pencil-box-outline"></i>
                                         </a>
-                                        <button
+                                        <button data-action="delete-category" data-id="{{ $category->id }}"
                                             class="btn btn-inverse-danger btn-icon" title="Edit" style="padding: 13px;">
                                             <i class="mdi mdi-delete"></i>
                                         </button>
@@ -61,4 +61,42 @@
 @endpush
 @push('inline-scripts')
     <!-- Pushed Inline Scripts -->
+    <script>
+        $(document).ready(function() {
+            $('[data-action="delete-category"]').click(function() {
+                let category_id = $(this).data("id");
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "You won't be able to revert this!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    focusCancel: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, delete it!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            type: 'DELETE',
+                            url: _base_url + "admin/ajax/product/category",
+                            data: {
+                                category_id: category_id
+                            },
+                            success: function(response) {
+                                if (response.status == "success") {
+                                    location.href = _base_url +
+                                        'admin/product/categories';
+                                } else {
+                                    toast('Error !', response.message, 'error');
+                                }
+                            },
+                            error: function(response) {
+                                toast('Error !', response.statusText, 'error');
+                            },
+                        });
+                    }
+                });
+            });
+        });
+    </script>
 @endpush

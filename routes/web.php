@@ -35,8 +35,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/product/category/new', [AdminProductCategoryController::class, 'new_category'])->name('new-product-category');
         Route::get('/product-category/edit/{category_id}', [AdminProductCategoryController::class, 'edit_category']);
         Route::prefix('ajax')->group(function () {
-            Route::post('/product/category', [AjaxController::class, 'product_category']);
-            Route::put('/product/category', [AjaxController::class, 'product_category']);
+            Route::any('/product/category', [AjaxController::class, 'product_category']);
         });
     });
     Route::middleware([])->group(function () {

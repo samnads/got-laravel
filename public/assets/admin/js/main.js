@@ -9,6 +9,11 @@ function toast(heading = 'Success', text = 'Default', type = 'info') {
     })
 }
 $(document).ready(function () {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')
+        }
+    });
     if (_toast) {
         toast(_toast.title, _toast.message, _toast.type);
     }

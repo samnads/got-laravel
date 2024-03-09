@@ -31,6 +31,14 @@ class AjaxController extends Controller
                 Session::flash('toast', ['type' => 'success', 'title' => 'Success !', 'message' => 'Category <b>' . $category->name . '</b> updated successfully.']);
                 $response = ['status' => 'success', 'message' => 'Category <b>' . $category->name . '</b> updated successfully.'];
                 break;
+            case 'DELETE':
+                $category = ProductCategories::find($request->category_id);
+                $category->updated_at = now();
+                $category->deleted_at = now();
+                $category->save();
+                Session::flash('toast', ['type' => 'success', 'title' => 'Deleted !', 'message' => 'Category <b>' . $category->name . '</b> deleted successfully.']);
+                $response = ['status' => 'success', 'message' => 'Category <b>' . $category->name . '</b> deleted successfully.'];
+                break;
             default:
                 // invalid request
                 break;
