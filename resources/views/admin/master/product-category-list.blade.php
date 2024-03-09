@@ -7,7 +7,7 @@
                 <div style="display: flex" class="m-3">
                     <h2 class="card-title float-left">Category List</h4>
                         <div style="margin-left: auto;">
-                            <a role="button" href="{{ url('admin/product-category/new') }}"><button type="button"
+                            <a role="button" href="{{ url('admin/product/category/new') }}"><button type="button"
                                     class="btn btn-inverse-dark btn-icon">
                                     <i class="mdi mdi-plus"></i>
                                 </button></a>
@@ -32,14 +32,12 @@
                                 <td>~</td>
                                 <td>
                                     <div class="btn-group" role="group" aria-label="Basic example">
-                                        <a href="{{ url('admin/product/category/edit/' . $category->id) }}">
-                                            <button type="button" class="btn btn-outline-info">
-                                                <i class="mdi mdi-grease-pencil"></i>
-                                            </button></a>
-                                        <button type="button" class="btn btn-outline-success">
-                                            <i class="mdi mdi-eye"></i>
-                                        </button>
-                                        <button type="button" class="btn btn-outline-danger">
+                                        <a href="{{ url('admin/product/category/edit/' . $category->id) }}"
+                                            class="btn btn-inverse-success btn-icon" title="Edit" style="padding: 13px;">
+                                            <i class="mdi mdi-pencil-box-outline"></i>
+                                        </a>
+                                        <button
+                                            class="btn btn-inverse-danger btn-icon" title="Edit" style="padding: 13px;">
                                             <i class="mdi mdi-delete"></i>
                                         </button>
                                     </div>

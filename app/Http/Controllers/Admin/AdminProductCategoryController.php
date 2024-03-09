@@ -16,7 +16,7 @@ class AdminProductCategoryController extends Controller
     public function edit_category(Request $request,$category_id)
     {
         $data['category'] = ProductCategories::where([['id', '=', $category_id]])->first();
-        return view('admin.master.category-edit', $data);
+        return view('admin.master.product-category-edit', $data);
     }
     public function sub_categories_list(Request $request)
     {
@@ -25,6 +25,6 @@ class AdminProductCategoryController extends Controller
     }
     public function new_category(Request $request)
     {
-        return view('admin.master.category-new', []);
+        return view('admin.master.product-category-new', []);
     }
 }

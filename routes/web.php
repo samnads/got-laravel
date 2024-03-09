@@ -32,10 +32,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/product/categories', [AdminProductCategoryController::class, 'categories_list'])->name('products-categories');
         Route::get('/product/category/edit/{category_id}', [AdminProductCategoryController::class, 'edit_category']);
         Route::get('/product-sub-categories', [AdminProductCategoryController::class, 'sub_categories_list'])->name('products-sub-categories');
-        Route::get('/product-category/new', [AdminProductCategoryController::class, 'new_category'])->name('new-product-category');
+        Route::get('/product/category/new', [AdminProductCategoryController::class, 'new_category'])->name('new-product-category');
         Route::get('/product-category/edit/{category_id}', [AdminProductCategoryController::class, 'edit_category']);
         Route::prefix('ajax')->group(function () {
-            Route::post('/product-category/save', [AjaxController::class, 'save_product_category']);
+            Route::post('/product/category', [AjaxController::class, 'product_category']);
             Route::put('/product/category', [AjaxController::class, 'product_category']);
         });
     });

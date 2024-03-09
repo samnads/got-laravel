@@ -15,7 +15,7 @@
                     </div>
                     <div class="clearfix">
                         <div style="display: flex">
-                            <h4 class="card-title float-left">Edit Category</h4>
+                            <h4 class="card-title float-left">Add Category</h4>
                             <div style="margin-left: auto;">
                                 <a href="{{ route('admin.products-categories') }}"><button type="button"
                                         class="btn btn-inverse-dark btn-icon">
@@ -24,17 +24,16 @@
                             </div>
                         </div>
                         <div class="col-sm-6 offset-sm-3">
-                            <form id="edit-category-form">
+                            <form id="new-category-form">
                                 @csrf
-                                <input type="hidden" name="category_id" value="{{$category->id}}">
                                 <div class="form-group">
                                     <label>Category Name</label>
-                                    <input type="text" class="form-control" name="name" value="{{$category->name}}">
+                                    <input type="text" class="form-control" name="name" placeholder="Enter Category">
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="description">Category Description</label>
-                                    <textarea class="form-control" id="description" name="description" rows="4">{{$category->description}}</textarea>
+                                    <label for="exampleTextarea1">Category Description</label>
+                                    <textarea class="form-control" id="exampleTextarea1"name="description" rows="4"></textarea>
                                 </div>
 
                                 <div class="form-group">
@@ -43,7 +42,7 @@
                                 </div>
 
                                 <div>
-                                    <button type="submit" class="btn btn-gradient-dark w-100">Update</button>
+                                    <button type="submit" class="btn btn-gradient-dark w-100">Save</button>
                                 </div>
                             </form>
                         </div>
@@ -66,10 +65,8 @@
 @push('inline-scripts')
     <!-- Pushed Inline Scripts -->
     <script>
-        let _base_url = "{{ url('') }}/";
-
         $(document).ready(function() {
-            let new_category_validator = $('#edit-category-form').validate({
+            let new_category_validator = $('#new-category-form').validate({
                 focusInvalid: true,
                 ignore: [],
                 rules: {
@@ -95,10 +92,10 @@
                     //let submit_btn = $('button[type="submit"]', form);
                     //submit_btn.html(loading_button_html).prop("disabled", true);
                     $.ajax({
-                        type: 'PUT',
+                        type: 'POST',
                         url: _base_url + "admin/ajax/product/category",
                         //dataType: 'json',
-                        data: $('#edit-category-form').serialize(),
+                        data: $('#new-category-form').serialize(),
                         success: function(response) {
                             if (response.status == "success") {
                                 location.href = _base_url + 'admin/product/categories';
@@ -107,7 +104,7 @@
                             }
                         },
                         error: function(response) {
-                            toast('Error !', response.statusText, 'error');
+                            toast('Error !', 'An error occured !', 'error');
                         },
                     });
                 }
