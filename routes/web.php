@@ -6,6 +6,7 @@ use App\Http\Controllers\Vendor\VendorController;
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Vendor\VendorAuthController;
 use App\Http\Controllers\Admin\AdminProductCategoryController;
+use App\Http\Controllers\Admin\AdminStateController;
 use App\Http\Controllers\Admin\AjaxController;
 use App\Http\Middleware\AdminAuthWeb;
 use App\Http\Middleware\VendorAuthWeb;
@@ -36,6 +37,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/product/category/new', [AdminProductCategoryController::class, 'new_category'])->name('new-product-category');
         Route::get('/product/sub-category/new', [AdminProductCategoryController::class, 'new_sub_category'])->name('new-product-category');
         Route::get('/product-category/edit/{category_id}', [AdminProductCategoryController::class, 'edit_category']);
+        //
+        Route::get('/states', [AdminStateController::class, 'states_list'])->name('states');
         //
         Route::get('/vendor/new}', [AdminProductCategoryController::class, 'edit_category']);
         Route::prefix('ajax')->group(function () {
