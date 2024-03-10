@@ -36,5 +36,6 @@ Route::prefix('customer')->group(function () {
         Route::post('delete_address', [AddressController::class, 'delete_address']);
         Route::post('default_address', [AddressController::class, 'get_default_address']);
         Route::post('address_list', [AddressController::class, 'list_all_address']);
+        Route::post('logout', [LoginController::class, 'logout']);
     });
 });

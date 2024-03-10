@@ -106,7 +106,7 @@ class LoginController extends Controller
         }
         /***************************************************************************************************** */
         $customer = Customer::where('mobile_number_1_cc', '=', $input['country_code'])->where('mobile_number_1', '=', $input['mobile_no'])->first();
-        if (!$customer){
+        if (!$customer) {
             $response = [
                 'status' => [
                     'success' => 'false',
@@ -207,5 +207,40 @@ class LoginController extends Controller
             ];
             return Response::json($response, 200, [], JSON_PRETTY_PRINT);
         }
+    }
+    public function logout(Request $request)
+    {
+        /***************************************************************************************************** */
+        $input = $request->all();
+        $validator = Validator::make(
+            (array) $input,
+            [],
+            [],
+            []
+        );
+        if ($validator->fails()) {
+            $response = [
+                'status' => [
+                    'success' => 'false',
+                    'hasdata' => 'false',
+                    'message' => $validator->errors()->first()
+                ]
+            ];
+            return Response::json($response, 200, [], JSON_PRETTY_PRINT);
+        }
+        /***************************************************************************************************** */
+        $customer = Customer::find($input['id']);
+        DB::beginTransaction();
+        $customer->token = null;
+        $customer->save();
+        $response = [
+            'status' => [
+                'success' => 'true',
+                'hasdata' => 'false',
+                'message' => 'Logged out successfully!'
+            ],
+        ];
+        DB::commit();
+        return Response::json($response, 200, [], JSON_PRETTY_PRINT);
     }
 }
