@@ -41,6 +41,7 @@ Route::prefix('customer')->group(function () {
         Route::post('product_categories', [ProductCategoriesController::class, 'categories']);
         Route::post('product_sub_categories', [ProductCategoriesController::class, 'sub_categories']);
         Route::post('nearby_shops', [VendorController::class, 'nearby_vendors']);
+        Route::post('shop_locations', [VendorController::class, 'vendors_locations']);
         Route::post('logout', [LoginController::class, 'logout']);
     });
 });
