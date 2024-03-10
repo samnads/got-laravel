@@ -25,6 +25,7 @@ Route::prefix('customer')->group(function () {
         return '<h1>'.env('APP_NAME').'</h1><br>You\'re in customer app API base url 😀 !';
     });
     Route::post('register', [LoginController::class, 'login_otp_send']);
+    Route::post('resend_otp', [LoginController::class, 'login_otp_resend']);
     Route::post('verify', [LoginController::class, 'login_otp_verify']);
     Route::group(['middleware' => 'customerApiTokenCheck'], function () {
         Route::post('update_profile', [ProfileController::class, 'basic_data_entry']);

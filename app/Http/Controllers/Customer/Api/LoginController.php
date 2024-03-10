@@ -47,7 +47,7 @@ class LoginController extends Controller
             // EXISTING CUSTOMER FOUND
             $otp = '1234';
             $customer->mobile_number_1_otp = $otp;
-            $customer->mobile_number_1_otp_expired_at = Carbon::now()->addSeconds(5);
+            $customer->mobile_number_1_otp_expired_at = Carbon::now()->addSeconds(10);
             $customer->save();
             $response = [
                 'status' => [
@@ -65,7 +65,7 @@ class LoginController extends Controller
             $customer->mobile_number_1_cc = $input['country_code'];
             $customer->mobile_number_1 = $input['mobile_no'];
             $customer->mobile_number_1_otp = $otp;
-            $customer->mobile_number_1_otp_expired_at = Carbon::now()->addSeconds(5);
+            $customer->mobile_number_1_otp_expired_at = Carbon::now()->addSeconds(10);
             $customer->save();
             $response = [
                 'status' => [
@@ -77,6 +77,72 @@ class LoginController extends Controller
             DB::commit();
             return Response::json($response, 200, [], JSON_PRETTY_PRINT);
         }
+    }
+    public function login_otp_resend(Request $request)
+    {
+        /***************************************************************************************************** */
+        $input = $request->all();
+        $validator = Validator::make(
+            (array) $input,
+            [
+                'country_code' => 'required|string',
+                'mobile_no' => 'required|integer',
+            ],
+            [],
+            [
+                'country_code' => 'Country Code',
+                'mobile_no' => 'Mobile Number',
+            ]
+        );
+        if ($validator->fails()) {
+            $response = [
+                'status' => [
+                    'success' => 'false',
+                    'hasdata' => 'false',
+                    'message' => $validator->errors()->first()
+                ]
+            ];
+            return Response::json($response, 200, [], JSON_PRETTY_PRINT);
+        }
+        /***************************************************************************************************** */
+        $customer = Customer::where('mobile_number_1_cc', '=', $input['country_code'])->where('mobile_number_1', '=', $input['mobile_no'])->first();
+        if (!$customer){
+            $response = [
+                'status' => [
+                    'success' => 'false',
+                    'hasdata' => 'false',
+                    'message' => 'Unknown customer !'
+                ]
+            ];
+            return Response::json($response, 200, [], JSON_PRETTY_PRINT);
+        }
+        $startTime = Carbon::now();
+        $finishTime = Carbon::parse($customer->mobile_number_1_otp_expired_at);
+        $seconds = $finishTime->diffInSeconds($startTime);
+        if ($customer->mobile_number_1_otp_expired_at > Carbon::now() && $seconds >= 1) {
+            $response = [
+                'status' => [
+                    'success' => 'false',
+                    'hasdata' => 'false',
+                    'message' => 'Please wait ' . $seconds . ' second' . ($seconds > 0 ? 's' : '') . ' before resend OTP.'
+                ]
+            ];
+            return Response::json($response, 200, [], JSON_PRETTY_PRINT);
+        }
+        DB::beginTransaction();
+        $otp = '1234';
+        $customer->mobile_number_1_otp = $otp;
+        $customer->mobile_number_1_otp_expired_at = Carbon::now()->addSeconds(10);
+        $customer->save();
+        $response = [
+            'status' => [
+                'success' => 'true',
+                'hasdata' => 'false',
+                'message' => 'OTP Resend Successfully !'
+            ]
+        ];
+        DB::commit();
+        return Response::json($response, 200, [], JSON_PRETTY_PRINT);
     }
     public function login_otp_verify(Request $request)
     {
@@ -112,7 +178,7 @@ class LoginController extends Controller
             // otp verified
             DB::beginTransaction();
             $customer->mobile_number_1_otp = null;
-            $customer->token = bcrypt($input['otp']. date('Y-m-d H:i:s'));
+            $customer->token = bcrypt($input['otp'] . date('Y-m-d H:i:s'));
             $customer->save();
             $response = [
                 'status' => [
@@ -131,8 +197,7 @@ class LoginController extends Controller
             ];
             DB::commit();
             return Response::json($response, 200, [], JSON_PRETTY_PRINT);
-        }
-        else{
+        } else {
             $response = [
                 'status' => [
                     'success' => 'false',

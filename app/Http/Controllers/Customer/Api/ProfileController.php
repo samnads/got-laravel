@@ -51,10 +51,10 @@ class ProfileController extends Controller
                 'success' => 'true',
                 'hasdata' => 'true',
                 'message' => 'Profile updated successfully !',
-                'data' => [
-                    'name' => $customer->name,
-                    'email' => $customer->email,
-                ]
+            ],
+            'data' => [
+                'name' => $customer->name,
+                'email' => $customer->email,
             ]
         ];
         DB::commit();
