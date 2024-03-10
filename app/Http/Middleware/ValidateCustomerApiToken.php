@@ -21,52 +21,56 @@ class ValidateCustomerApiToken
      */
     public function handle(Request $request, Closure $next)
     {
-        $debug = toggleDebug(); // pass boolean to overide default
+        $input = $request->all();
         /************************************************************* */
-        if (!$debug) {
-            // live input
-            $data = json_decode($request->getContent(), true);
-        } else {
-            // test input
-            $data['params']['id'] = Config::get('values.debug_customer_id');
-            $data['params']['token'] = Customer::where(['customer_id' => Config::get('values.debug_customer_id')])->first()->oauth_token;
-        }
-        $input = @$data['params'];
-        /************************************************************* */
-        $except_route_names = ['notifications']; // bypass token validation for these route names
-        if ($input['id'] == null && in_array($request->route()->getName(), $except_route_names)) {
-            return $next($request);
-        }
-        /************************************************************* */
-        // required input check
         $validator = Validator::make(
             (array) $input,
             [
-                'token' => 'required|string',
                 'id' => 'required|integer',
+                'token' => 'required|string',
             ],
             [],
             [
-                'token' => 'Token',
                 'id' => 'Customer ID',
+                'token' => 'Token',
             ]
         );
         if ($validator->fails()) {
-            return Response::json(array('result' => array('status' => 'failed', 'message' => $validator->errors()->first()), 'debug' => $debug), 200, array(), JSON_PRETTY_PRINT);
+            $response = [
+                'status' => [
+                    'success' => 'false',
+                    'hasdata' => 'false',
+                    'message' => $validator->errors()->first()
+                ]
+            ];
+            return Response::json($response, 200, [], JSON_PRETTY_PRINT);
         }
         /************************************************************* */
-        $customer = Customer::where(['oauth_token' => $input['token']])->first();
+        $customer = Customer::find($input['id']);
         if ($customer) {
             // check customer id
-            $customer = Customer::where(['oauth_token' => $input['token'], 'customer_id' => $input['id']])->first();
-            if ($customer) {
+            if ($customer->token == $input['token']) {
+                return $next($request);
             } else {
-                return Response::json(array('result' => array('status' => 'failed', 'message' => 'Customer not found !'), 'debug' => $debug), 200, array(), JSON_PRETTY_PRINT);
+                $response = [
+                    'status' => [
+                        'success' => 'false',
+                        'hasdata' => 'false',
+                        'message' => 'Invalid or expired token !'
+                    ]
+                ];
+                return Response::json($response, 200, [], JSON_PRETTY_PRINT);
             }
         } else {
-            return Response::json(array('result' => array('status' => 'failed', 'message' => 'Invalid or Expired Token !', 'status_code' => 401), 'debug' => $debug), 200, array(), JSON_PRETTY_PRINT);
+            $response = [
+                'status' => [
+                    'success' => 'false',
+                    'hasdata' => 'false',
+                    'message' => 'Unknown customer !'
+                ]
+            ];
+            return Response::json($response, 200, [], JSON_PRETTY_PRINT);
         }
         /************************************************************* */
-        return $next($request);
     }
 }

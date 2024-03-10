@@ -21,13 +21,13 @@ class ProfileController extends Controller
         $validator = Validator::make(
             (array) $input,
             [
-                'country_code' => 'required|string',
-                'mobile_no' => 'required|integer',
+                'name' => 'required|string',
+                'email' => 'email',
             ],
             [],
             [
-                'country_code' => 'Country Code',
-                'mobile_no' => 'Mobile Number',
+                'name' => 'Name',
+                'email' => 'Email',
             ]
         );
         if ($validator->fails()) {
@@ -41,41 +41,23 @@ class ProfileController extends Controller
             return Response::json($response, 200, [], JSON_PRETTY_PRINT);
         }
         /***************************************************************************************************** */
-        $customer = Customer::where('mobile_number_1_cc', '=', $input['country_code'])->where('mobile_number_1', '=', $input['mobile_no'])->first();
+        $customer = Customer::find($input['id']);
         DB::beginTransaction();
-        if ($customer) {
-            // EXISTING CUSTOMER FOUND
-            $otp = '1234';
-            $customer->mobile_number_1_otp = $otp;
-            $customer->mobile_number_1_otp_expired_at = Carbon::now()->addSeconds(5);
-            $customer->save();
-            $response = [
-                'status' => [
-                    'success' => 'true',
-                    'hasdata' => 'false',
-                    'message' => 'OTP Send Successfully !'
+        $customer->name = $input['name'];
+        $customer->email = $input['email'];
+        $customer->save();
+        $response = [
+            'status' => [
+                'success' => 'true',
+                'hasdata' => 'true',
+                'message' => 'Profile updated successfully !',
+                'data' => [
+                    'name' => $customer->name,
+                    'email' => $customer->email,
                 ]
-            ];
-            DB::commit();
-            return Response::json($response, 200, [], JSON_PRETTY_PRINT);
-        } else {
-            // NEW CUSTOMER FOUND
-            $otp = '1234';
-            $customer = new Customer();
-            $customer->mobile_number_1_cc = $input['country_code'];
-            $customer->mobile_number_1 = $input['mobile_no'];
-            $customer->mobile_number_1_otp = $otp;
-            $customer->mobile_number_1_otp_expired_at = Carbon::now()->addSeconds(5);
-            $customer->save();
-            $response = [
-                'status' => [
-                    'success' => 'true',
-                    'hasdata' => 'false',
-                    'message' => 'OTP Send Successfully !'
-                ]
-            ];
-            DB::commit();
-            return Response::json($response, 200, [], JSON_PRETTY_PRINT);
-        }
+            ]
+        ];
+        DB::commit();
+        return Response::json($response, 200, [], JSON_PRETTY_PRINT);
     }
 }
