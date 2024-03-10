@@ -32,5 +32,7 @@ Route::prefix('customer')->group(function () {
         Route::post('update_profile', [ProfileController::class, 'basic_data_entry']);
         Route::post('save_address', [AddressController::class, 'create_address']);
         Route::post('update_address', [AddressController::class, 'update_address']);
+        Route::post('set_default_address', [AddressController::class, 'update_default_address']);
+        Route::post('delete_address', [AddressController::class, 'delete_address']);
     });
 });

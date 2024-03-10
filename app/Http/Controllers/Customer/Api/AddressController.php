@@ -29,7 +29,7 @@ class AddressController extends Controller
                 'apartment_name' => 'required|string',
                 'landmark' => 'required|string',
                 'mobile_no' => 'required|integer',
-                'address_type' => 'integer',
+                'address_type' => 'required|integer',
                 'default_address' => 'integer|nullable',
                 'address' => 'required|string',
             ],
@@ -104,7 +104,7 @@ class AddressController extends Controller
                 'apartment_name' => 'required|string',
                 'landmark' => 'required|string',
                 'mobile_no' => 'required|integer',
-                'address_type' => 'integer',
+                'address_type' => 'required|integer',
                 'default_address' => 'integer|nullable',
                 'address' => 'required|string',
             ],
@@ -115,7 +115,7 @@ class AddressController extends Controller
                 'longitude' => 'Longitude',
                 'name' => 'Name',
                 'apartment_no' => 'Apartment No',
-                'aprtment_name' => 'Aprtment Name',
+                'apartment_name' => 'Apartment Name',
                 'landmark' => 'Landmark',
                 'mobile_no' => 'Mobile No',
                 'address_type' => 'Address Type',
@@ -174,6 +174,124 @@ class AddressController extends Controller
             'data' => [
                 'default_address_id' => $customer->default_address_id,
             ]
+        ];
+        DB::commit();
+        return Response::json($response, 200, [], JSON_PRETTY_PRINT);
+    }
+    public function update_default_address(Request $request)
+    {
+        /***************************************************************************************************** */
+        $input = $request->all();
+        $validator = Validator::make(
+            (array) $input,
+            [
+                'address_id' => 'required',
+            ],
+            [],
+            [
+                'address_id' => 'Address ID',
+            ]
+        );
+        if ($validator->fails()) {
+            $response = [
+                'status' => [
+                    'success' => 'false',
+                    'hasdata' => 'false',
+                    'message' => $validator->errors()->first()
+                ]
+            ];
+            return Response::json($response, 200, [], JSON_PRETTY_PRINT);
+        }
+        /***************************************************************************************************** */
+        $customer_address = CustomerAddress::where([
+            ['id', '=', $input['address_id']],
+            ['customer_id', '=', $input['id']],
+        ])->first();
+        if (!$customer_address) {
+            $response = [
+                'status' => [
+                    'success' => 'false',
+                    'hasdata' => 'false',
+                    'message' => 'Invalid address !',
+                ],
+            ];
+            return Response::json($response, 200, [], JSON_PRETTY_PRINT);
+        }
+        /***************************************************************************************************** */
+        $customer = Customer::find($input['id']);
+        DB::beginTransaction();
+        $customer->default_address_id = $input['address_id'];
+        $customer->save();
+        $response = [
+            'status' => [
+                'success' => 'true',
+                'hasdata' => 'false',
+                'message' => 'Default address changed successfully !',
+            ],
+        ];
+        DB::commit();
+        return Response::json($response, 200, [], JSON_PRETTY_PRINT);
+    }
+    public function delete_address(Request $request)
+    {
+        /***************************************************************************************************** */
+        $input = $request->all();
+        $validator = Validator::make(
+            (array) $input,
+            [
+                'address_id' => 'required',
+            ],
+            [],
+            [
+                'address_id' => 'Address ID',
+            ]
+        );
+        if ($validator->fails()) {
+            $response = [
+                'status' => [
+                    'success' => 'false',
+                    'hasdata' => 'false',
+                    'message' => $validator->errors()->first()
+                ]
+            ];
+            return Response::json($response, 200, [], JSON_PRETTY_PRINT);
+        }
+        /***************************************************************************************************** */
+        $customer_address = CustomerAddress::where([
+            ['id', '=', $input['address_id']],
+            ['customer_id', '=', $input['id']],
+        ])->first();
+        if (!$customer_address) {
+            $response = [
+                'status' => [
+                    'success' => 'false',
+                    'hasdata' => 'false',
+                    'message' => 'Invalid address !',
+                ],
+            ];
+            return Response::json($response, 200, [], JSON_PRETTY_PRINT);
+        }
+        /***************************************************************************************************** */
+        $customer = Customer::find($input['id']);
+        if($customer_address->id == $customer->default_address_id){
+            $response = [
+                'status' => [
+                    'success' => 'false',
+                    'hasdata' => 'false',
+                    'message' => 'Default address can\'t be deleted !',
+                ],
+            ];
+            return Response::json($response, 200, [], JSON_PRETTY_PRINT);
+        }
+        /***************************************************************************************************** */
+        DB::beginTransaction();
+        CustomerAddress::find($input['address_id'])->delete();
+        $response = [
+            'status' => [
+                'success' => 'true',
+                'hasdata' => 'false',
+                'message' => 'Address deleted successfully !',
+            ],
         ];
         DB::commit();
         return Response::json($response, 200, [], JSON_PRETTY_PRINT);
