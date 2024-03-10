@@ -1,4 +1,4 @@
--- Adminer 4.8.1 MySQL 11.2.2-MariaDB dump
+-- Adminer 4.8.1 MySQL 10.10.2-MariaDB dump
 
 SET NAMES utf8;
 SET time_zone = '+00:00';
@@ -59,7 +59,7 @@ CREATE TABLE `customers` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 INSERT INTO `customers` (`id`, `name`, `email`, `mobile_number_1_cc`, `mobile_number_1`, `mobile_number_1_otp`, `mobile_number_1_otp_expired_at`, `mobile_number_1_verified_at`, `password`, `token`, `device_type`, `push_token`, `default_address_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(7,	'CloudVeins Test',	'hr@example.com',	'+91',	'9745451448',	NULL,	'2024-03-10 14:18:04',	NULL,	NULL,	'$2y$12$Zqezx2MGCOPBSWmMc.8UcOxqR/3D18lVCGXz.rv4q9DbvK0Cc2cYW',	NULL,	NULL,	42,	'2024-03-10 12:55:24',	'2024-03-10 14:18:01',	NULL);
+(7,	'CloudVeins Test',	'hr@example.com',	'+91',	'9745451448',	NULL,	'2024-03-10 18:05:57',	NULL,	NULL,	'$2y$12$u9XSwTBuY5nO0VV3.fAREuCxJpL0RueJyZuVCwzuDcMJfrE/i7n7.',	NULL,	NULL,	49,	'2024-03-10 12:55:24',	'2024-03-10 18:06:06',	NULL);
 
 DROP TABLE IF EXISTS `customer_addresses`;
 CREATE TABLE `customer_addresses` (
@@ -93,9 +93,18 @@ INSERT INTO `customer_addresses` (`id`, `customer_id`, `name`, `address`, `latit
 (37,	7,	'trtrt',	'Test Address',	'245454545',	'4545454545',	'103',	'Cyber Zone',	NULL,	'Near 5th milestone',	NULL,	'8552564545',	1,	'2024-03-10 13:36:35',	'2024-03-10 13:36:35',	NULL),
 (38,	7,	'trtrt',	'Test Address',	'245454545',	'4545454545',	'103',	'Cyber Zone',	NULL,	'Near 5th milestone',	NULL,	'8552564545',	1,	'2024-03-10 13:36:40',	'2024-03-10 13:36:40',	NULL),
 (39,	7,	'trtrt',	'Test Address',	'245454545',	'4545454545',	'103',	'Cyber Zone',	NULL,	'Near 5th milestone',	NULL,	'8552564545',	1,	'2024-03-10 13:36:44',	'2024-03-10 13:49:49',	'2024-03-10 13:49:49'),
-(40,	7,	'trtrt',	'Test Address',	'245454545',	'4545454545',	'103',	'Cyber Zone',	NULL,	'Near 5th milestone',	NULL,	'8552564545',	1,	'2024-03-10 13:49:31',	'2024-03-10 13:49:31',	NULL),
+(40,	7,	'trtrt',	'Test Address',	'245454545',	'4545454545',	'103',	'Cyber Zone',	NULL,	'Near 5th milestone',	NULL,	'8552564545',	1,	'2024-03-10 13:49:31',	'2024-03-10 15:42:51',	'2024-03-10 15:42:51'),
 (41,	7,	'ghghgh',	'addressssssss',	'245454545',	'4545454545',	'103',	'nameeeeee',	NULL,	'Near 5th milestone',	NULL,	'855256454',	1,	'2024-03-10 13:52:23',	'2024-03-10 13:52:43',	NULL),
-(42,	7,	'trtrt',	'Test Address',	'245454545',	'4545454545',	'103',	'Cyber Zone',	NULL,	'Near 5th milestone',	NULL,	'8552564545',	1,	'2024-03-10 14:18:01',	'2024-03-10 14:18:01',	NULL);
+(42,	7,	'trtrt',	'Test Address',	'245454545',	'4545454545',	'103',	'Cyber Zone',	NULL,	'Near 5th milestone',	NULL,	'8552564545',	1,	'2024-03-10 14:18:01',	'2024-03-10 14:18:01',	NULL),
+(43,	7,	'trtrt',	'Test Address',	'245454545',	'4545454545',	'103',	'Cyber Zone',	NULL,	'Near 5th milestone',	NULL,	'8552564545',	1,	'2024-03-10 15:42:25',	'2024-03-10 15:42:25',	NULL),
+(44,	7,	'trtrt',	'Test Address',	'245454545',	'4545454545',	'103',	'Cyber Zone',	NULL,	'Near 5th milestone',	NULL,	'8552564545',	1,	'2024-03-10 16:25:24',	'2024-03-10 16:25:24',	NULL),
+(45,	7,	'trtrt',	'Test Address',	'245454545',	'4545454545',	'103',	'Cyber Zone',	NULL,	'Near 5th milestone',	NULL,	'8552564545',	1,	'2024-03-10 16:25:27',	'2024-03-10 16:25:27',	NULL),
+(46,	7,	'trtrt',	'Test Address',	'245454545',	'4545454545',	'103',	'Cyber Zone',	NULL,	'Near 5th milestone',	NULL,	'8552564545',	1,	'2024-03-10 16:25:49',	'2024-03-10 16:25:49',	NULL),
+(47,	7,	'trtrt',	'Test Address',	'245454545',	'4545454545',	'103',	'Cyber Zone',	NULL,	'Near 5th milestone',	NULL,	'8552564545',	1,	'2024-03-10 16:25:55',	'2024-03-10 16:25:55',	NULL),
+(48,	7,	'trtrt',	'Test Address',	'245454545',	'4545454545',	'103',	'Cyber Zone',	NULL,	'Near 5th milestone',	NULL,	'8552564545',	1,	'2024-03-10 16:25:58',	'2024-03-10 16:27:20',	'2024-03-10 16:27:20'),
+(49,	7,	'trtrt',	'Test Address',	'245454545',	'4545454545',	'103',	'Cyber Zone',	NULL,	'Near 5th milestone',	NULL,	'8552564545',	1,	'2024-03-10 16:26:51',	'2024-03-10 16:26:51',	NULL),
+(50,	7,	'trtrt',	'Test Address',	'245454545',	'4545454545',	'103',	'Cyber Zone',	NULL,	'Near 5th milestone',	NULL,	'8552564545',	1,	'2024-03-10 17:50:38',	'2024-03-10 17:50:38',	NULL),
+(51,	7,	'trtrt',	'Test Address',	'245454545',	'4545454545',	'103',	'Cyber Zone',	NULL,	'Near 5th milestone',	NULL,	'8552564545',	1,	'2024-03-10 18:06:00',	'2024-03-10 18:06:00',	NULL);
 
 DROP TABLE IF EXISTS `districts`;
 CREATE TABLE `districts` (
@@ -303,6 +312,6 @@ CREATE TABLE `vendors` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO `vendors` (`id`, `vendor_name`, `owner_name`, `gst_number`, `pan_number`, `mobile_number`, `country_id`, `state_id`, `district_id`, `location_id`, `address`, `latitude`, `longitude`, `accuracy`, `shop_thumbnail`, `username`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1,	'Vendor XYZ',	'rer',	'erer',	'f',	're',	'ff',	'ds',	'df',	'd',	'sds',	'dsds',	'dsd',	'sds',	'dsd',	'vendor@example.com',	'vendor@example.com',	'2024-03-07 19:50:15',	'$2y$12$SjmwFDIffWTH4X84sgvv/.VFWHJdaCOH9i0P3s/mx.p8cqWSRHvIm',	'fPL7iVuEHEwppGsoeWPcuEjiiBbgJx2y4Twe2rTcqUTmQ4ITsiuXKGK3bfIv',	NULL,	NULL,	NULL);
+(1,	'Vendor XYZ',	'rer',	'erer',	'f',	're',	'ff',	'ds',	'df',	'd',	'sds',	'8.472742112160745',	'77.18957241385607',	'sds',	'dsd',	'vendor@example.com',	'vendor@example.com',	'2024-03-07 19:50:15',	'$2y$12$SjmwFDIffWTH4X84sgvv/.VFWHJdaCOH9i0P3s/mx.p8cqWSRHvIm',	'fPL7iVuEHEwppGsoeWPcuEjiiBbgJx2y4Twe2rTcqUTmQ4ITsiuXKGK3bfIv',	NULL,	NULL,	NULL);
 
--- 2024-03-10 14:20:27
+-- 2024-03-10 18:15:58
