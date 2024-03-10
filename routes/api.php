@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Customer\Api\LoginController;
 use App\Http\Controllers\Customer\Api\ProfileController;
 use App\Http\Controllers\Customer\Api\AddressController;
+use App\Http\Controllers\Customer\Api\ProductCategoriesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,6 +37,8 @@ Route::prefix('customer')->group(function () {
         Route::post('delete_address', [AddressController::class, 'delete_address']);
         Route::post('default_address', [AddressController::class, 'get_default_address']);
         Route::post('address_list', [AddressController::class, 'list_all_address']);
+        Route::post('product_categories', [ProductCategoriesController::class, 'categories']);
+        Route::post('product_sub_categories', [ProductCategoriesController::class, 'sub_categories']);
         Route::post('logout', [LoginController::class, 'logout']);
     });
 });

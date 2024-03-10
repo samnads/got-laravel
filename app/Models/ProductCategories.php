@@ -12,6 +12,14 @@ class ProductCategories extends Model
     protected $primaryKey = 'id';
     public function parent()
     {
-        return $this->belongsTo('App\Models\ProductCategories', 'parent_id');
+        return $this->belongsTo(\App\Models\ProductCategories::class, 'parent_id');
+    }
+    public function sub_categories()
+    {
+        return $this->hasMany(self::class, 'parent_id');
+    }
+    public function children()
+    {
+        return $this->hasMany(\App\Models\ProductCategories::class, 'parent_id', 'id');
     }
 }
