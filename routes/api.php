@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Customer\Api\LoginController;
 use App\Http\Controllers\Customer\Api\ProfileController;
+use App\Http\Controllers\Customer\Api\AddressController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,5 +30,6 @@ Route::prefix('customer')->group(function () {
     Route::post('verify', [LoginController::class, 'login_otp_verify']);
     Route::group(['middleware' => 'customerApiTokenCheck'], function () {
         Route::post('update_profile', [ProfileController::class, 'basic_data_entry']);
+        Route::post('save_address', [AddressController::class, 'save_address']);
     });
 });
