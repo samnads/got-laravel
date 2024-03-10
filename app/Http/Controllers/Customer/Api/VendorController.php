@@ -67,4 +67,48 @@ class VendorController extends Controller
         ];
         return Response::json($response, 200, [], JSON_PRETTY_PRINT);
     }
+    public function vendors_locations(Request $request)
+    {
+        /***************************************************************************************************** */
+        $input = $request->all();
+        $validator = Validator::make(
+            (array) $input,
+            [
+            ],
+            [],
+            [
+            ]
+        );
+        if ($validator->fails()) {
+            $response = [
+                'status' => [
+                    'success' => 'false',
+                    'hasdata' => 'false',
+                    'message' => $validator->errors()->first()
+                ]
+            ];
+            return Response::json($response, 200, [], JSON_PRETTY_PRINT);
+        }
+        /***************************************************************************************************** */
+        $shops = Vendor::select(
+            'id as shop_id',
+            'vendor_name as shop_name',
+            'latitude',
+            'longitude',
+            'mobile_number as shop_contact_number',
+        )
+            ->get();
+        /***************************************************************************************************** */
+        $response = [
+            'status' => [
+                'success' => 'true',
+                'hasdata' => 'true',
+                'message' => 'Shop locations fetched successfully !',
+            ],
+            'data' => [
+                'shops' => $shops
+            ]
+        ];
+        return Response::json($response, 200, [], JSON_PRETTY_PRINT);
+    }
 }
