@@ -273,7 +273,7 @@ class AddressController extends Controller
         }
         /***************************************************************************************************** */
         $customer = Customer::find($input['id']);
-        if($customer_address->id == $customer->default_address_id){
+        if ($customer_address->id == $customer->default_address_id) {
             $response = [
                 'status' => [
                     'success' => 'false',
@@ -294,6 +294,116 @@ class AddressController extends Controller
             ],
         ];
         DB::commit();
+        return Response::json($response, 200, [], JSON_PRETTY_PRINT);
+    }
+    public function get_default_address(Request $request)
+    {
+        /***************************************************************************************************** */
+        $input = $request->all();
+        $validator = Validator::make(
+            (array) $input,
+            [],
+            [],
+            []
+        );
+        if ($validator->fails()) {
+            $response = [
+                'status' => [
+                    'success' => 'false',
+                    'hasdata' => 'false',
+                    'message' => $validator->errors()->first()
+                ]
+            ];
+            return Response::json($response, 200, [], JSON_PRETTY_PRINT);
+        }
+        /***************************************************************************************************** */
+        $customer = Customer::find($input['id']);
+        $default_address = CustomerAddress::find($customer->default_address_id);
+        if (!$default_address) {
+            $response = [
+                'status' => [
+                    'success' => 'false',
+                    'hasdata' => 'false',
+                    'message' => 'No default address found !',
+                ],
+            ];
+            return Response::json($response, 200, [], JSON_PRETTY_PRINT);
+        }
+        /***************************************************************************************************** */
+        $response = [
+            'status' => [
+                'success' => 'true',
+                'hasdata' => 'false',
+                'message' => 'Default address fetched successfully !',
+            ],
+            'data' => [
+                'default_address' => [
+                    'customer_address_id' => $default_address->id,
+                    'customer_id' => $default_address->customer_id,
+                    'name' => $default_address->name,
+                    'address' => $default_address->address,
+                    'latitude' => $default_address->latitude,
+                    'longitude' => $default_address->longitude,
+                    'apartment_no' => $default_address->apartment_no,
+                    'apartment_name' => $default_address->apartment_name,
+                    'landmark' => $default_address->landmark,
+                    'mobile_no' => $default_address->mobile_no,
+                    'address_type' => $default_address->address_type,
+                    'default_address' => 1,
+
+                ]
+            ]
+        ];
+        return Response::json($response, 200, [], JSON_PRETTY_PRINT);
+    }
+    public function list_all_address(Request $request)
+    {
+        /***************************************************************************************************** */
+        $input = $request->all();
+        $validator = Validator::make(
+            (array) $input,
+            [],
+            [],
+            []
+        );
+        if ($validator->fails()) {
+            $response = [
+                'status' => [
+                    'success' => 'false',
+                    'hasdata' => 'false',
+                    'message' => $validator->errors()->first()
+                ]
+            ];
+            return Response::json($response, 200, [], JSON_PRETTY_PRINT);
+        }
+        /***************************************************************************************************** */
+        $customer = Customer::find($input['id']);
+        $addresses = CustomerAddress::get();
+        /***************************************************************************************************** */
+        foreach ($addresses as $key => $address) {
+            $address_list[] = [
+                'customer_address_id' => $address->id,
+                'name' => $address->name,
+                'address' => $address->address,
+                'latitude' => $address->latitude,
+                'longitude' => $address->longitude,
+                'apartment_no' => $address->apartment_no,
+                'apartment_name' => $address->apartment_name,
+                'landmark' => $address->landmark,
+                'mobile_no' => $address->mobile_no,
+                'address_type' => $address->address_type,
+                'default_address' => $customer->default_address_id == $address->id ? 1 : null,
+
+            ];
+        }
+        $response = [
+            'status' => [
+                'success' => 'true',
+                'hasdata' => 'true',
+                'message' => 'Address list fetched successfully !',
+            ],
+            'address_list' => $address_list
+        ];
         return Response::json($response, 200, [], JSON_PRETTY_PRINT);
     }
 }
