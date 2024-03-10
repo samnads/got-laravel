@@ -402,7 +402,9 @@ class AddressController extends Controller
                 'hasdata' => 'true',
                 'message' => 'Address list fetched successfully !',
             ],
-            'address_list' => $address_list
+            'data' => [
+                'address_list' => $address_list
+            ]
         ];
         return Response::json($response, 200, [], JSON_PRETTY_PRINT);
     }

@@ -49,7 +49,9 @@ class ProductCategoriesController extends Controller
                 'hasdata' => 'true',
                 'message' => 'Categories fetched successfully !',
             ],
-            'categories' => $categories
+            'data' => [
+                'categories' => $categories
+            ]
         ];
         return Response::json($response, 200, [], JSON_PRETTY_PRINT);
     }
