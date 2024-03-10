@@ -80,7 +80,7 @@ class ProductCategoriesController extends Controller
             return Response::json($response, 200, [], JSON_PRETTY_PRINT);
         }
         /***************************************************************************************************** */
-        $category = ProductCategories::select('id', 'name', 'description')->where([['id', '=', $input['category_id']],])->first();
+        $category = ProductCategories::find($input['category_id']);
         if (!$category) {
             $response = [
                 'status' => [
@@ -98,8 +98,7 @@ class ProductCategoriesController extends Controller
                 'message' => 'Sub Categories fetched successfully !',
             ],
             'data' => [
-                //'category' => $category,
-                'sub_categories' => ProductCategories::select('id', 'name', 'description')->with('children')->get()
+                'sub_categories' => $category->sub_categories()->select('id', 'name', 'description')->get()
             ]
         ];
         return Response::json($response, 200, [], JSON_PRETTY_PRINT);
