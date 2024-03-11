@@ -7,6 +7,7 @@ use App\Http\Controllers\Customer\Api\ProfileController;
 use App\Http\Controllers\Customer\Api\AddressController;
 use App\Http\Controllers\Customer\Api\ProductCategoriesController;
 use App\Http\Controllers\Customer\Api\VendorController;
+use App\Http\Controllers\Customer\Api\VendorProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,6 +43,7 @@ Route::prefix('customer')->group(function () {
         Route::post('product_sub_categories', [ProductCategoriesController::class, 'sub_categories']);
         Route::post('nearby_shops', [VendorController::class, 'nearby_vendors']);
         Route::post('shop_locations', [VendorController::class, 'vendors_locations']);
+        Route::post('vendor_products', [VendorProductController::class, 'vendor_products']);
         Route::post('logout', [LoginController::class, 'logout']);
     });
 });
