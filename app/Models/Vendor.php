@@ -43,4 +43,9 @@ class Vendor extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function vendor_products()
+    {
+        return $this->hasMany(\App\Models\VendorProduct::class, 'vendor_id', 'id');
+    }
 }
