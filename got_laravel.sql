@@ -24,15 +24,25 @@ INSERT INTO `address_types` (`id`, `name`, `created_at`, `updated_at`, `deleted_
 
 DROP TABLE IF EXISTS `brands`;
 CREATE TABLE `brands` (
-  `brand_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
-  `visibility` tinyint(4) NOT NULL DEFAULT 0,
+  `description` varchar(255) DEFAULT NULL,
+  `visibility` tinyint(1) NOT NULL DEFAULT 0,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`brand_id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+INSERT INTO `brands` (`id`, `name`, `description`, `visibility`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1,	'Apple',	'rtrtrt',	1,	'2024-03-12 22:40:46',	'2024-03-12 17:50:08',	NULL),
+(2,	'Pepsico',	NULL,	1,	'2024-03-12 22:40:46',	'2024-03-12 22:40:46',	NULL),
+(3,	'DG',	'hfhgh',	0,	'2024-03-12 17:33:39',	'2024-03-12 17:33:39',	NULL),
+(4,	'trt',	'rtrt',	0,	'2024-03-12 17:34:34',	'2024-03-12 17:34:34',	NULL),
+(5,	'yuu',	'iui',	0,	'2024-03-12 17:35:03',	'2024-03-12 17:50:32',	'2024-03-12 17:50:32'),
+(6,	'rere',	'rer',	0,	'2024-03-12 17:37:56',	'2024-03-12 17:44:55',	NULL),
+(7,	'ii',	'ii',	0,	'2024-03-12 17:47:01',	'2024-03-12 17:50:14',	'2024-03-12 17:50:14');
 
 DROP TABLE IF EXISTS `customers`;
 CREATE TABLE `customers` (
@@ -59,7 +69,7 @@ CREATE TABLE `customers` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 INSERT INTO `customers` (`id`, `name`, `email`, `mobile_number_1_cc`, `mobile_number_1`, `mobile_number_1_otp`, `mobile_number_1_otp_expired_at`, `mobile_number_1_verified_at`, `password`, `token`, `device_type`, `push_token`, `default_address_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(7,	'CloudVeins Test',	'hr@example.com',	'+91',	'9745451448',	1234,	'2024-03-11 16:30:32',	NULL,	NULL,	'$2y$12$ZKsdflunVdQcKIlhu.20iu7C41XNMZBC0G2KXM.vZ8uMoPpOOUrpu',	NULL,	NULL,	49,	'2024-03-10 12:55:24',	'2024-03-11 16:30:22',	NULL);
+(7,	'CloudVeins Test',	'hr@example.com',	'+91',	'9745451448',	NULL,	'2024-03-11 20:08:00',	NULL,	NULL,	'$2y$12$2pkVylROlC985UygtbQKi.ArjZTvWz/jW1a88JdGXOGF2WkQAXkRO',	NULL,	NULL,	49,	'2024-03-10 12:55:24',	'2024-03-11 20:08:21',	NULL);
 
 DROP TABLE IF EXISTS `customer_addresses`;
 CREATE TABLE `customer_addresses` (
@@ -104,7 +114,12 @@ INSERT INTO `customer_addresses` (`id`, `customer_id`, `name`, `address`, `latit
 (48,	7,	'trtrt',	'Test Address',	'245454545',	'4545454545',	'103',	'Cyber Zone',	NULL,	'Near 5th milestone',	NULL,	'8552564545',	1,	'2024-03-10 16:25:58',	'2024-03-10 16:27:20',	'2024-03-10 16:27:20'),
 (49,	7,	'trtrt',	'Test Address',	'245454545',	'4545454545',	'103',	'Cyber Zone',	NULL,	'Near 5th milestone',	NULL,	'8552564545',	1,	'2024-03-10 16:26:51',	'2024-03-10 16:26:51',	NULL),
 (50,	7,	'trtrt',	'Test Address',	'245454545',	'4545454545',	'103',	'Cyber Zone',	NULL,	'Near 5th milestone',	NULL,	'8552564545',	1,	'2024-03-10 17:50:38',	'2024-03-10 17:50:38',	NULL),
-(51,	7,	'trtrt',	'Test Address',	'245454545',	'4545454545',	'103',	'Cyber Zone',	NULL,	'Near 5th milestone',	NULL,	'8552564545',	1,	'2024-03-10 18:06:00',	'2024-03-10 18:06:00',	NULL);
+(51,	7,	'trtrt',	'Test Address',	'245454545',	'4545454545',	'103',	'Cyber Zone',	NULL,	'Near 5th milestone',	NULL,	'8552564545',	1,	'2024-03-10 18:06:00',	'2024-03-10 18:06:00',	NULL),
+(52,	7,	'trtrt',	'Test Address',	'245454545',	'4545454545',	'103',	'Cyber Zone',	NULL,	'Near 5th milestone',	NULL,	'8552564545',	1,	'2024-03-11 20:08:05',	'2024-03-11 20:08:05',	NULL),
+(53,	7,	'trtrt',	'Test Address',	'245454545',	'4545454545',	'103',	'Cyber Zone',	NULL,	'Near 5th milestone',	NULL,	'8552564545',	1,	'2024-03-11 20:08:07',	'2024-03-11 20:08:07',	NULL),
+(54,	7,	'trtrt',	'Test Address',	'245454545',	'4545454545',	'103',	'Cyber Zone',	NULL,	'Near 5th milestone',	NULL,	'8552564545',	1,	'2024-03-11 20:08:10',	'2024-03-11 20:08:10',	NULL),
+(55,	7,	'trtrt',	'Test Address',	'245454545',	'4545454545',	'103',	'Cyber Zone',	NULL,	'Near 5th milestone',	NULL,	'8552564545',	1,	'2024-03-11 20:08:11',	'2024-03-11 20:08:11',	NULL),
+(56,	7,	'trtrt',	'Test Address',	'245454545',	'4545454545',	'103',	'Cyber Zone',	NULL,	'Near 5th milestone',	NULL,	'8552564545',	1,	'2024-03-11 20:08:14',	'2024-03-11 20:08:14',	NULL);
 
 DROP TABLE IF EXISTS `districts`;
 CREATE TABLE `districts` (
@@ -230,7 +245,7 @@ CREATE TABLE `products` (
   KEY `product_sub_category_id` (`product_sub_category_id`),
   KEY `brand_id` (`brand_id`),
   CONSTRAINT `products_ibfk_1` FOREIGN KEY (`product_sub_category_id`) REFERENCES `product_categories` (`id`),
-  CONSTRAINT `products_ibfk_2` FOREIGN KEY (`brand_id`) REFERENCES `brands` (`brand_id`)
+  CONSTRAINT `products_ibfk_2` FOREIGN KEY (`brand_id`) REFERENCES `brands` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 INSERT INTO `products` (`id`, `code`, `product_sub_category_id`, `brand_id`, `name`, `description`, `created_at`, `updated_at`, `deleted_at`) VALUES
@@ -254,14 +269,14 @@ CREATE TABLE `product_categories` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO `product_categories` (`id`, `parent_id`, `name`, `description`, `image`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1,	NULL,	'Grocery',	'Grocery items description',	NULL,	'2024-03-11 16:26:53',	'2024-03-11 16:26:53',	NULL),
+(1,	NULL,	'Grocery',	'Grocery items description',	NULL,	'2024-03-11 16:26:53',	'2024-03-12 11:26:10',	NULL),
 (2,	NULL,	'Cakes',	'Cakes items description',	NULL,	'2024-03-11 16:26:53',	'2024-03-11 16:26:53',	NULL),
 (3,	NULL,	'Soft Drinks',	'Soft Drinks items description',	NULL,	'2024-03-11 16:26:53',	'2024-03-11 16:26:53',	NULL),
-(4,	1,	'Rice',	'Rice description',	NULL,	'2024-03-11 16:26:53',	'2024-03-11 16:26:53',	NULL),
-(5,	2,	'Plum Cakes',	'Plum Cakes items description',	NULL,	'2024-03-11 16:26:53',	'2024-03-11 16:26:53',	NULL),
-(6,	2,	'Red Velvet',	'Red Velvet description',	NULL,	'2024-03-11 16:26:53',	'2024-03-11 16:26:53',	NULL),
-(7,	NULL,	'Babana Chilps',	'Babana Chilps description',	NULL,	'2024-03-11 16:26:53',	'2024-03-11 16:26:53',	NULL),
-(8,	7,	'Chilli Flavoured',	'Chilli Flavoured description',	NULL,	'2024-03-11 16:26:53',	'2024-03-11 16:26:53',	NULL);
+(4,	1,	'Rice',	'Rice description',	NULL,	'2024-03-11 16:26:53',	'2024-03-12 11:32:24',	NULL),
+(5,	2,	'Plum Cakes',	'Plum Cakes items description',	NULL,	'2024-03-11 16:26:53',	'2024-03-12 11:32:27',	NULL),
+(6,	2,	'Red Velvet',	'Red Velvet description',	NULL,	'2024-03-11 16:26:53',	'2024-03-12 11:26:17',	NULL),
+(7,	NULL,	'Babana Chilps',	'Babana Chilps description',	NULL,	'2024-03-11 16:26:53',	'2024-03-12 11:24:02',	NULL),
+(8,	7,	'Chilli Flavoured',	'Chilli Flavoured description',	NULL,	'2024-03-11 16:26:53',	'2024-03-12 11:25:28',	NULL);
 
 DROP TABLE IF EXISTS `roles`;
 CREATE TABLE `roles` (
@@ -383,4 +398,4 @@ INSERT INTO `vendor_products` (`id`, `vendor_id`, `product_id`, `maximum_retail_
 (1,	1,	1,	500.00,	490.00,	'2024-03-11 23:53:14',	'2024-03-11 23:53:14',	NULL),
 (3,	1,	3,	500.00,	490.00,	'2024-03-11 23:53:14',	'2024-03-11 23:53:14',	NULL);
 
--- 2024-03-11 20:00:00
+-- 2024-03-12 17:54:46
