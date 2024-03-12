@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Brand;
 use Illuminate\Http\Request;
 use App\Models\ProductCategories;
 use Session;
@@ -71,11 +72,45 @@ class AjaxController extends Controller
                 break;
             case 'DELETE':
                 $category = ProductCategories::find($request->category_id);
-                $category->updated_at = now();
                 $category->deleted_at = now();
                 $category->save();
-                Session::flash('toast', ['type' => 'success', 'title' => 'Deleted !', 'message' => 'Category <b>' . $category->name . '</b> deleted successfully.']);
-                $response = ['status' => 'success', 'message' => 'Category <b>' . $category->name . '</b> deleted successfully.'];
+                Session::flash('toast', ['type' => 'success', 'title' => 'Deleted !', 'message' => 'Sub category <b>' . $category->name . '</b> deleted successfully.']);
+                $response = ['status' => 'success', 'message' => 'Sub category <b>' . $category->name . '</b> deleted successfully.'];
+                break;
+            default:
+                // invalid request
+                break;
+        }
+        return response()->json($response);
+    }
+    public function brand(Request $request)
+    {
+        switch ($request->method()) {
+            case 'POST':
+                $row = new Brand();
+                $row->name = $request->name;
+                $row->description = $request->description;
+                $row->created_at = now();
+                $row->updated_at = now();
+                $row->save();
+                Session::flash('toast', ['type' => 'success', 'title' => 'Success !', 'message' => 'Brand <b>' . $row->name . '</b> added successfully.']);
+                $response = ['status' => 'success', 'message' => 'Brand added successfully.'];
+                break;
+            case 'PUT':
+                $row = Brand::find($request->id);
+                $row->name = $request->name;
+                $row->description = $request->description;
+                $row->updated_at = now();
+                $row->save();
+                Session::flash('toast', ['type' => 'success', 'title' => 'Success !', 'message' => 'Brand <b>' . $row->name . '</b> updated successfully.']);
+                $response = ['status' => 'success', 'message' => 'Brand <b>' . $row->name . '</b> updated successfully.'];
+                break;
+            case 'DELETE':
+                $row = Brand::find($request->id);
+                $row->deleted_at = now();
+                $row->save();
+                Session::flash('toast', ['type' => 'success', 'title' => 'Deleted !', 'message' => 'Brand <b>' . $row->name . '</b> deleted successfully.']);
+                $response = ['status' => 'success', 'message' => 'Brand <b>' . $row->name . '</b> deleted successfully.'];
                 break;
             default:
                 // invalid request

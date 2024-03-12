@@ -1,13 +1,13 @@
 @extends('components.layouts.admin', ['body_css_class' => 'admin-class'])
-@section('title', 'Product Categories')
+@section('title', 'Brands')
 @section('content')
     <div class="col-lg-12 grid-margin">
         <div class="card">
             <div class="card-body">
                 <div style="display: flex" class="m-3">
-                    <h2 class="card-title float-left">Sub Category List</h4>
+                    <h2 class="card-title float-left">Brands</h4>
                         <div style="margin-left: auto;">
-                            <a role="button" href="{{ url('admin/product/sub-category/new') }}"><button type="button"
+                            <a role="button" href="{{ url('admin/brand/new') }}"><button type="button"
                                     class="btn btn-inverse-dark btn-icon">
                                     <i class="mdi mdi-plus"></i>
                                 </button></a>
@@ -18,27 +18,25 @@
                         <tr>
                             <th>Sl. No.</th>
                             <th>Name</th>
-                            <th>Parent</th>
                             <th>Description</th>
                             <th>Thumbnail</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($categories as $key => $category)
+                        @foreach ($brands as $key => $brand)
                             <tr>
                                 <td>{{ $key + 1 }}</td>
-                                <td>{{ $category->name }}</td>
-                                <td>{{ @$category->parent->name }}</td>
-                                <td>{{ $category->description }}</td>
+                                <td>{{ $brand->name }}</td>
+                                <td>{{ $brand->description }}</td>
                                 <td>~</td>
                                 <td>
                                     <div class="btn-group" role="group" aria-label="Basic example">
-                                        <a href="{{ url('admin/product/sub-category/edit/' . $category->id) }}"
+                                        <a href="{{ url('admin/brand/edit/' . $brand->id) }}"
                                             class="btn btn-inverse-success btn-icon" title="Edit" style="padding: 13px;">
                                             <i class="mdi mdi-pencil-box-outline"></i>
                                         </a>
-                                        <button data-action="delete-category" data-id="{{ $category->id }}"
+                                        <button data-action="delete-brand" data-id="{{ $brand->id }}"
                                             class="btn btn-inverse-danger btn-icon" title="Edit" style="padding: 13px;">
                                             <i class="mdi mdi-delete"></i>
                                         </button>
@@ -62,12 +60,13 @@
     <!-- Pushed Link Scripts -->
 @endpush
 @push('inline-scripts')
+    <!-- Pushed Inline Scripts -->
     <script>
         $(document).ready(function() {
-            $('[data-action="delete-category"]').click(function() {
-                let category_id = $(this).data("id");
+            $('[data-action="delete-brand"]').click(function() {
+                let id = $(this).data("id");
                 Swal.fire({
-                    title: "Delete Sub Category?",
+                    title: "Delete Brand?",
                     text: "You won't be able to revert this!",
                     icon: "warning",
                     showCancelButton: true,
@@ -79,14 +78,14 @@
                     if (result.isConfirmed) {
                         $.ajax({
                             type: 'DELETE',
-                            url: _base_url + "admin/ajax/product/sub-category",
+                            url: _base_url + "admin/ajax/brand",
                             data: {
-                                category_id: category_id
+                                id: id
                             },
                             success: function(response) {
                                 if (response.status == "success") {
                                     location.href = _base_url +
-                                        'admin/product/sub-categories';
+                                        'admin/brands';
                                 } else {
                                     toast('Error !', response.message, 'error');
                                 }
