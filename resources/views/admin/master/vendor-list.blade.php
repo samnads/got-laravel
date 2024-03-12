@@ -7,7 +7,7 @@
                 <div style="display: flex">
                     <h4 class="card-title float-left">Vendors</h4>
                     <div style="margin-left: auto;">
-                        <a role="button" href="{{ url('admin/brand/new') }}"><button type="button"
+                        <a role="button" href="{{ url('admin/vendor/new') }}"><button type="button"
                                 class="btn btn-inverse-dark btn-icon">
                                 <i class="mdi mdi-plus"></i>
                             </button></a>

@@ -347,6 +347,7 @@ CREATE TABLE `vendors` (
   `username` varchar(155) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
   `remember_token` varchar(100) DEFAULT NULL,
+  `blocked_at` datetime DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -360,8 +361,23 @@ CREATE TABLE `vendors` (
   CONSTRAINT `vendors_ibfk_3` FOREIGN KEY (`location_id`) REFERENCES `locations` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-INSERT INTO `vendors` (`id`, `vendor_name`, `owner_name`, `gst_number`, `pan_number`, `mobile_number`, `district_id`, `location_id`, `address`, `latitude`, `longitude`, `accuracy`, `shop_thumbnail`, `email`, `email_verified_at`, `username`, `password`, `remember_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1,	'Vendor 1',	'Owner 1',	'GST1',	'',	'12345',	1,	1,	'fgfgfgdfg',	'455',	'3545',	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	'2024-03-11 18:04:08',	'2024-03-11 18:04:08',	NULL);
+INSERT INTO `vendors` (`id`, `vendor_name`, `owner_name`, `gst_number`, `pan_number`, `mobile_number`, `district_id`, `location_id`, `address`, `latitude`, `longitude`, `accuracy`, `shop_thumbnail`, `email`, `email_verified_at`, `username`, `password`, `remember_token`, `blocked_at`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1,	'Vendor 1',	'Owner 1',	'GST1',	'',	'12345',	1,	1,	'fgfgfgdfg',	'455',	'3545',	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	'2024-03-12 18:53:53',	'2024-03-11 18:04:08',	'2024-03-12 13:23:53',	NULL),
+(2,	'Vendor 1',	'Owner 1',	'GST1',	'',	'12345',	1,	1,	'fgfgfgdfg',	'455',	'3545',	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	'2024-03-11 18:04:08',	'2024-03-12 13:17:33',	NULL),
+(3,	'Vendor 1',	'Owner 1',	'GST1',	'',	'12345',	1,	1,	'fgfgfgdfg',	'455',	'3545',	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	'2024-03-11 18:04:08',	'2024-03-11 18:04:08',	NULL),
+(4,	'Vendor 1',	'Owner 1',	'GST1',	'',	'12345',	1,	1,	'fgfgfgdfg',	'455',	'3545',	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	'2024-03-11 18:04:08',	'2024-03-11 18:04:08',	NULL),
+(6,	'Vendor 1',	'Owner 1',	'GST1',	'',	'12345',	1,	1,	'fgfgfgdfg',	'455',	'3545',	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	'2024-03-11 18:04:08',	'2024-03-11 18:04:08',	NULL),
+(7,	'Vendor 1',	'Owner 1',	'GST1',	'',	'12345',	1,	1,	'fgfgfgdfg',	'455',	'3545',	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	'2024-03-11 18:04:08',	'2024-03-12 13:17:07',	NULL),
+(8,	'Vendor 1',	'Owner 1',	'GST1',	'',	'12345',	1,	1,	'fgfgfgdfg',	'455',	'3545',	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	'2024-03-11 18:04:08',	'2024-03-11 18:04:08',	NULL),
+(9,	'Vendor 1',	'Owner 1',	'GST1',	'',	'12345',	1,	1,	'fgfgfgdfg',	'455',	'3545',	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	'2024-03-11 18:04:08',	'2024-03-12 13:17:29',	NULL),
+(13,	'Vendor 1',	'Owner 1',	'GST1',	'',	'12345',	1,	1,	'fgfgfgdfg',	'455',	'3545',	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	'2024-03-11 18:04:08',	'2024-03-11 18:04:08',	NULL),
+(14,	'Vendor 1',	'Owner 1',	'GST1',	'',	'12345',	1,	1,	'fgfgfgdfg',	'455',	'3545',	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	'2024-03-11 18:04:08',	'2024-03-11 18:04:08',	NULL),
+(15,	'Vendor 1',	'Owner 1',	'GST1',	'',	'12345',	1,	1,	'fgfgfgdfg',	'455',	'3545',	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	'2024-03-11 18:04:08',	'2024-03-11 18:04:08',	NULL),
+(16,	'Vendor 1',	'Owner 1',	'GST1',	'',	'12345',	1,	1,	'fgfgfgdfg',	'455',	'3545',	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	'2024-03-11 18:04:08',	'2024-03-11 18:04:08',	NULL),
+(17,	'Vendor 1',	'Owner 1',	'GST1',	'',	'12345',	1,	1,	'fgfgfgdfg',	'455',	'3545',	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	'2024-03-11 18:04:08',	'2024-03-11 18:04:08',	NULL),
+(18,	'Vendor 1',	'Owner 1',	'GST1',	'',	'12345',	1,	1,	'fgfgfgdfg',	'455',	'3545',	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	'2024-03-11 18:04:08',	'2024-03-11 18:04:08',	NULL),
+(19,	'Vendor 1',	'Owner 1',	'GST1',	'',	'12345',	1,	1,	'fgfgfgdfg',	'455',	'3545',	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	'2024-03-11 18:04:08',	'2024-03-11 18:04:08',	NULL),
+(20,	'Vendor 1',	'Owner 1',	'GST1',	'',	'12345',	1,	1,	'fgfgfgdfg',	'455',	'3545',	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	'2024-03-11 18:04:08',	'2024-03-11 18:04:08',	NULL);
 
 DROP TABLE IF EXISTS `vendor_fssai`;
 CREATE TABLE `vendor_fssai` (
@@ -398,4 +414,4 @@ INSERT INTO `vendor_products` (`id`, `vendor_id`, `product_id`, `maximum_retail_
 (1,	1,	1,	500.00,	490.00,	'2024-03-11 23:53:14',	'2024-03-11 23:53:14',	NULL),
 (3,	1,	3,	500.00,	490.00,	'2024-03-11 23:53:14',	'2024-03-11 23:53:14',	NULL);
 
--- 2024-03-12 17:54:46
+-- 2024-03-12 18:54:18

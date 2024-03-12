@@ -36,11 +36,11 @@
             </a>
             <div class="collapse" id="ui-vendor">
                 <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a class="nav-link" href="{{ url('admin/vendors/add') }}">Add Vendor</a>
+                    <li class="nav-item"> <a class="nav-link" href="{{ url('admin/vendor/new') }}">Add Vendor</a>
                     </li>
-                    <li class="nav-item"> <a class="nav-link" href="{{ url('admin/vendors') }}">List
+                    <li class="nav-item"> <a class="nav-link" href="{{ url('admin/vendor/list') }}">List
                             Vendors</a></li>
-                    <li class="nav-item"> <a class="nav-link" href="{{ url('vendors/blocked') }}">Blocked Vendors</a>
+                    <li class="nav-item"> <a class="nav-link" href="{{ url('admin/vendor/blocked') }}">Blocked Vendors</a>
                     </li>
                 </ul>
             </div>
