@@ -44,6 +44,7 @@ class VendorController extends Controller
         }
         /***************************************************************************************************** */
         $shops = Vendor::select(
+            'id',
             'vendor_name as shop_name',
             'latitude',
             'longitude',
@@ -53,6 +54,7 @@ class VendorController extends Controller
             DB::raw('ROUND((6371 * acos( cos( radians(' . $input['latitude'] . ') ) * cos( radians(latitude) ) * cos( radians(longitude) - radians(' . $input['longitude'] . ')) + sin(radians(' . $input['latitude'] . ')) * sin(radians(latitude)) )),2) as distance')
         )
             ->having('distance', '<=', $input['distance'])
+            ->whereNull('blocked_at')
             ->get();
         /***************************************************************************************************** */
         $response = [
@@ -62,7 +64,7 @@ class VendorController extends Controller
                 'message' => 'Nearby shops fetched successfully !',
             ],
             'data' => [
-                'shops'=> $shops
+                'shops' => $shops
             ]
         ];
         return Response::json($response, 200, [], JSON_PRETTY_PRINT);
@@ -97,6 +99,7 @@ class VendorController extends Controller
             'longitude',
             'mobile_number as shop_contact_number',
         )
+            ->whereNull('blocked_at')
             ->get();
         /***************************************************************************************************** */
         $response = [
