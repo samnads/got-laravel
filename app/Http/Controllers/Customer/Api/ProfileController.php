@@ -60,4 +60,46 @@ class ProfileController extends Controller
         DB::commit();
         return Response::json($response, 200, [], JSON_PRETTY_PRINT);
     }
+    public function get_profile(Request $request)
+    {
+        /***************************************************************************************************** */
+        $input = $request->all();
+        $validator = Validator::make(
+            (array) $input,
+            [
+            ],
+            [],
+            [
+            ]
+        );
+        if ($validator->fails()) {
+            $response = [
+                'status' => [
+                    'success' => 'false',
+                    'hasdata' => 'false',
+                    'message' => $validator->errors()->first()
+                ]
+            ];
+            return Response::json($response, 200, [], JSON_PRETTY_PRINT);
+        }
+        /***************************************************************************************************** */
+        $customer = Customer::find($input['id']);
+        $response = [
+            'status' => [
+                'success' => 'true',
+                'hasdata' => 'true',
+                'message' => 'Profile fetched successfully !',
+            ],
+            'data' => [
+                'id' => $customer->id,
+                'name' => $customer->name,
+                'email' => $customer->email,
+                'mobile_no_cc' => $customer->mobile_number_1_cc,
+                'mobile_no' => $customer->mobile_number_1,
+                'default_address' => $customer->default_address_id,
+                'avatar_url' => null
+            ]
+        ];
+        return Response::json($response, 200, [], JSON_PRETTY_PRINT);
+    }
 }
