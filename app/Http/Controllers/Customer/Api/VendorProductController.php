@@ -69,6 +69,7 @@ class VendorProductController extends Controller
             'p.name',
             'p.code',
             'p.description',
+            DB::raw('null as thumbnail_url'),
             'vendor_products.maximum_retail_price',
             'vendor_products.retail_price'
         )
