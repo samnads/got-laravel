@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Vendor;
 use App\Models\VendorProduct;
+use App\Models\ProductCategories;
 use Illuminate\Support\Str;
 use Response;
 
@@ -23,10 +24,12 @@ class VendorProductController extends Controller
             (array) $input,
             [
                 'vendor_id' => 'required',
+                'sub_category_id' => 'integer|nullable',
             ],
             [],
             [
                 'vendor_id' => 'Vendor ID',
+                'sub_category_id' => 'Sub Category ID',
             ]
         );
         if ($validator->fails()) {
@@ -51,6 +54,15 @@ class VendorProductController extends Controller
             ];
             return Response::json($response, 200, [], JSON_PRETTY_PRINT);
         }
+        if (@$request->sub_category_id) {
+            $sub_category = ProductCategories::where([['id', '=', $request->sub_category_id], ['parent_id', '!=', null]])->first();
+        }
+        $vendor = Vendor::select(
+            'id',
+            'vendor_name as name',
+        )
+            ->where([['id', '=', $request->vendor_id]])
+            ->first();
         $vendor_products = VendorProduct::select(
             'p.id',
             'p.name',
@@ -61,8 +73,11 @@ class VendorProductController extends Controller
         )
             ->leftJoin('products as p', function ($join) {
                 $join->on('vendor_products.product_id', '=', 'p.id');
-            })
-            ->whereNull('p.deleted_at')
+            });
+        if (@$request->sub_category_id) {
+            $vendor_products->where([['p.product_sub_category_id', '=', $request->sub_category_id]]);
+        }
+        $vendor_products = $vendor_products->where([['vendor_products.vendor_id', '=', $request->vendor_id], ['p.deleted_at', '=', null]])
             ->get();
         $response = [
             'status' => [
@@ -71,7 +86,12 @@ class VendorProductController extends Controller
                 'message' => 'Vendor products fetched successfully !',
             ],
             'data' => [
+                'sub_category' => [
+                    'id' => @$sub_category->id,
+                    'name' => @$sub_category->name
+                ],
                 'vendor_products' => $vendor_products,
+                //'vendor' => $vendor,
             ]
         ];
         return Response::json($response, 200, [], JSON_PRETTY_PRINT);
