@@ -120,6 +120,7 @@ class CartController extends Controller
             return Response::json($response, 200, [], JSON_PRETTY_PRINT);
         }
         /***************************************************************************************************** */
+        // validate vendor exist
         $vendor = Vendor::select(
             'id',
             'vendor_name as name',
@@ -132,6 +133,19 @@ class CartController extends Controller
                     'success' => 'false',
                     'hasdata' => 'false',
                     'message' => 'Vendor not found !',
+                ],
+            ];
+            return Response::json($response, 200, [], JSON_PRETTY_PRINT);
+        }
+        /***************************************************************************************************** */
+        // valdate - is product from same vendor
+        $vendor_product = VendorProduct::find($request->product_id);
+        if (@$vendor_product->vendor_id != $request->vendor_id) {
+            $response = [
+                'status' => [
+                    'success' => 'false',
+                    'hasdata' => 'false',
+                    'message' => 'Invalid product !',
                 ],
             ];
             return Response::json($response, 200, [], JSON_PRETTY_PRINT);
