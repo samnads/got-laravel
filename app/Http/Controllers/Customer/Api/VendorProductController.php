@@ -65,7 +65,7 @@ class VendorProductController extends Controller
             ->where([['id', '=', $request->vendor_id]])
             ->first();
         $vendor_products = VendorProduct::select(
-            'p.id',
+            'vendor_products.id as id',
             'p.name',
             'p.code',
             'p.description',
