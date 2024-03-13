@@ -8,6 +8,7 @@ use App\Http\Controllers\Customer\Api\AddressController;
 use App\Http\Controllers\Customer\Api\ProductCategoriesController;
 use App\Http\Controllers\Customer\Api\VendorController;
 use App\Http\Controllers\Customer\Api\VendorProductController;
+use App\Http\Controllers\Customer\Api\CartController;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,5 +48,6 @@ Route::prefix('customer')->group(function () {
         Route::post('shop_locations', [VendorController::class, 'vendors_locations']);
         Route::post('vendor_products', [VendorProductController::class, 'vendor_products']);
         Route::post('logout', [LoginController::class, 'logout']);
+        Route::post('cart', [CartController::class, 'view_cart']);
     });
 });
