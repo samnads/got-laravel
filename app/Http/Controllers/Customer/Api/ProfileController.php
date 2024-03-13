@@ -50,6 +50,52 @@ class ProfileController extends Controller
             'status' => [
                 'success' => 'true',
                 'hasdata' => 'true',
+                'message' => 'Profile registered successfully !',
+            ],
+            'data' => [
+                'name' => $customer->name,
+                'email' => $customer->email,
+            ]
+        ];
+        DB::commit();
+        return Response::json($response, 200, [], JSON_PRETTY_PRINT);
+    }
+    public function update_profile(Request $request)
+    {
+        /***************************************************************************************************** */
+        $input = $request->all();
+        $validator = Validator::make(
+            (array) $input,
+            [
+                'name' => 'required|string',
+                'email' => 'email',
+            ],
+            [],
+            [
+                'name' => 'Name',
+                'email' => 'Email',
+            ]
+        );
+        if ($validator->fails()) {
+            $response = [
+                'status' => [
+                    'success' => 'false',
+                    'hasdata' => 'false',
+                    'message' => $validator->errors()->first()
+                ]
+            ];
+            return Response::json($response, 200, [], JSON_PRETTY_PRINT);
+        }
+        /***************************************************************************************************** */
+        $customer = Customer::find($input['id']);
+        DB::beginTransaction();
+        $customer->name = $input['name'];
+        $customer->email = $input['email'];
+        $customer->save();
+        $response = [
+            'status' => [
+                'success' => 'true',
+                'hasdata' => 'true',
                 'message' => 'Profile updated successfully !',
             ],
             'data' => [
