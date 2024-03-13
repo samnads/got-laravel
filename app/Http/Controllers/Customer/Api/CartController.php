@@ -61,6 +61,7 @@ class CartController extends Controller
             ->first();
         $cart_products = Cart::select(
             'cart.vendor_product_id as id',
+            'cart.id as cart_id',
             'p.name as name',
             'p.code as code',
             'p.description as description',
@@ -153,7 +154,6 @@ class CartController extends Controller
         /***************************************************************************************************** */
         switch ($request->quantity) {
             case '0':
-            case null:
                 $item = Cart::where([['customer_id', '=', $request->id], ['vendor_product_id', '=', $request->product_id]])->withTrashed()->first();
                 if ($item) {
                     // update
@@ -166,7 +166,7 @@ class CartController extends Controller
                     // update
                     $item->quantity = $request->quantity;
                     $item->updated_at = now();
-                    $item->deleted_at = now();
+                    $item->deleted_at = null; // restore if soft deleted
                 } else {
                     // create
                     $item = new Cart();
@@ -180,6 +180,7 @@ class CartController extends Controller
         /***************************************************************************************************** */
         $cart_products = Cart::select(
             'cart.vendor_product_id as id',
+            'cart.id as cart_id',
             'p.name as name',
             'p.code as code',
             'p.description as description',
