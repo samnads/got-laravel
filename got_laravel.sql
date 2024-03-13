@@ -37,12 +37,27 @@ CREATE TABLE `brands` (
 
 INSERT INTO `brands` (`id`, `name`, `description`, `visibility`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (1,	'Apple',	'rtrtrt',	1,	'2024-03-12 22:40:46',	'2024-03-12 17:50:08',	NULL),
-(2,	'Pepsico',	NULL,	1,	'2024-03-12 22:40:46',	'2024-03-12 22:40:46',	NULL),
-(3,	'DG',	'hfhgh',	0,	'2024-03-12 17:33:39',	'2024-03-12 17:33:39',	NULL),
-(4,	'trt',	'rtrt',	0,	'2024-03-12 17:34:34',	'2024-03-12 17:34:34',	NULL),
-(5,	'yuu',	'iui',	0,	'2024-03-12 17:35:03',	'2024-03-12 17:50:32',	'2024-03-12 17:50:32'),
-(6,	'rere',	'rer',	0,	'2024-03-12 17:37:56',	'2024-03-12 17:44:55',	NULL),
-(7,	'ii',	'ii',	0,	'2024-03-12 17:47:01',	'2024-03-12 17:50:14',	'2024-03-12 17:50:14');
+(2,	'Pepsico',	NULL,	1,	'2024-03-12 22:40:46',	'2024-03-12 22:40:46',	NULL);
+
+DROP TABLE IF EXISTS `cart`;
+CREATE TABLE `cart` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `customer_id` bigint(20) unsigned NOT NULL,
+  `vendor_product_id` bigint(20) NOT NULL,
+  `quantity` decimal(10,2) NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `customer_id_vendor_product_id` (`customer_id`,`vendor_product_id`),
+  KEY `vendor_product_id` (`vendor_product_id`),
+  CONSTRAINT `cart_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`),
+  CONSTRAINT `cart_ibfk_2` FOREIGN KEY (`vendor_product_id`) REFERENCES `vendor_products` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+INSERT INTO `cart` (`id`, `customer_id`, `vendor_product_id`, `quantity`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1,	7,	1,	1.00,	'2024-03-13 19:30:00',	'2024-03-13 19:35:08',	'2024-03-13 19:31:43'),
+(2,	7,	3,	1.00,	'2024-03-13 23:34:34',	'2024-03-13 23:34:34',	NULL);
 
 DROP TABLE IF EXISTS `customers`;
 CREATE TABLE `customers` (
@@ -69,7 +84,7 @@ CREATE TABLE `customers` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 INSERT INTO `customers` (`id`, `name`, `email`, `mobile_number_1_cc`, `mobile_number_1`, `mobile_number_1_otp`, `mobile_number_1_otp_expired_at`, `mobile_number_1_verified_at`, `password`, `token`, `device_type`, `push_token`, `default_address_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(7,	'CloudVeins Test',	'hr@example.com',	'+91',	'9745451448',	NULL,	'2024-03-11 20:08:00',	NULL,	NULL,	'$2y$12$2pkVylROlC985UygtbQKi.ArjZTvWz/jW1a88JdGXOGF2WkQAXkRO',	NULL,	NULL,	49,	'2024-03-10 12:55:24',	'2024-03-11 20:08:21',	NULL);
+(7,	'CloudVeins Test',	'hr@example.com',	'+91',	'9745451448',	NULL,	'2024-03-13 18:04:18',	NULL,	NULL,	'$2y$12$RL/Lwbfopz1DukbMWIExSOAGhk1Z29esJzvJMi1OeNBVRnzdfv/uq',	NULL,	NULL,	49,	'2024-03-10 12:55:24',	'2024-03-13 18:04:10',	NULL);
 
 DROP TABLE IF EXISTS `customer_addresses`;
 CREATE TABLE `customer_addresses` (
@@ -249,8 +264,22 @@ CREATE TABLE `products` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 INSERT INTO `products` (`id`, `code`, `product_sub_category_id`, `brand_id`, `name`, `description`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1,	'34535',	2,	NULL,	'Plum Cake with Nuts',	'Delicious Plum Cake with Nuts.',	'2024-03-11 23:52:48',	'2024-03-11 23:52:48',	NULL),
-(3,	'3453',	2,	NULL,	'Plum Cake with Nuts',	'Delicious Plum Cake with Nuts.',	'2024-03-11 23:52:48',	'2024-03-11 23:52:48',	NULL);
+(1,	'34535',	5,	NULL,	'Plum Cake A',	'Delicious Plum Cake with Nuts.',	'2024-03-11 23:52:48',	'2024-03-11 23:52:48',	NULL),
+(3,	'3453',	5,	NULL,	'Plum Cake B',	'Delicious Plum Cake with Nuts.',	'2024-03-11 23:52:48',	'2024-03-11 23:52:48',	NULL),
+(6,	'456546',	6,	NULL,	'Plum Cake C',	'Delicious Plum Cake with Nuts.',	'2024-03-11 23:52:48',	'2024-03-11 23:52:48',	NULL),
+(7,	'56464',	5,	NULL,	'Plum Cake D',	'Delicious Plum Cake with Nuts.',	'2024-03-11 23:52:48',	'2024-03-11 23:52:48',	NULL),
+(8,	NULL,	6,	NULL,	'Plum Cake E',	'Delicious Plum Cake with Nuts.',	'2024-03-11 23:52:48',	'2024-03-11 23:52:48',	NULL),
+(9,	NULL,	5,	NULL,	'Plum Cake F',	'Delicious Plum Cake with Nuts.',	'2024-03-11 23:52:48',	'2024-03-11 23:52:48',	NULL),
+(10,	NULL,	6,	NULL,	'Plum Cake G',	'Delicious Plum Cake with Nuts.',	'2024-03-11 23:52:48',	'2024-03-11 23:52:48',	NULL),
+(11,	NULL,	5,	NULL,	'Plum Cake H',	'Delicious Plum Cake with Nuts.',	'2024-03-11 23:52:48',	'2024-03-11 23:52:48',	NULL),
+(15,	NULL,	6,	NULL,	'Plum Cake I',	'Delicious Plum Cake with Nuts.',	'2024-03-11 23:52:48',	'2024-03-11 23:52:48',	NULL),
+(16,	NULL,	5,	NULL,	'Plum Cake J',	'Delicious Plum Cake with Nuts.',	'2024-03-11 23:52:48',	'2024-03-11 23:52:48',	NULL),
+(17,	NULL,	6,	NULL,	'Plum Cake K',	'Delicious Plum Cake with Nuts.',	'2024-03-11 23:52:48',	'2024-03-11 23:52:48',	NULL),
+(18,	NULL,	5,	NULL,	'Plum Cake L',	'Delicious Plum Cake with Nuts.',	'2024-03-11 23:52:48',	'2024-03-11 23:52:48',	NULL),
+(22,	NULL,	6,	NULL,	'Plum Cake M',	'Delicious Plum Cake with Nuts.',	'2024-03-11 23:52:48',	'2024-03-11 23:52:48',	NULL),
+(23,	NULL,	5,	NULL,	'Plum Cake N',	'Delicious Plum Cake with Nuts.',	'2024-03-11 23:52:48',	'2024-03-11 23:52:48',	NULL),
+(24,	NULL,	6,	NULL,	'Plum Cake O',	'Delicious Plum Cake with Nuts.',	'2024-03-11 23:52:48',	'2024-03-11 23:52:48',	NULL),
+(25,	NULL,	5,	NULL,	'Plum Cake P',	'Delicious Plum Cake with Nuts.',	'2024-03-11 23:52:48',	'2024-03-11 23:52:48',	NULL);
 
 DROP TABLE IF EXISTS `product_categories`;
 CREATE TABLE `product_categories` (
@@ -362,22 +391,8 @@ CREATE TABLE `vendors` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO `vendors` (`id`, `vendor_name`, `owner_name`, `gst_number`, `pan_number`, `mobile_number`, `district_id`, `location_id`, `address`, `latitude`, `longitude`, `accuracy`, `shop_thumbnail`, `email`, `email_verified_at`, `username`, `password`, `remember_token`, `blocked_at`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1,	'Vendor 1',	'Owner 1',	'GST1',	'',	'12345',	1,	1,	'fgfgfgdfg',	'455',	'3545',	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	'2024-03-12 18:53:53',	'2024-03-11 18:04:08',	'2024-03-12 13:23:53',	NULL),
-(2,	'Vendor 1',	'Owner 1',	'GST1',	'',	'12345',	1,	1,	'fgfgfgdfg',	'455',	'3545',	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	'2024-03-11 18:04:08',	'2024-03-12 13:17:33',	NULL),
-(3,	'Vendor 1',	'Owner 1',	'GST1',	'',	'12345',	1,	1,	'fgfgfgdfg',	'455',	'3545',	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	'2024-03-11 18:04:08',	'2024-03-11 18:04:08',	NULL),
-(4,	'Vendor 1',	'Owner 1',	'GST1',	'',	'12345',	1,	1,	'fgfgfgdfg',	'455',	'3545',	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	'2024-03-11 18:04:08',	'2024-03-11 18:04:08',	NULL),
-(6,	'Vendor 1',	'Owner 1',	'GST1',	'',	'12345',	1,	1,	'fgfgfgdfg',	'455',	'3545',	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	'2024-03-11 18:04:08',	'2024-03-11 18:04:08',	NULL),
-(7,	'Vendor 1',	'Owner 1',	'GST1',	'',	'12345',	1,	1,	'fgfgfgdfg',	'455',	'3545',	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	'2024-03-11 18:04:08',	'2024-03-12 13:17:07',	NULL),
-(8,	'Vendor 1',	'Owner 1',	'GST1',	'',	'12345',	1,	1,	'fgfgfgdfg',	'455',	'3545',	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	'2024-03-11 18:04:08',	'2024-03-11 18:04:08',	NULL),
-(9,	'Vendor 1',	'Owner 1',	'GST1',	'',	'12345',	1,	1,	'fgfgfgdfg',	'455',	'3545',	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	'2024-03-11 18:04:08',	'2024-03-12 13:17:29',	NULL),
-(13,	'Vendor 1',	'Owner 1',	'GST1',	'',	'12345',	1,	1,	'fgfgfgdfg',	'455',	'3545',	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	'2024-03-11 18:04:08',	'2024-03-11 18:04:08',	NULL),
-(14,	'Vendor 1',	'Owner 1',	'GST1',	'',	'12345',	1,	1,	'fgfgfgdfg',	'455',	'3545',	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	'2024-03-11 18:04:08',	'2024-03-11 18:04:08',	NULL),
-(15,	'Vendor 1',	'Owner 1',	'GST1',	'',	'12345',	1,	1,	'fgfgfgdfg',	'455',	'3545',	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	'2024-03-11 18:04:08',	'2024-03-11 18:04:08',	NULL),
-(16,	'Vendor 1',	'Owner 1',	'GST1',	'',	'12345',	1,	1,	'fgfgfgdfg',	'455',	'3545',	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	'2024-03-11 18:04:08',	'2024-03-11 18:04:08',	NULL),
-(17,	'Vendor 1',	'Owner 1',	'GST1',	'',	'12345',	1,	1,	'fgfgfgdfg',	'455',	'3545',	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	'2024-03-11 18:04:08',	'2024-03-11 18:04:08',	NULL),
-(18,	'Vendor 1',	'Owner 1',	'GST1',	'',	'12345',	1,	1,	'fgfgfgdfg',	'455',	'3545',	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	'2024-03-11 18:04:08',	'2024-03-11 18:04:08',	NULL),
-(19,	'Vendor 1',	'Owner 1',	'GST1',	'',	'12345',	1,	1,	'fgfgfgdfg',	'455',	'3545',	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	'2024-03-11 18:04:08',	'2024-03-11 18:04:08',	NULL),
-(20,	'Vendor 1',	'Owner 1',	'GST1',	'',	'12345',	1,	1,	'fgfgfgdfg',	'455',	'3545',	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	'2024-03-11 18:04:08',	'2024-03-11 18:04:08',	NULL);
+(1,	'Vendor 1',	'Owner 1',	'GST1',	'',	'123451',	1,	1,	'address1',	'455',	'3545',	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	'2024-03-11 18:04:08',	'2024-03-12 13:24:59',	NULL),
+(2,	'Vendor 2',	'Owner 2',	'GST2',	'',	'123456',	1,	1,	'address1',	'455',	'3545',	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	'2024-03-11 18:04:08',	'2024-03-12 13:17:33',	NULL);
 
 DROP TABLE IF EXISTS `vendor_fssai`;
 CREATE TABLE `vendor_fssai` (
@@ -411,7 +426,20 @@ CREATE TABLE `vendor_products` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 INSERT INTO `vendor_products` (`id`, `vendor_id`, `product_id`, `maximum_retail_price`, `retail_price`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1,	1,	1,	500.00,	490.00,	'2024-03-11 23:53:14',	'2024-03-11 23:53:14',	NULL),
-(3,	1,	3,	500.00,	490.00,	'2024-03-11 23:53:14',	'2024-03-11 23:53:14',	NULL);
+(1,	1,	1,	250.00,	200.00,	'2024-03-11 23:53:14',	'2024-03-11 23:53:14',	NULL),
+(3,	1,	3,	599.00,	356.00,	'2024-03-11 23:53:14',	'2024-03-11 23:53:14',	NULL),
+(4,	1,	6,	50.00,	40.00,	'2024-03-11 23:53:14',	'2024-03-11 23:53:14',	NULL),
+(5,	1,	7,	89.00,	88.00,	'2024-03-11 23:53:14',	'2024-03-11 23:53:14',	NULL),
+(6,	1,	9,	2421.00,	2000.00,	'2024-03-11 23:53:14',	'2024-03-11 23:53:14',	NULL),
+(7,	1,	10,	200.00,	199.00,	'2024-03-11 23:53:14',	'2024-03-11 23:53:14',	NULL),
+(8,	1,	11,	500.00,	490.00,	'2024-03-11 23:53:14',	'2024-03-11 23:53:14',	NULL),
+(9,	1,	15,	500.00,	490.00,	'2024-03-11 23:53:14',	'2024-03-11 23:53:14',	NULL),
+(10,	1,	16,	500.00,	490.00,	'2024-03-11 23:53:14',	'2024-03-11 23:53:14',	NULL),
+(11,	1,	17,	500.00,	490.00,	'2024-03-11 23:53:14',	'2024-03-11 23:53:14',	NULL),
+(15,	2,	18,	600.00,	490.00,	'2024-03-11 23:53:14',	'2024-03-11 23:53:14',	NULL),
+(16,	2,	22,	700.00,	600.00,	'2024-03-11 23:53:14',	'2024-03-11 23:53:14',	NULL),
+(17,	2,	23,	500.00,	490.00,	'2024-03-11 23:53:14',	'2024-03-11 23:53:14',	NULL),
+(18,	2,	24,	388.00,	350.00,	'2024-03-11 23:53:14',	'2024-03-11 23:53:14',	NULL),
+(19,	2,	25,	500.00,	499.00,	'2024-03-11 23:53:14',	'2024-03-11 23:53:14',	NULL);
 
--- 2024-03-12 18:54:18
+-- 2024-03-13 19:49:42
