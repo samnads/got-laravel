@@ -49,5 +49,6 @@ Route::prefix('customer')->group(function () {
         Route::post('vendor_products', [VendorProductController::class, 'vendor_products']);
         Route::post('logout', [LoginController::class, 'logout']);
         Route::post('cart', [CartController::class, 'get_cart']);
+        Route::post('update_cart', [CartController::class, 'update_cart']);
     });
 });
