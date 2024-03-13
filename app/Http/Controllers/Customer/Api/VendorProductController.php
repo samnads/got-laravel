@@ -24,7 +24,7 @@ class VendorProductController extends Controller
             (array) $input,
             [
                 'vendor_id' => 'required',
-                'sub_category_id' => 'integer|nullable',
+                'sub_category_id' => 'required|integer',
             ],
             [],
             [
@@ -56,6 +56,7 @@ class VendorProductController extends Controller
         }
         if (@$request->sub_category_id) {
             $sub_category = ProductCategories::where([['id', '=', $request->sub_category_id], ['parent_id', '!=', null]])->first();
+            $category = ProductCategories::where([['id', '=', $sub_category->parent_id]])->first();
         }
         $vendor = Vendor::select(
             'id',
@@ -86,12 +87,17 @@ class VendorProductController extends Controller
                 'message' => 'Vendor products fetched successfully !',
             ],
             'data' => [
+                'vendor' => $vendor,
+                'category' => [
+                    'id' => @$category->id,
+                    'name' => @$category->name
+                ],
                 'sub_category' => [
                     'id' => @$sub_category->id,
                     'name' => @$sub_category->name
                 ],
-                'vendor_products' => $vendor_products,
-                //'vendor' => $vendor,
+                'products' => $vendor_products
+
             ]
         ];
         return Response::json($response, 200, [], JSON_PRETTY_PRINT);
