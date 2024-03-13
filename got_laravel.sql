@@ -56,8 +56,10 @@ CREATE TABLE `cart` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 INSERT INTO `cart` (`id`, `customer_id`, `vendor_product_id`, `quantity`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1,	7,	1,	1.00,	'2024-03-13 19:30:00',	'2024-03-13 19:35:08',	'2024-03-13 19:31:43'),
-(2,	7,	3,	1.00,	'2024-03-13 23:34:34',	'2024-03-13 23:34:34',	NULL);
+(1,	7,	1,	10.00,	'2024-03-13 19:30:00',	'2024-03-13 20:06:50',	NULL),
+(2,	7,	3,	1.00,	'2024-03-13 23:34:34',	'2024-03-13 23:34:34',	NULL),
+(4,	7,	11,	10.00,	'2024-03-13 20:07:06',	'2024-03-13 20:07:06',	NULL),
+(5,	7,	10,	1.00,	'2024-03-13 20:07:32',	'2024-03-13 20:09:10',	NULL);
 
 DROP TABLE IF EXISTS `customers`;
 CREATE TABLE `customers` (
@@ -442,4 +444,4 @@ INSERT INTO `vendor_products` (`id`, `vendor_id`, `product_id`, `maximum_retail_
 (18,	2,	24,	388.00,	350.00,	'2024-03-11 23:53:14',	'2024-03-11 23:53:14',	NULL),
 (19,	2,	25,	500.00,	499.00,	'2024-03-11 23:53:14',	'2024-03-11 23:53:14',	NULL);
 
--- 2024-03-13 19:49:42
+-- 2024-03-13 20:09:27
