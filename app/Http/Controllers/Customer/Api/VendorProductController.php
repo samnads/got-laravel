@@ -67,7 +67,7 @@ class VendorProductController extends Controller
         $v_products = VendorProduct::select('product_id')->where('vendor_id', $request->vendor_id)->get();
         $vendor_product_ids = array_column($v_products->toArray(), 'product_id');
         $vendor_products = ProductCategoryMapping::select(
-            DB::raw('DISTINCT(p.id) as id'),
+            DB::raw('DISTINCT(vp.id) as id'),
             'p.name',
             'p.code',
             'p.item_size',
