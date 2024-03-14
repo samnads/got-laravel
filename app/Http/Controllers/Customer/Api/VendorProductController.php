@@ -9,6 +9,7 @@ use Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Vendor;
+use App\Models\ProductCategoryMapping;
 use App\Models\VendorProduct;
 use App\Models\ProductCategories;
 use Illuminate\Support\Str;
@@ -23,13 +24,13 @@ class VendorProductController extends Controller
         $validator = Validator::make(
             (array) $input,
             [
-                'vendor_id' => 'required',
-                'sub_category_id' => 'required|integer',
+                'vendor_id' => 'required|exists:vendors,id',
+                'category_id' => 'required|exists:product_categories,id',
             ],
             [],
             [
-                'vendor_id' => 'Vendor ID',
-                'sub_category_id' => 'Sub Category ID',
+                'vendor_id' => 'Vendor',
+                'category_id' => 'Category',
             ]
         );
         if ($validator->fails()) {
@@ -54,32 +55,43 @@ class VendorProductController extends Controller
             ];
             return Response::json($response, 200, [], JSON_PRETTY_PRINT);
         }
-        if (@$request->sub_category_id) {
-            $sub_category = ProductCategories::where([['id', '=', $request->sub_category_id], ['parent_id', '!=', null]])->first();
-            $category = ProductCategories::where([['id', '=', $sub_category->parent_id]])->first();
-        }
+        /***************************************************************************************************** */
         $vendor = Vendor::select(
             'id',
             'vendor_name as name',
         )
             ->where([['id', '=', $request->vendor_id]])
             ->first();
-        $vendor_products = VendorProduct::select(
-            'vendor_products.id as id',
+        /***************************************************************************************************** */
+        $category = ProductCategories::select('id', 'name', 'description', DB::raw('null as thumbnail_url'))->where([['id', '=', $request->category_id]])->first();
+        $v_products = VendorProduct::select('product_id')->where('vendor_id', $request->vendor_id)->get();
+        $vendor_product_ids = array_column($v_products->toArray(), 'product_id');
+        $vendor_products = ProductCategoryMapping::select(
+            DB::raw('DISTINCT(p.id) as id'),
             'p.name',
             'p.code',
+            'p.item_size',
+            'u.name as unit',
+            'u.code as unit_code',
             'p.description',
+            'vp.maximum_retail_price',
+            'vp.retail_price',
+            'vp.min_cart_quantity',
+            'vp.max_cart_quantity',
             DB::raw('null as thumbnail_url'),
-            'vendor_products.maximum_retail_price',
-            'vendor_products.retail_price'
         )
             ->leftJoin('products as p', function ($join) {
-                $join->on('vendor_products.product_id', '=', 'p.id');
-            });
-        if (@$request->sub_category_id) {
-            $vendor_products->where([['p.product_sub_category_id', '=', $request->sub_category_id]]);
-        }
-        $vendor_products = $vendor_products->where([['vendor_products.vendor_id', '=', $request->vendor_id], ['p.deleted_at', '=', null]])
+                $join->on('product_category_mappings.product_id', '=', 'p.id');
+            })
+            ->leftJoin('units as u', function ($join) {
+                $join->on('p.unit_id', '=', 'u.id');
+            })
+            ->leftJoin('vendor_products as vp', function ($join) use ($request) {
+                $join->on('product_category_mappings.product_id', '=', 'vp.product_id');
+                $join->where('vp.vendor_id', '=', $request->vendor_id);
+            })
+            ->whereIn('product_category_mappings.product_id', $vendor_product_ids)
+            ->where([['product_category_mappings.category_id', '=', $request->category_id], ['p.deleted_at', '=', null], ['vp.deleted_at', '=', null]])
             ->get();
         $response = [
             'status' => [
@@ -88,15 +100,7 @@ class VendorProductController extends Controller
                 'message' => 'Vendor products fetched successfully !',
             ],
             'data' => [
-                'vendor' => $vendor,
-                'category' => [
-                    'id' => @$category->id,
-                    'name' => @$category->name
-                ],
-                'sub_category' => [
-                    'id' => @$sub_category->id,
-                    'name' => @$sub_category->name
-                ],
+                'category' => $category,
                 'products' => $vendor_products
 
             ]
