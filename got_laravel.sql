@@ -55,11 +55,6 @@ CREATE TABLE `cart` (
   CONSTRAINT `cart_ibfk_2` FOREIGN KEY (`vendor_product_id`) REFERENCES `vendor_products` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-INSERT INTO `cart` (`id`, `customer_id`, `vendor_product_id`, `quantity`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1,	7,	1,	10.00,	'2024-03-13 19:30:00',	'2024-03-13 20:06:50',	NULL),
-(2,	7,	3,	1.00,	'2024-03-13 23:34:34',	'2024-03-13 23:34:34',	NULL),
-(4,	7,	11,	10.00,	'2024-03-13 20:07:06',	'2024-03-13 20:07:06',	NULL),
-(5,	7,	10,	1.00,	'2024-03-13 20:07:32',	'2024-03-13 20:09:10',	NULL);
 
 DROP TABLE IF EXISTS `customers`;
 CREATE TABLE `customers` (
@@ -86,7 +81,7 @@ CREATE TABLE `customers` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 INSERT INTO `customers` (`id`, `name`, `email`, `mobile_number_1_cc`, `mobile_number_1`, `mobile_number_1_otp`, `mobile_number_1_otp_expired_at`, `mobile_number_1_verified_at`, `password`, `token`, `device_type`, `push_token`, `default_address_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(7,	'CloudVeins Test',	'hr@example.com',	'+91',	'9745451448',	NULL,	'2024-03-13 18:04:18',	NULL,	NULL,	'$2y$12$RL/Lwbfopz1DukbMWIExSOAGhk1Z29esJzvJMi1OeNBVRnzdfv/uq',	NULL,	NULL,	49,	'2024-03-10 12:55:24',	'2024-03-13 18:04:10',	NULL);
+(7,	'CloudVeins Test',	'hr@example.com',	'+91',	'9745451448',	NULL,	'2024-03-14 15:52:21',	NULL,	NULL,	'$2y$12$wCt1tgq0PdBt2tA5Q7IX3OPML2tDG4Eh2bRkdwTyGE3s4fA3ihxg2',	NULL,	NULL,	49,	'2024-03-10 12:55:24',	'2024-03-14 15:52:14',	NULL);
 
 DROP TABLE IF EXISTS `customer_addresses`;
 CREATE TABLE `customer_addresses` (
@@ -250,7 +245,8 @@ DROP TABLE IF EXISTS `products`;
 CREATE TABLE `products` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `code` varchar(155) DEFAULT NULL,
-  `product_sub_category_id` bigint(20) unsigned NOT NULL,
+  `item_size` decimal(10,2) NOT NULL,
+  `unit_id` bigint(20) unsigned NOT NULL,
   `brand_id` bigint(20) unsigned DEFAULT NULL,
   `name` varchar(255) NOT NULL,
   `description` text DEFAULT NULL,
@@ -259,29 +255,30 @@ CREATE TABLE `products` (
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `code` (`code`),
-  KEY `product_sub_category_id` (`product_sub_category_id`),
   KEY `brand_id` (`brand_id`),
-  CONSTRAINT `products_ibfk_1` FOREIGN KEY (`product_sub_category_id`) REFERENCES `product_categories` (`id`),
-  CONSTRAINT `products_ibfk_2` FOREIGN KEY (`brand_id`) REFERENCES `brands` (`id`)
+  KEY `unit_id` (`unit_id`),
+  CONSTRAINT `products_ibfk_2` FOREIGN KEY (`brand_id`) REFERENCES `brands` (`id`),
+  CONSTRAINT `products_ibfk_3` FOREIGN KEY (`unit_id`) REFERENCES `units` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-INSERT INTO `products` (`id`, `code`, `product_sub_category_id`, `brand_id`, `name`, `description`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1,	'34535',	5,	NULL,	'Plum Cake A',	'Delicious Plum Cake with Nuts.',	'2024-03-11 23:52:48',	'2024-03-11 23:52:48',	NULL),
-(3,	'3453',	5,	NULL,	'Plum Cake B',	'Delicious Plum Cake with Nuts.',	'2024-03-11 23:52:48',	'2024-03-11 23:52:48',	NULL),
-(6,	'456546',	6,	NULL,	'Plum Cake C',	'Delicious Plum Cake with Nuts.',	'2024-03-11 23:52:48',	'2024-03-11 23:52:48',	NULL),
-(7,	'56464',	5,	NULL,	'Plum Cake D',	'Delicious Plum Cake with Nuts.',	'2024-03-11 23:52:48',	'2024-03-11 23:52:48',	NULL),
-(8,	NULL,	6,	NULL,	'Plum Cake E',	'Delicious Plum Cake with Nuts.',	'2024-03-11 23:52:48',	'2024-03-11 23:52:48',	NULL),
-(9,	NULL,	5,	NULL,	'Plum Cake F',	'Delicious Plum Cake with Nuts.',	'2024-03-11 23:52:48',	'2024-03-11 23:52:48',	NULL),
-(10,	NULL,	6,	NULL,	'Plum Cake G',	'Delicious Plum Cake with Nuts.',	'2024-03-11 23:52:48',	'2024-03-11 23:52:48',	NULL),
-(11,	NULL,	5,	NULL,	'Plum Cake H',	'Delicious Plum Cake with Nuts.',	'2024-03-11 23:52:48',	'2024-03-11 23:52:48',	NULL),
-(15,	NULL,	6,	NULL,	'Plum Cake I',	'Delicious Plum Cake with Nuts.',	'2024-03-11 23:52:48',	'2024-03-11 23:52:48',	NULL),
-(16,	NULL,	5,	NULL,	'Plum Cake J',	'Delicious Plum Cake with Nuts.',	'2024-03-11 23:52:48',	'2024-03-11 23:52:48',	NULL),
-(17,	NULL,	6,	NULL,	'Plum Cake K',	'Delicious Plum Cake with Nuts.',	'2024-03-11 23:52:48',	'2024-03-11 23:52:48',	NULL),
-(18,	NULL,	5,	NULL,	'Plum Cake L',	'Delicious Plum Cake with Nuts.',	'2024-03-11 23:52:48',	'2024-03-11 23:52:48',	NULL),
-(22,	NULL,	6,	NULL,	'Plum Cake M',	'Delicious Plum Cake with Nuts.',	'2024-03-11 23:52:48',	'2024-03-11 23:52:48',	NULL),
-(23,	NULL,	5,	NULL,	'Plum Cake N',	'Delicious Plum Cake with Nuts.',	'2024-03-11 23:52:48',	'2024-03-11 23:52:48',	NULL),
-(24,	NULL,	6,	NULL,	'Plum Cake O',	'Delicious Plum Cake with Nuts.',	'2024-03-11 23:52:48',	'2024-03-11 23:52:48',	NULL),
-(25,	NULL,	5,	NULL,	'Plum Cake P',	'Delicious Plum Cake with Nuts.',	'2024-03-11 23:52:48',	'2024-03-11 23:52:48',	NULL);
+INSERT INTO `products` (`id`, `code`, `item_size`, `unit_id`, `brand_id`, `name`, `description`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1,	'FFDF445',	50.00,	2,	NULL,	'Chilly Powder',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	'2024-03-14 23:18:15',	'2024-03-14 23:18:15',	NULL),
+(2,	'FFSDF4',	1.00,	3,	NULL,	'Salt',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	'2024-03-14 23:18:15',	'2024-03-14 23:18:15',	NULL),
+(4,	'4535EW',	100.00,	2,	NULL,	'Turmeric Powder',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	'2024-03-14 23:18:15',	'2024-03-14 23:18:15',	NULL),
+(5,	'COL3343',	75.00,	2,	NULL,	'Colgate',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	'2024-03-14 23:18:15',	'2024-03-14 23:18:15',	NULL),
+(7,	'5345BJ',	1.00,	6,	NULL,	'Band Aid',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	'2024-03-14 23:18:15',	'2024-03-14 23:18:15',	NULL),
+(9,	'53543',	1.00,	3,	NULL,	'Tomato',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	'2024-03-14 23:18:15',	'2024-03-14 23:18:15',	NULL),
+(11,	'DFP244',	500.00,	2,	NULL,	'Ginger',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	'2024-03-14 23:18:15',	'2024-03-14 23:18:15',	NULL),
+(13,	'CAR45343',	250.00,	2,	NULL,	'Carrot',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	'2024-03-14 23:18:15',	'2024-03-14 23:18:15',	NULL),
+(14,	'FDFSFSF',	600.00,	4,	NULL,	'Pepsi',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	'2024-03-14 23:18:15',	'2024-03-14 23:18:15',	NULL),
+(15,	'MFD64',	600.00,	4,	NULL,	'Mirinda',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	'2024-03-14 23:18:15',	'2024-03-14 23:18:15',	NULL),
+(16,	'7UPDFSFSdf',	600.00,	4,	NULL,	'7 Up',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	'2024-03-14 23:18:15',	'2024-03-14 23:18:15',	NULL),
+(17,	'63535435',	1.00,	5,	NULL,	'7 Up',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	'2024-03-14 23:18:15',	'2024-03-14 23:18:15',	NULL),
+(18,	'45465464',	1.00,	5,	NULL,	'7 Up',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	'2024-03-14 23:18:15',	'2024-03-14 23:18:15',	NULL),
+(20,	'45634564',	5.00,	3,	NULL,	'BRAND1 - 5 Kg Kit',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	'2024-03-14 23:18:15',	'2024-03-14 23:18:15',	NULL),
+(21,	'45454',	10.00,	3,	NULL,	'BRAND1 - 10 Kg Kit',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	'2024-03-14 23:18:15',	'2024-03-14 23:18:15',	NULL),
+(22,	'466664F',	10.00,	3,	NULL,	'BRAND2 - 10 Kg Kit',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	'2024-03-14 23:18:15',	'2024-03-14 23:18:15',	NULL),
+(23,	'NBJN454',	5.00,	3,	NULL,	'BRAND2 - 5 Kg Kit',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	'2024-03-14 23:18:15',	'2024-03-14 23:18:15',	NULL);
 
 DROP TABLE IF EXISTS `product_categories`;
 CREATE TABLE `product_categories` (
@@ -300,14 +297,45 @@ CREATE TABLE `product_categories` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO `product_categories` (`id`, `parent_id`, `name`, `description`, `image`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1,	NULL,	'Grocery',	'Grocery items description',	NULL,	'2024-03-11 16:26:53',	'2024-03-12 11:26:10',	NULL),
-(2,	NULL,	'Cakes',	'Cakes items description',	NULL,	'2024-03-11 16:26:53',	'2024-03-11 16:26:53',	NULL),
-(3,	NULL,	'Soft Drinks',	'Soft Drinks items description',	NULL,	'2024-03-11 16:26:53',	'2024-03-11 16:26:53',	NULL),
-(4,	1,	'Rice',	'Rice description',	NULL,	'2024-03-11 16:26:53',	'2024-03-12 11:32:24',	NULL),
-(5,	2,	'Plum Cakes',	'Plum Cakes items description',	NULL,	'2024-03-11 16:26:53',	'2024-03-12 11:32:27',	NULL),
-(6,	2,	'Red Velvet',	'Red Velvet description',	NULL,	'2024-03-11 16:26:53',	'2024-03-12 11:26:17',	NULL),
-(7,	NULL,	'Babana Chilps',	'Babana Chilps description',	NULL,	'2024-03-11 16:26:53',	'2024-03-12 11:24:02',	NULL),
-(8,	7,	'Chilli Flavoured',	'Chilli Flavoured description',	NULL,	'2024-03-11 16:26:53',	'2024-03-12 11:25:28',	NULL);
+(1,	NULL,	'Grocery',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',	NULL,	'2024-03-14 17:44:23',	'2024-03-14 17:44:23',	NULL),
+(2,	NULL,	'Health Care',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',	NULL,	'2024-03-14 17:44:23',	'2024-03-14 17:44:23',	NULL),
+(3,	NULL,	'Vegetables',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',	NULL,	'2024-03-14 17:44:23',	'2024-03-14 17:44:23',	NULL),
+(4,	NULL,	'Soft Drinks',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',	NULL,	'2024-03-14 17:44:23',	'2024-03-14 17:44:23',	NULL),
+(5,	NULL,	'Rice Kits',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',	NULL,	'2024-03-14 17:44:23',	'2024-03-14 17:44:23',	NULL);
+
+DROP TABLE IF EXISTS `product_category_mappings`;
+CREATE TABLE `product_category_mappings` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `product_id` bigint(20) unsigned NOT NULL,
+  `category_id` bigint(20) unsigned NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `product_id_category_id` (`product_id`,`category_id`),
+  KEY `category_id` (`category_id`),
+  CONSTRAINT `product_category_mappings_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`),
+  CONSTRAINT `product_category_mappings_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `product_categories` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+INSERT INTO `product_category_mappings` (`id`, `product_id`, `category_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1,	1,	1,	'2024-03-14 23:27:43',	'2024-03-14 23:27:43',	NULL),
+(2,	2,	1,	'2024-03-14 23:27:43',	'2024-03-14 23:27:43',	NULL),
+(3,	4,	1,	'2024-03-14 23:27:43',	'2024-03-14 23:27:43',	NULL),
+(4,	5,	2,	'2024-03-14 23:27:43',	'2024-03-14 23:27:43',	NULL),
+(5,	7,	2,	'2024-03-14 23:27:43',	'2024-03-14 23:27:43',	NULL),
+(6,	9,	3,	'2024-03-14 23:27:43',	'2024-03-14 23:27:43',	NULL),
+(7,	11,	3,	'2024-03-14 23:27:43',	'2024-03-14 23:27:43',	NULL),
+(8,	13,	3,	'2024-03-14 23:27:43',	'2024-03-14 23:27:43',	NULL),
+(9,	14,	4,	'2024-03-14 23:27:43',	'2024-03-14 23:27:43',	NULL),
+(10,	15,	4,	'2024-03-14 23:27:43',	'2024-03-14 23:27:43',	NULL),
+(11,	16,	4,	'2024-03-14 23:27:43',	'2024-03-14 23:27:43',	NULL),
+(12,	17,	4,	'2024-03-14 23:27:43',	'2024-03-14 23:27:43',	NULL),
+(13,	18,	4,	'2024-03-14 23:27:43',	'2024-03-14 23:27:43',	NULL),
+(14,	20,	5,	'2024-03-14 23:27:43',	'2024-03-14 23:27:43',	NULL),
+(15,	21,	5,	'2024-03-14 23:27:43',	'2024-03-14 23:27:43',	NULL),
+(16,	22,	5,	'2024-03-14 23:27:43',	'2024-03-14 23:27:43',	NULL),
+(17,	23,	5,	'2024-03-14 23:27:43',	'2024-03-14 23:27:43',	NULL);
 
 DROP TABLE IF EXISTS `roles`;
 CREATE TABLE `roles` (
@@ -337,6 +365,25 @@ INSERT INTO `states` (`state_id`, `name`, `visibility`, `created_at`, `updated_a
 (1,	'Kerala',	1,	'2024-03-09 16:58:06',	'2024-03-09 16:58:06',	NULL),
 (2,	'Tamilnadu',	1,	'2024-03-09 16:58:06',	'2024-03-09 16:58:06',	NULL),
 (3,	'Karnataka',	1,	'2024-03-09 16:58:31',	'2024-03-09 16:58:31',	NULL);
+
+DROP TABLE IF EXISTS `units`;
+CREATE TABLE `units` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  `code` varchar(100) NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+INSERT INTO `units` (`id`, `name`, `code`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1,	'Piece',	'Pc',	'2024-03-14 21:39:07',	'2024-03-14 21:39:07',	NULL),
+(2,	'Gram',	'Gm',	'2024-03-14 21:39:07',	'2024-03-14 21:39:07',	NULL),
+(3,	'Kilo Gram',	'Kg',	'2024-03-14 21:39:07',	'2024-03-14 21:39:07',	NULL),
+(4,	'Milli Litre',	'Ml',	'2024-03-14 21:39:07',	'2024-03-14 21:39:07',	NULL),
+(5,	'Litre',	'Ltr',	'2024-03-14 21:39:07',	'2024-03-14 21:39:07',	NULL),
+(6,	'Box',	'Bx',	'2024-03-14 21:39:07',	'2024-03-14 21:39:07',	NULL);
 
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
@@ -415,33 +462,37 @@ CREATE TABLE `vendor_products` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `vendor_id` bigint(20) unsigned NOT NULL,
   `product_id` bigint(20) unsigned NOT NULL,
+  `min_cart_quantity` int(10) unsigned NOT NULL DEFAULT 1,
+  `max_cart_quantity` int(10) unsigned NOT NULL,
   `maximum_retail_price` decimal(10,2) DEFAULT NULL,
   `retail_price` decimal(10,2) NOT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `vendor_id` (`vendor_id`),
+  UNIQUE KEY `vendor_id_product_id` (`vendor_id`,`product_id`),
   KEY `product_id` (`product_id`),
   CONSTRAINT `vendor_products_ibfk_1` FOREIGN KEY (`vendor_id`) REFERENCES `vendors` (`id`),
   CONSTRAINT `vendor_products_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-INSERT INTO `vendor_products` (`id`, `vendor_id`, `product_id`, `maximum_retail_price`, `retail_price`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1,	1,	1,	250.00,	200.00,	'2024-03-11 23:53:14',	'2024-03-11 23:53:14',	NULL),
-(3,	1,	3,	599.00,	356.00,	'2024-03-11 23:53:14',	'2024-03-11 23:53:14',	NULL),
-(4,	1,	6,	50.00,	40.00,	'2024-03-11 23:53:14',	'2024-03-11 23:53:14',	NULL),
-(5,	1,	7,	89.00,	88.00,	'2024-03-11 23:53:14',	'2024-03-11 23:53:14',	NULL),
-(6,	1,	9,	2421.00,	2000.00,	'2024-03-11 23:53:14',	'2024-03-11 23:53:14',	NULL),
-(7,	1,	10,	200.00,	199.00,	'2024-03-11 23:53:14',	'2024-03-11 23:53:14',	NULL),
-(8,	1,	11,	500.00,	490.00,	'2024-03-11 23:53:14',	'2024-03-11 23:53:14',	NULL),
-(9,	1,	15,	500.00,	490.00,	'2024-03-11 23:53:14',	'2024-03-11 23:53:14',	NULL),
-(10,	1,	16,	500.00,	490.00,	'2024-03-11 23:53:14',	'2024-03-11 23:53:14',	NULL),
-(11,	1,	17,	500.00,	490.00,	'2024-03-11 23:53:14',	'2024-03-11 23:53:14',	NULL),
-(15,	2,	18,	600.00,	490.00,	'2024-03-11 23:53:14',	'2024-03-11 23:53:14',	NULL),
-(16,	2,	22,	700.00,	600.00,	'2024-03-11 23:53:14',	'2024-03-11 23:53:14',	NULL),
-(17,	2,	23,	500.00,	490.00,	'2024-03-11 23:53:14',	'2024-03-11 23:53:14',	NULL),
-(18,	2,	24,	388.00,	350.00,	'2024-03-11 23:53:14',	'2024-03-11 23:53:14',	NULL),
-(19,	2,	25,	500.00,	499.00,	'2024-03-11 23:53:14',	'2024-03-11 23:53:14',	NULL);
+INSERT INTO `vendor_products` (`id`, `vendor_id`, `product_id`, `min_cart_quantity`, `max_cart_quantity`, `maximum_retail_price`, `retail_price`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1,	1,	1,	1,	5,	50.00,	30.00,	'2024-03-14 23:36:51',	'2024-03-14 23:36:51',	NULL),
+(2,	1,	2,	1,	5,	25.00,	20.00,	'2024-03-14 23:36:51',	'2024-03-14 23:36:51',	NULL),
+(3,	1,	4,	1,	5,	55.00,	52.00,	'2024-03-14 23:36:51',	'2024-03-14 23:36:51',	NULL),
+(4,	1,	5,	1,	5,	85.00,	78.00,	'2024-03-14 23:36:51',	'2024-03-14 23:36:51',	NULL),
+(5,	1,	7,	1,	5,	150.00,	100.00,	'2024-03-14 23:36:51',	'2024-03-14 23:36:51',	NULL),
+(6,	1,	9,	1,	5,	80.00,	80.00,	'2024-03-14 23:36:51',	'2024-03-14 23:36:51',	NULL),
+(7,	1,	11,	1,	5,	80.00,	75.00,	'2024-03-14 23:36:51',	'2024-03-14 23:36:51',	NULL),
+(8,	1,	13,	1,	5,	100.00,	90.00,	'2024-03-14 23:36:51',	'2024-03-14 23:36:51',	NULL),
+(9,	1,	14,	1,	5,	50.00,	45.00,	'2024-03-14 23:36:51',	'2024-03-14 23:36:51',	NULL),
+(10,	1,	15,	1,	5,	45.00,	40.00,	'2024-03-14 23:36:51',	'2024-03-14 23:36:51',	NULL),
+(11,	1,	16,	1,	5,	50.00,	48.00,	'2024-03-14 23:36:51',	'2024-03-14 23:36:51',	NULL),
+(12,	1,	17,	1,	5,	80.00,	78.00,	'2024-03-14 23:36:51',	'2024-03-14 23:36:51',	NULL),
+(13,	1,	18,	1,	5,	150.00,	99.00,	'2024-03-14 23:36:51',	'2024-03-14 23:36:51',	NULL),
+(14,	1,	20,	1,	5,	180.00,	150.00,	'2024-03-14 23:36:51',	'2024-03-14 23:36:51',	NULL),
+(15,	1,	21,	1,	5,	300.00,	280.00,	'2024-03-14 23:36:51',	'2024-03-14 23:36:51',	NULL),
+(16,	1,	22,	1,	5,	350.00,	319.00,	'2024-03-14 23:36:51',	'2024-03-14 23:36:51',	NULL),
+(17,	1,	23,	1,	5,	400.00,	250.00,	'2024-03-14 23:36:51',	'2024-03-14 23:36:51',	NULL);
 
--- 2024-03-13 20:09:27
+-- 2024-03-14 18:30:55
