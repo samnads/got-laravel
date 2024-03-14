@@ -64,17 +64,25 @@ class CartController extends Controller
             'cart.id as cart_id',
             'p.name as name',
             'p.code as code',
+            'p.item_size',
+            'u.name as unit',
+            'u.code as unit_code',
             'p.description as description',
             DB::raw('null as thumbnail_url'),
             'cart.quantity',
             'vp.maximum_retail_price',
-            'vp.retail_price'
+            'vp.retail_price',
+            'vp.min_cart_quantity',
+            'vp.max_cart_quantity',
         )
             ->leftJoin('vendor_products as vp', function ($join) {
                 $join->on('cart.vendor_product_id', '=', 'vp.id');
             })
             ->leftJoin('products as p', function ($join) {
                 $join->on('vp.product_id', '=', 'p.id');
+            })
+            ->leftJoin('units as u', function ($join) {
+                $join->on('p.unit_id', '=', 'u.id');
             })
             ->where([['vp.vendor_id', '=', $request->vendor_id], ['vp.deleted_at', '=', null], ['p.deleted_at', '=', null]])
             ->get();
@@ -151,6 +159,16 @@ class CartController extends Controller
             ];
             return Response::json($response, 200, [], JSON_PRETTY_PRINT);
         }
+        else if(@$vendor_product->max_cart_quantity < $request->quantity){
+            $response = [
+                'status' => [
+                    'success' => 'false',
+                    'hasdata' => 'false',
+                    'message' => 'Selected quantity unavailable.',
+                ],
+            ];
+            return Response::json($response, 200, [], JSON_PRETTY_PRINT);
+        }
         /***************************************************************************************************** */
         switch ($request->quantity) {
             case '0':
@@ -183,17 +201,25 @@ class CartController extends Controller
             'cart.id as cart_id',
             'p.name as name',
             'p.code as code',
+            'p.item_size',
+            'u.name as unit',
+            'u.code as unit_code',
             'p.description as description',
             DB::raw('null as thumbnail_url'),
             'cart.quantity',
             'vp.maximum_retail_price',
-            'vp.retail_price'
+            'vp.retail_price',
+            'vp.min_cart_quantity',
+            'vp.max_cart_quantity',
         )
             ->leftJoin('vendor_products as vp', function ($join) {
                 $join->on('cart.vendor_product_id', '=', 'vp.id');
             })
             ->leftJoin('products as p', function ($join) {
                 $join->on('vp.product_id', '=', 'p.id');
+            })
+            ->leftJoin('units as u', function ($join) {
+                $join->on('p.unit_id', '=', 'u.id');
             })
             ->where([['vp.vendor_id', '=', $request->vendor_id], ['vp.deleted_at', '=', null], ['p.deleted_at', '=', null]])
             ->get();
