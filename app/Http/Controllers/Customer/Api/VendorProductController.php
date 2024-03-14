@@ -79,6 +79,8 @@ class VendorProductController extends Controller
             'vp.min_cart_quantity',
             'vp.max_cart_quantity',
             DB::raw('null as thumbnail_url'),
+            DB::raw('ROUND((vp.maximum_retail_price - vp.retail_price),2) as offer'),
+            DB::raw('ROUND((((vp.maximum_retail_price - vp.retail_price) / vp.maximum_retail_price)*100),2) as offer_percentage'),
         )
             ->leftJoin('products as p', function ($join) {
                 $join->on('product_category_mappings.product_id', '=', 'p.id');
