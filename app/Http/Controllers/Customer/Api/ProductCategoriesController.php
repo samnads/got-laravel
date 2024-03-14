@@ -44,9 +44,10 @@ class ProductCategoriesController extends Controller
         $vendor_products = VendorProduct::select('product_id')->where('vendor_id', $request->vendor_id)->get();
         $vendor_product_ids = array_column($vendor_products->toArray(), 'product_id');
         $categories = ProductCategoryMapping::select(
-            'pc.id',
+            DB::raw('DISTINCT(pc.id) as id'),
             'pc.name',
-            'pc.description'
+            'pc.description',
+            DB::raw('null as thumbnail_url'),
         )
             ->leftJoin('product_categories as pc', function ($join) {
                 $join->on('product_category_mappings.category_id', '=', 'pc.id');
