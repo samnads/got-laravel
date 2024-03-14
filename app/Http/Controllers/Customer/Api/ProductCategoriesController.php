@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Customer\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\VendorProduct;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use App\Models\ProductCategories;
+use App\Models\ProductCategoryMapping;
 use Illuminate\Support\Str;
 use Response;
 
@@ -21,11 +23,11 @@ class ProductCategoriesController extends Controller
         $validator = Validator::make(
             (array) $input,
             [
-                'vendor_id' => 'nullable|integer',
+                'vendor_id' => 'required|exists:vendors,id',
             ],
             [],
             [
-                'vendor_id' => 'Vendor ID',
+                'vendor_id' => 'Vendor',
             ]
         );
         if ($validator->fails()) {
@@ -39,9 +41,19 @@ class ProductCategoriesController extends Controller
             return Response::json($response, 200, [], JSON_PRETTY_PRINT);
         }
         /***************************************************************************************************** */
-        $categories = ProductCategories::select('id', 'name', 'description')->where([
-            ['parent_id', '=', null],
-        ])->get();
+        $vendor_products = VendorProduct::select('product_id')->where('vendor_id', $request->vendor_id)->get();
+        $vendor_product_ids = array_column($vendor_products->toArray(), 'product_id');
+        $categories = ProductCategoryMapping::select(
+            'pc.id',
+            'pc.name',
+            'pc.description'
+        )
+            ->leftJoin('product_categories as pc', function ($join) {
+                $join->on('product_category_mappings.category_id', '=', 'pc.id');
+            })
+            ->whereIn('product_category_mappings.product_id', $vendor_product_ids)
+            ->where([['pc.deleted_at', '=', null]])
+            ->get();
         /***************************************************************************************************** */
         $response = [
             'status' => [
