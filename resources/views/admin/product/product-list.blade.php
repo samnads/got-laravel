@@ -36,17 +36,17 @@
                                     <td>-</td>
                                     <td>-</td>
                                     <td>
-                                        <a href="http://localhost/cloudveins/got/admin/view_vendor/33"
+                                        <a href="{{url('admin/product/view/')}}"
                                             class="btn btn-inverse-success btn-icon" title="View" style="padding: 13px;">
                                             <i class="mdi mdi-eye"></i>
                                         </a>
                                         @if($product->blocked_at == null)
-                                        <a href="{{url('admin/vendor/block/'.$product->id)}}"
+                                        <a href="{{url('admin/product/block/'.$product->id)}}"
                                             class="btn btn-inverse-danger btn-icon" title="Block" style="padding: 13px;">
                                             <i class="mdi mdi-block-helper"></i>
                                         </a>
                                         @else
-                                        <a href="{{url('admin/vendor/unblock/'.$product->id)}}"
+                                        <a href="{{url('admin/product/unblock/'.$product->id)}}"
                                             class="btn btn-inverse-dark btn-icon" title="Unblock" style="padding: 13px;">
                                             <i class="mdi mdi-monitor"></i>
                                         </a>
