@@ -7,18 +7,18 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="collapse" href="#ui-master" aria-expanded="false"
-                aria-controls="ui-master">
+            <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false"
+                aria-controls="ui-basic">
                 <span class="menu-title">Product</span>
                 <i class="menu-arrow"></i>
                 <i class="mdi mdi-crosshairs-gps menu-icon"></i>
             </a>
-            <div class="collapse" id="ui-product">
+            <div class="collapse" id="ui-basic">
                 <ul class="nav flex-column sub-menu">
                     <li class="nav-item"> <a class="nav-link" href="{{ url('vendor/product/list') }}">My Products</a>
                     </li>
-                    <li class="nav-item"> <a class="nav-link" href="{{ url('vendor/product/add/list') }}">New Product</a>
-                    </li>
+                    <li class="nav-item"> <a class="nav-link" href="{{ url('vendor/product/add/list') }}">New
+                            Product</a></li>
                 </ul>
             </div>
         </li>
