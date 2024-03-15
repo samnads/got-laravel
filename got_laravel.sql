@@ -81,7 +81,9 @@ CREATE TABLE `customers` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 INSERT INTO `customers` (`id`, `name`, `email`, `mobile_number_1_cc`, `mobile_number_1`, `mobile_number_1_otp`, `mobile_number_1_otp_expired_at`, `mobile_number_1_verified_at`, `password`, `token`, `device_type`, `push_token`, `default_address_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(7,	'CloudVeins Test',	'hr@example.com',	'+91',	'9745451448',	NULL,	'2024-03-14 15:52:21',	NULL,	NULL,	'$2y$12$wCt1tgq0PdBt2tA5Q7IX3OPML2tDG4Eh2bRkdwTyGE3s4fA3ihxg2',	NULL,	NULL,	49,	'2024-03-10 12:55:24',	'2024-03-14 15:52:14',	NULL);
+(7,	'CloudVeins Test',	'hr@example.com',	'+91',	'9745451448',	NULL,	'2024-03-14 19:20:39',	NULL,	NULL,	'$2y$12$fuma59GEBDnKO0UASNf2hu.d.nxPiPtI41MuJhIw3XypN2bRgU63m',	NULL,	NULL,	49,	'2024-03-10 12:55:24',	'2024-03-14 19:20:33',	NULL),
+(8,	'kannsn',	'kannansk172@gmail.com',	'+91',	'9188778069',	NULL,	'2024-03-15 18:09:11',	NULL,	NULL,	'$2y$12$IKyZ1Daao3ZL9TSZXpqlQugZcG7D374pdzfRXZseKQ3ecENXSlCLC',	NULL,	NULL,	NULL,	'2024-03-15 16:07:05',	'2024-03-15 18:32:33',	NULL),
+(9,	'venu',	'venu@gmail.com',	'+91',	'9154564646',	NULL,	'2024-03-15 16:27:38',	NULL,	NULL,	'$2y$12$HpKa807PL/7kXH8UoCK35uJc35DPPQ1NPKkx66HEgwIlsemF2mBvG',	NULL,	NULL,	NULL,	'2024-03-15 16:27:28',	'2024-03-15 16:27:54',	NULL);
 
 DROP TABLE IF EXISTS `customer_addresses`;
 CREATE TABLE `customer_addresses` (
@@ -262,12 +264,12 @@ CREATE TABLE `products` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 INSERT INTO `products` (`id`, `code`, `item_size`, `unit_id`, `brand_id`, `name`, `description`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1,	'FFDF445',	50.00,	2,	NULL,	'Chilly Powder',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	'2024-03-14 23:18:15',	'2024-03-14 23:18:15',	NULL),
-(2,	'FFSDF4',	1.00,	3,	NULL,	'Salt',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	'2024-03-14 23:18:15',	'2024-03-14 23:18:15',	NULL),
-(4,	'4535EW',	100.00,	2,	NULL,	'Turmeric Powder',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	'2024-03-14 23:18:15',	'2024-03-14 23:18:15',	NULL),
-(5,	'COL3343',	75.00,	2,	NULL,	'Colgate',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	'2024-03-14 23:18:15',	'2024-03-14 23:18:15',	NULL),
-(7,	'5345BJ',	1.00,	6,	NULL,	'Band Aid',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	'2024-03-14 23:18:15',	'2024-03-14 23:18:15',	NULL),
-(9,	'53543',	1.00,	3,	NULL,	'Tomato',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	'2024-03-14 23:18:15',	'2024-03-14 23:18:15',	NULL),
+(1,	'FFDF445',	50.00,	2,	NULL,	'Chilly Powder',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	'2024-03-14 23:18:15',	'2024-03-15 16:49:49',	NULL),
+(2,	'FFSDF4',	1.00,	3,	NULL,	'Salt',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	'2024-03-14 23:18:15',	'2024-03-15 16:49:48',	NULL),
+(4,	'4535EW',	100.00,	2,	NULL,	'Turmeric Powder',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	'2024-03-14 23:18:15',	'2024-03-15 16:49:41',	NULL),
+(5,	'COL3343',	75.00,	2,	NULL,	'Colgate',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	'2024-03-14 23:18:15',	'2024-03-15 16:49:40',	NULL),
+(7,	'5345BJ',	1.00,	6,	NULL,	'Band Aid',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	'2024-03-14 23:18:15',	'2024-03-15 16:49:39',	NULL),
+(9,	'53543',	1.00,	3,	NULL,	'Tomato',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	'2024-03-14 23:18:15',	'2024-03-15 16:49:38',	NULL),
 (11,	'DFP244',	500.00,	2,	NULL,	'Ginger',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	'2024-03-14 23:18:15',	'2024-03-14 23:18:15',	NULL),
 (13,	'CAR45343',	250.00,	2,	NULL,	'Carrot',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	'2024-03-14 23:18:15',	'2024-03-14 23:18:15',	NULL),
 (14,	'FDFSFSF',	600.00,	4,	NULL,	'Pepsi',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	'2024-03-14 23:18:15',	'2024-03-14 23:18:15',	NULL),
@@ -286,22 +288,22 @@ CREATE TABLE `product_categories` (
   `parent_id` bigint(20) unsigned DEFAULT NULL,
   `name` varchar(191) NOT NULL,
   `description` varchar(191) DEFAULT NULL,
-  `image` varchar(191) DEFAULT NULL,
+  `thumbnail_image` varchar(191) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `product_categories_parent_name_unique` (`parent_id`,`name`),
-  UNIQUE KEY `product_categories_image_unique` (`image`),
+  UNIQUE KEY `product_categories_image_unique` (`thumbnail_image`),
   CONSTRAINT `product_categories_parent_foreign` FOREIGN KEY (`parent_id`) REFERENCES `product_categories` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-INSERT INTO `product_categories` (`id`, `parent_id`, `name`, `description`, `image`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1,	NULL,	'Grocery',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',	NULL,	'2024-03-14 17:44:23',	'2024-03-14 17:44:23',	NULL),
+INSERT INTO `product_categories` (`id`, `parent_id`, `name`, `description`, `thumbnail_image`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1,	NULL,	'Grocery',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',	NULL,	'2024-03-14 17:44:23',	'2024-03-14 18:38:01',	NULL),
 (2,	NULL,	'Health Care',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',	NULL,	'2024-03-14 17:44:23',	'2024-03-14 17:44:23',	NULL),
 (3,	NULL,	'Vegetables',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',	NULL,	'2024-03-14 17:44:23',	'2024-03-14 17:44:23',	NULL),
 (4,	NULL,	'Soft Drinks',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',	NULL,	'2024-03-14 17:44:23',	'2024-03-14 17:44:23',	NULL),
-(5,	NULL,	'Rice Kits',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',	NULL,	'2024-03-14 17:44:23',	'2024-03-14 17:44:23',	NULL);
+(5,	NULL,	'Rice Kits',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',	NULL,	'2024-03-14 17:44:23',	'2024-03-15 15:15:01',	NULL);
 
 DROP TABLE IF EXISTS `product_category_mappings`;
 CREATE TABLE `product_category_mappings` (
@@ -403,7 +405,7 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO `users` (`id`, `name`, `username`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1,	'Admin',	'admin@example.com',	'admin@example.com',	'2024-03-07 10:49:50',	'$2y$12$SjmwFDIffWTH4X84sgvv/.VFWHJdaCOH9i0P3s/mx.p8cqWSRHvIm',	'tzuOJJpa6co6LK9DvedtTcFNPSyH7Tq0XLNlNLBcoP4mODz5z7npcxNSUfYR',	'2024-03-07 10:49:50',	'2024-03-07 10:49:50',	NULL);
+(1,	'Admin',	'admin@example.com',	'admin@example.com',	'2024-03-07 10:49:50',	'$2y$12$SjmwFDIffWTH4X84sgvv/.VFWHJdaCOH9i0P3s/mx.p8cqWSRHvIm',	'yIj11mqiTRAT8YWF0qMI8iyRTncOouCmma3s5z2sLfDWPLZZNboe4uC9aVRY',	'2024-03-07 10:49:50',	'2024-03-07 10:49:50',	NULL);
 
 DROP TABLE IF EXISTS `vendors`;
 CREATE TABLE `vendors` (
@@ -440,8 +442,8 @@ CREATE TABLE `vendors` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO `vendors` (`id`, `vendor_name`, `owner_name`, `gst_number`, `pan_number`, `mobile_number`, `district_id`, `location_id`, `address`, `latitude`, `longitude`, `accuracy`, `shop_thumbnail`, `email`, `email_verified_at`, `username`, `password`, `remember_token`, `blocked_at`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1,	'Vendor 1',	'Owner 1',	'GST1',	'',	'123451',	1,	1,	'address1',	'455',	'3545',	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	'2024-03-11 18:04:08',	'2024-03-12 13:24:59',	NULL),
-(2,	'Vendor 2',	'Owner 2',	'GST2',	'',	'123456',	1,	1,	'address1',	'455',	'3545',	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	'2024-03-11 18:04:08',	'2024-03-12 13:17:33',	NULL);
+(1,	'Vendor ABC',	'Owner 1',	'GST1',	'',	'123451',	1,	1,	'address1',	'455',	'3545',	NULL,	NULL,	'vendor1@example.com',	NULL,	'vendor1@example.com',	'$2y$12$SjmwFDIffWTH4X84sgvv/.VFWHJdaCOH9i0P3s/mx.p8cqWSRHvIm',	NULL,	NULL,	'2024-03-11 18:04:08',	'2024-03-14 18:38:56',	NULL),
+(2,	'Vendor XYZ',	'Owner 2',	'GST2',	'',	'123456',	1,	1,	'address1',	'455',	'3545',	NULL,	NULL,	'vendor2@example.com',	NULL,	'vendor2@example.com',	'$2y$12$SjmwFDIffWTH4X84sgvv/.VFWHJdaCOH9i0P3s/mx.p8cqWSRHvIm',	NULL,	NULL,	'2024-03-11 18:04:08',	'2024-03-12 13:17:33',	NULL);
 
 DROP TABLE IF EXISTS `vendor_fssai`;
 CREATE TABLE `vendor_fssai` (
@@ -477,22 +479,18 @@ CREATE TABLE `vendor_products` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 INSERT INTO `vendor_products` (`id`, `vendor_id`, `product_id`, `min_cart_quantity`, `max_cart_quantity`, `maximum_retail_price`, `retail_price`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1,	1,	1,	1,	5,	50.00,	30.00,	'2024-03-14 23:36:51',	'2024-03-14 23:36:51',	NULL),
-(2,	1,	2,	1,	5,	25.00,	20.00,	'2024-03-14 23:36:51',	'2024-03-14 23:36:51',	NULL),
-(3,	1,	4,	1,	5,	55.00,	52.00,	'2024-03-14 23:36:51',	'2024-03-14 23:36:51',	NULL),
+(1,	1,	1,	1,	5,	50.00,	40.00,	'2024-03-14 23:36:51',	'2024-03-15 20:11:56',	NULL),
+(2,	1,	2,	1,	5,	25.00,	20.00,	'2024-03-14 23:36:51',	'2024-03-15 19:46:51',	NULL),
+(3,	1,	4,	1,	5,	55.00,	52.00,	'2024-03-14 23:36:51',	'2024-03-15 19:46:51',	NULL),
 (4,	1,	5,	1,	5,	85.00,	78.00,	'2024-03-14 23:36:51',	'2024-03-14 23:36:51',	NULL),
 (5,	1,	7,	1,	5,	150.00,	100.00,	'2024-03-14 23:36:51',	'2024-03-14 23:36:51',	NULL),
 (6,	1,	9,	1,	5,	80.00,	80.00,	'2024-03-14 23:36:51',	'2024-03-14 23:36:51',	NULL),
 (7,	1,	11,	1,	5,	80.00,	75.00,	'2024-03-14 23:36:51',	'2024-03-14 23:36:51',	NULL),
 (8,	1,	13,	1,	5,	100.00,	90.00,	'2024-03-14 23:36:51',	'2024-03-14 23:36:51',	NULL),
-(9,	1,	14,	1,	5,	50.00,	45.00,	'2024-03-14 23:36:51',	'2024-03-14 23:36:51',	NULL),
 (10,	1,	15,	1,	5,	45.00,	40.00,	'2024-03-14 23:36:51',	'2024-03-14 23:36:51',	NULL),
-(11,	1,	16,	1,	5,	50.00,	48.00,	'2024-03-14 23:36:51',	'2024-03-14 23:36:51',	NULL),
+(11,	1,	16,	1,	5,	50.00,	48.00,	'2024-03-14 23:36:51',	'2024-03-15 20:12:33',	NULL),
 (12,	1,	17,	1,	5,	80.00,	78.00,	'2024-03-14 23:36:51',	'2024-03-14 23:36:51',	NULL),
 (13,	1,	18,	1,	5,	150.00,	99.00,	'2024-03-14 23:36:51',	'2024-03-14 23:36:51',	NULL),
-(14,	1,	20,	1,	5,	180.00,	150.00,	'2024-03-14 23:36:51',	'2024-03-14 23:36:51',	NULL),
-(15,	1,	21,	1,	5,	300.00,	280.00,	'2024-03-14 23:36:51',	'2024-03-14 23:36:51',	NULL),
-(16,	1,	22,	1,	5,	350.00,	319.00,	'2024-03-14 23:36:51',	'2024-03-14 23:36:51',	NULL),
-(17,	1,	23,	1,	5,	400.00,	250.00,	'2024-03-14 23:36:51',	'2024-03-14 23:36:51',	NULL);
+(14,	1,	20,	1,	5,	180.00,	150.00,	'2024-03-14 23:36:51',	'2024-03-14 23:36:51',	NULL);
 
--- 2024-03-14 19:02:08
+-- 2024-03-15 20:48:44
