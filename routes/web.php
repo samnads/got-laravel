@@ -33,6 +33,8 @@ Route::get('/', function () {
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware([AdminAuthWeb::class])->group(function () {
         Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+        Route::get('/product/block/{product_id}', [AdminProductController::class, 'product_block'])->name('product-block');
+        Route::get('/product/unblock/{product_id}', [AdminProductController::class, 'product_unblock'])->name('product-unblock');
         Route::get('/product/list', [AdminProductController::class, 'product_list'])->name('product-list');
         Route::get('/product/categories', [AdminProductCategoryController::class, 'categories_list'])->name('products-categories');
         Route::get('/product/category/edit/{category_id}', [AdminProductCategoryController::class, 'edit_category']);

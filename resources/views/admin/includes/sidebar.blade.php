@@ -17,8 +17,8 @@
                 <ul class="nav flex-column sub-menu">
                     <li class="nav-item"> <a class="nav-link" href="{{ url('admin/product/categories') }}">Categories</a>
                     </li>
-                    <li class="nav-item"> <a class="nav-link" href="{{ url('admin/product/sub-categories') }}">Sub Categories</a>
-                    </li>
+                    <!--<li class="nav-item"> <a class="nav-link" href="{{ url('admin/product/sub-categories') }}">Sub Categories</a>
+                    </li>-->
                     <li class="nav-item"> <a class="nav-link" href="{{ url('admin/brands') }}">Brands</a>
                     </li>
                     <li class="nav-item"> <a class="nav-link" href="{{ url('admin/states') }}">States</a></li>
@@ -77,7 +77,7 @@
             </div>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="../../pages/tables/basic-table.html">
+            <a class="nav-link" href="#">
                 <span class="menu-title">Users</span>
                 <i class="mdi mdi-table-large menu-icon"></i>
             </a>

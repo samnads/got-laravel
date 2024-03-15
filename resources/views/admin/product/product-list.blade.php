@@ -40,7 +40,7 @@
                                             class="btn btn-inverse-success btn-icon" title="View" style="padding: 13px;">
                                             <i class="mdi mdi-eye"></i>
                                         </a>
-                                        @if($product->blocked_at == null)
+                                        @if($product->deleted_at == null)
                                         <a href="{{url('admin/product/block/'.$product->id)}}"
                                             class="btn btn-inverse-danger btn-icon" title="Block" style="padding: 13px;">
                                             <i class="mdi mdi-block-helper"></i>
