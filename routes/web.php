@@ -6,6 +6,7 @@ use App\Http\Controllers\Vendor\VendorController;
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Vendor\VendorAuthController;
 use App\Http\Controllers\Admin\AdminProductCategoryController;
+use App\Http\Controllers\Admin\AdminProductController;
 use App\Http\Controllers\Admin\AdminStateController;
 use App\Http\Controllers\Admin\AdminBrandController;
 use App\Http\Controllers\Admin\AjaxController;
@@ -32,6 +33,7 @@ Route::get('/', function () {
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware([AdminAuthWeb::class])->group(function () {
         Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+        Route::get('/product/list', [AdminProductController::class, 'product_list'])->name('product-list');
         Route::get('/product/categories', [AdminProductCategoryController::class, 'categories_list'])->name('products-categories');
         Route::get('/product/category/edit/{category_id}', [AdminProductCategoryController::class, 'edit_category']);
         Route::get('/product/sub-category/edit/{category_id}', [AdminProductCategoryController::class, 'edit_sub_category']);
