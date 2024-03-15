@@ -15,10 +15,10 @@
                             <form class="pt-3" id="admin-login" method="POST" action="{{ route('vendor.do-login') }}">
                                 @csrf
                                 <div class="form-group">
-                                    <input type="text" class="form-control form-control-lg" placeholder="Username" name="username" value="vendor@example.com">
+                                    <input type="text" class="form-control form-control-lg" placeholder="Username" name="username" value="vendor1@example.com">
                                 </div>
                                 <div class="form-group">
-                                    <input type="password" class="form-control form-control-lg" placeholder="Password" name="password" value="12345">
+                                    <input type="password" class="form-control form-control-lg" placeholder="Password" name="password" value="">
                                 </div>
                                 <div class="mt-3">
                                         <button type="submit" class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn">Sign In</button>

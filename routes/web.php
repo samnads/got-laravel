@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Vendor\VendorController;
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Vendor\VendorAuthController;
+use App\Http\Controllers\Vendor\VendorProductController;
 use App\Http\Controllers\Admin\AdminProductCategoryController;
 use App\Http\Controllers\Admin\AdminProductController;
 use App\Http\Controllers\Admin\AdminStateController;
@@ -70,6 +71,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
 Route::prefix('vendor')->name('vendor.')->group(function () {
     Route::middleware([VendorAuthWeb::class])->group(function () {
         Route::get('/dashboard', [VendorController::class, 'dashboard'])->name('dashboard');
+        Route::prefix('product')->name('product.')->group(function () {
+            Route::get('/list', [VendorProductController::class, 'product_list'])->name('list');
+            Route::post('/update', [VendorProductController::class, 'update_product']);
+            Route::get('/delete/{product_id}', [VendorProductController::class, 'delete']);
+            Route::get('/restore/{product_id}', [VendorProductController::class, 'restore']);
+        });
     });
     Route::middleware([])->group(function () {
         Route::get('/', [VendorController::class, 'index'])->name('login');
