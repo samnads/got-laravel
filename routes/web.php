@@ -73,7 +73,9 @@ Route::prefix('vendor')->name('vendor.')->group(function () {
         Route::get('/dashboard', [VendorController::class, 'dashboard'])->name('dashboard');
         Route::prefix('product')->name('product.')->group(function () {
             Route::get('/list', [VendorProductController::class, 'product_list'])->name('list');
+            Route::get('/add/list', [VendorProductController::class, 'product_list_for_add'])->name('list-for-add');
             Route::post('/update', [VendorProductController::class, 'update_product']);
+            Route::post('/add', [VendorProductController::class, 'add_product']);
             Route::get('/delete/{product_id}', [VendorProductController::class, 'delete']);
             Route::get('/restore/{product_id}', [VendorProductController::class, 'restore']);
         });

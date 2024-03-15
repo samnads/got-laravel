@@ -13,11 +13,11 @@
                 <i class="menu-arrow"></i>
                 <i class="mdi mdi-crosshairs-gps menu-icon"></i>
             </a>
-            <div class="collapse" id="ui-master">
+            <div class="collapse" id="ui-product">
                 <ul class="nav flex-column sub-menu">
                     <li class="nav-item"> <a class="nav-link" href="{{ url('vendor/product/list') }}">My Products</a>
                     </li>
-                    <li class="nav-item"> <a class="nav-link" href="{{ url('vendor/product/new') }}">New Product</a>
+                    <li class="nav-item"> <a class="nav-link" href="{{ url('vendor/product/add/list') }}">New Product</a>
                     </li>
                 </ul>
             </div>

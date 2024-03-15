@@ -1,15 +1,15 @@
 @extends('components.layouts.vendor', ['body_css_class' => 'admin-class'])
-@section('title', 'Products')
+@section('title', 'Products for Add')
 @section('content')
     <div class="col-12 grid-margin">
         <div class="card">
             <div class="card-body">
                 <div style="display: flex">
-                    <h4 class="card-title float-left">My Products</h4>
+                    <h4 class="card-title float-left">Products Available</h4>
                     <div style="margin-left: auto;">
-                        <a role="button" href="{{ url('vendor/product/add/list') }}"><button type="button"
+                        <a role="button" href="{{ url('vendor/product/list') }}"><button type="button"
                                 class="btn btn-inverse-dark btn-icon">
-                                <i class="mdi mdi-plus"></i>
+                                <i class="mdi mdi-format-list-bulleted-type"></i>
                             </button></a>
                     </div>
                 </div>
@@ -22,8 +22,6 @@
                                 <th>Unit</th>
                                 <th>Pack Size</th>
                                 <th>Category</th>
-                                <th>MRP</th>
-                                <th>Selling Price</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -35,27 +33,13 @@
                                     <td>{{ $product->unit }}</td>
                                     <td>{{ $product->item_size . ' ' . $product->unit_code }}</td>
                                     <td>{{ $product->category }}</td>
-                                    <td>{{ $product->maximum_retail_price }}</td>
-                                    <td>{{ $product->retail_price }}</td>
                                     <td>
                                         <input type="hidden" name="product[]" value='{{ @json_encode($product) }}' />
-                                        <button type="button" class="btn btn-inverse-success btn-icon" title="View"
-                                            style="padding: 13px;" data-action="edit-product">
-                                            <i class="mdi mdi-pencil"></i>
+                                        <button type="button" class="btn btn-inverse-success btn-icon"
+                                            title="Add This Product" style="padding: 13px;" data-action="add-product">
+                                            <i class="mdi mdi-plus"></i>
                                         </button>
-                                        @if ($product->deleted_at == null)
-                                            <a href="{{ url('vendor/product/delete/' . $product->id) }}"
-                                                class="btn btn-inverse-danger btn-icon" title="Block"
-                                                style="padding: 13px;">
-                                                <i class="mdi mdi-eye-off"></i>
-                                            </a>
-                                        @else
-                                            <a href="{{ url('vendor/product/restore/' . $product->id) }}"
-                                                class="btn btn-inverse-dark btn-icon" title="Unblock"
-                                                style="padding: 13px;">
-                                                <i class="mdi mdi-eye"></i>
-                                            </a>
-                                        @endif
+
                                     </td>
                                 </tr>
                             @endforeach
@@ -66,16 +50,16 @@
             </div>
         </div>
     </div>
-    <div id="edit-product" class="modal fade" role="dialog">
+    <div id="add-product" class="modal fade" role="dialog">
         <div class="modal-dialog">
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-body" style="padding: 40px;">
                     <a data-dismiss="modal" style="position: absolute; right: 15px; top: 15px;"><button type="button"
                             class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></a>
-                    <h2 class="modal-title mb-4">Edit Product</h2>
-                    <form action="{{ url('vendor/product/update') }}" method="post" accept-charset="utf-8"
-                        id="edit-product-form">
+                    <h2 class="modal-title mb-4">Add Product</h2>
+                    <form action="{{ url('vendor/product/add') }}" method="post" accept-charset="utf-8"
+                        id="add-product-form">
                         @csrf
                         <input type="hidden" name="id" />
                         <div class="row">
@@ -85,21 +69,33 @@
                                     <input type="text" class="form-control" name="product_name" disabled>
                                 </div>
                             </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Min. Cart Quantity</label>
+                                    <input type="number" class="form-control" name="min_cart_quantity" placeholder="Min quantity" value="1" required>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Max. Cart Quantity</label>
+                                    <input type="number" class="form-control" name="max_cart_quantity" placeholder="Max quantity" value="5" required>
+                                </div>
+                            </div>
                             <div class="col-sm-12">
                                 <div class="form-group">
                                     <label>MRP.</label>
-                                    <input type="number" class="form-control" name="maximum_retail_price" disabled>
+                                    <input type="number" class="form-control" name="maximum_retail_price" placeholder="Enter Mrp" required>
                                 </div>
                             </div>
                             <div class="col-sm-12">
                                 <div class="form-group">
                                     <label>Selling Price</label>
                                     <input type="number" class="form-control" step="any" name="retail_price"
-                                        placeholder="Enter Price">
+                                        placeholder="Enter Price" required>
                                 </div>
                             </div>
                             <div class="col-12" style="text-align: right;">
-                                <button type="submit" class="btn btn-gradient-dark w-100"> Update </button>
+                                <button type="submit" class="btn btn-gradient-dark w-100">Add</button>
                             </div>
                         </div>
                     </form>
@@ -124,18 +120,18 @@
     <!-- Pushed Inline Scripts -->
     <script>
         $(document).ready(function() {
-            let edit_product_form = $('form[id="edit-product-form"]')
-            var edit_product_modal = new bootstrap.Modal(document.getElementById('edit-product'), {
+            let add_product_form = $('form[id="add-product-form"]')
+            var add_product_modal = new bootstrap.Modal(document.getElementById('add-product'), {
                 backdrop: true,
                 keyboard: false
             })
-            $('[data-action="edit-product"]').click(function() {
+            $('[data-action="add-product"]').click(function() {
                 let product = JSON.parse($(this).closest('td').find("input[name='product[]']").val());
-                $('[name="id"]', edit_product_form).val(product.id);
-                $('[name="product_name"]', edit_product_form).val(product.name);
-                $('[name="maximum_retail_price"]', edit_product_form).val(product.maximum_retail_price);
-                $('[name="retail_price"]', edit_product_form).val(product.retail_price)
-                edit_product_modal.show();
+                $('[name="id"]', add_product_form).val(product.id);
+                $('[name="product_name"]', add_product_form).val(product.name);
+                $('[name="maximum_retail_price"]', add_product_form).val(product.maximum_retail_price);
+                $('[name="retail_price"]', add_product_form).val(product.retail_price)
+                add_product_modal.show();
             });
             new DataTable('#vendor-list');
             $('[data-action="delete-brand"]').click(function() {
