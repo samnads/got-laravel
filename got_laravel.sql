@@ -282,7 +282,8 @@ INSERT INTO `products` (`id`, `code`, `item_size`, `unit_id`, `brand_id`, `name`
 (20,	'45634564',	5.00,	3,	NULL,	'BRAND1 - 5 Kg Kit',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	NULL,	'2024-03-14 23:18:15',	'2024-03-14 23:18:15',	NULL),
 (21,	'45454',	10.00,	3,	NULL,	'BRAND1 - 10 Kg Kit',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	NULL,	'2024-03-14 23:18:15',	'2024-03-14 23:18:15',	NULL),
 (22,	'466664F',	10.00,	3,	NULL,	'BRAND2 - 10 Kg Kit',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	NULL,	'2024-03-14 23:18:15',	'2024-03-14 23:18:15',	NULL),
-(23,	'NBJN454',	5.00,	3,	NULL,	'BRAND2 - 5 Kg Kit',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	NULL,	'2024-03-14 23:18:15',	'2024-03-14 23:18:15',	NULL);
+(23,	'NBJN454',	5.00,	3,	NULL,	'BRAND2 - 5 Kg Kit',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	NULL,	'2024-03-14 23:18:15',	'2024-03-14 23:18:15',	NULL),
+(26,	'DF45GF76',	300.00,	2,	NULL,	'Ponds Powder',	'Ponds.........',	'HnG3BJ9imhtQKfVwofW25EGFCj7M1Hx2tOty4s32.jpg',	'2024-03-16 03:10:58',	'2024-03-16 03:10:58',	NULL);
 
 DROP TABLE IF EXISTS `product_categories`;
 CREATE TABLE `product_categories` (
@@ -305,7 +306,8 @@ INSERT INTO `product_categories` (`id`, `parent_id`, `name`, `description`, `thu
 (2,	NULL,	'Health Care',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',	'wyEYeQvnPZpdgLQXJQaX3VHpn8Umpero5SRwuOfy.jpg',	'2024-03-14 17:44:23',	'2024-03-15 19:53:38',	NULL),
 (3,	NULL,	'Vegetables',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',	'GdIp1UNewSVKuIOVAAJiXZNUQlxmKAN6q5dp62VJ.webp',	'2024-03-14 17:44:23',	'2024-03-15 19:53:01',	NULL),
 (4,	NULL,	'Soft Drinks',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',	'10QpkgFHa64bQW9mUVIbT1OMblj78yuGRUTDT4GU.jpg',	'2024-03-14 17:44:23',	'2024-03-15 19:51:08',	NULL),
-(5,	NULL,	'Rice Kits',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',	'9qxy2G5LHCCTVjWaui5kOePIMAYPdiiLPSZBEWiH.jpg',	'2024-03-14 17:44:23',	'2024-03-15 20:49:19',	NULL);
+(5,	NULL,	'Rice Kits',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',	'9qxy2G5LHCCTVjWaui5kOePIMAYPdiiLPSZBEWiH.jpg',	'2024-03-14 17:44:23',	'2024-03-15 20:49:19',	NULL),
+(17,	NULL,	'Cosmetics',	'Cosmetic products',	'0ZPia9SYJeL3q0lfTYezBvR2cC87RT2LpAOuAxwJ.webp',	'2024-03-15 21:38:28',	'2024-03-15 21:38:28',	NULL);
 
 DROP TABLE IF EXISTS `product_category_mappings`;
 CREATE TABLE `product_category_mappings` (
@@ -339,7 +341,8 @@ INSERT INTO `product_category_mappings` (`id`, `product_id`, `category_id`, `cre
 (14,	20,	5,	'2024-03-14 23:27:43',	'2024-03-14 23:27:43',	NULL),
 (15,	21,	5,	'2024-03-14 23:27:43',	'2024-03-14 23:27:43',	NULL),
 (16,	22,	5,	'2024-03-14 23:27:43',	'2024-03-14 23:27:43',	NULL),
-(17,	23,	5,	'2024-03-14 23:27:43',	'2024-03-14 23:27:43',	NULL);
+(17,	23,	5,	'2024-03-14 23:27:43',	'2024-03-14 23:27:43',	NULL),
+(18,	26,	17,	'2024-03-16 03:10:58',	'2024-03-16 03:10:58',	NULL);
 
 DROP TABLE IF EXISTS `roles`;
 CREATE TABLE `roles` (
@@ -495,4 +498,4 @@ INSERT INTO `vendor_products` (`id`, `vendor_id`, `product_id`, `min_cart_quanti
 (13,	1,	18,	1,	5,	150.00,	99.00,	'2024-03-14 23:36:51',	'2024-03-14 23:36:51',	NULL),
 (14,	1,	20,	1,	5,	180.00,	150.00,	'2024-03-14 23:36:51',	'2024-03-14 23:36:51',	NULL);
 
--- 2024-03-16 03:03:14
+-- 2024-03-16 03:18:34
