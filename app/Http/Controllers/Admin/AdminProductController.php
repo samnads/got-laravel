@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\ProductCategoryMapping;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\ProductCategories;
@@ -33,6 +34,7 @@ class AdminProductController extends Controller
                 $join->on('products.brand_id', '=', 'b.id');
             })
             ->withTrashed()
+            ->orderByDesc('products.id')
             ->get();
         return view('admin.product.product-list', $data);
     }
@@ -62,6 +64,10 @@ class AdminProductController extends Controller
         }
         $product->save();
         /************************************* */
+        $pcm = new ProductCategoryMapping();
+        $pcm->product_id = $product->id;
+        $pcm->category_id =$request->category_id;
+        $pcm->save();
         Session::flash('toast', ['type' => 'success', 'title' => 'Success !', 'message' => 'Product saved successfully.']);
         $response = ['status' => 'success', 'message' => 'Product saved successfully.'];
         return redirect()->route('admin.product-list');
