@@ -5,7 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\ProductCategories;
+use App\Models\Unit;
 use Session;
+use Intervention\Image\Facades\Image as Image;
 
 class AdminProductController extends Controller
 {
@@ -21,6 +24,7 @@ class AdminProductController extends Controller
             'u.code as unit_code',
             'products.description',
             'products.deleted_at',
+            'products.thumbnail_image'
         )
             ->leftJoin('units as u', function ($join) {
                 $join->on('products.unit_id', '=', 'u.id');
@@ -31,6 +35,36 @@ class AdminProductController extends Controller
             ->withTrashed()
             ->get();
         return view('admin.product.product-list', $data);
+    }
+    public function product_new(Request $request)
+    {
+        $data['units'] = Unit::get();
+        $data['categories'] = ProductCategories::get();
+        return view('admin.product.product-new', $data);
+    }
+    public function product_save(Request $request)
+    {
+        $product = new Product();
+        $product->name = $request->name;
+        $product->code = $request->code;
+        $product->description = $request->description;
+        $product->item_size = $request->item_size;
+        $product->unit_id = $request->unit_id;
+        /************************************* */
+        if ($request->file('thumbnail_image')) {
+            $file = $request->file('thumbnail_image');
+            $fileName = $file->getClientOriginalName();
+            $image_resize = Image::make($file->getRealPath());
+            $image_resize->fit(300, 300);
+            $image_resize->save(public_path('uploads/products/' . $file->hashName()), 100);
+            //$filePath = $file->store('categories', 'public_uploads');
+            $product->thumbnail_image = $file->hashName();
+        }
+        $product->save();
+        /************************************* */
+        Session::flash('toast', ['type' => 'success', 'title' => 'Success !', 'message' => 'Product saved successfully.']);
+        $response = ['status' => 'success', 'message' => 'Product saved successfully.'];
+        return redirect()->route('admin.product-list');
     }
     public function product_block(Request $request,$product_id)
     {

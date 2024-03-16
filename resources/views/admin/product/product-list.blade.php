@@ -7,7 +7,7 @@
                 <div style="display: flex">
                     <h4 class="card-title float-left">Products</h4>
                     <div style="margin-left: auto;">
-                        <a role="button" href="{{ url('admin/vendor/new') }}"><button type="button"
+                        <a role="button" href="{{ url('admin/product/new') }}"><button type="button"
                                 class="btn btn-inverse-dark btn-icon">
                                 <i class="mdi mdi-plus"></i>
                             </button></a>
@@ -23,6 +23,7 @@
                                 <th>Pack Size</th>
                                 <th>Vendors</th>
                                 <th>Categories</th>
+                                <th>Thumbnail</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -35,11 +36,13 @@
                                     <td>{{ $product->item_size.' '.$product->unit_code }}</td>
                                     <td>-</td>
                                     <td>-</td>
+                                    <td><img src="{{ config('url.uploads_cdn') . 'products/' . ($product->thumbnail_image ?: 'default.jpg') }}" />
+                                </td>
                                     <td>
-                                        <a href="{{url('admin/product/view/')}}"
+                                        <!--<a href="{{url('admin/product/view/')}}"
                                             class="btn btn-inverse-success btn-icon" title="View" style="padding: 13px;">
                                             <i class="mdi mdi-eye"></i>
-                                        </a>
+                                        </a>-->
                                         @if($product->deleted_at == null)
                                         <a href="{{url('admin/product/block/'.$product->id)}}"
                                             class="btn btn-inverse-danger btn-icon" title="Block" style="padding: 13px;">

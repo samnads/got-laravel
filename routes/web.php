@@ -37,6 +37,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/product/block/{product_id}', [AdminProductController::class, 'product_block'])->name('product-block');
         Route::get('/product/unblock/{product_id}', [AdminProductController::class, 'product_unblock'])->name('product-unblock');
         Route::get('/product/list', [AdminProductController::class, 'product_list'])->name('product-list');
+        Route::get('/product/new', [AdminProductController::class, 'product_new'])->name('product-new');
         Route::get('/product/categories', [AdminProductCategoryController::class, 'categories_list'])->name('products-categories');
         Route::get('/product/category/edit/{category_id}', [AdminProductCategoryController::class, 'edit_category']);
         Route::get('/product/sub-category/edit/{category_id}', [AdminProductCategoryController::class, 'edit_sub_category']);
@@ -44,6 +45,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/product/category/new', [AdminProductCategoryController::class, 'new_category'])->name('new-product-category');
         Route::get('/product/sub-category/new', [AdminProductCategoryController::class, 'new_sub_category'])->name('new-product-category');
         Route::get('/product-category/edit/{category_id}', [AdminProductCategoryController::class, 'edit_category']);
+        Route::post('/product', [AdminProductController::class, 'product_save'])->name('product-save');
         Route::get('/brands', [AdminBrandController::class, 'brands_list'])->name('brands');
         Route::get('/brand/edit/{brand_id}', [AdminBrandController::class, 'edit_brand']);
         Route::get('/brand/new', [AdminBrandController::class, 'new_brand']);
