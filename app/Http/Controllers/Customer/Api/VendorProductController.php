@@ -63,7 +63,7 @@ class VendorProductController extends Controller
             ->where([['id', '=', $request->vendor_id]])
             ->first();
         /***************************************************************************************************** */
-        $category = ProductCategories::select('id', 'name', 'description', DB::raw('null as thumbnail_url'))->where([['id', '=', $request->category_id]])->first();
+        $category = ProductCategories::select('id', 'name', 'description', DB::raw('CONCAT("' . config('url.uploads_cdn') . '","categories/",thumbnail_image) as thumbnail_url'), )->where([['id', '=', $request->category_id]])->first();
         $v_products = VendorProduct::select('product_id')->where('vendor_id', $request->vendor_id)->get();
         $vendor_product_ids = array_column($v_products->toArray(), 'product_id');
         $vendor_products = ProductCategoryMapping::select(
@@ -78,7 +78,7 @@ class VendorProductController extends Controller
             'vp.retail_price',
             'vp.min_cart_quantity',
             'vp.max_cart_quantity',
-            DB::raw('null as thumbnail_url'),
+            DB::raw('CONCAT("' . config('url.uploads_cdn') . '","products/",IFNULL(p.thumbnail_image,"default.jpg")) as thumbnail_url'),
             DB::raw('ROUND((vp.maximum_retail_price - vp.retail_price),2) as offer'),
             DB::raw('ROUND((((vp.maximum_retail_price - vp.retail_price) / vp.maximum_retail_price)*100),2) as offer_percentage'),
         )
