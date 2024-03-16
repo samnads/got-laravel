@@ -81,7 +81,7 @@ CREATE TABLE `customers` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 INSERT INTO `customers` (`id`, `name`, `email`, `mobile_number_1_cc`, `mobile_number_1`, `mobile_number_1_otp`, `mobile_number_1_otp_expired_at`, `mobile_number_1_verified_at`, `password`, `token`, `device_type`, `push_token`, `default_address_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(7,	'CloudVeins Test',	'hr@example.com',	'+91',	'9745451448',	NULL,	'2024-03-14 19:20:39',	NULL,	NULL,	'$2y$12$fuma59GEBDnKO0UASNf2hu.d.nxPiPtI41MuJhIw3XypN2bRgU63m',	NULL,	NULL,	49,	'2024-03-10 12:55:24',	'2024-03-14 19:20:33',	NULL),
+(7,	'CloudVeins Test',	'hr@example.com',	'+91',	'9745451448',	NULL,	'2024-03-16 01:59:23',	NULL,	NULL,	'$2y$12$HJ7qVLN8kAtpDx50Uby1tOEbbLvOZp9U7iKvFUJzcENtlK1n98hPy',	NULL,	NULL,	49,	'2024-03-10 12:55:24',	'2024-03-16 01:59:17',	NULL),
 (8,	'kannsn',	'kannansk172@gmail.com',	'+91',	'9188778069',	NULL,	'2024-03-15 18:09:11',	NULL,	NULL,	'$2y$12$IKyZ1Daao3ZL9TSZXpqlQugZcG7D374pdzfRXZseKQ3ecENXSlCLC',	NULL,	NULL,	NULL,	'2024-03-15 16:07:05',	'2024-03-15 18:32:33',	NULL),
 (9,	'venu',	'venu@gmail.com',	'+91',	'9154564646',	NULL,	'2024-03-15 16:27:38',	NULL,	NULL,	'$2y$12$HpKa807PL/7kXH8UoCK35uJc35DPPQ1NPKkx66HEgwIlsemF2mBvG',	NULL,	NULL,	NULL,	'2024-03-15 16:27:28',	'2024-03-15 16:27:54',	NULL);
 
@@ -252,35 +252,37 @@ CREATE TABLE `products` (
   `brand_id` bigint(20) unsigned DEFAULT NULL,
   `name` varchar(255) NOT NULL,
   `description` text DEFAULT NULL,
+  `thumbnail_image` varchar(155) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `code` (`code`),
+  UNIQUE KEY `thumbnail_image` (`thumbnail_image`),
   KEY `brand_id` (`brand_id`),
   KEY `unit_id` (`unit_id`),
   CONSTRAINT `products_ibfk_2` FOREIGN KEY (`brand_id`) REFERENCES `brands` (`id`),
   CONSTRAINT `products_ibfk_3` FOREIGN KEY (`unit_id`) REFERENCES `units` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-INSERT INTO `products` (`id`, `code`, `item_size`, `unit_id`, `brand_id`, `name`, `description`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1,	'FFDF445',	50.00,	2,	NULL,	'Chilly Powder',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	'2024-03-14 23:18:15',	'2024-03-15 16:49:49',	NULL),
-(2,	'FFSDF4',	1.00,	3,	NULL,	'Salt',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	'2024-03-14 23:18:15',	'2024-03-15 16:49:48',	NULL),
-(4,	'4535EW',	100.00,	2,	NULL,	'Turmeric Powder',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	'2024-03-14 23:18:15',	'2024-03-15 16:49:41',	NULL),
-(5,	'COL3343',	75.00,	2,	NULL,	'Colgate',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	'2024-03-14 23:18:15',	'2024-03-15 16:49:40',	NULL),
-(7,	'5345BJ',	1.00,	6,	NULL,	'Band Aid',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	'2024-03-14 23:18:15',	'2024-03-15 16:49:39',	NULL),
-(9,	'53543',	1.00,	3,	NULL,	'Tomato',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	'2024-03-14 23:18:15',	'2024-03-15 16:49:38',	NULL),
-(11,	'DFP244',	500.00,	2,	NULL,	'Ginger',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	'2024-03-14 23:18:15',	'2024-03-14 23:18:15',	NULL),
-(13,	'CAR45343',	250.00,	2,	NULL,	'Carrot',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	'2024-03-14 23:18:15',	'2024-03-14 23:18:15',	NULL),
-(14,	'FDFSFSF',	600.00,	4,	NULL,	'Pepsi',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	'2024-03-14 23:18:15',	'2024-03-14 23:18:15',	NULL),
-(15,	'MFD64',	600.00,	4,	NULL,	'Mirinda',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	'2024-03-14 23:18:15',	'2024-03-14 23:18:15',	NULL),
-(16,	'7UPDFSFSdf',	600.00,	4,	NULL,	'7 Up',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	'2024-03-14 23:18:15',	'2024-03-14 23:18:15',	NULL),
-(17,	'63535435',	1.00,	5,	NULL,	'7 Up',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	'2024-03-14 23:18:15',	'2024-03-14 23:18:15',	NULL),
-(18,	'45465464',	1.00,	5,	NULL,	'7 Up',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	'2024-03-14 23:18:15',	'2024-03-14 23:18:15',	NULL),
-(20,	'45634564',	5.00,	3,	NULL,	'BRAND1 - 5 Kg Kit',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	'2024-03-14 23:18:15',	'2024-03-14 23:18:15',	NULL),
-(21,	'45454',	10.00,	3,	NULL,	'BRAND1 - 10 Kg Kit',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	'2024-03-14 23:18:15',	'2024-03-14 23:18:15',	NULL),
-(22,	'466664F',	10.00,	3,	NULL,	'BRAND2 - 10 Kg Kit',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	'2024-03-14 23:18:15',	'2024-03-14 23:18:15',	NULL),
-(23,	'NBJN454',	5.00,	3,	NULL,	'BRAND2 - 5 Kg Kit',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	'2024-03-14 23:18:15',	'2024-03-14 23:18:15',	NULL);
+INSERT INTO `products` (`id`, `code`, `item_size`, `unit_id`, `brand_id`, `name`, `description`, `thumbnail_image`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1,	'FFDF445',	50.00,	2,	NULL,	'Chilly Powder',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	NULL,	'2024-03-14 23:18:15',	'2024-03-16 02:52:23',	NULL),
+(2,	'FFSDF4',	1.00,	3,	NULL,	'Salt',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	NULL,	'2024-03-14 23:18:15',	'2024-03-15 16:49:48',	NULL),
+(4,	'4535EW',	100.00,	2,	NULL,	'Turmeric Powder',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	NULL,	'2024-03-14 23:18:15',	'2024-03-15 16:49:41',	NULL),
+(5,	'COL3343',	75.00,	2,	NULL,	'Colgate',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	NULL,	'2024-03-14 23:18:15',	'2024-03-15 16:49:40',	NULL),
+(7,	'5345BJ',	1.00,	6,	NULL,	'Band Aid',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	NULL,	'2024-03-14 23:18:15',	'2024-03-15 16:49:39',	NULL),
+(9,	'53543',	1.00,	3,	NULL,	'Tomato',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	NULL,	'2024-03-14 23:18:15',	'2024-03-15 16:49:38',	NULL),
+(11,	'DFP244',	500.00,	2,	NULL,	'Ginger',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	NULL,	'2024-03-14 23:18:15',	'2024-03-14 23:18:15',	NULL),
+(13,	'CAR45343',	250.00,	2,	NULL,	'Carrot',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	NULL,	'2024-03-14 23:18:15',	'2024-03-14 23:18:15',	NULL),
+(14,	'FDFSFSF',	600.00,	4,	NULL,	'Pepsi',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	NULL,	'2024-03-14 23:18:15',	'2024-03-14 23:18:15',	NULL),
+(15,	'MFD64',	600.00,	4,	NULL,	'Mirinda',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	NULL,	'2024-03-14 23:18:15',	'2024-03-14 23:18:15',	NULL),
+(16,	'7UPDFSFSdf',	600.00,	4,	NULL,	'7 Up',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	NULL,	'2024-03-14 23:18:15',	'2024-03-14 23:18:15',	NULL),
+(17,	'63535435',	1.00,	5,	NULL,	'7 Up',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	NULL,	'2024-03-14 23:18:15',	'2024-03-14 23:18:15',	NULL),
+(18,	'45465464',	1.00,	5,	NULL,	'7 Up',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	NULL,	'2024-03-14 23:18:15',	'2024-03-14 23:18:15',	NULL),
+(20,	'45634564',	5.00,	3,	NULL,	'BRAND1 - 5 Kg Kit',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	NULL,	'2024-03-14 23:18:15',	'2024-03-14 23:18:15',	NULL),
+(21,	'45454',	10.00,	3,	NULL,	'BRAND1 - 10 Kg Kit',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	NULL,	'2024-03-14 23:18:15',	'2024-03-14 23:18:15',	NULL),
+(22,	'466664F',	10.00,	3,	NULL,	'BRAND2 - 10 Kg Kit',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	NULL,	'2024-03-14 23:18:15',	'2024-03-14 23:18:15',	NULL),
+(23,	'NBJN454',	5.00,	3,	NULL,	'BRAND2 - 5 Kg Kit',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	NULL,	'2024-03-14 23:18:15',	'2024-03-14 23:18:15',	NULL);
 
 DROP TABLE IF EXISTS `product_categories`;
 CREATE TABLE `product_categories` (
@@ -299,11 +301,11 @@ CREATE TABLE `product_categories` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO `product_categories` (`id`, `parent_id`, `name`, `description`, `thumbnail_image`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1,	NULL,	'Grocery',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',	NULL,	'2024-03-14 17:44:23',	'2024-03-14 18:38:01',	NULL),
-(2,	NULL,	'Health Care',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',	NULL,	'2024-03-14 17:44:23',	'2024-03-14 17:44:23',	NULL),
-(3,	NULL,	'Vegetables',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',	NULL,	'2024-03-14 17:44:23',	'2024-03-14 17:44:23',	NULL),
-(4,	NULL,	'Soft Drinks',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',	NULL,	'2024-03-14 17:44:23',	'2024-03-14 17:44:23',	NULL),
-(5,	NULL,	'Rice Kits',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',	NULL,	'2024-03-14 17:44:23',	'2024-03-15 15:15:01',	NULL);
+(1,	NULL,	'Grocery',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',	'fZllvdNgmD4yUXHLZ3wTULi7sGY1TIzI0Bj70OIH.jpg',	'2024-03-14 17:44:23',	'2024-03-15 19:54:23',	NULL),
+(2,	NULL,	'Health Care',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',	'wyEYeQvnPZpdgLQXJQaX3VHpn8Umpero5SRwuOfy.jpg',	'2024-03-14 17:44:23',	'2024-03-15 19:53:38',	NULL),
+(3,	NULL,	'Vegetables',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',	'GdIp1UNewSVKuIOVAAJiXZNUQlxmKAN6q5dp62VJ.webp',	'2024-03-14 17:44:23',	'2024-03-15 19:53:01',	NULL),
+(4,	NULL,	'Soft Drinks',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',	'10QpkgFHa64bQW9mUVIbT1OMblj78yuGRUTDT4GU.jpg',	'2024-03-14 17:44:23',	'2024-03-15 19:51:08',	NULL),
+(5,	NULL,	'Rice Kits',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',	'9qxy2G5LHCCTVjWaui5kOePIMAYPdiiLPSZBEWiH.jpg',	'2024-03-14 17:44:23',	'2024-03-15 20:49:19',	NULL);
 
 DROP TABLE IF EXISTS `product_category_mappings`;
 CREATE TABLE `product_category_mappings` (
@@ -493,4 +495,4 @@ INSERT INTO `vendor_products` (`id`, `vendor_id`, `product_id`, `min_cart_quanti
 (13,	1,	18,	1,	5,	150.00,	99.00,	'2024-03-14 23:36:51',	'2024-03-14 23:36:51',	NULL),
 (14,	1,	20,	1,	5,	180.00,	150.00,	'2024-03-14 23:36:51',	'2024-03-14 23:36:51',	NULL);
 
--- 2024-03-15 20:48:44
+-- 2024-03-16 03:03:14
