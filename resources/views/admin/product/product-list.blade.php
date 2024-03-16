@@ -21,8 +21,6 @@
                                 <th>Product Name</th>
                                 <th>Unit</th>
                                 <th>Pack Size</th>
-                                <th>Vendors</th>
-                                <th>Categories</th>
                                 <th>Thumbnail</th>
                                 <th>Action</th>
                             </tr>
@@ -34,15 +32,13 @@
                                     <td>{{ $product->name }}</td>
                                     <td>{{ $product->unit }}</td>
                                     <td>{{ $product->item_size.' '.$product->unit_code }}</td>
-                                    <td>-</td>
-                                    <td>-</td>
                                     <td><img src="{{ config('url.uploads_cdn') . 'products/' . ($product->thumbnail_image ?: 'default.jpg') }}" />
                                 </td>
                                     <td>
-                                        <!--<a href="{{url('admin/product/view/')}}"
+                                        <a href="{{url('admin/product/edit/'.$product->id)}}"
                                             class="btn btn-inverse-success btn-icon" title="View" style="padding: 13px;">
-                                            <i class="mdi mdi-eye"></i>
-                                        </a>-->
+                                            <i class="mdi mdi-pencil"></i>
+                                        </a>
                                         @if($product->deleted_at == null)
                                         <a href="{{url('admin/product/block/'.$product->id)}}"
                                             class="btn btn-inverse-danger btn-icon" title="Block" style="padding: 13px;">

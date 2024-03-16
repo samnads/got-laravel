@@ -44,6 +44,12 @@ class AdminProductController extends Controller
         $data['categories'] = ProductCategories::get();
         return view('admin.product.product-new', $data);
     }
+    public function product_edit(Request $request,$product_id)
+    {
+        $data['units'] = Unit::get();
+        $data['categories'] = ProductCategories::get();
+        return view('admin.product.product-edit', $data);
+    }
     public function product_save(Request $request)
     {
         $product = new Product();
