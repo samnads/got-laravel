@@ -19,7 +19,7 @@ class AdminVendorController extends Controller
         $vendor = Vendor::findOrFail($vendor_id);
         $vendor->blocked_at = now();
         $vendor->save();
-        Session::flash('toast', ['type' => 'success', 'title' => 'Blocked !', 'message' => 'Vendor <b>' . $vendor->vendor_name . '</b> blocked successfully.']);
+        Session::flash('toast', ['type' => 'info', 'title' => 'Blocked !', 'message' => 'Vendor <b>' . $vendor->vendor_name . '</b> blocked successfully.']);
         return redirect()->route('admin.vendors');
     }
     public function unblock_vendor(Request $request, $vendor_id)
@@ -27,7 +27,7 @@ class AdminVendorController extends Controller
         $vendor = Vendor::findOrFail($vendor_id);
         $vendor->blocked_at = null;
         $vendor->save();
-        Session::flash('toast', ['type' => 'success', 'title' => 'Blocked !', 'message' => 'Vendor <b>' . $vendor->vendor_name . '</b> unblocked successfully.']);
+        Session::flash('toast', ['type' => 'success', 'title' => 'Unblocked !', 'message' => 'Vendor <b>' . $vendor->vendor_name . '</b> unblocked successfully.']);
         return redirect()->route('admin.vendors');
     }
 }
