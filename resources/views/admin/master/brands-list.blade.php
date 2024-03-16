@@ -29,7 +29,7 @@
                                 <td>{{ $key + 1 }}</td>
                                 <td>{{ $brand->name }}</td>
                                 <td>{{ $brand->description }}</td>
-                                <td>~</td>
+                                <td><img src="{{ config('url.uploads_cdn') . 'brands/' . ($brand->thumbnail_image ?: 'default.jpg') }}" /></td>
                                 <td>
                                     <div class="btn-group" role="group" aria-label="Basic example">
                                         <a href="{{ url('admin/brand/edit/' . $brand->id) }}"

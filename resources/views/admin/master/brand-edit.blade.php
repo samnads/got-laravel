@@ -39,7 +39,7 @@
 
                                 <div class="form-group">
                                     <label>Thumbnail Image</label>
-                                    <input type="file" name="thumbnail" class="form-control">
+                                    <input type="file" name="thumbnail_image" class="form-control">
                                 </div>
 
                                 <div>
@@ -90,11 +90,21 @@
                     error.insertAfter(element);
                 },
                 submitHandler: function(form) {
+                    let formData = new FormData();
+                    formData.append('_method', 'PUT');
+                    formData.append('id', $('#edit-brand-form [name="id"]').val());
+                    formData.append('name', $('#edit-brand-form [name="name"]').val());
+                    formData.append('description', $('#edit-brand-form [name="description"]').val());
+                    formData.append('thumbnail_image', $('input[type=file]')[0].files[0]); 
                     $.ajax({
-                        type: 'PUT',
+                        type: 'POST',
                         url: _base_url + "admin/ajax/brand",
-                        //dataType: 'json',
-                        data: $('#edit-brand-form').serialize(),
+                        cache: false,
+                        dataType: 'json',
+                        contentType: false,
+                        processData: false,
+                        //data: $('#edit-category-form').serialize(),
+                        data: formData,
                         success: function(response) {
                             if (response.status == "success") {
                                 location.href = _base_url + 'admin/brands';

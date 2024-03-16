@@ -38,7 +38,7 @@
 
                                 <div class="form-group">
                                     <label>Thumbnail Image</label>
-                                    <input type="file" name="thumbnail" class="form-control">
+                                    <input type="file" name="thumbnail_image" class="form-control">
                                 </div>
 
                                 <div>
@@ -89,11 +89,14 @@
                     error.insertAfter(element);
                 },
                 submitHandler: function(form) {
+                    let formData = new FormData(form);
                     $.ajax({
                         type: 'POST',
                         url: _base_url + "admin/ajax/brand",
-                        //dataType: 'json',
-                        data: $('#new-brand-form').serialize(),
+                        dataType: 'json',
+                        contentType: false,
+                        processData: false,
+                        data: formData,
                         success: function(response) {
                             if (response.status == "success") {
                                 location.href = _base_url + 'admin/brands';

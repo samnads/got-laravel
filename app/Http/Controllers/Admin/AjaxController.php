@@ -115,6 +115,17 @@ class AjaxController extends Controller
                 $row->description = $request->description;
                 $row->created_at = now();
                 $row->updated_at = now();
+                /************************************* */
+                if ($request->file('thumbnail_image')) {
+                    $file = $request->file('thumbnail_image');
+                    $fileName = $file->getClientOriginalName();
+                    $image_resize = Image::make($file->getRealPath());
+                    $image_resize->fit(300, 300);
+                    $image_resize->save(public_path('uploads/brands/' . $file->hashName()), 100);
+                    //$filePath = $file->store('categories', 'public_uploads');
+                    $row->thumbnail_image = $file->hashName();
+                }
+                /************************************* */
                 $row->save();
                 Session::flash('toast', ['type' => 'success', 'title' => 'Success !', 'message' => 'Brand <b>' . $row->name . '</b> added successfully.']);
                 $response = ['status' => 'success', 'message' => 'Brand added successfully.'];
@@ -124,6 +135,17 @@ class AjaxController extends Controller
                 $row->name = $request->name;
                 $row->description = $request->description;
                 $row->updated_at = now();
+                /************************************* */
+                if ($request->file('thumbnail_image')) {
+                    $file = $request->file('thumbnail_image');
+                    $fileName = $file->getClientOriginalName();
+                    $image_resize = Image::make($file->getRealPath());
+                    $image_resize->fit(300, 300);
+                    $image_resize->save(public_path('uploads/brands/' . $file->hashName()), 100);
+                    //$filePath = $file->store('categories', 'public_uploads');
+                    $row->thumbnail_image = $file->hashName();
+                }
+                /************************************* */
                 $row->save();
                 Session::flash('toast', ['type' => 'success', 'title' => 'Success !', 'message' => 'Brand <b>' . $row->name . '</b> updated successfully.']);
                 $response = ['status' => 'success', 'message' => 'Brand <b>' . $row->name . '</b> updated successfully.'];

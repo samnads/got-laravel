@@ -85,7 +85,7 @@ class AdminProductController extends Controller
         $product = Product::withTrashed()->find($product_id);
         $product->deleted_at = null;
         $product->save();
-        Session::flash('toast', ['type' => 'success', 'title' => 'Blocked !', 'message' => 'Product <b>' . $product->name . '</b> unblocked successfully.']);
+        Session::flash('toast', ['type' => 'success', 'title' => 'Unblocked !', 'message' => 'Product <b>' . $product->name . '</b> unblocked successfully.']);
         return redirect()->route('admin.product-list');
     }
 }
