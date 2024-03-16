@@ -20,6 +20,17 @@ class AjaxController extends Controller
                 $category->description = $request->description;
                 $category->created_at = now();
                 $category->updated_at = now();
+                /************************************* */
+                if ($request->file('thumbnail_image')) {
+                    $file = $request->file('thumbnail_image');
+                    $fileName = $file->getClientOriginalName();
+                    $image_resize = Image::make($file->getRealPath());
+                    $image_resize->fit(300, 300);
+                    $image_resize->save(public_path('uploads/categories/' . $file->hashName()), 100);
+                    //$filePath = $file->store('categories', 'public_uploads');
+                    $category->thumbnail_image = $file->hashName();
+                }
+                /************************************* */
                 $category->save();
                 Session::flash('toast', ['type' => 'success', 'title' => 'Success !', 'message' => 'Category <b>' . $category->name . '</b> added successfully.']);
                 $response = ['status' => 'success', 'message' => 'Category added successfully.'];

@@ -56,6 +56,9 @@
                 <ul class="nav flex-column sub-menu">
                     <li class="nav-item"> <a class="nav-link" href="{{ url('admin/product/list') }}">List Products</a></li>
                 </ul>
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a class="nav-link" href="{{ url('admin/product/new') }}">Add Product</a></li>
+                </ul>
             </div>
         </li>
         <li class="nav-item">

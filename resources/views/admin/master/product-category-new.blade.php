@@ -24,7 +24,7 @@
                             </div>
                         </div>
                         <div class="col-sm-6 offset-sm-3">
-                            <form id="new-category-form">
+                            <form id="new-category-form" enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-group">
                                     <label>Category Name</label>
@@ -38,7 +38,7 @@
 
                                 <div class="form-group">
                                     <label>Thumbnail Image</label>
-                                    <input type="file" name="thumbnail" class="form-control">
+                                    <input type="file" name="thumbnail_image" class="form-control">
                                 </div>
 
                                 <div>
@@ -91,11 +91,14 @@
                 submitHandler: function(form) {
                     //let submit_btn = $('button[type="submit"]', form);
                     //submit_btn.html(loading_button_html).prop("disabled", true);
+                    let formData = new FormData(form);
                     $.ajax({
                         type: 'POST',
                         url: _base_url + "admin/ajax/product/category",
-                        //dataType: 'json',
-                        data: $('#new-category-form').serialize(),
+                        dataType: 'json',
+                        contentType: false,
+                        processData: false,
+                        data: formData,
                         success: function(response) {
                             if (response.status == "success") {
                                 location.href = _base_url + 'admin/product/categories';
