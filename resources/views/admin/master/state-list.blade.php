@@ -6,12 +6,12 @@
             <div class="card-body">
                 <div style="display: flex" class="m-3">
                     <h2 class="card-title float-left">State List</h4>
-                        <div style="margin-left: auto;">
+                        <!--<div style="margin-left: auto;">
                             <a role="button" href="{{ url('admin/product/category/new') }}"><button type="button"
                                     class="btn btn-inverse-dark btn-icon">
                                     <i class="mdi mdi-plus"></i>
                                 </button></a>
-                        </div>
+                        </div>-->
                 </div>
                 <table class="table table-bordered">
                     <thead>
