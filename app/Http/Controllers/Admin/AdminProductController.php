@@ -44,8 +44,10 @@ class AdminProductController extends Controller
         $data['categories'] = ProductCategories::get();
         return view('admin.product.product-new', $data);
     }
-    public function product_edit(Request $request,$product_id)
+    public function product_edit(Request $request, $product_id)
     {
+        $data['product'] = Product::find($product_id);
+        $data['product_category'] = ProductCategoryMapping::where('product_id', $product_id)->first();
         $data['units'] = Unit::get();
         $data['categories'] = ProductCategories::get();
         return view('admin.product.product-edit', $data);
@@ -72,13 +74,41 @@ class AdminProductController extends Controller
         /************************************* */
         $pcm = new ProductCategoryMapping();
         $pcm->product_id = $product->id;
-        $pcm->category_id =$request->category_id;
+        $pcm->category_id = $request->category_id;
         $pcm->save();
         Session::flash('toast', ['type' => 'success', 'title' => 'Success !', 'message' => 'Product saved successfully.']);
         $response = ['status' => 'success', 'message' => 'Product saved successfully.'];
         return redirect()->route('admin.product-list');
     }
-    public function product_block(Request $request,$product_id)
+    public function product_update(Request $request)
+    {
+        $product = Product::find($request->id);
+        $product->name = $request->name;
+        $product->code = $request->code;
+        $product->description = $request->description;
+        $product->item_size = $request->item_size;
+        $product->unit_id = $request->unit_id;
+        /************************************* */
+        if ($request->file('thumbnail_image')) {
+            $file = $request->file('thumbnail_image');
+            $fileName = $file->getClientOriginalName();
+            $image_resize = Image::make($file->getRealPath());
+            $image_resize->fit(300, 300);
+            $image_resize->save(public_path('uploads/products/' . $file->hashName()), 100);
+            //$filePath = $file->store('categories', 'public_uploads');
+            $product->thumbnail_image = $file->hashName();
+        }
+        $product->save();
+        /************************************* */
+        $pcm = ProductCategoryMapping::where([['product_id', '=', $product->id], ['category_id', '=', $request->category_id]])->first() ?: new ProductCategoryMapping();
+        $pcm->product_id = $product->id;
+        $pcm->category_id = $request->category_id;
+        $pcm->save();
+        Session::flash('toast', ['type' => 'success', 'title' => 'Success !', 'message' => 'Product updated successfully.']);
+        $response = ['status' => 'success', 'message' => 'Product updated successfully.'];
+        return redirect()->route('admin.product-list');
+    }
+    public function product_block(Request $request, $product_id)
     {
         $product = Product::find($product_id);
         $product->deleted_at = now();

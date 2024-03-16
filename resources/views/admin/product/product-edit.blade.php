@@ -24,20 +24,21 @@
                             </div>
                         </div>
                         <form id="new-product-form" method="POST" enctype="multipart/form-data" action="{{url('admin/product/update')}}">
+                            <input type="hidden" name="id" value="{{$product->id}}">
                             <div class="row">
                                 <div class="col-sm-6">
                                     @csrf
                                     <div class="form-group">
                                         <label>Name</label>
-                                        <input type="text" class="form-control" name="name" placeholder="" required>
+                                        <input type="text" class="form-control" name="name" value="{{$product->name}}" required>
                                     </div>
                                     <div class="form-group">
                                         <label>Code</label>
-                                        <input type="text" class="form-control" name="code" placeholder="" required>
+                                        <input type="text" class="form-control" name="code" value="{{$product->code}}" required>
                                     </div>
                                     <div class="form-group">
                                         <label>Description</label>
-                                        <textarea class="form-control" name="description" rows="4" required></textarea>
+                                        <textarea class="form-control" name="description" rows="4" required>{{$product->description}}</textarea>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
@@ -45,7 +46,7 @@
                                         <div class="col-sm-6">
                                             <div class="form-group">
                                                 <label>Item Size</label>
-                                                <input type="text" class="form-control" name="item_size" placeholder=""
+                                                <input type="text" class="form-control" name="item_size" value="{{$product->item_size}}"
                                                     required>
                                             </div>
                                         </div>
@@ -56,8 +57,7 @@
                                                 <select class="form-control" name="unit_id" required>
                                                     <option value="">-- Select Unit --</option>
                                                     @foreach ($units as $key => $unit)
-                                                        <option value="{{ $unit->id }}">
-                                                            {{ $unit->name }}</option>
+                                                        <option value="{{ $unit->id }}" {{$product->unit_id == $unit->id ? 'selected' : ''}}> {{ $unit->name }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -70,7 +70,7 @@
                                                 <select class="form-control" name="category_id" required>
                                                     <option value="">-- Select Category --</option>
                                                     @foreach ($categories as $key => $category)
-                                                        <option value="{{ $category->id }}">
+                                                        <option value="{{ $category->id }}" {{$product_category->category_id == $category->id ? 'selected' : ''}}>
                                                             {{ $category->name }}</option>
                                                     @endforeach
                                                 </select>
@@ -79,7 +79,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Thumbnail Image</label>
-                                        <input type="file" name="thumbnail_image" class="form-control" required>
+                                        <input type="file" name="thumbnail_image" class="form-control">
                                     </div>
                                 </div>
                             </div>
