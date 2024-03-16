@@ -90,20 +90,21 @@
                     error.insertAfter(element);
                 },
                 submitHandler: function(form) {
-                    //let submit_btn = $('button[type="submit"]', form);
-                    //submit_btn.html(loading_button_html).prop("disabled", true);
-                    /*
-                    data.append('category_id', $('[name="category_id"]', edit_category_form).val());
-                    data.append('name', $('[name="name"]', edit_category_form).val());
-                    data.append('desciption', $('[name="description"]', edit_category_form).val());
-                    data.append('_method', 'PUT');
-                    */
+                    let formData = new FormData();
+                    formData.append('_method', 'PUT');
+                    formData.append('category_id', $('#edit-category-form [name="category_id"]').val());
+                    formData.append('name', $('#edit-category-form [name="name"]').val());
+                    formData.append('description', $('#edit-category-form [name="description"]').val());
+                    formData.append('thumbnail_image', $('input[type=file]')[0].files[0]); 
                     $.ajax({
-                        type: 'PUT',
+                        type: 'POST',
                         url: _base_url + "admin/ajax/product/category",
-                        //contentType: false,
-                        //processData: false,
-                        data: $('#edit-category-form').serialize(),
+                        cache: false,
+                        dataType: 'json',
+                        contentType: false,
+                        processData: false,
+                        //data: $('#edit-category-form').serialize(),
+                        data: formData,
                         success: function(response) {
                             if (response.status == "success") {
                                 location.href = _base_url + 'admin/product/categories';

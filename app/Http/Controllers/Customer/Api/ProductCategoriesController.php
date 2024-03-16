@@ -47,7 +47,7 @@ class ProductCategoriesController extends Controller
             DB::raw('DISTINCT(pc.id) as id'),
             'pc.name',
             'pc.description',
-            DB::raw('null as thumbnail_url'),
+            DB::raw('CONCAT("'.config('url.uploads_cdn').'","categories/",thumbnail_image) as thumbnail_url'),
         )
             ->leftJoin('product_categories as pc', function ($join) {
                 $join->on('product_category_mappings.category_id', '=', 'pc.id');

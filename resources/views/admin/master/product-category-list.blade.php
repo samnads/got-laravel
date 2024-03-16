@@ -29,7 +29,8 @@
                                 <td>{{ $key + 1 }}</td>
                                 <td>{{ $category->name }}</td>
                                 <td>{{ $category->description }}</td>
-                                <td>~</td>
+                                <td><img src="{{ config('url.uploads_cdn') . 'categories/' . ($category->thumbnail_image ?: 'default.jpg') }}" />
+                                </td>
                                 <td>
                                     <div class="btn-group" role="group" aria-label="Basic example">
                                         <a href="{{ url('admin/product/category/edit/' . $category->id) }}"

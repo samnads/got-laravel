@@ -7,6 +7,7 @@ use App\Models\Brand;
 use Illuminate\Http\Request;
 use App\Models\ProductCategories;
 use Session;
+use Intervention\Image\Facades\Image;
 
 class AjaxController extends Controller
 {
@@ -28,11 +29,15 @@ class AjaxController extends Controller
                 $category->name = $request->name;
                 $category->description = $request->description;
                 $category->updated_at = now();
-                $category->save();
                 /************************************* */
-                /*$file = $request->file('thumbnail_image');
+                $file = $request->file('thumbnail_image');
                 $fileName = $file->getClientOriginalName();
-                $filePath = $file->store('uploads', 'public');*/
+                $image_resize = Image::make($file->getRealPath());
+                $image_resize->fit(300, 300);
+                $image_resize->save(public_path('uploads/categories/' . $file->hashName()), 100);
+                //$filePath = $file->store('categories', 'public_uploads');
+                $category->thumbnail_image = $file->hashName();
+                $category->save();
                 /************************************* */
                 Session::flash('toast', ['type' => 'success', 'title' => 'Success !', 'message' => 'Category <b>' . $category->name . '</b> updated successfully.']);
                 $response = ['status' => 'success', 'message' => 'Category <b>' . $category->name . '</b> updated successfully.'];
