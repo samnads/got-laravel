@@ -22,8 +22,8 @@
                     <li class="nav-item"> <a class="nav-link" href="{{ url('admin/brands') }}">Brands</a>
                     </li>
                     <li class="nav-item"> <a class="nav-link" href="{{ url('admin/states') }}">States</a></li>
-                    <li class="nav-item"> <a class="nav-link" href="{{ url('admin/districts') }}">District</a>
-                    </li>
+                    <!--<li class="nav-item"> <a class="nav-link" href="{{ url('admin/districts') }}">District</a>
+                    </li>-->
                 </ul>
             </div>
         </li>
