@@ -7,7 +7,7 @@ use App\Models\Brand;
 use Illuminate\Http\Request;
 use App\Models\ProductCategories;
 use Session;
-use Intervention\Image\Facades\Image;
+use Intervention\Image\Facades\Image as Image;
 
 class AjaxController extends Controller
 {
