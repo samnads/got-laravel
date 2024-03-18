@@ -9,6 +9,8 @@ use App\Http\Controllers\Customer\Api\ProductCategoriesController;
 use App\Http\Controllers\Customer\Api\VendorController;
 use App\Http\Controllers\Customer\Api\VendorProductController;
 use App\Http\Controllers\Customer\Api\CartController;
+//
+use App\Http\Controllers\Admin\Api\VendorController as AdminVendorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,4 +53,10 @@ Route::prefix('customer')->group(function () {
         Route::post('cart', [CartController::class, 'get_cart']);
         Route::post('update_cart', [CartController::class, 'update_cart']);
     });
+});
+Route::prefix('admin')->group(function () {
+    Route::get('/', function (Request $request) {
+        return '<h1>' . env('APP_NAME') . '</h1><br>You\'re in admin app API base url 😀 !';
+    });
+    Route::post('save_vendor', [AdminVendorController::class, 'save_vendor']);
 });
