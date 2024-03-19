@@ -51,12 +51,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/brands', [AdminBrandController::class, 'brands_list'])->name('brands');
         Route::get('/brand/edit/{brand_id}', [AdminBrandController::class, 'edit_brand']);
         Route::get('/brand/new', [AdminBrandController::class, 'new_brand']);
-        Route::get('/vendor/list', [AdminVendorController::class, 'vendors_list'])->name('vendors');
-        Route::get('/vendor/new', [AdminVendorController::class, 'vendors_new']);
-        Route::get('/vendor/block/{vendor_id}', [AdminVendorController::class, 'block_vendor']);
-        Route::get('/vendor/unblock/{vendor_id}', [AdminVendorController::class, 'unblock_vendor']);
         Route::prefix('vendor')->group(function () {
             Route::any('/', [AdminVendorController::class, 'index']);
+            Route::get('/list', [AdminVendorController::class, 'vendors_list'])->name('vendors');
+            Route::get('/new', [AdminVendorController::class, 'vendor_new']);
+            Route::get('/edit/{vendor_id}', [AdminVendorController::class, 'vendor_edit']);
+            Route::get('/block/{vendor_id}', [AdminVendorController::class, 'block_vendor']);
+            Route::get('/unblock/{vendor_id}', [AdminVendorController::class, 'unblock_vendor']);
         });
         //
         Route::get('/states', [AdminStateController::class, 'states_list'])->name('states');

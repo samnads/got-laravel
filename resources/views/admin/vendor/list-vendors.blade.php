@@ -32,14 +32,14 @@
                                     <td>{{ $key + 1 }}</td>
                                     <td>{{ $vendor->vendor_name }}</td>
                                     <td>{{ $vendor->mobile_number }}</td>
-                                    <td>{{ $vendor->district_id }}</td>
-                                    <td>{{ $vendor->district_id }}</td>
-                                    <td>{{ $vendor->location_id }}</td>
+                                    <td>{{ $vendor->state }}</td>
+                                    <td>{{ $vendor->district }}</td>
+                                    <td>{{ $vendor->location }}</td>
                                     <td>
-                                        <!--<a href="http://localhost/cloudveins/got/admin/view_vendor/33"
-                                            class="btn btn-inverse-success btn-icon" title="View" style="padding: 13px;">
-                                            <i class="mdi mdi-eye"></i>
-                                        </a>-->
+                                        <a href="{{url('admin/vendor/edit/'.$vendor->id)}}"
+                                            class="btn btn-inverse-success btn-icon" title="Edit" style="padding: 13px;">
+                                            <i class="mdi mdi-pencil"></i>
+                                        </a>
                                         @if($vendor->blocked_at == null)
                                         <a href="{{url('admin/vendor/block/'.$vendor->id)}}"
                                             class="btn btn-inverse-danger btn-icon" title="Block" style="padding: 13px;">
