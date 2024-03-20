@@ -61,7 +61,7 @@
                 </ul>
             </div>
         </li>
-        <li class="nav-item">
+        <!--<li class="nav-item">
             <a class="nav-link" data-bs-toggle="collapse" href="#ui-ads" aria-expanded="false" aria-controls="ui-ad">
                 <span class="menu-title">Ads Management</span>
                 <i class="menu-arrow"></i>
@@ -84,6 +84,6 @@
                 <span class="menu-title">Users</span>
                 <i class="mdi mdi-table-large menu-icon"></i>
             </a>
-        </li>
+        </li>-->
     </ul>
 </nav>

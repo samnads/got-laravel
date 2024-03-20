@@ -13275,8 +13275,8 @@ code {
     .dropdown .dropdown-menu .dropdown-item:active {
       background: initial; }
     .dropdown .dropdown-menu .dropdown-item:hover {
-      background-color: #f8f9fa;
-      color: #ffffff; }
+      background-color: #fecd00;
+      color: #242423; }
 
 /* Forms */
 .form-group {
