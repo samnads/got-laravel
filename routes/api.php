@@ -9,6 +9,7 @@ use App\Http\Controllers\Customer\Api\ProductCategoriesController;
 use App\Http\Controllers\Customer\Api\VendorController;
 use App\Http\Controllers\Customer\Api\VendorProductController;
 use App\Http\Controllers\Customer\Api\CartController;
+use App\Http\Controllers\Customer\Api\OrderController;
 //
 use App\Http\Controllers\Admin\Api\VendorController as AdminVendorController;
 
@@ -52,6 +53,7 @@ Route::prefix('customer')->group(function () {
         Route::post('logout', [LoginController::class, 'logout']);
         Route::post('cart', [CartController::class, 'get_cart']);
         Route::post('update_cart', [CartController::class, 'update_cart']);
+        Route::post('create_order', [OrderController::class, 'create_order']);
     });
 });
 Route::prefix('admin')->group(function () {
