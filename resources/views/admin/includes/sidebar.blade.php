@@ -40,8 +40,6 @@
                     </li>
                     <li class="nav-item"> <a class="nav-link" href="{{ url('admin/vendor/list') }}">List
                             Vendors</a></li>
-                    <li class="nav-item"> <a class="nav-link" href="{{ url('admin/vendor/blocked') }}">Blocked Vendors</a>
-                    </li>
                 </ul>
             </div>
         </li>
