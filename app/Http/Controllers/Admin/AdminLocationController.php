@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 
 use App\Http\Controllers\Controller;
+use App\Models\District;
 use App\Models\State;
 use App\Models\Location;
 use Illuminate\Http\Request;
@@ -25,6 +26,8 @@ class AdminLocationController extends Controller
                 $join->on('d.state_id', '=', 's.state_id');
             })
             ->get();
+        $data['states'] = State::get();
+        $data['districts'] = District::get();
         return view('admin.location.location-list', $data);
     }
 }

@@ -60,10 +60,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/block/{vendor_id}', [AdminVendorController::class, 'block_vendor']);
             Route::get('/unblock/{vendor_id}', [AdminVendorController::class, 'unblock_vendor']);
         });
-        //
         Route::get('/states', [AdminStateController::class, 'states_list'])->name('states');
-        Route::get('/locations', [AdminLocationController::class, 'locations_list'])->name('locations');
+        Route::prefix('locations')->group(function () {
+            Route::get('/list', [AdminLocationController::class, 'locations_list'])->name('locations');
+        });
         Route::prefix('ajax')->group(function () {
+            Route::any('/location', [AjaxController::class, 'location']);
             Route::any('/brand', [AjaxController::class, 'brand']);
             Route::any('/product/category', [AjaxController::class, 'product_category']);
             Route::any('/product/sub-category', [AjaxController::class, 'product_sub_category']);
