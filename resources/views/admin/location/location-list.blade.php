@@ -1,36 +1,34 @@
 @extends('components.layouts.admin', ['body_css_class' => 'admin-class'])
-@section('title', 'States')
+@section('title', 'Locations')
 @section('content')
     <div class="col-lg-12 grid-margin">
         <div class="card">
             <div class="card-body">
                 <div style="display: flex" class="m-3">
-                    <h2 class="card-title float-left">State List</h4>
-                        <!--<div style="margin-left: auto;">
+                    <h2 class="card-title float-left">Locations List</h4>
+                        <div style="margin-left: auto;">
                             <a role="button" href="{{ url('admin/product/category/new') }}"><button type="button"
                                     class="btn btn-inverse-dark btn-icon">
                                     <i class="mdi mdi-plus"></i>
                                 </button></a>
-                        </div>-->
+                        </div>
                 </div>
-                <table class="table table-bordered">
-                    <thead>
+                <table class="table table-hover table-bordered" id="locations-datatable">
+                    <thead class="table-light">
                         <tr>
                             <th>Sl. No.</th>
-                            <th>State Name</th>
+                            <th>Location</th>
+                            <th>State</th>
                             <th>Districts</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($states as $key => $state)
+                        @foreach ($locations as $key => $location)
                             <tr>
                                 <td>{{ $key + 1 }}</td>
-                                <td>{{ $state->name }}</td>
-                                <td>
-                                    @foreach ($state->districts as $district)
-                                        <p>{{ $district->name }}</p>
-                                    @endforeach
-                                </td>
+                                <td>{{ $location->name }}</td>
+                                <td>{{ $location->state }}</td>
+                                <td>{{ $location->district }}</td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -47,10 +45,13 @@
 @endpush
 @push('link-scripts')
     <!-- Pushed Link Scripts -->
+    <script src="https://cdn.datatables.net/2.0.2/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/2.0.2/js/dataTables.bootstrap5.js"></script>
 @endpush
 @push('inline-scripts')
     <!-- Pushed Inline Scripts -->
     <script>
+        new DataTable('#locations-datatable');
         $(document).ready(function() {
             $('[data-action="delete-category"]').click(function() {
                 let category_id = $(this).data("id");

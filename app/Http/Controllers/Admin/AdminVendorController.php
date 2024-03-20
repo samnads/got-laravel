@@ -34,7 +34,6 @@ class AdminVendorController extends Controller
             ->leftJoin('states as s', function ($join) {
                 $join->on('d.state_id', '=', 's.state_id');
             })
-            
             ->get();
         return view('admin.vendor.list-vendors', $data);
     }
