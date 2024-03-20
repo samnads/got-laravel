@@ -76,4 +76,7 @@ CREATE TABLE `order_customer_addresses` (
   CONSTRAINT `order_customer_addresses_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`),
   CONSTRAINT `order_customer_addresses_ibfk_2` FOREIGN KEY (`address_type`) REFERENCES `address_types` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+----------------------------------------------------------
+ALTER TABLE `vendors`
+DROP FOREIGN KEY `vendors_ibfk_2`
 ---------------------------------------------------------- DONE
