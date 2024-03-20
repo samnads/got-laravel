@@ -63,11 +63,11 @@ class VendorProductController extends Controller
             ->where([['id', '=', $request->vendor_id]])
             ->first();
         /***************************************************************************************************** */
-        $category = ProductCategories::select('id', 'name', 'description', DB::raw('CONCAT("' . config('url.uploads_cdn') . '","categories/",thumbnail_image) as thumbnail_url'), )->where([['id', '=', $request->category_id]])->first();
+        $category = ProductCategories::select('id as category_id', 'name', 'description', DB::raw('CONCAT("' . config('url.uploads_cdn') . '","categories/",thumbnail_image) as thumbnail_url'), )->where([['id', '=', $request->category_id]])->first();
         $v_products = VendorProduct::select('product_id')->where('vendor_id', $request->vendor_id)->get();
         $vendor_product_ids = array_column($v_products->toArray(), 'product_id');
         $vendor_products = ProductCategoryMapping::select(
-            DB::raw('DISTINCT(vp.id) as id'),
+            DB::raw('DISTINCT(vp.id) as product_id'),
             'p.name',
             'p.code',
             'p.item_size',
