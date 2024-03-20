@@ -54,13 +54,13 @@ class CartController extends Controller
             return Response::json($response, 200, [], JSON_PRETTY_PRINT);
         }
         $vendor = Vendor::select(
-            'id',
+            'id as vendor_id',
             'vendor_name as name',
         )
             ->where([['id', '=', $request->vendor_id]])
             ->first();
         $cart_products = Cart::select(
-            'cart.vendor_product_id as id',
+            'cart.vendor_product_id as product_id',
             'cart.id as cart_id',
             'p.name as name',
             'p.code as code',
@@ -68,7 +68,7 @@ class CartController extends Controller
             'u.name as unit',
             'u.code as unit_code',
             'p.description as description',
-            DB::raw('null as thumbnail_url'),
+            DB::raw('CONCAT("' . config('url.uploads_cdn') . '","products/",IFNULL(p.thumbnail_image,"default.jpg")) as thumbnail_url'),
             'cart.quantity',
             'vp.maximum_retail_price',
             'vp.retail_price',
@@ -133,7 +133,7 @@ class CartController extends Controller
         /***************************************************************************************************** */
         // validate vendor exist
         $vendor = Vendor::select(
-            'id',
+            'id as vendor_id',
             'vendor_name as name',
         )
             ->where([['id', '=', $request->vendor_id]])
@@ -199,7 +199,7 @@ class CartController extends Controller
         }
         /***************************************************************************************************** */
         $cart_products = Cart::select(
-            'cart.vendor_product_id as id',
+            'cart.vendor_product_id as product_id',
             'cart.id as cart_id',
             'p.name as name',
             'p.code as code',
@@ -207,7 +207,7 @@ class CartController extends Controller
             'u.name as unit',
             'u.code as unit_code',
             'p.description as description',
-            DB::raw('null as thumbnail_url'),
+            DB::raw('CONCAT("' . config('url.uploads_cdn') . '","products/",IFNULL(p.thumbnail_image,"default.jpg")) as thumbnail_url'),
             'cart.quantity',
             'vp.maximum_retail_price',
             'vp.retail_price',
