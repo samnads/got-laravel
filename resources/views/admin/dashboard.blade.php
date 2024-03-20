@@ -57,66 +57,67 @@
         <div class="col-12 grid-margin">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Recent Tickets</h4>
+                    <h4 class="card-title">Recent Orders</h4>
                     <div class="table-responsive">
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th> Assignee </th>
-                                    <th> Subject </th>
-                                    <th> Status </th>
-                                    <th> Last Update </th>
-                                    <th> Tracking ID </th>
+                                    <th>Order Ref.</th>
+                                    <th>Customer</th>
+                                    <th>Vendor</th>
+                                    <th>Amount</th>
+                                    <th>No. of Products</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
+                                    <td>44545454545</td>
                                     <td>
                                         <img src="{{ asset('assets/admin/images/faces/avatar.jpg') }}" class="me-2"
                                             alt="image"> David Grey
                                     </td>
                                     <td> Fund is not recieved </td>
                                     <td>
-                                        <label class="badge badge-gradient-success">DONE</label>
+                                        <label class="badge badge-gradient-success">155.00</label>
                                     </td>
-                                    <td> Dec 5, 2017 </td>
-                                    <td> WD-12345 </td>
+                                    <td>5</td>
                                 </tr>
                                 <tr>
+                                  <td>44545454545</td>
                                     <td>
                                         <img src="{{ asset('assets/admin/images/faces/avatar.jpg') }}" class="me-2"
                                             alt="image"> Stella Johnson
                                     </td>
                                     <td> High loading time </td>
                                     <td>
-                                        <label class="badge badge-gradient-warning">PROGRESS</label>
+                                        <label class="badge badge-gradient-success">155.00</label>
                                     </td>
-                                    <td> Dec 12, 2017 </td>
-                                    <td> WD-12346 </td>
+                                    <td>1</td>
+      
                                 </tr>
                                 <tr>
+                                  <td>44545454545</td>
                                     <td>
                                         <img src="{{ asset('assets/admin/images/faces/avatar.jpg') }}" class="me-2"
                                             alt="image"> Marina Michel
                                     </td>
                                     <td> Website down for one week </td>
                                     <td>
-                                        <label class="badge badge-gradient-info">ON HOLD</label>
+                                        <label class="badge badge-gradient-success">155.00</label>
                                     </td>
-                                    <td> Dec 16, 2017 </td>
-                                    <td> WD-12347 </td>
+                                    <td>14</td>
                                 </tr>
                                 <tr>
+                                  <td>44545454545</td>
                                     <td>
                                         <img src="{{ asset('assets/admin/images/faces/avatar.jpg') }}" class="me-2"
                                             alt="image"> John Doe
                                     </td>
                                     <td> Loosing control on server </td>
                                     <td>
-                                        <label class="badge badge-gradient-danger">REJECTED</label>
+                                        <label class="badge badge-gradient-success">155.00</label>
                                     </td>
-                                    <td> Dec 3, 2017 </td>
-                                    <td> WD-12348 </td>
+                                    <td>3</td>
                                 </tr>
                             </tbody>
                         </table>
