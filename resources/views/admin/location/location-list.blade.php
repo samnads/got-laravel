@@ -42,7 +42,7 @@
         </div>
     </div>
     <div id="new-location-modal" class="modal fade" role="dialog">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-body" style="padding: 40px;">
@@ -84,7 +84,7 @@
                                 </div>
                             </div>
                             <div class="col-12" style="text-align: right;">
-                                <button type="submit" class="btn btn-gradient-dark w-100">Save</button>
+                                <button type="submit" class="btn btn-gradient-success w-100">Save</button>
                             </div>
                         </div>
                     </form>
@@ -94,7 +94,7 @@
         </div>
     </div>
     <div id="edit-location-modal" class="modal fade" role="dialog">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-body" style="padding: 40px;">
@@ -136,7 +136,7 @@
                                 </div>
                             </div>
                             <div class="col-12" style="text-align: right;">
-                                <button type="submit" class="btn btn-gradient-dark w-100">Save</button>
+                                <button type="submit" class="btn btn-gradient-danger w-100">Update</button>
                             </div>
                         </div>
                     </form>
