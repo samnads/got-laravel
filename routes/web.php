@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\AdminStateController;
 use App\Http\Controllers\Admin\AdminBrandController;
 use App\Http\Controllers\Admin\AjaxController;
 use App\Http\Controllers\Admin\AdminVendorController;
+use App\Http\Controllers\Admin\AdminLocationController;
 use App\Http\Middleware\AdminAuthWeb;
 use App\Http\Middleware\VendorAuthWeb;
 
@@ -61,6 +62,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         });
         //
         Route::get('/states', [AdminStateController::class, 'states_list'])->name('states');
+        Route::get('/locations', [AdminLocationController::class, 'locations_list'])->name('locations');
         Route::prefix('ajax')->group(function () {
             Route::any('/brand', [AjaxController::class, 'brand']);
             Route::any('/product/category', [AjaxController::class, 'product_category']);
