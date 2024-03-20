@@ -27,17 +27,22 @@ CREATE TABLE `brands` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `description` varchar(255) DEFAULT NULL,
+  `thumbnail_image` varchar(255) DEFAULT NULL,
   `visibility` tinyint(1) NOT NULL DEFAULT 0,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `name` (`name`)
+  UNIQUE KEY `name` (`name`),
+  UNIQUE KEY `thumbnail_image` (`thumbnail_image`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-INSERT INTO `brands` (`id`, `name`, `description`, `visibility`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1,	'Apple',	'rtrtrt',	1,	'2024-03-12 22:40:46',	'2024-03-12 17:50:08',	NULL),
-(2,	'Pepsico',	NULL,	1,	'2024-03-12 22:40:46',	'2024-03-12 22:40:46',	NULL);
+INSERT INTO `brands` (`id`, `name`, `description`, `thumbnail_image`, `visibility`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1,	'Apple',	'rtrtrt',	'8xLWcVCdB69E1x6cwTQja98hQ8sgmsPuv14U2h0C.png',	1,	'2024-03-12 22:40:46',	'2024-03-16 17:52:49',	'2024-03-16 17:52:49'),
+(2,	'Pepsico',	'hj',	'NdfFgniogVuh8sr38KTpFMQ1wozW8lRrsVIeYw6b.png',	1,	'2024-03-12 22:40:46',	'2024-03-16 18:40:43',	NULL),
+(8,	'tt',	'g',	'0uY49oKnP2lxiQXcJNzpupJahBmu8mHa6hyH7C2L.png',	0,	'2024-03-16 17:44:46',	'2024-03-16 17:52:16',	NULL),
+(9,	'ghg',	'ghgh',	'OBM42MqGmPcrO24mWC1JgBMYoWWbvxppLJ0JKNFH.png',	0,	'2024-03-16 17:48:02',	'2024-03-16 17:48:02',	NULL),
+(14,	'Hello',	'ff',	'Zo8yMRgwluGzuUwpUwxeOBSYDh88xIGaNbP7vsyl.png',	0,	'2024-03-16 17:52:26',	'2024-03-16 17:52:26',	NULL);
 
 DROP TABLE IF EXISTS `cart`;
 CREATE TABLE `cart` (
@@ -55,6 +60,11 @@ CREATE TABLE `cart` (
   CONSTRAINT `cart_ibfk_2` FOREIGN KEY (`vendor_product_id`) REFERENCES `vendor_products` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+INSERT INTO `cart` (`id`, `customer_id`, `vendor_product_id`, `quantity`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(3,	7,	1,	4.00,	'2024-03-20 15:32:27',	'2024-03-20 18:16:55',	'2024-03-20 18:16:55'),
+(4,	7,	2,	5.00,	'2024-03-20 16:53:55',	'2024-03-20 18:16:55',	'2024-03-20 18:16:55'),
+(5,	7,	3,	4.00,	'2024-03-20 16:54:00',	'2024-03-20 18:16:55',	'2024-03-20 18:16:55'),
+(6,	7,	24,	4.00,	'2024-03-20 16:54:00',	'2024-03-20 17:31:50',	NULL);
 
 DROP TABLE IF EXISTS `customers`;
 CREATE TABLE `customers` (
@@ -81,7 +91,7 @@ CREATE TABLE `customers` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 INSERT INTO `customers` (`id`, `name`, `email`, `mobile_number_1_cc`, `mobile_number_1`, `mobile_number_1_otp`, `mobile_number_1_otp_expired_at`, `mobile_number_1_verified_at`, `password`, `token`, `device_type`, `push_token`, `default_address_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(7,	'CloudVeins Test',	'hr@example.com',	'+91',	'9745451448',	NULL,	'2024-03-16 01:59:23',	NULL,	NULL,	'$2y$12$HJ7qVLN8kAtpDx50Uby1tOEbbLvOZp9U7iKvFUJzcENtlK1n98hPy',	NULL,	NULL,	49,	'2024-03-10 12:55:24',	'2024-03-16 01:59:17',	NULL),
+(7,	'CloudVeins Test',	'hr@example.com',	'+91',	'9745451448',	NULL,	'2024-03-20 17:50:59',	NULL,	NULL,	'$2y$12$J9t9azobJXGBUUwDQq8J0uDU92tD3pWqWwzI6EsQEJeTq1/vLazje',	NULL,	NULL,	49,	'2024-03-10 12:55:24',	'2024-03-20 17:50:51',	NULL),
 (8,	'kannsn',	'kannansk172@gmail.com',	'+91',	'9188778069',	NULL,	'2024-03-15 18:09:11',	NULL,	NULL,	'$2y$12$IKyZ1Daao3ZL9TSZXpqlQugZcG7D374pdzfRXZseKQ3ecENXSlCLC',	NULL,	NULL,	NULL,	'2024-03-15 16:07:05',	'2024-03-15 18:32:33',	NULL),
 (9,	'venu',	'venu@gmail.com',	'+91',	'9154564646',	NULL,	'2024-03-15 16:27:38',	NULL,	NULL,	'$2y$12$HpKa807PL/7kXH8UoCK35uJc35DPPQ1NPKkx66HEgwIlsemF2mBvG',	NULL,	NULL,	NULL,	'2024-03-15 16:27:28',	'2024-03-15 16:27:54',	NULL);
 
@@ -183,7 +193,8 @@ CREATE TABLE `locations` (
   `updated_at` datetime DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `district_id` (`district_id`)
+  KEY `district_id` (`district_id`),
+  CONSTRAINT `locations_ibfk_1` FOREIGN KEY (`district_id`) REFERENCES `districts` (`district_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 INSERT INTO `locations` (`id`, `district_id`, `name`, `created_at`, `updated_at`, `deleted_at`) VALUES
@@ -206,6 +217,90 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (6,	'2024_03_06_185128_create_product_categories_table',	1),
 (7,	'2024_03_07_160040_create_vendors_table',	1),
 (8,	'2024_03_07_172422_create_roles_table',	2);
+
+DROP TABLE IF EXISTS `orders`;
+CREATE TABLE `orders` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `order_reference` varchar(255) DEFAULT NULL,
+  `customer_id` bigint(20) unsigned NOT NULL,
+  `vendor_id` bigint(20) unsigned NOT NULL,
+  `address_id` bigint(20) unsigned NOT NULL,
+  `total_payable` decimal(10,2) unsigned NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `order_reference` (`order_reference`),
+  KEY `customer_id` (`customer_id`),
+  KEY `address_id` (`address_id`),
+  KEY `vendor_id` (`vendor_id`),
+  CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`),
+  CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`address_id`) REFERENCES `customer_addresses` (`id`),
+  CONSTRAINT `orders_ibfk_3` FOREIGN KEY (`vendor_id`) REFERENCES `vendors` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+INSERT INTO `orders` (`id`, `order_reference`, `customer_id`, `vendor_id`, `address_id`, `total_payable`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(30,	'GOT-OR-LOCAL-000030',	7,	1,	34,	468.00,	'2024-03-20 17:58:13',	'2024-03-20 17:58:14',	NULL),
+(31,	'GOT-OR-LOCAL-000031',	7,	1,	35,	468.00,	'2024-03-20 18:12:08',	'2024-03-20 18:12:08',	NULL),
+(32,	'GOT-OR-LOCAL-000032',	7,	1,	35,	468.00,	'2024-03-20 18:16:55',	'2024-03-20 18:16:55',	NULL);
+
+DROP TABLE IF EXISTS `order_customer_addresses`;
+CREATE TABLE `order_customer_addresses` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `order_id` bigint(20) unsigned NOT NULL,
+  `name` varchar(200) DEFAULT NULL,
+  `address` varchar(200) DEFAULT NULL,
+  `latitude` varchar(150) DEFAULT NULL,
+  `longitude` varchar(150) DEFAULT NULL,
+  `apartment_no` varchar(255) DEFAULT NULL,
+  `apartment_name` varchar(255) DEFAULT NULL,
+  `street` varchar(255) DEFAULT NULL,
+  `landmark` varchar(255) DEFAULT NULL,
+  `pin_code` varchar(15) DEFAULT NULL,
+  `mobile_no` varchar(100) DEFAULT NULL,
+  `address_type` bigint(20) NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `order_id` (`order_id`),
+  KEY `address_type` (`address_type`),
+  CONSTRAINT `order_customer_addresses_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`),
+  CONSTRAINT `order_customer_addresses_ibfk_2` FOREIGN KEY (`address_type`) REFERENCES `address_types` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+INSERT INTO `order_customer_addresses` (`id`, `order_id`, `name`, `address`, `latitude`, `longitude`, `apartment_no`, `apartment_name`, `street`, `landmark`, `pin_code`, `mobile_no`, `address_type`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(57,	31,	'trtrt',	'Test Address',	'245454545',	'4545454545',	'103',	'Cyber Zone',	NULL,	'Near 5th milestone',	NULL,	'8552564545',	1,	'2024-03-20 18:12:08',	'2024-03-20 18:12:08',	NULL),
+(58,	32,	'trtrt',	'Test Address',	'245454545',	'4545454545',	'103',	'Cyber Zone',	NULL,	'Near 5th milestone',	NULL,	'8552564545',	1,	'2024-03-20 18:16:55',	'2024-03-20 18:16:55',	NULL);
+
+DROP TABLE IF EXISTS `order_products`;
+CREATE TABLE `order_products` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `order_id` bigint(20) unsigned NOT NULL,
+  `vendor_product_id` bigint(20) NOT NULL,
+  `unit_price` decimal(10,2) NOT NULL,
+  `quantity` decimal(10,2) NOT NULL DEFAULT 1.00,
+  `total_price` decimal(10,2) NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `order_id` (`order_id`),
+  KEY `vendor_product_id` (`vendor_product_id`),
+  CONSTRAINT `order_products_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`),
+  CONSTRAINT `order_products_ibfk_2` FOREIGN KEY (`vendor_product_id`) REFERENCES `vendor_products` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+INSERT INTO `order_products` (`id`, `order_id`, `vendor_product_id`, `unit_price`, `quantity`, `total_price`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(53,	30,	1,	40.00,	4.00,	160.00,	'2024-03-20 17:58:13',	'2024-03-20 17:58:13',	NULL),
+(54,	30,	2,	20.00,	5.00,	100.00,	'2024-03-20 17:58:13',	'2024-03-20 17:58:13',	NULL),
+(55,	30,	3,	52.00,	4.00,	208.00,	'2024-03-20 17:58:14',	'2024-03-20 17:58:14',	NULL),
+(56,	31,	1,	40.00,	4.00,	160.00,	'2024-03-20 18:12:08',	'2024-03-20 18:12:08',	NULL),
+(57,	31,	2,	20.00,	5.00,	100.00,	'2024-03-20 18:12:08',	'2024-03-20 18:12:08',	NULL),
+(58,	31,	3,	52.00,	4.00,	208.00,	'2024-03-20 18:12:08',	'2024-03-20 18:12:08',	NULL),
+(59,	32,	1,	40.00,	4.00,	160.00,	'2024-03-20 18:16:55',	'2024-03-20 18:16:55',	NULL),
+(60,	32,	2,	20.00,	5.00,	100.00,	'2024-03-20 18:16:55',	'2024-03-20 18:16:55',	NULL),
+(61,	32,	3,	52.00,	4.00,	208.00,	'2024-03-20 18:16:55',	'2024-03-20 18:16:55',	NULL);
 
 DROP TABLE IF EXISTS `password_resets`;
 CREATE TABLE `password_resets` (
@@ -280,10 +375,10 @@ INSERT INTO `products` (`id`, `code`, `item_size`, `unit_id`, `brand_id`, `name`
 (17,	'63535435',	1.00,	5,	NULL,	'7 Up',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	NULL,	'2024-03-14 23:18:15',	'2024-03-14 23:18:15',	NULL),
 (18,	'45465464',	1.00,	5,	NULL,	'7 Up',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	NULL,	'2024-03-14 23:18:15',	'2024-03-14 23:18:15',	NULL),
 (20,	'45634564',	5.00,	3,	NULL,	'BRAND1 - 5 Kg Kit',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	NULL,	'2024-03-14 23:18:15',	'2024-03-14 23:18:15',	NULL),
-(21,	'45454',	10.00,	3,	NULL,	'BRAND1 - 10 Kg Kit',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	NULL,	'2024-03-14 23:18:15',	'2024-03-14 23:18:15',	NULL),
-(22,	'466664F',	10.00,	3,	NULL,	'BRAND2 - 10 Kg Kit',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	NULL,	'2024-03-14 23:18:15',	'2024-03-14 23:18:15',	NULL),
-(23,	'NBJN454',	5.00,	3,	NULL,	'BRAND2 - 5 Kg Kit',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.	',	NULL,	'2024-03-14 23:18:15',	'2024-03-14 23:18:15',	NULL),
-(26,	'DF45GF76',	300.00,	2,	NULL,	'Ponds Powder',	'Ponds.........',	'HnG3BJ9imhtQKfVwofW25EGFCj7M1Hx2tOty4s32.jpg',	'2024-03-16 03:10:58',	'2024-03-16 03:10:58',	NULL);
+(21,	'45454',	10.00,	3,	NULL,	'BRAND1 - 10 Kg Kit',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',	'7RwxPhqT5ooZxeHz7h5LaU9TKoHpkv1IvZGFTbwR.jpg',	'2024-03-14 23:18:15',	'2024-03-16 18:36:59',	NULL),
+(22,	'466664F',	10.00,	3,	NULL,	'BRAND2 - 10 Kg Kit',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',	'4o6wZVIsTOgjkaevPmZOaLHFfMegTPtCGfNx5KXM.png',	'2024-03-14 23:18:15',	'2024-03-16 18:35:34',	NULL),
+(23,	'NBJN454',	5.00,	3,	NULL,	'BRAND2 - 5 Kg Kit',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',	'jhJPFV5v5bKeOxgiE1RwwkiATqOL6hNkUhhUFUn2.png',	'2024-03-14 23:18:15',	'2024-03-16 18:33:08',	NULL),
+(26,	'DF45GF76',	350.00,	2,	NULL,	'Ponds Powder',	'Ponds.........',	'HnG3BJ9imhtQKfVwofW25EGFCj7M1Hx2tOty4s32.jpg',	'2024-03-16 03:10:58',	'2024-03-16 18:37:55',	NULL);
 
 DROP TABLE IF EXISTS `product_categories`;
 CREATE TABLE `product_categories` (
@@ -307,7 +402,7 @@ INSERT INTO `product_categories` (`id`, `parent_id`, `name`, `description`, `thu
 (3,	NULL,	'Vegetables',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',	'GdIp1UNewSVKuIOVAAJiXZNUQlxmKAN6q5dp62VJ.webp',	'2024-03-14 17:44:23',	'2024-03-15 19:53:01',	NULL),
 (4,	NULL,	'Soft Drinks',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',	'10QpkgFHa64bQW9mUVIbT1OMblj78yuGRUTDT4GU.jpg',	'2024-03-14 17:44:23',	'2024-03-15 19:51:08',	NULL),
 (5,	NULL,	'Rice Kits',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',	'9qxy2G5LHCCTVjWaui5kOePIMAYPdiiLPSZBEWiH.jpg',	'2024-03-14 17:44:23',	'2024-03-15 20:49:19',	NULL),
-(17,	NULL,	'Cosmetics',	'Cosmetic products',	'0ZPia9SYJeL3q0lfTYezBvR2cC87RT2LpAOuAxwJ.webp',	'2024-03-15 21:38:28',	'2024-03-15 21:38:28',	NULL);
+(17,	NULL,	'Cosmetics',	'Cosmetic products',	'0ZPia9SYJeL3q0lfTYezBvR2cC87RT2LpAOuAxwJ.webp',	'2024-03-15 21:38:28',	'2024-03-16 12:10:25',	NULL);
 
 DROP TABLE IF EXISTS `product_category_mappings`;
 CREATE TABLE `product_category_mappings` (
@@ -342,7 +437,9 @@ INSERT INTO `product_category_mappings` (`id`, `product_id`, `category_id`, `cre
 (15,	21,	5,	'2024-03-14 23:27:43',	'2024-03-14 23:27:43',	NULL),
 (16,	22,	5,	'2024-03-14 23:27:43',	'2024-03-14 23:27:43',	NULL),
 (17,	23,	5,	'2024-03-14 23:27:43',	'2024-03-14 23:27:43',	NULL),
-(18,	26,	17,	'2024-03-16 03:10:58',	'2024-03-16 03:10:58',	NULL);
+(18,	26,	17,	'2024-03-16 03:10:58',	'2024-03-16 03:10:58',	NULL),
+(20,	22,	1,	'2024-03-16 18:35:34',	'2024-03-16 18:35:34',	NULL),
+(21,	21,	4,	'2024-03-16 18:36:59',	'2024-03-16 18:36:59',	NULL);
 
 DROP TABLE IF EXISTS `roles`;
 CREATE TABLE `roles` (
@@ -410,18 +507,19 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO `users` (`id`, `name`, `username`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1,	'Admin',	'admin@example.com',	'admin@example.com',	'2024-03-07 10:49:50',	'$2y$12$SjmwFDIffWTH4X84sgvv/.VFWHJdaCOH9i0P3s/mx.p8cqWSRHvIm',	'yIj11mqiTRAT8YWF0qMI8iyRTncOouCmma3s5z2sLfDWPLZZNboe4uC9aVRY',	'2024-03-07 10:49:50',	'2024-03-07 10:49:50',	NULL);
+(1,	'Admin',	'admin@example.com',	'admin@example.com',	'2024-03-07 10:49:50',	'$2y$12$SjmwFDIffWTH4X84sgvv/.VFWHJdaCOH9i0P3s/mx.p8cqWSRHvIm',	'WlrDm6wWVdfH7eUdVunYRfCSCJXkvELkPyk4ZqeS2Jm13rG9nrKU598GVTDq',	'2024-03-07 10:49:50',	'2024-03-07 10:49:50',	NULL);
 
 DROP TABLE IF EXISTS `vendors`;
 CREATE TABLE `vendors` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `vendor_name` varchar(255) NOT NULL,
-  `owner_name` varchar(255) NOT NULL,
+  `owner_name` varchar(255) DEFAULT NULL,
   `gst_number` varchar(150) DEFAULT NULL,
   `pan_number` varchar(150) DEFAULT NULL,
+  `mobile_number_cc` varchar(30) NOT NULL DEFAULT '+91',
   `mobile_number` varchar(100) NOT NULL,
-  `district_id` bigint(20) unsigned NOT NULL,
-  `location_id` bigint(20) NOT NULL,
+  `district_id` bigint(20) unsigned DEFAULT NULL,
+  `location_id` bigint(20) DEFAULT NULL,
   `address` varchar(255) NOT NULL,
   `latitude` varchar(100) NOT NULL,
   `longitude` varchar(100) NOT NULL,
@@ -446,9 +544,11 @@ CREATE TABLE `vendors` (
   CONSTRAINT `vendors_ibfk_3` FOREIGN KEY (`location_id`) REFERENCES `locations` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-INSERT INTO `vendors` (`id`, `vendor_name`, `owner_name`, `gst_number`, `pan_number`, `mobile_number`, `district_id`, `location_id`, `address`, `latitude`, `longitude`, `accuracy`, `shop_thumbnail`, `email`, `email_verified_at`, `username`, `password`, `remember_token`, `blocked_at`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1,	'Vendor ABC',	'Owner 1',	'GST1',	'',	'123451',	1,	1,	'address1',	'455',	'3545',	NULL,	NULL,	'vendor1@example.com',	NULL,	'vendor1@example.com',	'$2y$12$SjmwFDIffWTH4X84sgvv/.VFWHJdaCOH9i0P3s/mx.p8cqWSRHvIm',	NULL,	NULL,	'2024-03-11 18:04:08',	'2024-03-14 18:38:56',	NULL),
-(2,	'Vendor XYZ',	'Owner 2',	'GST2',	'',	'123456',	1,	1,	'address1',	'455',	'3545',	NULL,	NULL,	'vendor2@example.com',	NULL,	'vendor2@example.com',	'$2y$12$SjmwFDIffWTH4X84sgvv/.VFWHJdaCOH9i0P3s/mx.p8cqWSRHvIm',	NULL,	NULL,	'2024-03-11 18:04:08',	'2024-03-12 13:17:33',	NULL);
+INSERT INTO `vendors` (`id`, `vendor_name`, `owner_name`, `gst_number`, `pan_number`, `mobile_number_cc`, `mobile_number`, `district_id`, `location_id`, `address`, `latitude`, `longitude`, `accuracy`, `shop_thumbnail`, `email`, `email_verified_at`, `username`, `password`, `remember_token`, `blocked_at`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1,	'Vendor ABC',	'Owner 1',	'GST1',	'',	'+91',	'123451',	1,	1,	'address1',	'455',	'3545',	NULL,	NULL,	'vendor1@example.com',	NULL,	'vendor1@example.com',	'$2y$12$SjmwFDIffWTH4X84sgvv/.VFWHJdaCOH9i0P3s/mx.p8cqWSRHvIm',	NULL,	NULL,	'2024-03-11 18:04:08',	'2024-03-19 13:42:20',	NULL),
+(2,	'Vendor XYZ',	'Owner 2',	'GST2',	'',	'+91',	'123456',	1,	1,	'address1',	'455',	'3545',	NULL,	NULL,	'vendor2@example.com',	NULL,	'vendor2@example.com',	'$2y$12$SjmwFDIffWTH4X84sgvv/.VFWHJdaCOH9i0P3s/mx.p8cqWSRHvIm',	NULL,	NULL,	'2024-03-11 18:04:08',	'2024-03-19 13:42:16',	NULL),
+(26,	'Vendor Name',	'Owner Name',	'GST Number',	NULL,	'+91',	'355564654646',	NULL,	NULL,	'Address',	'4535353',	'53535',	NULL,	NULL,	'sdsdsd@sas.hg',	NULL,	'dsds@sd.df',	'$2y$12$PqQbBgjUQI0SGLcivKc/rea62H0NXF.3VMGOtzrAfIxZVqNtW/vU2',	NULL,	NULL,	'2024-03-18 16:01:40',	'2024-03-19 14:08:46',	NULL),
+(34,	'test name',	NULL,	NULL,	NULL,	'+91',	'123456789',	NULL,	NULL,	'sdsdsdsdsdsdsds',	'3.45454545',	'2.45454546',	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	'2024-03-20 10:11:54',	'2024-03-20 10:11:54',	NULL);
 
 DROP TABLE IF EXISTS `vendor_fssai`;
 CREATE TABLE `vendor_fssai` (
@@ -484,7 +584,7 @@ CREATE TABLE `vendor_products` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 INSERT INTO `vendor_products` (`id`, `vendor_id`, `product_id`, `min_cart_quantity`, `max_cart_quantity`, `maximum_retail_price`, `retail_price`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1,	1,	1,	1,	5,	50.00,	40.00,	'2024-03-14 23:36:51',	'2024-03-15 20:11:56',	NULL),
+(1,	1,	1,	1,	5,	50.00,	40.00,	'2024-03-14 23:36:51',	'2024-03-19 19:39:52',	NULL),
 (2,	1,	2,	1,	5,	25.00,	20.00,	'2024-03-14 23:36:51',	'2024-03-15 19:46:51',	NULL),
 (3,	1,	4,	1,	5,	55.00,	52.00,	'2024-03-14 23:36:51',	'2024-03-15 19:46:51',	NULL),
 (4,	1,	5,	1,	5,	85.00,	78.00,	'2024-03-14 23:36:51',	'2024-03-14 23:36:51',	NULL),
@@ -496,6 +596,7 @@ INSERT INTO `vendor_products` (`id`, `vendor_id`, `product_id`, `min_cart_quanti
 (11,	1,	16,	1,	5,	50.00,	48.00,	'2024-03-14 23:36:51',	'2024-03-15 20:12:33',	NULL),
 (12,	1,	17,	1,	5,	80.00,	78.00,	'2024-03-14 23:36:51',	'2024-03-14 23:36:51',	NULL),
 (13,	1,	18,	1,	5,	150.00,	99.00,	'2024-03-14 23:36:51',	'2024-03-14 23:36:51',	NULL),
-(14,	1,	20,	1,	5,	180.00,	150.00,	'2024-03-14 23:36:51',	'2024-03-14 23:36:51',	NULL);
+(14,	1,	20,	1,	5,	180.00,	150.00,	'2024-03-14 23:36:51',	'2024-03-14 23:36:51',	NULL),
+(24,	2,	20,	1,	5,	180.00,	150.00,	'2024-03-14 23:36:51',	'2024-03-14 23:36:51',	NULL);
 
--- 2024-03-16 03:18:34
+-- 2024-03-20 18:21:19

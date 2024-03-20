@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Customer\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\CustomerAddress;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Config;
@@ -10,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Order;
 use App\Models\OrderProduct;
-use App\Models\Vendor;
+use App\Models\OrderCustomerAddress;
 use App\Models\VendorProduct;
 use App\Models\Cart;
 use App\Models\ProductCategories;
@@ -46,6 +47,19 @@ class OrderController extends Controller
             return Response::json($response, 200, [], JSON_PRETTY_PRINT);
         }
         /***************************************************************************************************** */
+        // validate address id
+        $address = CustomerAddress::find($input['address_id']);
+        if (@$address->customer_id != $input['id']) {
+            $response = [
+                'status' => [
+                    'success' => 'false',
+                    'hasdata' => 'false',
+                    'message' => 'Invalid address.'
+                ]
+            ];
+            return Response::json($response, 200, [], JSON_PRETTY_PRINT);
+        }
+        /***************************************************************************************************** */
         $products = Cart::select(
             'cart.vendor_product_id as product_id',
             'cart.id as cart_id',
@@ -76,6 +90,7 @@ class OrderController extends Controller
             ->where([['vp.vendor_id', '=', $request->vendor_id], ['vp.deleted_at', '=', null], ['p.deleted_at', '=', null]])
             ->get()
             ->toArray();
+        /***************************************************************************************************** */
         if (!$products) {
             $response = [
                 'status' => [
@@ -86,7 +101,9 @@ class OrderController extends Controller
             ];
             return Response::json($response, 200, [], JSON_PRETTY_PRINT);
         }
+        /***************************************************************************************************** */
         DB::beginTransaction();
+        // save order
         $order = new Order();
         $order->customer_id = $input['id'];
         $order->vendor_id = $input['vendor_id'];
@@ -95,6 +112,7 @@ class OrderController extends Controller
         $order->save();
         $order->order_reference = config('prefix.ORDER_REF') . sprintf('%06d', $order->id);
         $order->save();
+        // save products
         foreach ($products as $key => $product) {
             $order_product = new OrderProduct();
             $order_product->order_id = $order->id;
@@ -109,6 +127,21 @@ class OrderController extends Controller
         // reset ordered cart data
         $vendor_product_cart_ids = array_column($products, 'cart_id');
         Cart::destroy($vendor_product_cart_ids);
+        // save order address
+        $order_address = new OrderCustomerAddress();
+        $order_address->order_id = $order->id;
+        $order_address->name = $address->name;
+        $order_address->address = $address->address;
+        $order_address->latitude = $address->latitude;
+        $order_address->longitude = $address->longitude;
+        $order_address->apartment_no = $address->apartment_no;
+        $order_address->apartment_name = $address->apartment_name;
+        $order_address->street = $address->street;
+        $order_address->landmark = $address->landmark;
+        $order_address->pin_code = $address->pin_code;
+        $order_address->mobile_no = $address->mobile_no;
+        $order_address->address_type = $address->address_type;
+        $order_address->save();
         DB::commit();
         $response = [
             'status' => [
