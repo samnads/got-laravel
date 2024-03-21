@@ -30,7 +30,7 @@
                                 <td>{{ $location->state }}</td>
                                 <td>{{ $location->district }}</td>
                                 <td>
-                                    <button data-action="edit-location" data-id="{{ $location->id }}"
+                                    <button data-action="edit-location" data-id="{{ $location->id }}" data-state_id="{{ $location->state_id }}"
                                         class="btn btn-inverse-secondary btn-icon" title="Edit"> <i
                                             class="mdi mdi-pencil"></i></button>
                                 </td>
@@ -96,7 +96,7 @@
                     <a data-dismiss="modal" style="position: absolute; right: 15px; top: 15px;"><button type="button"
                             class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></a>
                     <h2 class="modal-title mb-4">Edit Location</h2>
-                    <form action="#" method="post" accept-charset="utf-8" id="edit-location-form">
+                    <form method="post" accept-charset="utf-8" id="edit-location-form">
                         @csrf
                         <input type="hidden" name="id" />
                         <div class="row">
@@ -159,6 +159,16 @@
     <!-- Pushed Inline Scripts -->
     <script>
         new DataTable('#locations-datatable');
+        let new_location_form = $('form[id="new-location-form"]');
+        let edit_location_form = $('form[id="edit-location-form"]');
+        var new_location_modal = new bootstrap.Modal(document.getElementById('new-location-modal'), {
+            backdrop: 'static',
+            keyboard: true
+        });
+        var edit_location_modal = new bootstrap.Modal(document.getElementById('edit-location-modal'), {
+            backdrop: 'static',
+            keyboard: true
+        })
         let new_districts_dropdown = new TomSelect('#new-location-form [name="district_id"]', {
             plugins: {
                 'clear_button': {}
@@ -200,7 +210,7 @@
             plugins: {
                 'clear_button': {}
             },
-            onChange: function(state_id) {
+            onItemAdd: function(state_id) {
                 edit_districts_dropdown.clear();
                 edit_districts_dropdown.clearOptions();
                 $.ajax({
@@ -223,20 +233,11 @@
                 });
             }
         });
-        let new_location_form = $('form[id="new-location-form"]');
-        let edit_location_form = $('form[id="edit-location-form"]');
-        var new_location_modal = new bootstrap.Modal(document.getElementById('new-location-modal'), {
-            backdrop: 'static',
-            keyboard: true
-        });
-        var edit_location_modal = new bootstrap.Modal(document.getElementById('edit-location-modal'), {
-            backdrop: 'static',
-            keyboard: true
-        })
         $('[data-action="new-location"]').click(function() {
             new_location_modal.show();
         });
         $('[data-action="edit-location"]').click(function() {
+            $('#edit-location-form [name="id"]').val($(this).data("id"));
             edit_districts_dropdown.clear();
             edit_districts_dropdown.clearOptions();
             $.ajax({
@@ -249,12 +250,13 @@
                 success: function(response) {
                     $('#edit-location-form [name="name"]').val(response.location.name);
                     let options = `<option value="">-- Select District --</option>`;
-                    $.each(response.items, function(index, item) {
-                        options += `<option value="` + item.id + `">` + item.name +
+                    $.each(response.districts, function(index, district) {
+                        options += `<option value="` + district.id + `">` + district.name +
                             `</option>`;
                     });
                     $('#edit-location-form [name="district_id"]').html(options);
                     edit_districts_dropdown.sync();
+                    edit_districts_dropdown.setValue([response.location.district_id]);
                     edit_states_dropdown.setValue([response.location.state_id]);
                 },
                 error: function(response) {},
@@ -304,6 +306,58 @@
                         contentType: false,
                         processData: false,
                         data: formData,
+                        success: function(response) {
+                            if (response.status == "success") {
+                                location.href = _base_url + 'admin/locations/list';
+                            } else {
+                                toast('Error !', response.message, 'error');
+                            }
+                        },
+                        error: function(response) {
+                            toast('Error !', 'An error occured !', 'error');
+                        },
+                    });
+                }
+            });
+            edit_location_form.validate({
+                focusInvalid: true,
+                ignore: [],
+                rules: {
+                    "state_id": {
+                        required: true,
+                    },
+                    "district_id": {
+                        required: true,
+                    },
+                    "name": {
+                        required: true,
+                    }
+                },
+                messages: {
+                    "state_id": {
+                        required: "Select state",
+                    },
+                    "district_id": {
+                        required: "Select district",
+                    },
+                    "name": {
+                        required: "Enter location name",
+                    }
+                },
+                errorPlacement: function(error, element) {
+                    if (element.attr("name") == "state_id" || element.attr("name") == "district_id") {
+                        $(element).parent().append(error);
+                    } else {
+                        error.insertAfter(element);
+                    }
+
+                },
+                submitHandler: function(form) {
+                    $.ajax({
+                        type: 'PUT',
+                        url: _base_url + "admin/ajax/location",
+                        dataType: 'json',
+                        data: $('#edit-location-form').serialize(),
                         success: function(response) {
                             if (response.status == "success") {
                                 location.href = _base_url + 'admin/locations/list';

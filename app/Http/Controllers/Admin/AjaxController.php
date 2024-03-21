@@ -177,24 +177,12 @@ class AjaxController extends Controller
                 $response = ['status' => 'success', 'message' => 'Location added successfully.'];
                 break;
             case 'PUT':
-                $row = Brand::find($request->id);
+                $row = Location::find($request->id);
                 $row->name = $request->name;
-                $row->description = $request->description;
-                $row->updated_at = now();
-                /************************************* */
-                if ($request->file('thumbnail_image')) {
-                    $file = $request->file('thumbnail_image');
-                    $fileName = $file->getClientOriginalName();
-                    $image_resize = Image::make($file->getRealPath());
-                    $image_resize->fit(300, 300);
-                    $image_resize->save(public_path('uploads/brands/' . $file->hashName()), 100);
-                    //$filePath = $file->store('categories', 'public_uploads');
-                    $row->thumbnail_image = $file->hashName();
-                }
-                /************************************* */
+                $row->district_id = $request->district_id;
                 $row->save();
-                Session::flash('toast', ['type' => 'success', 'title' => 'Success !', 'message' => 'Brand <b>' . $row->name . '</b> updated successfully.']);
-                $response = ['status' => 'success', 'message' => 'Brand <b>' . $row->name . '</b> updated successfully.'];
+                Session::flash('toast', ['type' => 'success', 'title' => 'Success !', 'message' => 'Location updated successfully.']);
+                $response = ['status' => 'success', 'message' => 'Location updated successfully.'];
                 break;
             case 'DELETE':
                 $row = Brand::find($request->id);

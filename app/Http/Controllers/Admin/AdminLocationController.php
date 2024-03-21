@@ -16,6 +16,7 @@ class AdminLocationController extends Controller
         $data['locations'] = Location::
             select(
                 'locations.*',
+                's.state_id',
                 's.name as state',
                 'd.name as district',
             )
