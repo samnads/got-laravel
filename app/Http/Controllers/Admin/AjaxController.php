@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Brand;
+use App\Models\District;
+use App\Models\Location;
 use Illuminate\Http\Request;
 use App\Models\ProductCategories;
 use Session;
@@ -167,12 +169,10 @@ class AjaxController extends Controller
     {
         switch ($request->method()) {
             case 'POST':
-                /*$row = new Brand();
+                $row = new Location();
                 $row->name = $request->name;
-                $row->description = $request->description;
-                $row->created_at = now();
-                $row->updated_at = now();
-                $row->save();*/
+                $row->district_id = $request->district_id;
+                $row->save();
                 Session::flash('toast', ['type' => 'success', 'title' => 'Success !', 'message' => 'Location added successfully.']);
                 $response = ['status' => 'success', 'message' => 'Location added successfully.'];
                 break;
@@ -207,6 +207,28 @@ class AjaxController extends Controller
                 // invalid request
                 break;
         }
+        return response()->json($response);
+    }
+    public function get_districts_by_state(Request $request)
+    {
+        $response['items'] = District::select('district_id as id', 'name')->where('state_id', $request->state_id)->get();
+        return response()->json($response);
+    }
+    public function get_location_by_id(Request $request)
+    {
+        $response['location'] = Location::
+            select(
+                'locations.id',
+                'd.state_id',
+                'locations.district_id',
+                'locations.name'
+            )
+            ->leftJoin('districts as d', function ($join) {
+                $join->on('locations.district_id', '=', 'd.district_id');
+            })
+            ->where('locations.id', $request->location_id)
+            ->first();
+        $response['districts'] = District::select('district_id as id', 'name')->where('state_id', $response['location']->state_id)->get();
         return response()->json($response);
     }
 }

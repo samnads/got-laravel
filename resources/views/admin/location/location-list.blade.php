@@ -49,8 +49,7 @@
                     <a data-dismiss="modal" style="position: absolute; right: 15px; top: 15px;"><button type="button"
                             class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></a>
                     <h2 class="modal-title mb-4">New Location</h2>
-                    <form action="#" method="post" accept-charset="utf-8"
-                        id="new-location-form">
+                    <form action="#" method="post" accept-charset="utf-8" id="new-location-form">
                         @csrf
                         <input type="hidden" name="id" />
                         <div class="row">
@@ -70,17 +69,13 @@
                                     <label>District</label>
                                     <select class="form-control" name="district_id">
                                         <option value="">-- Select District --</option>
-                                        @foreach ($districts as $district)
-                                            <option value="{{ $district->district_id }}">{{ $district->name }}</option>
-                                        @endforeach
                                     </select>
                                 </div>
                             </div>
                             <div class="col-sm-12">
                                 <div class="form-group">
                                     <label>Location</label>
-                                    <input type="text" class="form-control" name="name"
-                                        placeholder="Location name...">
+                                    <input type="text" class="form-control" name="name">
                                 </div>
                             </div>
                             <div class="col-12" style="text-align: right;">
@@ -101,8 +96,7 @@
                     <a data-dismiss="modal" style="position: absolute; right: 15px; top: 15px;"><button type="button"
                             class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></a>
                     <h2 class="modal-title mb-4">Edit Location</h2>
-                    <form action="#" method="post" accept-charset="utf-8"
-                        id="edit-location-form">
+                    <form action="#" method="post" accept-charset="utf-8" id="edit-location-form">
                         @csrf
                         <input type="hidden" name="id" />
                         <div class="row">
@@ -122,9 +116,6 @@
                                     <label>District</label>
                                     <select class="form-control" name="district_id">
                                         <option value="">-- Select District --</option>
-                                        @foreach ($districts as $district)
-                                            <option value="{{ $district->district_id }}">{{ $district->name }}</option>
-                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -148,6 +139,10 @@
 @endsection
 @push('link-styles')
     <!-- Pushed Link Styles -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/tom-select/2.3.1/css/tom-select.bootstrap5.min.css"
+        integrity="sha512-w7Qns0H5VYP5I+I0F7sZId5lsVxTH217LlLUPujdU+nLMWXtyzsRPOP3RCRWTC8HLi77L4rZpJ4agDW3QnF7cw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 @endpush
 @push('inline-styles')
     <!-- Pushed Inline Styles -->
@@ -156,11 +151,78 @@
     <!-- Pushed Link Scripts -->
     <script src="https://cdn.datatables.net/2.0.2/js/dataTables.js"></script>
     <script src="https://cdn.datatables.net/2.0.2/js/dataTables.bootstrap5.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tom-select/2.3.1/js/tom-select.complete.js"
+        integrity="sha512-96+GeOCMUo6K6W5zoFwGYN9dfyvJNorkKL4cv+hFVmLYx/JZS5vIxOk77GqiK0qYxnzBB+4LbWRVgu5XcIihAQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 @endpush
 @push('inline-scripts')
     <!-- Pushed Inline Scripts -->
     <script>
         new DataTable('#locations-datatable');
+        let new_districts_dropdown = new TomSelect('#new-location-form [name="district_id"]', {
+            plugins: {
+                'clear_button': {}
+            },
+        });
+        let edit_districts_dropdown = new TomSelect('#edit-location-form [name="district_id"]', {
+            plugins: {
+                'clear_button': {}
+            },
+        });
+        let new_states_dropdown = new TomSelect('#new-location-form [name="state_id"]', {
+            plugins: {
+                'clear_button': {}
+            },
+            onChange: function(state_id) {
+                new_districts_dropdown.clear();
+                new_districts_dropdown.clearOptions();
+                $.ajax({
+                    type: 'GET',
+                    url: _base_url + "admin/ajax/dropdown/get-districts",
+                    dataType: 'json',
+                    data: {
+                        state_id: state_id
+                    },
+                    success: function(response) {
+                        let options = `<option value="">-- Select District --</option>`;
+                        $.each(response.items, function(index, item) {
+                            options += `<option value="` + item.id + `">` + item.name +
+                                `</option>`;
+                        });
+                        $('#new-location-form [name="district_id"]').html(options);
+                        new_districts_dropdown.sync();
+                    },
+                    error: function(response) {},
+                });
+            }
+        });
+        let edit_states_dropdown = new TomSelect('#edit-location-form [name="state_id"]', {
+            plugins: {
+                'clear_button': {}
+            },
+            onChange: function(state_id) {
+                edit_districts_dropdown.clear();
+                edit_districts_dropdown.clearOptions();
+                $.ajax({
+                    type: 'GET',
+                    url: _base_url + "admin/ajax/dropdown/get-districts",
+                    dataType: 'json',
+                    data: {
+                        state_id: state_id
+                    },
+                    success: function(response) {
+                        let options = `<option value="">-- Select District --</option>`;
+                        $.each(response.items, function(index, item) {
+                            options += `<option value="` + item.id + `">` + item.name +
+                                `</option>`;
+                        });
+                        $('#edit-location-form [name="district_id"]').html(options);
+                        edit_districts_dropdown.sync();
+                    },
+                    error: function(response) {},
+                });
+            }
+        });
         let new_location_form = $('form[id="new-location-form"]');
         let edit_location_form = $('form[id="edit-location-form"]');
         var new_location_modal = new bootstrap.Modal(document.getElementById('new-location-modal'), {
@@ -175,6 +237,28 @@
             new_location_modal.show();
         });
         $('[data-action="edit-location"]').click(function() {
+            edit_districts_dropdown.clear();
+            edit_districts_dropdown.clearOptions();
+            $.ajax({
+                type: 'GET',
+                url: _base_url + "admin/ajax/dropdown/get-location",
+                dataType: 'json',
+                data: {
+                    location_id: $(this).data("id")
+                },
+                success: function(response) {
+                    $('#edit-location-form [name="name"]').val(response.location.name);
+                    let options = `<option value="">-- Select District --</option>`;
+                    $.each(response.items, function(index, item) {
+                        options += `<option value="` + item.id + `">` + item.name +
+                            `</option>`;
+                    });
+                    $('#edit-location-form [name="district_id"]').html(options);
+                    edit_districts_dropdown.sync();
+                    edit_states_dropdown.setValue([response.location.state_id]);
+                },
+                error: function(response) {},
+            });
             edit_location_modal.show();
         });
         $(document).ready(function() {
@@ -204,7 +288,12 @@
                     }
                 },
                 errorPlacement: function(error, element) {
-                    error.insertAfter(element);
+                    if (element.attr("name") == "state_id" || element.attr("name") == "district_id") {
+                        $(element).parent().append(error);
+                    } else {
+                        error.insertAfter(element);
+                    }
+
                 },
                 submitHandler: function(form) {
                     let formData = new FormData(form);
