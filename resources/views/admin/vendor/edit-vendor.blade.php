@@ -89,6 +89,29 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>State</label>
+                                        <select class="form-control" name="state_id">
+                                            <option value="">-- Select State --</option>
+                                            @foreach ($states as $state)
+                                                <option value="{{ $state->state_id }}">{{ $state->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>District</label>
+                                        <select class="form-control" name="district_id">
+                                            <option value="">-- Select District --</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Location</label>
+                                        <select class="form-control" name="location_id">
+                                            <option value="">-- Select Location --</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <div class="form-group">

@@ -62,6 +62,7 @@ class AdminVendorController extends Controller
     public function vendor_edit(Request $request,$vendor_id)
     {
         $data['vendor'] = Vendor::findOrFail($vendor_id);
+        $data['states'] = State::get();
         return view('admin.vendor.edit-vendor', $data);
     }
     public function index(Request $request)
