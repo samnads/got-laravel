@@ -69,8 +69,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::any('/brand', [AjaxController::class, 'brand']);
             Route::any('/product/category', [AjaxController::class, 'product_category']);
             Route::any('/product/sub-category', [AjaxController::class, 'product_sub_category']);
-            Route::any('/dropdown/get-districts', [AjaxController::class, 'get_districts_by_state']);
-            Route::any('/dropdown/get-location', [AjaxController::class, 'get_location_by_id']);
+            Route::get('/dropdown/get-districts', [AjaxController::class, 'get_districts_by_state']);
+            Route::get('/dropdown/get-location', [AjaxController::class, 'get_location_by_id']);
+            Route::get('/dropdown/get-locations', [AjaxController::class, 'get_locations_by_district']);
         });
     });
     Route::middleware([])->group(function () {

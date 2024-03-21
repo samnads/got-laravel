@@ -28,7 +28,6 @@ class AdminLocationController extends Controller
             })
             ->get();
         $data['states'] = State::get();
-        $data['districts'] = District::get();
         return view('admin.location.location-list', $data);
     }
 }

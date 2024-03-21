@@ -295,7 +295,6 @@
                     } else {
                         error.insertAfter(element);
                     }
-
                 },
                 submitHandler: function(form) {
                     let formData = new FormData(form);

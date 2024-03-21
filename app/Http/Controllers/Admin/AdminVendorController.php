@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Vendor;
+use App\Models\State;
 use Session;
 use Carbon\Carbon;
 use Config;
@@ -55,7 +56,7 @@ class AdminVendorController extends Controller
     }
     public function vendor_new(Request $request)
     {
-        $data = [];
+        $data['states'] = State::get();
         return view('admin.vendor.new-vendor', $data);
     }
     public function vendor_edit(Request $request,$vendor_id)

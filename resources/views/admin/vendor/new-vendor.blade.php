@@ -24,13 +24,13 @@
                             </div>
                         </div>
                         <!--<div class="col-md-6 position-relative p-0 mb-3">
-                                <div class="map-search">
-                                    <input name="selected_address" placeholder="Seach..." class="text-field us3-address"
-                                        type="hidden">
-                                </div>
-                                <input type="hidden" class="us3-radius" value="0">
-                                <div class="us3" style="height: 300px; width:100%"></div>
-                            </div>-->
+                                            <div class="map-search">
+                                                <input name="selected_address" placeholder="Seach..." class="text-field us3-address"
+                                                    type="hidden">
+                                            </div>
+                                            <input type="hidden" class="us3-radius" value="0">
+                                            <div class="us3" style="height: 300px; width:100%"></div>
+                                        </div>-->
                         <form id="new-vendor-form" method="POST" enctype="multipart/form-data"
                             action="{{ url('admin/product') }}">
                             @csrf
@@ -88,6 +88,29 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>State</label>
+                                        <select class="form-control" name="state_id">
+                                            <option value="">-- Select State --</option>
+                                            @foreach ($states as $state)
+                                                <option value="{{ $state->state_id }}">{{ $state->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>District</label>
+                                        <select class="form-control" name="district_id">
+                                            <option value="">-- Select District --</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Location</label>
+                                        <select class="form-control" name="location_id">
+                                            <option value="">-- Select Location --</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <div class="form-group">
@@ -121,6 +144,10 @@
 @endsection
 @push('link-styles')
     <!-- Pushed Link Styles -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/tom-select/2.3.1/css/tom-select.bootstrap5.min.css"
+        integrity="sha512-w7Qns0H5VYP5I+I0F7sZId5lsVxTH217LlLUPujdU+nLMWXtyzsRPOP3RCRWTC8HLi77L4rZpJ4agDW3QnF7cw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 @endpush
 @push('inline-styles')
     <!-- Pushed Inline Styles -->
@@ -133,10 +160,141 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-locationpicker/0.1.12/locationpicker.jquery.min.js"
         integrity="sha512-KGE6gRUEc5VBc9weo5zMSOAvKAuSAfXN0I/djLFKgomlIUjDCz3b7Q+QDGDUhicHVLaGPX/zwHfDaVXS9Dt4YA=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tom-select/2.3.1/js/tom-select.complete.js"
+        integrity="sha512-96+GeOCMUo6K6W5zoFwGYN9dfyvJNorkKL4cv+hFVmLYx/JZS5vIxOk77GqiK0qYxnzBB+4LbWRVgu5XcIihAQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 @endpush
 @push('inline-scripts')
     <!-- Pushed Inline Scripts -->
     <script>
+        let new_states_dropdown = new TomSelect('#new-vendor-form [name="state_id"]', {
+            plugins: {
+                'clear_button': {}
+            },
+            onChange: function(state_id) {
+                new_districts_dropdown.clear();
+                new_districts_dropdown.clearOptions();
+                $.ajax({
+                    type: 'GET',
+                    url: _base_url + "admin/ajax/dropdown/get-districts",
+                    dataType: 'json',
+                    data: {
+                        state_id: state_id
+                    },
+                    success: function(response) {
+                        let options = `<option value="">-- Select District --</option>`;
+                        $.each(response.items, function(index, item) {
+                            options += `<option value="` + item.id + `">` + item.name +
+                                `</option>`;
+                        });
+                        $('#new-vendor-form [name="district_id"]').html(options);
+                        new_districts_dropdown.sync();
+                    },
+                    error: function(response) {},
+                });
+            }
+        });
+        let new_locations_dropdown = new TomSelect('#new-vendor-form [name="location_id"]', {
+            plugins: {
+                'clear_button': {}
+            },
+        });
+        let new_districts_dropdown = new TomSelect('#new-vendor-form [name="district_id"]', {
+            plugins: {
+                'clear_button': {}
+            },
+            onChange: function(district_id) {
+                new_locations_dropdown.clear();
+                new_locations_dropdown.clearOptions();
+                $.ajax({
+                    type: 'GET',
+                    url: _base_url + "admin/ajax/dropdown/get-locations",
+                    dataType: 'json',
+                    data: {
+                        district_id: district_id
+                    },
+                    success: function(response) {
+                        let options = `<option value="">-- Select Location --</option>`;
+                        $.each(response.items, function(index, item) {
+                            options += `<option value="` + item.id + `">` + item.name +
+                                `</option>`;
+                        });
+                        $('#new-vendor-form [name="location_id"]').html(options);
+                        new_locations_dropdown.sync();
+                    },
+                    error: function(response) {},
+                });
+            }
+        });
+        $(document).ready(function() {
+            let new_vendor_form = $('#new-vendor-form').validate({
+                focusInvalid: true,
+                ignore: [],
+                rules: {
+                    "latitude": {
+                        required: true,
+                    },
+                    "longitude": {
+                        required: true,
+                    },
+                    "gst_number": {
+                        required: false,
+                    },
+                    "email": {
+                        required: false,
+                    },
+                    "vendor_name": {
+                        required: true,
+                    },
+                    "username": {
+                        required: true,
+                    },
+                    "password": {
+                        required: true,
+                    },
+                    "owner_name": {
+                        required: true,
+                    },
+                    "mobile_number": {
+                        required: true,
+                    },
+                    "address": {
+                        required: true,
+                    },
+                    "location_id": {
+                        required: true,
+                    }
+                },
+                messages: {},
+                errorPlacement: function(error, element) {
+                    if (element.attr("name") == "state_id" || element.attr("name") == "district_id"|| element.attr("name") == "location_id") {
+                        $(element).parent().append(error);
+                    } else {
+                        error.insertAfter(element);
+                    }
+                },
+                submitHandler: function(form) {
+                    //let submit_btn = $('button[type="submit"]', form);
+                    //submit_btn.html(loading_button_html).prop("disabled", true);
+                    $.ajax({
+                        type: 'POST',
+                        url: _base_url + "admin/vendor",
+                        //dataType: 'json',
+                        data: $('#new-vendor-form').serialize(),
+                        success: function(response) {
+                            if (response.status == "success") {
+                                location.href = _base_url + 'admin/vendor/list';
+                            } else {
+                                toast('Error !', response.message, 'error');
+                            }
+                        },
+                        error: function(response) {
+                            toast('Error !', 'An error occured !', 'error');
+                        },
+                    });
+                }
+            });
+        });
         /*var event_ = null;
 
             function locationPickr(latitude, longitude) {
@@ -219,68 +377,5 @@
                     locationPickr($('#latitude').val(), $('#longitude').val());
                 }
             });*/
-        $(document).ready(function() {
-            let new_vendor_form = $('#new-vendor-form').validate({
-                focusInvalid: true,
-                ignore: [],
-                rules: {
-                    "latitude": {
-                        required: true,
-                    },
-                    "longitude": {
-                        required: true,
-                    },
-                    "gst_number": {
-                        required: false,
-                    },
-                    "email": {
-                        required: false,
-                    },
-                    "vendor_name": {
-                        required: true,
-                    },
-                    "username": {
-                        required: true,
-                    },
-                    "password": {
-                        required: true,
-                    },
-                    "owner_name": {
-                        required: true,
-                    },
-                    "mobile_number": {
-                        required: true,
-                    },
-                    "address": {
-                        required: true,
-                    }
-                },
-                messages: {
-                },
-                errorPlacement: function(error, element) {
-                    error.insertAfter(element);
-                },
-                submitHandler: function(form) {
-                    //let submit_btn = $('button[type="submit"]', form);
-                    //submit_btn.html(loading_button_html).prop("disabled", true);
-                    $.ajax({
-                        type: 'POST',
-                        url: _base_url + "admin/vendor",
-                        //dataType: 'json',
-                        data: $('#new-vendor-form').serialize(),
-                        success: function(response) {
-                            if (response.status == "success") {
-                                location.href = _base_url + 'admin/vendor/list';
-                            } else {
-                                toast('Error !', response.message, 'error');
-                            }
-                        },
-                        error: function(response) {
-                            toast('Error !', 'An error occured !', 'error');
-                        },
-                    });
-                }
-            });
-        });
     </script>
 @endpush

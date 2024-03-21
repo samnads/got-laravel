@@ -202,6 +202,11 @@ class AjaxController extends Controller
         $response['items'] = District::select('district_id as id', 'name')->where('state_id', $request->state_id)->get();
         return response()->json($response);
     }
+    public function get_locations_by_district(Request $request)
+    {
+        $response['items'] = Location::select('id', 'name')->where('district_id', $request->district_id)->get();
+        return response()->json($response);
+    }
     public function get_location_by_id(Request $request)
     {
         $response['location'] = Location::
