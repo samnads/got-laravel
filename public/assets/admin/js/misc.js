@@ -48,8 +48,21 @@ var lightColor = getComputedStyle(document.body).getPropertyValue('--light');
     var current = location.pathname.split("/").slice(-1)[0].replace(/^\/|\/$/g, '');
     $('.nav li a', sidebar).each(function() {
       var $this = $(this);
-      addActiveClass($this);
+      //addActiveClass($this);
     })
+    /************************************************************* */
+    let path = window.location.href;
+    $('.nav li a').each(function () {
+      if (this.href === path) {
+        $(this).addClass('active');
+        $(this).closest('.nav-item').addClass('active');
+        $(this).closest('.collapse').addClass('show');
+        $(this).closest('.sub-menu').closest('.nav-item').addClass('active');
+      } else {
+      }
+
+    })
+    /************************************************************* */
 
     $('.horizontal-menu .nav li a').each(function() {
       var $this = $(this);
