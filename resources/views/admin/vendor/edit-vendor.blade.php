@@ -36,22 +36,22 @@
                             <input type="hidden" name="id" value="{{$vendor->id}}"/>
                             @csrf
                             <div class="row">
-                                <div class="col-sm-6">
+                                <!--<div class="col-sm-6">
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <div class="form-group">
                                                 <label>Latitude</label>
-                                                <input type="text" class="form-control" name="latitude" id="latitude" value="{{$vendor->latitude}}">
+                                                <input type="text" class="form-control" id="latitude" value="{{$vendor->latitude}}" disabled>
                                             </div>
                                         </div>
                                         <div class="col-sm-6">
                                             <div class="form-group">
                                                 <label>Longitude</label>
-                                                <input type="text" class="form-control" name="longitude" id="longitude" value="{{$vendor->longitude}}">
+                                                <input type="text" class="form-control" id="longitude" value="{{$vendor->longitude}}" disabled>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div>-->
                                 <div class="col-sm-6">
                                     <div class="row">
                                         <div class="col-sm-6">

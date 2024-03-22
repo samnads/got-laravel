@@ -4,7 +4,7 @@
     <div class="col-12 grid-margin">
         <div class="card">
             <div class="card-body">
-                <div style="display: flex">
+                <!--<div style="display: flex">
                     <h4 class="card-title float-left">Vendors</h4>
                     <div style="margin-left: auto;">
                         <a role="button" href="{{ url('admin/vendor/new') }}"><button type="button"
@@ -12,7 +12,7 @@
                                 <i class="mdi mdi-plus"></i>
                             </button></a>
                     </div>
-                </div>
+                </div>-->
                 <div class="table-responsiv">
                     <table id="vendor-list" class="table table-striped" style="width:100%">
                         <thead>

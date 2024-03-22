@@ -14,7 +14,7 @@
                         </div>
                     </div>
                     <div class="clearfix">
-                        <div style="display: flex">
+                        <!--<div style="display: flex">
                             <h4 class="card-title float-left">Add Vendor</h4>
                             <div style="margin-left: auto;">
                                 <a href="{{ route('admin.vendors') }}"><button type="button"
@@ -22,7 +22,7 @@
                                         <i class="mdi mdi-view-headline"></i>
                                     </button></a>
                             </div>
-                        </div>
+                        </div>-->
                         <!--<div class="col-md-6 position-relative p-0 mb-3">
                                             <div class="map-search">
                                                 <input name="selected_address" placeholder="Seach..." class="text-field us3-address"

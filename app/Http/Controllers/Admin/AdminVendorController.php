@@ -104,8 +104,6 @@ class AdminVendorController extends Controller
                     return response()->json($response);
                 }
                 $row = Vendor::find($input['id']);
-                $row->latitude = $request->latitude;
-                $row->longitude = $request->longitude;
                 $row->gst_number = $request->gst_number;
                 $row->email = $request->email;
                 $row->vendor_name = $request->vendor_name;

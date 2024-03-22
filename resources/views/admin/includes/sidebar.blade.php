@@ -3,7 +3,7 @@
         <li class="nav-item">
             <a class="nav-link" href="{{ url('admin/dashboard') }}">
                 <span class="menu-title">Dashboard</span>
-                <i class="mdi mdi-home menu-icon"></i>
+                <i class="mdi mdi-view-dashboard menu-icon"></i>
             </a>
         </li>
         <li class="nav-item">
@@ -11,7 +11,7 @@
                 aria-controls="ui-master">
                 <span class="menu-title">Masters</span>
                 <i class="menu-arrow"></i>
-                <i class="mdi mdi-crosshairs-gps menu-icon"></i>
+                <i class="mdi mdi-book-variant menu-icon"></i>
             </a>
             <div class="collapse" id="ui-master">
                 <ul class="nav flex-column sub-menu">
@@ -24,11 +24,22 @@
                     <li class="nav-item"> <a class="nav-link" href="{{ url('admin/states') }}">States</a></li>
                     <!--<li class="nav-item"> <a class="nav-link" href="{{ url('admin/districts') }}">District</a>
                     </li>-->
-                    <li class="nav-item"> <a class="nav-link" href="{{ url('admin/locations/list') }}">Locations</a></li>
                 </ul>
             </div>
         </li>
         <li class="nav-item">
+            <a class="nav-link" href="{{ url('admin/vendor/list') }}">
+                <span class="menu-title">Vendors</span>
+                <i class="mdi mdi-home-modern menu-icon"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url('admin/locations/list') }}">
+                <span class="menu-title">Locations</span>
+                <i class="mdi mdi-map-marker menu-icon"></i>
+            </a>
+        </li>
+        <!--<li class="nav-item">
             <a class="nav-link" data-bs-toggle="collapse" href="#ui-vendor" aria-expanded="false"
                 aria-controls="ui-vendor">
                 <span class="menu-title">Vendor</span>
@@ -43,13 +54,13 @@
                             Vendors</a></li>
                 </ul>
             </div>
-        </li>
+        </li>-->
         <li class="nav-item">
             <a class="nav-link" data-bs-toggle="collapse" href="#ui-product" aria-expanded="false"
                 aria-controls="ui-product">
                 <span class="menu-title">Product</span>
                 <i class="menu-arrow"></i>
-                <i class="mdi mdi-crosshairs-gps menu-icon"></i>
+                <i class="mdi mdi-food-apple menu-icon"></i>
             </a>
             <div class="collapse" id="ui-product">
                 <ul class="nav flex-column sub-menu">

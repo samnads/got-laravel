@@ -39,7 +39,7 @@
 
                                 <div class="form-group">
                                     <label>Thumbnail Image</label>
-                                    <input type="file" name="thumbnail_image" class="form-control">
+                                    <input type="file" name="thumbnail_image" class="form-control" accept="image/png, image/gif, image/jpeg">
                                 </div>
 
                                 <div>
