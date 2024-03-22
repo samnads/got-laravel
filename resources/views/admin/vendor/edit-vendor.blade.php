@@ -31,7 +31,7 @@
                                 <input type="hidden" class="us3-radius" value="0">
                                 <div class="us3" style="height: 300px; width:100%"></div>
                             </div>-->
-                        <form id="new-vendor-form" method="POST" enctype="multipart/form-data"
+                        <form id="edit-vendor-form" method="POST" enctype="multipart/form-data"
                             action="{{ url('admin/product') }}">
                             <input type="hidden" name="id" value="{{$vendor->id}}"/>
                             @csrf
@@ -148,103 +148,82 @@
 @endpush
 @push('inline-styles')
     <!-- Pushed Inline Styles -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/tom-select/2.3.1/css/tom-select.bootstrap5.min.css"
+        integrity="sha512-w7Qns0H5VYP5I+I0F7sZId5lsVxTH217LlLUPujdU+nLMWXtyzsRPOP3RCRWTC8HLi77L4rZpJ4agDW3QnF7cw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 @endpush
 @push('link-scripts')
     <!-- Pushed Link Scripts -->
-    <script
-        src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&libraries=places&callback=&loading=async">
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-locationpicker/0.1.12/locationpicker.jquery.min.js"
-        integrity="sha512-KGE6gRUEc5VBc9weo5zMSOAvKAuSAfXN0I/djLFKgomlIUjDCz3b7Q+QDGDUhicHVLaGPX/zwHfDaVXS9Dt4YA=="
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tom-select/2.3.1/js/tom-select.complete.js"
+        integrity="sha512-96+GeOCMUo6K6W5zoFwGYN9dfyvJNorkKL4cv+hFVmLYx/JZS5vIxOk77GqiK0qYxnzBB+4LbWRVgu5XcIihAQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 @endpush
 @push('inline-scripts')
     <!-- Pushed Inline Scripts -->
     <script>
-        /*var event_ = null;
-
-            function locationPickr(latitude, longitude) {
-                $('.us3').locationpicker({
-                    location: {
-                        latitude: latitude,
-                        longitude: longitude
+        let locations_dropdown = new TomSelect('#edit-vendor-form [name="location_id"]', {
+            plugins: {
+                'clear_button': {}
+            },
+        });
+        let new_districts_dropdown = new TomSelect('#edit-vendor-form [name="district_id"]', {
+            plugins: {
+                'clear_button': {}
+            },
+            onChange: function(district_id) {
+                locations_dropdown.clear();
+                locations_dropdown.clearOptions();
+                $.ajax({
+                    type: 'GET',
+                    url: _base_url + "admin/ajax/dropdown/get-locations",
+                    dataType: 'json',
+                    data: {
+                        district_id: district_id
                     },
-
-                    radius: 0,
-                    inputBinding: {
-                        latitudeInput: $('#latitude'),
-                        longitudeInput: $('#longitude'),
-                        radiusInput: $('.us3-radius'),
-                        locationNameInput: $('.us3-address')
+                    success: function(response) {
+                        let options = `<option value="">-- Select Location --</option>`;
+                        $.each(response.items, function(index, item) {
+                            options += `<option value="` + item.id + `">` + item.name +
+                                `</option>`;
+                        });
+                        $('#edit-vendor-form [name="location_id"]').html(options);
+                        locations_dropdown.sync();
                     },
-                    //markerIcon: _base_url +'images/picker.png',
-                    enableAutocomplete: true,
-                    onchanged: function(currentLocation, radius, isMarkerDropped) {
-                        // Uncomment line below to show alert on each Location Changed event
-                        //alert("Location changed. New location (" + currentLocation.latitude + ", " + currentLocation.longitude + ")");
-                    }
+                    error: function(response) {},
                 });
             }
 
-            function showPosition(position) {
-                if (event_) {
-                    console.log(event_);
-                    event_.type = 'change';
-                    $('input[name="latitude"]', _address_from).val(position.coords.latitude).trigger(event_);
-                    $('input[name="longitude"]', _address_from).val(position.coords.longitude).trigger(event_);
-                } else {
-                    $('#latitude').val(position.coords.latitude);
-                    $('#longitude').val(position.coords.longitude);
-                }
-                locationPickr(position.coords.latitude, position.coords.longitude);
-            }
-
-            function showError(error) {
-                switch (error.code) {
-                    case error.PERMISSION_DENIED:
-                        $('.us3').locationpicker({
-                            location: {
-                                latitude: cent_latitude,
-                                longitude: cent_longitude
-                            },
-                            radius: 0,
-                            inputBinding: {
-                                latitudeInput: $('#latitude'),
-                                longitudeInput: $('#longitude'),
-                                radiusInput: $('.us3-radius'),
-                                locationNameInput: $('.us3-address')
-                            },
-                            enableAutocomplete: true,
-                            onchanged: function(currentLocation, radius, isMarkerDropped) {
-                                // Uncomment line below to show alert on each Location Changed event
-                                //alert("Location changed. New location (" + currentLocation.latitude + ", " + currentLocation.longitude + ")");
-                            }
+        });
+        let new_states_dropdown = new TomSelect('#edit-vendor-form [name="state_id"]', {
+            plugins: {
+                'clear_button': {}
+            },
+            onChange: function(state_id) {
+                new_districts_dropdown.clear();
+                new_districts_dropdown.clearOptions();
+                $.ajax({
+                    type: 'GET',
+                    url: _base_url + "admin/ajax/dropdown/get-districts",
+                    dataType: 'json',
+                    data: {
+                        state_id: state_id
+                    },
+                    success: function(response) {
+                        let options = `<option value="">-- Select District --</option>`;
+                        $.each(response.items, function(index, item) {
+                            options += `<option value="` + item.id + `">` + item.name +
+                                `</option>`;
                         });
-                        break;
-                    case error.POSITION_UNAVAILABLE:
-                        console.log("Location information is unavailable.");
-                        break;
-                    case error.TIMEOUT:
-                        console.log("The request to get user location timed out.");
-                        break;
-                    case error.UNKNOWN_ERROR:
-                        console.log("An unknown error occurred.");
-                        break;
-                }
+                        $('#edit-vendor-form [name="district_id"]').html(options);
+                        new_districts_dropdown.sync();
+                    },
+                    error: function(response) {},
+                });
             }
-            $(document).ready(function() {
-                if ($('#latitude').val() == '' || $('#longitude').val() == '') {
-                    if (navigator.geolocation) {
-                        navigator.geolocation.getCurrentPosition(showPosition, showError);
-                    } else {
-                        x.innerHTML = "Geolocation is not supported by this browser.";
-                    }
-                } else {
-                    locationPickr($('#latitude').val(), $('#longitude').val());
-                }
-            });*/
+        });
         $(document).ready(function() {
-            let new_vendor_form = $('#new-vendor-form').validate({
+            let new_vendor_form = $('#edit-vendor-form').validate({
                 focusInvalid: true,
                 ignore: [],
                 rules: {
@@ -291,7 +270,7 @@
                         type: 'PUT',
                         url: _base_url + "admin/vendor",
                         //dataType: 'json',
-                        data: $('#new-vendor-form').serialize(),
+                        data: $('#edit-vendor-form').serialize(),
                         success: function(response) {
                             if (response.status == "success") {
                                 location.href = _base_url + 'admin/vendor/list';

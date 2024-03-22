@@ -116,6 +116,9 @@ class AdminVendorController extends Controller
                 $row->owner_name = $request->owner_name;
                 $row->mobile_number = $request->mobile_number;
                 $row->address = $request->address;
+                if($request->location_id){
+                    $row->location_id = $request->location_id;
+                }
                 $row->save();
                 $response = ['status' => 'success', 'type' => 'success', 'title' => 'Updated !', 'message' => 'Vendor updated successfully.'];
                 Session::flash('toast', $response);
