@@ -78,6 +78,7 @@ class VendorProductController extends Controller
             'vp.retail_price',
             'vp.min_cart_quantity',
             'vp.max_cart_quantity',
+            DB::raw('IFNULL(cr.quantity,0) as quantity'),
             DB::raw('CONCAT("' . config('url.uploads_cdn') . '","products/",IFNULL(p.thumbnail_image,"default.jpg")) as thumbnail_url'),
             DB::raw('ROUND((vp.maximum_retail_price - vp.retail_price),2) as offer'),
             DB::raw('ROUND((((vp.maximum_retail_price - vp.retail_price) / vp.maximum_retail_price)*100),2) as offer_percentage'),
@@ -91,6 +92,11 @@ class VendorProductController extends Controller
             ->leftJoin('vendor_products as vp', function ($join) use ($request) {
                 $join->on('product_category_mappings.product_id', '=', 'vp.product_id');
                 $join->where('vp.vendor_id', '=', $request->vendor_id);
+            })
+            ->leftJoin('cart as cr', function ($join) use ($request, $input) {
+                $join->on('vp.id', '=', 'cr.vendor_product_id');
+                $join->where('cr.customer_id', '=', $input['id']);
+                $join->where('cr.deleted_at', '=', null);
             })
             ->whereIn('product_category_mappings.product_id', $vendor_product_ids)
             ->where([['product_category_mappings.category_id', '=', $request->category_id], ['p.deleted_at', '=', null], ['vp.deleted_at', '=', null]])
