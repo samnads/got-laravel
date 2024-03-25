@@ -225,7 +225,7 @@ class CartController extends Controller
             ->leftJoin('units as u', function ($join) {
                 $join->on('p.unit_id', '=', 'u.id');
             })
-            ->where([['vp.vendor_id', '=', $request->vendor_id], ['vp.deleted_at', '=', null], ['p.deleted_at', '=', null]])
+            ->where([['cart.customer_id', '=', $input['id']], ['vp.vendor_id', '=', $request->vendor_id], ['vp.deleted_at', '=', null], ['p.deleted_at', '=', null]])
             ->get();
         /***************************************************************************************************** */
         $response = [
