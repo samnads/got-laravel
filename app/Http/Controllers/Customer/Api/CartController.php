@@ -76,6 +76,8 @@ class CartController extends Controller
             'vp.max_cart_quantity',
             DB::raw('ROUND((vp.maximum_retail_price - vp.retail_price),2) as offer'),
             DB::raw('ROUND((((vp.maximum_retail_price - vp.retail_price) / vp.maximum_retail_price)*100),2) as offer_percentage'),
+            DB::raw('ROUND((IFNULL(cart.quantity,0) * vp.maximum_retail_price) - (IFNULL(cart.quantity,0) * vp.retail_price),2) as saved_amount'),
+            DB::raw('ROUND((IFNULL(cart.quantity,0) * vp.retail_price),2) as total_amount')
         )
             ->leftJoin('vendor_products as vp', function ($join) {
                 $join->on('cart.vendor_product_id', '=', 'vp.id');
@@ -96,7 +98,8 @@ class CartController extends Controller
             ],
             'data' => [
                 'vendor' => $vendor,
-                'cart_products' => $cart_products
+                'cart_products' => $cart_products,
+                'cart_price' => cartPrice($input)
 
             ]
         ];
@@ -214,6 +217,8 @@ class CartController extends Controller
             'vp.max_cart_quantity',
             DB::raw('ROUND((vp.maximum_retail_price - vp.retail_price),2) as offer'),
             DB::raw('ROUND((((vp.maximum_retail_price - vp.retail_price) / vp.maximum_retail_price)*100),2) as offer_percentage'),
+            DB::raw('ROUND((IFNULL(cart.quantity,0) * vp.maximum_retail_price) - (IFNULL(cart.quantity,0) * vp.retail_price),2) as saved_amount'),
+            DB::raw('ROUND((IFNULL(cart.quantity,0) * vp.retail_price),2) as total_amount')
         )
             ->leftJoin('vendor_products as vp', function ($join) {
                 $join->on('cart.vendor_product_id', '=', 'vp.id');
@@ -235,7 +240,8 @@ class CartController extends Controller
             ],
             'data' => [
                 'vendor' => $vendor,
-                'cart_products' => $cart_products
+                'cart_products' => $cart_products,
+                'cart_price' => cartPrice($input)
 
             ]
         ];
