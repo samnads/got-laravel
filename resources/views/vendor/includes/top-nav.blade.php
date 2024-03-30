@@ -14,7 +14,7 @@
                 <a class="nav-link dropdown-toggle" id="profileDropdown" href="#" data-bs-toggle="dropdown"
                     aria-expanded="false">
                     <div class="nav-profile-img">
-                        <img src="{{ asset('assets/admin/images/faces/face1.jpg') }}" alt="image">
+                        <img src="{{ asset('assets/admin/images/faces/avatar.jpg') }}" alt="image">
                         <span class="availability-status online"></span>
                     </div>
                     <div class="nav-profile-text">
@@ -22,9 +22,6 @@
                     </div>
                 </a>
                 <div class="dropdown-menu navbar-dropdown" aria-labelledby="profileDropdown">
-                    <a class="dropdown-item" href="#">
-                        <i class="mdi mdi-cached me-2 text-success"></i> Activity Log </a>
-                    <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="{{ route('vendor.do-logout') }}"
                         onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

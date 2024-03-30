@@ -7,13 +7,13 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false"
-                aria-controls="ui-basic">
+            <a class="nav-link" data-bs-toggle="collapse" href="#ui-product" aria-expanded="false"
+                aria-controls="ui-product">
                 <span class="menu-title">Product</span>
                 <i class="menu-arrow"></i>
-                <i class="mdi mdi-crosshairs-gps menu-icon"></i>
+                <i class="mdi mdi-apple menu-icon"></i>
             </a>
-            <div class="collapse" id="ui-basic">
+            <div class="collapse" id="ui-product">
                 <ul class="nav flex-column sub-menu">
                     <li class="nav-item"> <a class="nav-link" href="{{ url('vendor/product/list') }}">My Products</a>
                     </li>
@@ -23,10 +23,19 @@
             </div>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#">
-                <span class="menu-title">Tags</span>
-                <i class="mdi mdi-table-large menu-icon"></i>
+            <a class="nav-link" data-bs-toggle="collapse" href="#ui-order" aria-expanded="false"
+                aria-controls="ui-order">
+                <span class="menu-title">Order Management</span>
+                <i class="menu-arrow"></i>
+                <i class="mdi mdi-cart menu-icon"></i>
             </a>
+            <div class="collapse" id="ui-order">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a class="nav-link" href="{{ url('vendor/order/pending') }}">Pending Orders</a>
+                    </li>
+                    <li class="nav-item"> <a class="nav-link" href="{{ url('vendor/order/completed') }}">Completed</a></li>
+                </ul>
+            </div>
         </li>
     </ul>
 </nav>

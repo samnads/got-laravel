@@ -6,6 +6,7 @@ use App\Http\Controllers\Vendor\VendorController;
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Vendor\VendorAuthController;
 use App\Http\Controllers\Vendor\VendorProductController;
+use App\Http\Controllers\Vendor\VendorOrderController;
 use App\Http\Controllers\Admin\AdminProductCategoryController;
 use App\Http\Controllers\Admin\AdminProductController;
 use App\Http\Controllers\Admin\AdminStateController;
@@ -91,6 +92,10 @@ Route::prefix('vendor')->name('vendor.')->group(function () {
             Route::post('/add', [VendorProductController::class, 'add_product']);
             Route::get('/delete/{product_id}', [VendorProductController::class, 'delete']);
             Route::get('/restore/{product_id}', [VendorProductController::class, 'restore']);
+        });
+        Route::prefix('order')->name('order.')->group(function () {
+            Route::get('/pending', [VendorOrderController::class, 'pending_orders_list']);
+            Route::get('/completed', [VendorOrderController::class, 'completed_orders_list']);
         });
     });
     Route::middleware([])->group(function () {
