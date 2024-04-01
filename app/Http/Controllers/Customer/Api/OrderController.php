@@ -163,4 +163,55 @@ class OrderController extends Controller
         return Response::json($response, 200, [], JSON_PRETTY_PRINT);
         /***************************************************************************************************** */
     }
+    public function order_history(Request $request){
+        $input = $request->all();
+        $validator = Validator::make(
+            (array) $input,
+            [
+            ],
+            [],
+            [
+            ]
+        );
+        if ($validator->fails()) {
+            $response = [
+                'status' => [
+                    'success' => 'false',
+                    'hasdata' => 'false',
+                    'message' => $validator->errors()->first()
+                ]
+            ];
+            return Response::json($response, 200, [], JSON_PRETTY_PRINT);
+        }
+        /***************************************************************************************************** */
+        $orders = Order::select(
+            'orders.id as order_id',
+            'orders.order_reference',
+            DB::raw('DATE_FORMAT(orders.created_at,"%Y-%m-%d") as order_date'),
+            'v.id as vendor_id',
+            'v.vendor_name',
+            'orders.total_payable'
+        )
+            ->leftJoin('order_customer_addresses as oca', function ($join) {
+                $join->on('orders.id', '=', 'oca.order_id');
+            })
+            ->leftJoin('vendors as v', function ($join) {
+                $join->on('orders.vendor_id', '=', 'v.id');
+            })
+            ->where([['orders.customer_id', '=', $request->id], ['v.deleted_at', '=', null]])
+            ->orderBy('orders.id', 'DESC')
+            ->get()
+            ->toArray();
+        $response = [
+            'status' => [
+                'success' => 'true',
+                'hasdata' => 'true',
+                'message' => 'Orders fetched successfully !',
+            ],
+            'data' => [
+                'orders' => $orders,
+            ]
+        ];
+        return Response::json($response, 200, [], JSON_PRETTY_PRINT);
+    }
 }
