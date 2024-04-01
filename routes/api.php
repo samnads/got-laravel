@@ -54,6 +54,7 @@ Route::prefix('customer')->group(function () {
         Route::post('cart', [CartController::class, 'get_cart']);
         Route::post('update_cart', [CartController::class, 'update_cart']);
         Route::post('create_order', [OrderController::class, 'create_order']);
+        Route::post('order_history', [OrderController::class, 'order_history']);
     });
 });
 Route::prefix('admin')->group(function () {
