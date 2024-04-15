@@ -393,7 +393,7 @@ class AddressController extends Controller
                 'mobile_no' => $address->mobile_no,
                 'address_type' => $address->address_type,
                 'default_address' => $customer->default_address_id == $address->id ? 1 : null,
-                'selected_address' => $customer->selected_address_id == $address->id ? 1 : null,
+                //'selected_address' => $customer->selected_address_id == $address->id ? 1 : null,
 
             ];
         }
