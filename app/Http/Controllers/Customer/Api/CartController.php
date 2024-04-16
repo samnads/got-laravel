@@ -93,7 +93,7 @@ class CartController extends Controller
         $response = [
             'status' => [
                 'success' => 'true',
-                'hasdata' => 'true',
+                'hasdata' => $cart_products ? 'true' : 'false',
                 'message' => 'Cart fetched successfully !',
             ],
             'data' => [
