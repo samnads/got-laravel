@@ -33,4 +33,8 @@ class VendorController extends Controller
         }
         return view('shop.login', []);
     }
+    public function vendor_profile(Request $request)
+    {
+        return view('shop.profile', []);
+    }
 }

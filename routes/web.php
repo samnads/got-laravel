@@ -85,6 +85,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 Route::prefix('vendor')->name('vendor.')->group(function () {
     Route::middleware([VendorAuthWeb::class])->group(function () {
         Route::get('/dashboard', [VendorController::class, 'dashboard'])->name('dashboard');
+        Route::get('/profile', [VendorController::class, 'vendor_profile'])->name('profile');
         Route::prefix('product')->name('product.')->group(function () {
             Route::get('/list', [VendorProductController::class, 'product_list'])->name('list');
             Route::get('/add/list', [VendorProductController::class, 'product_list_for_add'])->name('list-for-add');
