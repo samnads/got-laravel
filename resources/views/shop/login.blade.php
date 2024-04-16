@@ -115,7 +115,7 @@
     <script src="{{ asset('assets/vendor/js/bootstrap.bundle.min.js')}}"></script>
     <!--plugins-->
     <script src="{{ asset('assets/vendor/js/jquery.min.js')}}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/jquery.validate.min.js" integrity="sha512-WMEKGZ7L5LWgaPeJtw9MBM4i5w5OSBlSjTjCtSnvFJGSVD26gE5+Td12qN5pvWXhuWaWcVwF++F7aqu9cvqP0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="{{ asset('assets/vendor/js/jquery.validate.min.js')}}"></script>
     <script src="{{ asset('assets/vendor/plugins/simplebar/js/simplebar.min.js')}}"></script>
     <script src="{{ asset('assets/vendor/plugins/metismenu/js/metisMenu.min.j')}}s"></script>
     <script src="{{ asset('assets/vendor/plugins/perfect-scrollbar/js/perfect-scrollbar.js')}}"></script>
