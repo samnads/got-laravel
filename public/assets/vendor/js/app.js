@@ -1,6 +1,6 @@
 $(function() {
 	"use strict";
-	new PerfectScrollbar(".app-container"),
+	/*new PerfectScrollbar(".app-container"),*/
 	new PerfectScrollbar(".header-message-list"),
 	new PerfectScrollbar(".header-notifications-list"),
 

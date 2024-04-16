@@ -1,6 +1,9 @@
-<!-- plugins:js -->
-<script src="{{ asset('assets/admin/vendors/js/vendor.bundle.base.js') }}"></script>
-<script src="{{ asset('assets/admin/js/off-canvas.js') }}"></script>
-<script src="{{ asset('assets/admin/js/hoverable-collapse.js') }}"></script>
-<script src="{{ asset('assets/admin/js/jquery.cookie.js') }}"></script>
-<script src="{{ asset('assets/admin/js/misc.js') }}"></script>
+<!-- Bootstrap JS -->
+<script src="{{ asset('assets/vendor/js/bootstrap.bundle.min.js')}}"></script>
+<!--plugins-->
+<script src="{{ asset('assets/vendor/js/jquery.min.js')}}"></script>
+<script src="{{ asset('assets/vendor/plugins/simplebar/js/simplebar.min.js')}}"></script>
+<script src="{{ asset('assets/vendor/plugins/metismenu/js/metisMenu.min.js')}}"></script>
+<script src="{{ asset('assets/vendor/plugins/perfect-scrollbar/js/perfect-scrollbar.js')}}"></script>
+<!--app JS-->
+<script src="{{ asset('assets/vendor/js/app.js')}}"></script>
