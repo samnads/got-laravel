@@ -64,7 +64,7 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-12">
+                                        <div class="col-6">
                                             <div class="form-group">
                                                 <label>Category</label>
                                                 <select class="form-control" name="category_id" required>
@@ -72,6 +72,18 @@
                                                     @foreach ($categories as $key => $category)
                                                         <option value="{{ $category->id }}">
                                                             {{ $category->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label>Brand</label>
+                                                <select class="form-control" name="brand_id" required>
+                                                    <option value="">-- Select Brand --</option>
+                                                    @foreach ($brands as $key => $brand)
+                                                        <option value="{{ $brand->id }}">
+                                                            {{ $brand->name }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>

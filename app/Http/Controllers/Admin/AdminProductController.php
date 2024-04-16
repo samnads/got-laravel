@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Brand;
 use App\Models\ProductCategoryMapping;
 use Illuminate\Http\Request;
 use App\Models\Product;
@@ -42,6 +43,7 @@ class AdminProductController extends Controller
     {
         $data['units'] = Unit::get();
         $data['categories'] = ProductCategories::get();
+        $data['brands'] = Brand::get();
         return view('admin.product.product-new', $data);
     }
     public function product_edit(Request $request, $product_id)
@@ -50,6 +52,7 @@ class AdminProductController extends Controller
         $data['product_category'] = ProductCategoryMapping::where('product_id', $product_id)->first();
         $data['units'] = Unit::get();
         $data['categories'] = ProductCategories::get();
+        $data['brands'] = Brand::get();
         return view('admin.product.product-edit', $data);
     }
     public function product_save(Request $request)
@@ -60,6 +63,7 @@ class AdminProductController extends Controller
         $product->description = $request->description;
         $product->item_size = $request->item_size;
         $product->unit_id = $request->unit_id;
+        $product->brand_id = $request->brand_id;
         /************************************* */
         if ($request->file('thumbnail_image')) {
             $file = $request->file('thumbnail_image');
@@ -88,6 +92,7 @@ class AdminProductController extends Controller
         $product->description = $request->description;
         $product->item_size = $request->item_size;
         $product->unit_id = $request->unit_id;
+        $product->brand_id = $request->brand_id;
         /************************************* */
         if ($request->file('thumbnail_image')) {
             $file = $request->file('thumbnail_image');

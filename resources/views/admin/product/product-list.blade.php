@@ -19,6 +19,7 @@
                             <tr>
                                 <th>Sl. No.</th>
                                 <th>Product Name</th>
+                                <th>Brand</th>
                                 <th>Unit</th>
                                 <th>Pack Size</th>
                                 <th>Thumbnail</th>
@@ -30,6 +31,7 @@
                                 <tr>
                                     <td>{{ $key + 1 }}</td>
                                     <td>{{ $product->name }}</td>
+                                    <td>{{ $product->brand ?: '-' }}</td>
                                     <td>{{ $product->unit }}</td>
                                     <td>{{ $product->item_size.' '.$product->unit_code }}</td>
                                     <td><img src="{{ config('url.uploads_cdn') . 'products/' . ($product->thumbnail_image ?: 'default.jpg') }}" />
