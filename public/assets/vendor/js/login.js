@@ -52,7 +52,8 @@ $(document).ready(function () {
                             loaderBg: '#fecd00',
                             position: 'bottom-center',
                             stack: false,
-                            hideAfter: 2000
+                            hideAfter: 2000,
+                            allowToastClose: false
                         });
                     }
                     Pace.stop();
@@ -67,7 +68,8 @@ $(document).ready(function () {
                         loaderBg: '#fecd00',
                         position: 'bottom-center',
                         stack: false,
-                        hideAfter: 2000
+                        hideAfter: 2000,
+                        allowToastClose: false
                     });
                     Pace.stop();
                 },
