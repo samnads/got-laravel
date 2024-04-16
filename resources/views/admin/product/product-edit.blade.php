@@ -40,6 +40,10 @@
                                         <label>Description</label>
                                         <textarea class="form-control" name="description" rows="4" required>{{$product->description}}</textarea>
                                     </div>
+                                    <div class="form-group">
+                                        <label>Maximum Retail Price</label>
+                                        <input type="number" step="any" class="form-control" name="maximum_retail_price" value="{{$product->maximum_retail_price}}" required>
+                                    </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="row">

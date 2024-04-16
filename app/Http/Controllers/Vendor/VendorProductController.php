@@ -59,6 +59,7 @@ class VendorProductController extends Controller
             'products.item_size',
             'products.name',
             'products.description',
+            'products.maximum_retail_price',
             'u.name as unit',
             'u.code as unit_code',
             'b.name as brand',

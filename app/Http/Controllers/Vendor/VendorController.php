@@ -21,4 +21,16 @@ class VendorController extends Controller
     {
         return view('vendor.dashboard', []);
     }
+    public function vendor_login(Request $request)
+    {
+        if ($request->ajax()) {
+            die('ajax');
+        }
+        if (Auth::guard('vendor')->check()) {
+            // The user is logged in...
+            return redirect()->route('vendor.dashboard');
+            //return view('admin.dashboard', []);
+        }
+        return view('shop.login', []);
+    }
 }

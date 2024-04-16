@@ -64,6 +64,7 @@ class AdminProductController extends Controller
         $product->item_size = $request->item_size;
         $product->unit_id = $request->unit_id;
         $product->brand_id = $request->brand_id;
+        $product->maximum_retail_price = $request->maximum_retail_price;
         /************************************* */
         if ($request->file('thumbnail_image')) {
             $file = $request->file('thumbnail_image');
@@ -93,6 +94,7 @@ class AdminProductController extends Controller
         $product->item_size = $request->item_size;
         $product->unit_id = $request->unit_id;
         $product->brand_id = $request->brand_id;
+        $product->maximum_retail_price = $request->maximum_retail_price;
         /************************************* */
         if ($request->file('thumbnail_image')) {
             $file = $request->file('thumbnail_image');

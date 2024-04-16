@@ -130,7 +130,7 @@
                 $('[name="id"]', add_product_form).val(product.id);
                 $('[name="product_name"]', add_product_form).val(product.name);
                 $('[name="maximum_retail_price"]', add_product_form).val(product.maximum_retail_price);
-                $('[name="retail_price"]', add_product_form).val(product.retail_price)
+                $('[name="retail_price"]', add_product_form).val(product.retail_price);
                 add_product_modal.show();
             });
             new DataTable('#vendor-list');
