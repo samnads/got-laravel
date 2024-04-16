@@ -61,7 +61,7 @@
                                             <div class="col-md-6">
                                                 <div class="form-check form-switch">
                                                     <input class="form-check-input" type="checkbox"
-                                                        id="flexSwitchCheckChecked" name="remember_me">
+                                                        id="flexSwitchCheckChecked" name="remember_me" value="1">
                                                     <label class="form-check-label"
                                                         for="flexSwitchCheckChecked">Remember Me</label>
                                                 </div>
