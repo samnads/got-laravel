@@ -220,13 +220,67 @@ class AddressController extends Controller
         /***************************************************************************************************** */
         $customer = Customer::find($input['id']);
         DB::beginTransaction();
-        $customer->selected_address_id = $input['address_id'];
+        $customer->default_address_id = $input['address_id'];
         $customer->save();
         $response = [
             'status' => [
                 'success' => 'true',
                 'hasdata' => 'false',
                 'message' => 'Default address changed successfully !',
+            ],
+        ];
+        DB::commit();
+        return Response::json($response, 200, [], JSON_PRETTY_PRINT);
+    }
+    public function set_selected_address(Request $request)
+    {
+        /***************************************************************************************************** */
+        $input = $request->all();
+        $validator = Validator::make(
+            (array) $input,
+            [
+                'address_id' => 'required',
+            ],
+            [],
+            [
+                'address_id' => 'Address ID',
+            ]
+        );
+        if ($validator->fails()) {
+            $response = [
+                'status' => [
+                    'success' => 'false',
+                    'hasdata' => 'false',
+                    'message' => $validator->errors()->first()
+                ]
+            ];
+            return Response::json($response, 200, [], JSON_PRETTY_PRINT);
+        }
+        /***************************************************************************************************** */
+        $customer_address = CustomerAddress::where([
+            ['id', '=', $input['address_id']],
+            ['customer_id', '=', $input['id']],
+        ])->first();
+        if (!$customer_address) {
+            $response = [
+                'status' => [
+                    'success' => 'false',
+                    'hasdata' => 'false',
+                    'message' => 'Invalid address !',
+                ],
+            ];
+            return Response::json($response, 200, [], JSON_PRETTY_PRINT);
+        }
+        /***************************************************************************************************** */
+        $customer = Customer::find($input['id']);
+        DB::beginTransaction();
+        $customer->selected_address_id = $input['address_id'];
+        $customer->save();
+        $response = [
+            'status' => [
+                'success' => 'true',
+                'hasdata' => 'false',
+                'message' => 'Selected address changed successfully !',
             ],
         ];
         DB::commit();
@@ -350,6 +404,67 @@ class AddressController extends Controller
                     'mobile_no' => $default_address->mobile_no,
                     'address_type' => $default_address->address_type,
                     'default_address' => 1,
+
+                ]
+            ]
+        ];
+        return Response::json($response, 200, [], JSON_PRETTY_PRINT);
+    }
+    public function get_selected_address(Request $request)
+    {
+        /***************************************************************************************************** */
+        $input = $request->all();
+        $validator = Validator::make(
+            (array) $input,
+            [],
+            [],
+            []
+        );
+        if ($validator->fails()) {
+            $response = [
+                'status' => [
+                    'success' => 'false',
+                    'hasdata' => 'false',
+                    'message' => $validator->errors()->first()
+                ]
+            ];
+            return Response::json($response, 200, [], JSON_PRETTY_PRINT);
+        }
+        /***************************************************************************************************** */
+        $customer = Customer::find($input['id']);
+        $selected_address = CustomerAddress::find($customer->selected_address_id);
+        if (!$selected_address) {
+            $response = [
+                'status' => [
+                    'success' => 'false',
+                    'hasdata' => 'false',
+                    'message' => 'No selected address found !',
+                ],
+            ];
+            return Response::json($response, 200, [], JSON_PRETTY_PRINT);
+        }
+        /***************************************************************************************************** */
+        $response = [
+            'status' => [
+                'success' => 'true',
+                'hasdata' => 'true',
+                'message' => 'Selected address fetched successfully !',
+            ],
+            'data' => [
+                'selected_address' => [
+                    'customer_address_id' => $selected_address->id,
+                    'customer_id' => $selected_address->customer_id,
+                    'name' => $selected_address->name,
+                    'address' => $selected_address->address,
+                    'latitude' => $selected_address->latitude,
+                    'longitude' => $selected_address->longitude,
+                    'apartment_no' => $selected_address->apartment_no,
+                    'apartment_name' => $selected_address->apartment_name,
+                    'landmark' => $selected_address->landmark,
+                    'mobile_no' => $selected_address->mobile_no,
+                    'address_type' => $selected_address->address_type,
+                    'default_address' => $selected_address->id == $customer->default_address_id ? 1 : null,
+                    'selected_address' => 1,
 
                 ]
             ]
