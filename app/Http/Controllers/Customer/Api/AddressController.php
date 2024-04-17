@@ -378,7 +378,7 @@ class AddressController extends Controller
         }
         /***************************************************************************************************** */
         $customer = Customer::find($input['id']);
-        $addresses = CustomerAddress::get();
+        $addresses = CustomerAddress::where('customer_id', $input['id'])->get();
         /***************************************************************************************************** */
         foreach ($addresses as $key => $address) {
             $address_list[] = [
