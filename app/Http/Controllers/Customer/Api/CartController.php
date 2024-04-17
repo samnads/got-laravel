@@ -235,7 +235,7 @@ class CartController extends Controller
         $response = [
             'status' => [
                 'success' => 'true',
-                'hasdata' => 'true',
+                'hasdata' => sizeof($cart_products) > 0 ? 'true' : 'false',
                 'message' => 'Cart updated successfully !',
             ],
             'data' => [
