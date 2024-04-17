@@ -333,7 +333,7 @@ class AddressController extends Controller
         $response = [
             'status' => [
                 'success' => 'true',
-                'hasdata' => 'false',
+                'hasdata' => 'true',
                 'message' => 'Default address fetched successfully !',
             ],
             'data' => [

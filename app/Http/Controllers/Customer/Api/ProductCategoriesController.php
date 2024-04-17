@@ -47,7 +47,7 @@ class ProductCategoriesController extends Controller
             DB::raw('DISTINCT(pc.id) as id'),
             'pc.name',
             'pc.description',
-            DB::raw('CONCAT("'.config('url.uploads_cdn').'","categories/",thumbnail_image) as thumbnail_url'),
+            DB::raw('CONCAT("' . config('url.uploads_cdn') . '","categories/",thumbnail_image) as thumbnail_url'),
         )
             ->leftJoin('product_categories as pc', function ($join) {
                 $join->on('product_category_mappings.category_id', '=', 'pc.id');
@@ -59,7 +59,7 @@ class ProductCategoriesController extends Controller
         $response = [
             'status' => [
                 'success' => 'true',
-                'hasdata' => 'true',
+                'hasdata' => sizeof($categories) > 0 ? 'true' : 'false',
                 'message' => 'Categories fetched successfully !',
             ],
             'data' => [
@@ -106,14 +106,15 @@ class ProductCategoriesController extends Controller
             ];
             return Response::json($response, 200, [], JSON_PRETTY_PRINT);
         }
+        $sub_categories = $category->sub_categories()->select('id', 'name', 'description')->get();
         $response = [
             'status' => [
                 'success' => 'true',
-                'hasdata' => 'true',
+                'hasdata' => sizeof($sub_categories) > 0 ? 'true' : 'false',
                 'message' => 'Sub Categories fetched successfully !',
             ],
             'data' => [
-                'sub_categories' => $category->sub_categories()->select('id', 'name', 'description')->get()
+                'sub_categories' => $sub_categories
             ]
         ];
         return Response::json($response, 200, [], JSON_PRETTY_PRINT);

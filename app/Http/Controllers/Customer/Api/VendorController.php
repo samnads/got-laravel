@@ -60,7 +60,7 @@ class VendorController extends Controller
         $response = [
             'status' => [
                 'success' => 'true',
-                'hasdata' => 'true',
+                'hasdata' => sizeof($shops) > 0 ? 'true' : 'false',
                 'message' => 'Nearby shops fetched successfully !',
             ],
             'data' => [
@@ -105,7 +105,7 @@ class VendorController extends Controller
         $response = [
             'status' => [
                 'success' => 'true',
-                'hasdata' => 'true',
+                'hasdata' => sizeof($shops) > 0 ? 'true' : 'false',
                 'message' => 'Shop locations fetched successfully !',
             ],
             'data' => [
