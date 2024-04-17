@@ -220,7 +220,7 @@ class AddressController extends Controller
         /***************************************************************************************************** */
         $customer = Customer::find($input['id']);
         DB::beginTransaction();
-        $customer->default_address_id = $input['address_id'];
+        $customer->selected_address_id = $input['address_id'];
         $customer->save();
         $response = [
             'status' => [
@@ -393,14 +393,14 @@ class AddressController extends Controller
                 'mobile_no' => $address->mobile_no,
                 'address_type' => $address->address_type,
                 'default_address' => $customer->default_address_id == $address->id ? 1 : null,
-                //'selected_address' => $customer->selected_address_id == $address->id ? 1 : null,
+                'selected_address' => $customer->selected_address_id == $address->id ? 1 : null,
 
             ];
         }
         $response = [
             'status' => [
                 'success' => 'true',
-                'hasdata' => 'true',
+                'hasdata' => sizeof($address_list) > 0 ? 'true' : 'false',
                 'message' => 'Address list fetched successfully !',
             ],
             'data' => [

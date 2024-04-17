@@ -80,9 +80,9 @@ CREATE TABLE `order_customer_addresses` (
 ALTER TABLE `vendors`
 DROP FOREIGN KEY `vendors_ibfk_2`
 ---------------------------------------------------------- DONE
---ALTER TABLE `customers`
---ADD `selected_address_id` bigint(20) unsigned NULL AFTER `default_address_id`,
---ADD FOREIGN KEY (`selected_address_id`) REFERENCES `customer_addresses` (`id`);
+ALTER TABLE `customers`
+ADD `selected_address_id` bigint(20) unsigned NULL AFTER `default_address_id`,
+ADD FOREIGN KEY (`selected_address_id`) REFERENCES `customer_addresses` (`id`);
 
 ALTER TABLE `products`
 ADD `maximum_retail_price` decimal(10,2) NOT NULL DEFAULT '0' AFTER `description`;
