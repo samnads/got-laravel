@@ -205,7 +205,7 @@ class OrderController extends Controller
         $response = [
             'status' => [
                 'success' => 'true',
-                'hasdata' => $orders ? 'true' : 'false',
+                'hasdata' => sizeof($orders) > 0 ? 'true' : 'false',
                 'message' => 'Orders fetched successfully !',
             ],
             'data' => [
