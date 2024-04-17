@@ -106,7 +106,7 @@ class VendorProductController extends Controller
         $response = [
             'status' => [
                 'success' => 'true',
-                'hasdata' => 'true',
+                'hasdata' => sizeof($vendor_products) ? 'true' : 'false',
                 'message' => 'Vendor products fetched successfully !',
             ],
             'data' => [
