@@ -404,6 +404,7 @@ class AddressController extends Controller
                     'mobile_no' => $default_address->mobile_no,
                     'address_type' => $default_address->address_type,
                     'default_address' => 1,
+                    'selected_address' => $customer->selected_address_id == $default_address->id ? 1 : null,
 
                 ]
             ]
