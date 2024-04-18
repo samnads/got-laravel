@@ -11,6 +11,14 @@ use Session;
 
 class VendorProductController extends Controller
 {
+    public function my_products(Request $request)
+    {
+        return view('shop.product.my-products', []);
+    }
+    public function available_products(Request $request)
+    {
+        return view('shop.product.available-products', []);
+    }
     public function product_list(Request $request)
     {
         $data['products'] = VendorProduct::select(

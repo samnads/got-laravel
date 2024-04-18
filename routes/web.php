@@ -85,7 +85,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 Route::prefix('vendor')->name('vendor.')->group(function () {
     Route::middleware([VendorAuthWeb::class])->group(function () {
         Route::get('/dashboard', [VendorController::class, 'dashboard'])->name('dashboard');
-        Route::get('/profile', [VendorController::class, 'vendor_profile'])->name('profile');
+        Route::get('/profile', [VendorController::class, 'vendor_profile'])->name('my-profile'); // new theme
         Route::prefix('product')->name('product.')->group(function () {
             Route::get('/list', [VendorProductController::class, 'product_list'])->name('list');
             Route::get('/add/list', [VendorProductController::class, 'product_list_for_add'])->name('list-for-add');
@@ -93,6 +93,8 @@ Route::prefix('vendor')->name('vendor.')->group(function () {
             Route::post('/add', [VendorProductController::class, 'add_product']);
             Route::get('/delete/{product_id}', [VendorProductController::class, 'delete']);
             Route::get('/restore/{product_id}', [VendorProductController::class, 'restore']);
+            Route::get('/my-products', [VendorProductController::class, 'my_products'])->name('my-products'); // new theme
+            Route::get('/available-products', [VendorProductController::class, 'available_products'])->name('available-products'); // new theme
         });
         Route::prefix('order')->name('order.')->group(function () {
             Route::get('/pending', [VendorOrderController::class, 'pending_orders_list']);
