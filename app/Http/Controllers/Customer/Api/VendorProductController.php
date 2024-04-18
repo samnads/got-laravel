@@ -81,7 +81,7 @@ class VendorProductController extends Controller
             DB::raw('IFNULL(cr.quantity,0) as quantity'),
             DB::raw('CONCAT("' . config('url.uploads_cdn') . '","products/",IFNULL(p.thumbnail_image,"default.jpg")) as thumbnail_url'),
             DB::raw('ROUND((vp.maximum_retail_price - vp.retail_price),2) as offer'),
-            DB::raw('ROUND((((vp.maximum_retail_price - vp.retail_price) / vp.maximum_retail_price)*100),2) as offer_percentage'),
+            DB::raw('IFNULL(ROUND((((vp.maximum_retail_price - vp.retail_price) / vp.maximum_retail_price)*100),2),0) as offer_percentage'),
             DB::raw('ROUND((IFNULL(cr.quantity,0) * vp.maximum_retail_price) - (IFNULL(cr.quantity,0) * vp.retail_price),2) as saved_amount'),
             DB::raw('ROUND((IFNULL(cr.quantity,0) * vp.retail_price),2) as total_amount')
         )

@@ -216,8 +216,8 @@ class CartController extends Controller
             'vp.min_cart_quantity',
             'vp.max_cart_quantity',
             DB::raw('ROUND((vp.maximum_retail_price - vp.retail_price),2) as offer'),
-            DB::raw('ROUND((((vp.maximum_retail_price - vp.retail_price) / vp.maximum_retail_price)*100),2) as offer_percentage'),
-            DB::raw('ROUND((IFNULL(cart.quantity,0) * vp.maximum_retail_price) - (IFNULL(cart.quantity,0) * vp.retail_price),2) as saved_amount'),
+            DB::raw('IFNULL(ROUND((((vp.maximum_retail_price - vp.retail_price) / vp.maximum_retail_price)*100),2),0) as offer_percentage'),
+            DB::raw('IFNULL(ROUND((IFNULL(cart.quantity,0) * vp.maximum_retail_price) - (IFNULL(cart.quantity,0) * vp.retail_price),2),0) as saved_amount'),
             DB::raw('ROUND((IFNULL(cart.quantity,0) * vp.retail_price),2) as total_amount')
         )
             ->leftJoin('vendor_products as vp', function ($join) {
