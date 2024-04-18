@@ -153,3 +153,10 @@ $(function() {
 	
 	
 });
+
+$(document).on("ajaxStart", function () {
+	Pace.restart();
+});
+$(document).on("ajaxStop", function () {
+	Pace.stop();
+});

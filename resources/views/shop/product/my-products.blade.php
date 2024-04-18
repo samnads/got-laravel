@@ -21,7 +21,7 @@
     <div class="card">
         <div class="card-body">
             <div class="table-responsive">
-                <table id="my-products" class="table table-striped table-bordered">
+                <table id="my-products" class="table table-striped table-hover table-bordered">
                     <thead>
                         <tr>
                             <th>Sl. No.</th>
@@ -50,8 +50,7 @@
             </div>
         </div>
     </div>
-    </div>
-    </div>
+    @include('shop.product.popups.quick-edit-my-product')
 @endsection
 @push('link-styles')
     <!-- Pushed Link Styles -->
@@ -64,21 +63,11 @@
 @push('link-scripts')
     <!-- Pushed Link Scripts -->
     <!--<script src="{{ asset('assets/vendor/plugins/datatable/js/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('assets/vendor/plugins/datatable/js/dataTables.bootstrap5.min.js') }}"></script>-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+        <script src="{{ asset('assets/vendor/plugins/datatable/js/dataTables.bootstrap5.min.js') }}"></script>-->
     <script src="https://cdn.datatables.net/2.0.5/js/dataTables.js"></script>
     <script src="https://cdn.datatables.net/2.0.5/js/dataTables.bootstrap5.js"></script>
     <script src="{{ asset('assets/vendor/js/product/my-products.js?v=') . config('version.vendor_assets') }}"></script>
 @endpush
 @push('inline-scripts')
     <!-- Pushed Inline Scripts -->
-    <script>
-        $(document).ready(function() {
-            /*var table = $('#example2').DataTable({
-                lengthChange: false,
-                buttons: ['copy', 'excel', 'pdf', 'print']
-            });
-            table.buttons().container().appendTo('#example2_wrapper .col-md-6:eq(0)');*/
-        });
-    </script>
 @endpush

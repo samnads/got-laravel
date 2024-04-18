@@ -1,3 +1,8 @@
+let product_quick_edit_modal = new bootstrap.Modal(document.getElementById('quick-edit-my-product'), {
+    //backdrop: 'static',
+    keyboard: true
+});
+let product_quick_edit_form = $('form[id="product-quick-edit"]');
 let my_products_datatable = new DataTable('#my-products', {
     processing: true,
     serverSide: true,
@@ -17,10 +22,10 @@ let my_products_datatable = new DataTable('#my-products', {
             }
         },
         "beforeSend": function () {
-            Pace.restart();
+            //Pace.restart();
         },
         "complete": function () {
-            Pace.stop();
+            //Pace.stop();
         }
     },
     columns: [
@@ -44,5 +49,35 @@ let my_products_datatable = new DataTable('#my-products', {
         }
     ],
     drawCallback: function (settings) {
+        quickEditListener();
     },
 });
+function quickEditListener() {
+    $('[data-action="quick-edit-product"]').click(function () {
+        let id = this.getAttribute('data-id');
+        $('[name="id"]', product_quick_edit_form).val(id);
+        $.ajax({
+            type: 'GET',
+            url: _url,
+            dataType: 'json',
+            data: {
+                id: id,
+                action: "quick-edit"
+            },
+            success: function (response) {
+                if (response.status == true) {
+                    $('#pname', product_quick_edit_form).val(response.data.product.name);
+                    $('#pcode', product_quick_edit_form).val(response.data.product.code);
+                    $('[name="maximum_retail_price"]', product_quick_edit_form).val(response.data.product.maximum_retail_price);
+                    $('[name="retail_price"]', product_quick_edit_form).val(response.data.product.retail_price);
+                    product_quick_edit_modal.show();
+                } else {
+                    //toastStatusFalse(response);
+                }
+            },
+            error: function (response) {
+                //ajaxError(response);
+            },
+        });
+    });
+}

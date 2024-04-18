@@ -62,8 +62,7 @@ class VendorProductController extends Controller
                         });
                         if (@$request->order[0]['name']) {
                             $rows->orderBy($request->order[0]['name'], $request->order[0]['dir']);
-                        }
-                        else{
+                        } else {
                             $rows->orderBy('vendor_products.id', 'asc');
                         }
                         $data_table['recordsFiltered'] = $rows->count();
@@ -72,13 +71,70 @@ class VendorProductController extends Controller
                             $data_table['data'][$key]['action_html'] = '<div class="btn-group bg-light" role="group" aria-label="Basic example">
 											<button type="button" class="btn btn-outline-primary"><i class="bx bx-show-alt"></i>
 											</button>
-											<button type="button" data-action="edit-product" data-id="'.$row['id'].'" class="btn btn-outline-primary"><i class="bx bx-pencil"></i>
+											<button type="button" data-action="quick-edit-product" data-id="' . $row['id'] . '" class="btn btn-outline-primary"><i class="bx bx-pencil"></i>
 											</button>
 											<button type="button" class="btn btn-outline-primary"><i class="bx bx-right-arrow"></i>
 											</button>
 										</div>';
                         }
                         return response()->json($data_table, 200, [], JSON_PRETTY_PRINT);
+                    case 'quick-edit':
+                        switch ($request->method()) {
+                            case 'GET':
+                                $product = VendorProduct::select(
+                                    'vendor_products.id',
+                                    'vendor_products.product_id',
+                                    'vendor_products.maximum_retail_price',
+                                    'vendor_products.retail_price',
+                                    'p.name',
+                                    'p.code',
+                                    'p.item_size',
+                                    'u.name as unit',
+                                    'u.code as unit_code',
+                                    DB::raw('IFNULL(b.name,"-") as brand'),
+                                    'p.description',
+                                    'p.deleted_at',
+                                    'pc.name as category',
+                                    'vendor_products.deleted_at'
+                                )
+                                    ->leftJoin('products as p', function ($join) {
+                                        $join->on('vendor_products.product_id', '=', 'p.id');
+                                    })
+                                    ->leftJoin('units as u', function ($join) {
+                                        $join->on('p.unit_id', '=', 'u.id');
+                                    })
+                                    ->leftJoin('brands as b', function ($join) {
+                                        $join->on('p.brand_id', '=', 'b.id');
+                                    })
+                                    ->leftJoin('product_category_mappings as pcm', function ($join) {
+                                        $join->on('p.id', '=', 'pcm.product_id');
+                                    })
+                                    ->leftJoin('product_categories as pc', function ($join) {
+                                        $join->on('pcm.category_id', '=', 'pc.id');
+                                    })
+                                    ->where('vendor_products.vendor_id', Auth::guard('vendor')->id())
+                                    ->where('vendor_products.id', $request->id)
+                                    ->withTrashed()
+                                    ->first();
+                                $response = [
+                                    'status' => true,
+                                    'data' => [
+                                        'product' => $product
+                                    ]
+                                ];
+                                break;
+                            case 'PUT':
+                                break;
+                            default:
+                                $response = [
+                                    'status' => false,
+                                    'type' => 'error',
+                                    'title' => 'Error !',
+                                    'content' => 'Unknown method !',
+                                    'data' => null
+                                ];
+                        }
+                        break;
                     default:
                         $response = [
                             'status' => false,
