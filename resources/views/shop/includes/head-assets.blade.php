@@ -5,7 +5,7 @@
 <link href="{{ asset('assets/vendor/plugins/perfect-scrollbar/css/perfect-scrollbar.css')}}" rel="stylesheet" />
 <link href="{{ asset('assets/vendor/plugins/metismenu/css/metisMenu.min.css')}}" rel="stylesheet" />
 <!-- loader-->
-<link href="{{ asset('assets/vendor/css/pace.flash.css')}}" rel="stylesheet" />
+<link href="{{ asset('assets/vendor/css/pace.css')}}" rel="stylesheet" />
 <script src="{{ asset('assets/vendor/js/pace.min.js')}}"></script>
 <!-- Bootstrap CSS -->
 <link href="{{ asset('assets/vendor/css/bootstrap.min.css')}}" rel="stylesheet">
