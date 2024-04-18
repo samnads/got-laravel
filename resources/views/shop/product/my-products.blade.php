@@ -21,7 +21,7 @@
     <div class="card">
         <div class="card-body">
             <div class="table-responsive">
-                <table id="my-products" class="table table-striped table-hover table-bordered">
+                <table id="my-products" class="table table-striped table-hover table-bordered align-middle">
                     <thead>
                         <tr>
                             <th>Sl. No.</th>

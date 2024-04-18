@@ -41,3 +41,4 @@ function toastStatusFalse(response) {
     beep();
     toast(response.error.title, response.error.content, response.error.type);
 }
+let loading_button_html = `<span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span> Loading...`;

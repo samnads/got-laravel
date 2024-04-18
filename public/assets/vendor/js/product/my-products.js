@@ -117,6 +117,8 @@ $(document).ready(function () {
             error.insertAfter(element.parent());
         },
         submitHandler: function (form) {
+            let submit_btn = $('button[type="submit"]', form);
+            submit_btn.html(loading_button_html).prop("disabled", true);
             $.ajax({
                 type: 'PUT',
                 url: _url,
@@ -129,9 +131,11 @@ $(document).ready(function () {
                     } else {
                         toastStatusFalse(response);
                     }
+                    submit_btn.html('Update').prop("disabled", false);
                     my_products_datatable.ajax.reload(null, false);
                 },
                 error: function (response) {
+                    submit_btn.html('Update').prop("disabled", false);
                     my_products_datatable.ajax.reload(null, false);
                 },
             });
