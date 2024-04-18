@@ -14,20 +14,6 @@
                 </ol>
             </nav>
         </div>
-        <div class="ms-auto">
-            <div class="btn-group">
-                <button type="button" class="btn btn-primary">Settings</button>
-                <button type="button" class="btn btn-primary split-bg-primary dropdown-toggle dropdown-toggle-split"
-                    data-bs-toggle="dropdown"> <span class="visually-hidden">Toggle Dropdown</span>
-                </button>
-                <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-end"> <a class="dropdown-item"
-                        href="javascript:;">Action</a>
-                    <a class="dropdown-item" href="javascript:;">Another action</a>
-                    <a class="dropdown-item" href="javascript:;">Something else here</a>
-                    <div class="dropdown-divider"></div> <a class="dropdown-item" href="javascript:;">Separated link</a>
-                </div>
-            </div>
-        </div>
     </div>
     <!--end breadcrumb-->
     <h6 class="mb-0 text-uppercase">Products List</h6>
@@ -35,7 +21,7 @@
     <div class="card">
         <div class="card-body">
             <div class="table-responsive">
-                <table id="example2" class="table table-striped table-bordered">
+                <table id="my-products" class="table table-striped table-bordered">
                     <thead>
                         <tr>
                             <th>Sl. No.</th>
@@ -523,26 +509,30 @@
 @endsection
 @push('link-styles')
     <!-- Pushed Link Styles -->
-    <link href="{{ asset('assets/vendor/plugins/datatable/css/dataTables.bootstrap5.min.css')}}" rel="stylesheet">
+    <!--<link href="{{ asset('assets/vendor/plugins/datatable/css/dataTables.bootstrap5.min.css') }}" rel="stylesheet">-->
+    <link href="https://cdn.datatables.net/2.0.5/css/dataTables.bootstrap5.css" rel="stylesheet">
 @endpush
 @push('inline-styles')
     <!-- Pushed Inline Styles -->
 @endpush
 @push('link-scripts')
     <!-- Pushed Link Scripts -->
-    <script src="{{ asset('assets/vendor/plugins/datatable/js/jquery.dataTables.min.js')}}"></script>
-    <script src="{{ asset('assets/vendor/plugins/datatable/js/dataTables.bootstrap5.min.js')}}"></script>
-    <script src="{{ asset('assets/vendor/js/product.my-products.js?v=')}}"></script>
+    <!--<script src="{{ asset('assets/vendor/plugins/datatable/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/vendor/plugins/datatable/js/dataTables.bootstrap5.min.js') }}"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/2.0.5/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/2.0.5/js/dataTables.bootstrap5.js"></script>
+    <script src="{{ asset('assets/vendor/js/product/my-products.js?v=') . config('version.vendor_assets') }}"></script>
 @endpush
 @push('inline-scripts')
     <!-- Pushed Inline Scripts -->
     <script>
         $(document).ready(function() {
-            var table = $('#example2').DataTable({
+            /*var table = $('#example2').DataTable({
                 lengthChange: false,
                 buttons: ['copy', 'excel', 'pdf', 'print']
             });
-            table.buttons().container().appendTo('#example2_wrapper .col-md-6:eq(0)');
+            table.buttons().container().appendTo('#example2_wrapper .col-md-6:eq(0)');*/
         });
     </script>
 @endpush

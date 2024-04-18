@@ -7,3 +7,7 @@
 <script src="{{ asset('assets/vendor/plugins/perfect-scrollbar/js/perfect-scrollbar.js')}}"></script>
 <!--app JS-->
 <script src="{{ asset('assets/vendor/js/app.js')}}"></script>
+<script>
+    let _base_url = "{{url('vendor')}}/";
+    let _url = "{{request()->url()}}";
+</script>
