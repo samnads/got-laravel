@@ -54,7 +54,6 @@
 @endsection
 @push('link-styles')
     <!-- Pushed Link Styles -->
-    <!--<link href="{{ asset('assets/vendor/plugins/datatable/css/dataTables.bootstrap5.min.css') }}" rel="stylesheet">-->
     <link href="https://cdn.datatables.net/2.0.5/css/dataTables.bootstrap5.css" rel="stylesheet">
 @endpush
 @push('inline-styles')
@@ -62,8 +61,6 @@
 @endpush
 @push('link-scripts')
     <!-- Pushed Link Scripts -->
-    <!--<script src="{{ asset('assets/vendor/plugins/datatable/js/jquery.dataTables.min.js') }}"></script>
-        <script src="{{ asset('assets/vendor/plugins/datatable/js/dataTables.bootstrap5.min.js') }}"></script>-->
     <script src="https://cdn.datatables.net/2.0.5/js/dataTables.js"></script>
     <script src="https://cdn.datatables.net/2.0.5/js/dataTables.bootstrap5.js"></script>
     <script src="{{ asset('assets/vendor/js/product/my-products.js?v=') . config('version.vendor_assets') }}"></script>

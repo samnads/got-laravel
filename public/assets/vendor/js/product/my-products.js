@@ -40,11 +40,27 @@ let my_products_datatable = new DataTable('#my-products', {
     columnDefs: [
         {
             targets: 0,
-            sortable: false
+            sortable: false,
+            type: 'html'
+        },
+        {
+            targets: 1,
+            type: 'html'
+        },
+        {
+            targets: 4,
+            type: 'num',
+            className: "text-end"
+        },
+        {
+            targets: 5,
+            type: 'num',
+            className: "text-end"
         },
         {
             targets: -1,
             sortable: false,
+            type: 'html',
             width: 1
         }
     ],
@@ -81,3 +97,55 @@ function quickEditListener() {
         });
     });
 }
+$(document).ready(function () {
+    product_quick_edit_form.validate({
+        focusInvalid: true,
+        ignore: [],
+        rules: {
+            "id": {
+                required: true,
+            },
+            "maximum_retail_price": {
+                required: true,
+            },
+            "retail_price": {
+                required: true,
+            }
+        },
+        messages: {},
+        errorPlacement: function (error, element) {
+            error.insertAfter(element.parent());
+        },
+        submitHandler: function (form) {
+            $.ajax({
+                type: 'PUT',
+                url: _url,
+                dataType: 'json',
+                data: product_quick_edit_form.serialize(),
+                success: function (response) {
+                    if (response.status == true) {
+                        product_quick_edit_modal.hide();
+                        Swal.fire({
+                            title: response.message.title,
+                            text: response.message.content,
+                            icon: response.message.type,
+                            confirmButtonText: "OK",
+                            allowOutsideClick: false
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                //location.href = response.redirect;
+                            }
+                        });
+                    } else {
+                        toastStatusFalse(response);
+                    }
+                    my_products_datatable.ajax.reload(null, false);
+                },
+                error: function (response) {
+                    ajaxError(response);
+                    my_products_datatable.ajax.reload(null, false);
+                },
+            });
+        }
+    });
+});

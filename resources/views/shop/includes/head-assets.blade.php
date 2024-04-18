@@ -17,3 +17,5 @@
 <link rel="stylesheet" href="{{ asset('assets/vendor/css/dark-theme.css')}}" />
 <link rel="stylesheet" href="{{ asset('assets/vendor/css/semi-dark.css')}}" />
 <link rel="stylesheet" href="{{ asset('assets/vendor/css/header-colors.css')}}" />
+<!-- Toast -->
+<link rel="stylesheet" href="{{ asset('assets/vendor/plugins/jquery-toast/jquery.toast.min.css') }}" />

@@ -93,7 +93,7 @@ Route::prefix('vendor')->name('vendor.')->group(function () {
             Route::post('/add', [VendorProductController::class, 'add_product']);
             Route::get('/delete/{product_id}', [VendorProductController::class, 'delete']);
             Route::get('/restore/{product_id}', [VendorProductController::class, 'restore']);
-            Route::get('/my-products', [VendorProductController::class, 'my_products'])->name('my-products'); // new theme
+            Route::any('/my-products', [VendorProductController::class, 'my_products'])->name('my-products'); // new theme
             Route::get('/available-products', [VendorProductController::class, 'available_products'])->name('available-products'); // new theme
         });
         Route::prefix('order')->name('order.')->group(function () {
