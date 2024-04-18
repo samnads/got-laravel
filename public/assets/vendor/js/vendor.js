@@ -12,7 +12,8 @@ function toast(title, content, type, settings = {}) {
         loader: true,
         position: settings.position || 'bottom-right',
         stack: settings.stack || 4,
-        allowToastClose: settings.allowToastClose == false ? false : true
+        allowToastClose: settings.allowToastClose == false ? false : true,
+        loaderBg: '#fecd00'  // To change the background
     });
 }
 _toast = null;

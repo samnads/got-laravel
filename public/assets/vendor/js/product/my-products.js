@@ -125,24 +125,13 @@ $(document).ready(function () {
                 success: function (response) {
                     if (response.status == true) {
                         product_quick_edit_modal.hide();
-                        Swal.fire({
-                            title: response.message.title,
-                            text: response.message.content,
-                            icon: response.message.type,
-                            confirmButtonText: "OK",
-                            allowOutsideClick: false
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                //location.href = response.redirect;
-                            }
-                        });
+                        toast(response.message.title, response.message.content, response.message.type);
                     } else {
                         toastStatusFalse(response);
                     }
                     my_products_datatable.ajax.reload(null, false);
                 },
                 error: function (response) {
-                    ajaxError(response);
                     my_products_datatable.ajax.reload(null, false);
                 },
             });

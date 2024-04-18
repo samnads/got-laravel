@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\VendorProduct;
 use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 use Session;
 use DB;
 
@@ -124,6 +125,45 @@ class VendorProductController extends Controller
                                 ];
                                 break;
                             case 'PUT':
+                                $input = $request->all();
+                                $validator = Validator::make(
+                                    (array) $input,
+                                    [
+                                        'maximum_retail_price' => 'required_with:retail_price|regex:/^\d+(\.\d{1,2})?$/',
+                                        'retail_price' => 'required_with:maximum_retail_price|lte:maximum_retail_price',
+                                    ],
+                                    [],
+                                    [
+                                        'maximum_retail_price' => 'MRP.',
+                                        'retail_price' => 'Selling Price',
+                                    ]
+                                );
+                                if ($validator->fails()) {
+                                    $response = [
+                                        'status' => false,
+                                        'error' => [
+                                            'type' => 'error',
+                                            'title' => 'Validation Error !',
+                                            'content' => $validator->errors()->first()
+                                        ]
+                                    ];
+                                    return response()->json($response, 200, [], JSON_PRETTY_PRINT);
+                                }
+                                $product = VendorProduct::where('vendor_products.vendor_id', Auth::guard('vendor')->id())
+                                    ->where('vendor_products.id', $request->id)
+                                    ->withTrashed()
+                                    ->first();
+                                $product->maximum_retail_price = $request->maximum_retail_price;
+                                $product->retail_price = $request->retail_price;
+                                $product->save();
+                                $response = [
+                                    'status' => true,
+                                    'message' => [
+                                        'type' => 'success',
+                                        'title' => 'Product Updated',
+                                        'content' => 'Task completed successfully.'
+                                    ]
+                                ];
                                 break;
                             default:
                                 $response = [
@@ -131,7 +171,6 @@ class VendorProductController extends Controller
                                     'type' => 'error',
                                     'title' => 'Error !',
                                     'content' => 'Unknown method !',
-                                    'data' => null
                                 ];
                         }
                         break;
