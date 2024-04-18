@@ -1,6 +1,7 @@
 let my_products_datatable = new DataTable('#my-products', {
     processing: true,
     serverSide: true,
+    autoWidth: true,
     "order": [],
     'ajax': {
         dataType: "JSON",
@@ -38,10 +39,10 @@ let my_products_datatable = new DataTable('#my-products', {
         },
         {
             targets: -1,
-            sortable: false
+            sortable: false,
+            width: 1
         }
     ],
     drawCallback: function (settings) {
-        //Pace.stop();
     },
 });

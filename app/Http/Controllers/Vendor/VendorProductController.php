@@ -64,12 +64,19 @@ class VendorProductController extends Controller
                             $rows->orderBy($request->order[0]['name'], $request->order[0]['dir']);
                         }
                         else{
-                            $rows->orderBy('vendor_products.id', 'desc');
+                            $rows->orderBy('vendor_products.id', 'asc');
                         }
                         $data_table['recordsFiltered'] = $rows->count();
                         $data_table['data'] = $rows->offset($request->start)->limit($request->length)->get()->toArray();
                         foreach ($data_table['data'] as $key => $row) {
-                            $data_table['data'][$key]['action_html'] = 'html';
+                            $data_table['data'][$key]['action_html'] = '<div class="btn-group bg-light" role="group" aria-label="Basic example">
+											<button type="button" class="btn btn-outline-primary"><i class="bx bx-show-alt"></i>
+											</button>
+											<button type="button" data-action="edit-product" data-id="'.$row['id'].'" class="btn btn-outline-primary"><i class="bx bx-pencil"></i>
+											</button>
+											<button type="button" class="btn btn-outline-primary"><i class="bx bx-right-arrow"></i>
+											</button>
+										</div>';
                         }
                         return response()->json($data_table, 200, [], JSON_PRETTY_PRINT);
                     default:
