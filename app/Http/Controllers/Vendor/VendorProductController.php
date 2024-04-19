@@ -35,8 +35,8 @@ class VendorProductController extends Controller
                             'u.code as unit_code',
                             DB::raw('IFNULL(b.name,"-") as brand'),
                             'p.description',
-                            'p.deleted_at',
                             'pc.name as category',
+                            DB::raw('CONCAT(ROUND(p.item_size,2)," ",u.name) as size_label'),
                             'vendor_products.deleted_at'
                         )
                             ->leftJoin('products as p', function ($join) {
@@ -77,6 +77,10 @@ class VendorProductController extends Controller
 											<button type="button" class="btn btn-outline-primary"><i class="bx bx-right-arrow"></i>
 											</button>
 										</div>';
+                            $data_table['data'][$key]['status_html'] = '<div class="form-check-success form-check form-switch">
+									<input data-action="toggle-status" data-id="' . $row['id'] . '" class="form-check-input" type="checkbox" id="status_' . $row['id'] . '" '. ($row['deleted_at'] == null ? 'checked' : '').'>
+									<label class="form-check-label" for="status_' . $row['id'] . '"></label>
+								</div>';
                         }
                         return response()->json($data_table, 200, [], JSON_PRETTY_PRINT);
                     case 'quick-edit':
