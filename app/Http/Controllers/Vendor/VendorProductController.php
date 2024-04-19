@@ -277,19 +277,46 @@ class VendorProductController extends Controller
                         $data_table['recordsFiltered'] = $rows->count();
                         $data_table['data'] = $rows->offset($request->start)->limit($request->length)->get()->toArray();
                         foreach ($data_table['data'] as $key => $row) {
-                            $data_table['data'][$key]['action_html'] = '<div class="btn-group bg-light" role="group" aria-label="Basic example">
-											<button type="button" data-action="quick-edit-product" data-id="' . $row['id'] . '" class="btn btn-outline-primary"><i class="bx bx-pencil"></i>
-											</button>
+                            $data_table['data'][$key]['action_html'] = '<div class="btn-group btn-group-sm" role="group" aria-label="First group">
+											<button data-action="add-product" data-id="'.$row['id'].'" type="button" class="btn btn-sm btn-warning"><i class="fadeIn animated bx bx-plus"></i></button>
 										</div>';
                         }
                         return response()->json($data_table, 200, [], JSON_PRETTY_PRINT);
+                    case 'product-for-add':
+                        $product = Product::findOrFail($request->id);
+                        $response = [
+                            'status' => true,
+                            'data' => [
+                                'product' => $product
+                            ]
+                        ];
+                        return response()->json($response, 200, [], JSON_PRETTY_PRINT);
+                    case 'save-new-product':
+                        $product = new VendorProduct();
+                        $product->vendor_id = Auth::guard('vendor')->id();
+                        $product->product_id = $request->id;
+                        $product->min_cart_quantity = $request->min_cart_quantity;
+                        $product->max_cart_quantity = $request->max_cart_quantity;
+                        $product->maximum_retail_price = $request->maximum_retail_price;
+                        $product->retail_price = $request->retail_price;
+                        $product->save();
+                        $response = [
+                            'status' => true,
+                            'message' => [
+                                'type' => 'success',
+                                'title' => 'Added !',
+                                'content' => 'Product added successfully.'
+                            ]
+                        ];
+                        return response()->json($response, 200, [], JSON_PRETTY_PRINT);
                     default:
                         $response = [
                             'status' => false,
-                            'type' => 'error',
-                            'title' => 'Error !',
-                            'content' => 'Unknown action !',
-                            'data' => null
+                            'error' => [
+                                'type' => 'error',
+                                'title' => 'Error !',
+                                'content' => 'Unknown action.'
+                            ]
                         ];
                 }
                 return response()->json($response, 200, [], JSON_PRETTY_PRINT);

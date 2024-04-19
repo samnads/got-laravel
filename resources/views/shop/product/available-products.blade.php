@@ -64,7 +64,7 @@
             </div>
         </div>
     </div>
-    @include('shop.product.popups.quick-edit-my-product')
+    @include('shop.product.popups.quick-add-product')
 @endsection
 @push('link-styles')
     <!-- Pushed Link Styles -->

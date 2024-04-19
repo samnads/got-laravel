@@ -41,4 +41,7 @@ function toastStatusFalse(response) {
     beep();
     toast(response.error.title, response.error.content, response.error.type);
 }
+function ajaxError(response) {
+    toast("Unknown Error !", response.statusText, 'info');
+}
 let loading_button_html = `<span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span> Loading...`;

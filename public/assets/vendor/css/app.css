@@ -679,7 +679,7 @@ a {
 
 	font-size: 26px;
 
-	color: #fff;
+	color: #000;
 
 	position: fixed;
 
@@ -689,7 +689,7 @@ a {
 
 	right: 12px;
 
-	background-color: #008cff;
+	background-color: #fecd00;
 
 	z-index: 5
 
@@ -699,7 +699,7 @@ a {
 
 .back-to-top:hover {
 
-	color: #fff;
+	color: #fecd00;
 
 	background-color: #000;
 
@@ -3709,7 +3709,7 @@ form select.error:focus {
 
 	margin-bottom: -1em;
 
-	margin-right: 5px
+	/*margin-right: 5px*/
 
 }
 

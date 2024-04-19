@@ -94,7 +94,7 @@ Route::prefix('vendor')->name('vendor.')->group(function () {
             Route::get('/delete/{product_id}', [VendorProductController::class, 'delete']);
             Route::get('/restore/{product_id}', [VendorProductController::class, 'restore']);
             Route::any('/my-products', [VendorProductController::class, 'my_products'])->name('my-products'); // new theme
-            Route::get('/available-products', [VendorProductController::class, 'available_products'])->name('available-products'); // new theme
+            Route::any('/available-products', [VendorProductController::class, 'available_products'])->name('available-products'); // new theme
         });
         Route::prefix('order')->name('order.')->group(function () {
             Route::get('/pending', [VendorOrderController::class, 'pending_orders_list']);

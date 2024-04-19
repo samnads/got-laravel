@@ -1,8 +1,8 @@
-let product_quick_edit_modal = new bootstrap.Modal(document.getElementById('quick-edit-my-product'), {
+let product_quick_add_modal = new bootstrap.Modal(document.getElementById('quick-add-product'), {
     //backdrop: 'static',
     keyboard: true
 });
-let product_quick_edit_form = $('form[id="product-quick-edit"]');
+let product_quick_add_form = $('form[id="quick-add-product"]');
 let my_products_datatable = new DataTable('#my-products', {
     processing: true,
     serverSide: true,
@@ -56,97 +56,49 @@ let my_products_datatable = new DataTable('#my-products', {
         }
     ],
     drawCallback: function (settings) {
-        quickEditListener();
-        statusChangeListener();
+        productAddListener();
     },
 });
-function quickEditListener() {
-    $('[data-action="quick-edit-product"]').click(function () {
+function productAddListener() {
+    $('[data-action="add-product"]').click(function () {
         let id = this.getAttribute('data-id');
-        $('[name="id"]', product_quick_edit_form).val(id);
+        $('[name="id"]', product_quick_add_form).val(id);
         $.ajax({
             type: 'GET',
             url: _url,
             dataType: 'json',
             data: {
                 id: id,
-                action: "quick-edit"
+                action: "product-for-add"
             },
             success: function (response) {
                 if (response.status == true) {
-                    $('#pname', product_quick_edit_form).val(response.data.product.name);
-                    $('#pcode', product_quick_edit_form).val(response.data.product.code);
-                    $('[name="maximum_retail_price"]', product_quick_edit_form).val(response.data.product.maximum_retail_price);
-                    $('[name="retail_price"]', product_quick_edit_form).val(response.data.product.retail_price);
-                    product_quick_edit_modal.show();
+                    $('#pname', product_quick_add_form).val(response.data.product.name);
+                    $('#pcode', product_quick_add_form).val(response.data.product.code);
+                    $('[name="maximum_retail_price"]', product_quick_add_form).val(response.data.product.maximum_retail_price);
+                    product_quick_add_modal.show();
                 } else {
-                    //toastStatusFalse(response);
+                    toastStatusFalse(response);
                 }
             },
             error: function (response) {
-                //ajaxError(response);
+                ajaxError(response);
             },
-        });
-    });
-}
-function statusChangeListener() {
-    $('[data-action="toggle-status"]').click(function () {
-        let id = $(this).attr("data-id");
-        let checkbox = this;
-        let checkbox_status = $(checkbox).is(':checked');
-        let status_text = $(checkbox).is(':checked') ? "Enable" : "Disable";
-        let status_after = $(checkbox).is(':checked') ? "Enabled" : "Disabled";
-        Swal.fire({
-            title: status_text + " Product ?",
-            text: "Are you sure want to " + status_text + " this product ?",
-            icon: "question",
-            showCancelButton: true,
-            confirmButtonColor: "#d33",
-            cancelButtonColor: "#3085d6",
-            confirmButtonText: "Yes, " + status_text,
-            focusCancel: true
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.ajax({
-                    type: 'PUT',
-                    url: _url,
-                    dataType: 'json',
-                    headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
-                    data: {
-                        id: id,
-                        action: "toggle-status",
-                        status: $(checkbox).is(':checked') ? "enable" : "disable"
-                    },
-                    success: function (response) {
-                        if (response.status == true) {
-                            Swal.fire({
-                                title: status_after + " !",
-                                text: response.message.content,
-                                icon: "success"
-                            });
-                            my_products_datatable.ajax.reload(null, false);
-                        }
-                        else{
-                            my_products_datatable.ajax.reload(null, false);
-                        }
-                    },
-                    error: function (response) {
-                        my_products_datatable.ajax.reload(null, false);
-                    },
-                });
-            }
-            else {
-                $(checkbox).prop('checked', !checkbox_status);
-            }
         });
     });
 }
 $(document).ready(function () {
-    product_quick_edit_form.validate({
+    product_quick_add_form.validate({
         focusInvalid: true,
         ignore: [],
         rules: {
             "id": {
+                required: true,
+            },
+            "min_cart_quantity": {
+                required: true,
+            },
+            "max_cart_quantity": {
                 required: true,
             },
             "maximum_retail_price": {
@@ -164,22 +116,24 @@ $(document).ready(function () {
             let submit_btn = $('button[type="submit"]', form);
             submit_btn.html(loading_button_html).prop("disabled", true);
             $.ajax({
-                type: 'PUT',
+                type: 'POST',
                 url: _url,
                 dataType: 'json',
-                data: product_quick_edit_form.serialize(),
+                headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
+                data: product_quick_add_form.serialize(),
                 success: function (response) {
                     if (response.status == true) {
-                        product_quick_edit_modal.hide();
+                        product_quick_add_modal.hide();
                         toast(response.message.title, response.message.content, response.message.type);
                     } else {
                         toastStatusFalse(response);
                     }
-                    submit_btn.html('Update').prop("disabled", false);
+                    submit_btn.html('Save').prop("disabled", false);
                     my_products_datatable.ajax.reload(null, false);
                 },
                 error: function (response) {
-                    submit_btn.html('Update').prop("disabled", false);
+                    ajaxError(response);
+                    submit_btn.html('Save').prop("disabled", false);
                     my_products_datatable.ajax.reload(null, false);
                 },
             });
