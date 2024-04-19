@@ -55,6 +55,7 @@ class VendorProductController extends Controller
                                 $join->on('pcm.category_id', '=', 'pc.id');
                             })
                             ->where('vendor_products.vendor_id', Auth::guard('vendor')->id())
+                            ->where('p.deleted_at', null)
                             ->withTrashed();
                         $data_table['recordsTotal'] = $rows->count();
                         $rows->where(function ($query) use ($request) {
@@ -190,10 +191,10 @@ class VendorProductController extends Controller
                         $response = [
                             'status' => true,
                             'message' => [
-                                    'type' => 'success',
-                                    'title' => 'Status Updated !',
-                                    'content' => 'Product status updated successfully.'
-                                ]
+                                'type' => 'success',
+                                'title' => 'Status Updated !',
+                                'content' => 'Product status updated successfully.'
+                            ]
                         ];
                         break;
                     default:
@@ -214,10 +215,10 @@ class VendorProductController extends Controller
                 $response = [
                     'status' => false,
                     'error' => [
-                            'type' => 'error',
-                            'title' => 'Error !',
-                            'content' => $e->getMessage()
-                        ]
+                        'type' => 'error',
+                        'title' => 'Error !',
+                        'content' => $e->getMessage()
+                    ]
                 ];
                 return response()->json($response, 200, [], JSON_PRETTY_PRINT);
             }
