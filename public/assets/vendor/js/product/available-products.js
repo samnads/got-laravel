@@ -35,8 +35,6 @@ let my_products_datatable = new DataTable('#my-products', {
         { data: 'size_label', name: 'size_label' },
         { data: 'code', name: 'code' },
         { data: 'maximum_retail_price', name: 'maximum_retail_price' },
-        { data: 'retail_price', name: 'retail_price' },
-        { data: 'status_html', name: 'deleted_at' },
         { data: 'action_html', name: 'action_html' }
     ],
     columnDefs: [
@@ -46,22 +44,9 @@ let my_products_datatable = new DataTable('#my-products', {
             type: 'html'
         },
         {
-            targets: 1,
-            type: 'html'
-        },
-        {
             targets: 5,
             type: 'num',
             className: "text-end"
-        },
-        {
-            targets: 6,
-            type: 'num',
-            className: "text-end"
-        },
-        {
-            targets: -2,
-            width: 1
         },
         {
             targets: -1,

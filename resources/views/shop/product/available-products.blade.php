@@ -30,16 +30,55 @@
         </div>
     </div>
     <!--end breadcrumb-->
+    <h6 class="mb-0 text-uppercase">Products List</h6>
+    <hr />
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="my-products" class="table table-striped table-hover table-bordered align-middle">
+                    <thead>
+                        <tr>
+                            <th>Sl. No.</th>
+                            <th>Brand</th>
+                            <th>Product Name</th>
+                            <th>Size</th>
+                            <th>Code</th>
+                            <th>MRP.</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>Sl. No.</th>
+                            <th>Brand</th>
+                            <th>Product Name</th>
+                            <th>Size</th>
+                            <th>Code</th>
+                            <th>MRP.</th>
+                            <th>Actions</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+    @include('shop.product.popups.quick-edit-my-product')
 @endsection
 @push('link-styles')
     <!-- Pushed Link Styles -->
+    <link href="https://cdn.datatables.net/2.0.5/css/dataTables.bootstrap5.css" rel="stylesheet">
 @endpush
 @push('inline-styles')
     <!-- Pushed Inline Styles -->
 @endpush
 @push('link-scripts')
     <!-- Pushed Link Scripts -->
+    <script src="https://cdn.datatables.net/2.0.5/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/2.0.5/js/dataTables.bootstrap5.js"></script>
+    <script src="{{ asset('assets/vendor/js/product/available-products.js?v=') . config('version.vendor_assets') }}"></script>
 @endpush
 @push('inline-scripts')
-<!-- Pushed Inline Scripts -->
+    <!-- Pushed Inline Scripts -->
 @endpush
