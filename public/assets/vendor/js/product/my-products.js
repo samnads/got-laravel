@@ -32,9 +32,11 @@ let my_products_datatable = new DataTable('#my-products', {
         { data: 'slno', name: 'slno' },
         { data: 'brand', name: 'brand' },
         { data: 'name', name: 'name' },
+        { data: 'size_label', name: 'size_label' },
         { data: 'code', name: 'code' },
         { data: 'maximum_retail_price', name: 'maximum_retail_price' },
         { data: 'retail_price', name: 'retail_price' },
+        { data: 'status_html', name: 'status_html' },
         { data: 'action_html', name: 'action_html' }
     ],
     columnDefs: [
@@ -48,14 +50,18 @@ let my_products_datatable = new DataTable('#my-products', {
             type: 'html'
         },
         {
-            targets: 4,
+            targets: 5,
             type: 'num',
             className: "text-end"
         },
         {
-            targets: 5,
+            targets: 6,
             type: 'num',
             className: "text-end"
+        },
+        {
+            targets: -2,
+            width: 1
         },
         {
             targets: -1,
@@ -66,6 +72,7 @@ let my_products_datatable = new DataTable('#my-products', {
     ],
     drawCallback: function (settings) {
         quickEditListener();
+        statusChangeListener();
     },
 });
 function quickEditListener() {
@@ -94,6 +101,52 @@ function quickEditListener() {
             error: function (response) {
                 //ajaxError(response);
             },
+        });
+    });
+}
+function statusChangeListener() {
+    $('[data-action="toggle-status"]').click(function () {
+        let id = $(this).attr("data-id");
+        alert(id);
+        let checkbox = this;
+        let status = $(checkbox).is(':checked') ? "Enable" : "Disable";
+        let status_after = $(checkbox).is(':checked') ? "Enabled" : "Disabled";
+        Swal.fire({
+            title: status + " Product ?",
+            text: "Are you sure want to " + status + " this product ?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Yes, " + status,
+            focusCancel:true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: 'PUT',
+                    url: _url,
+                    dataType: 'json',
+                    data: {
+                        id: id,
+                        action: "status-toggle"
+                    },
+                    success: function (response) {
+                        if (response.status == true) {
+                        } else {
+                        }
+                    },
+                    error: function (response) {
+                    },
+                });
+                Swal.fire({
+                    title: status_after + " !",
+                    text: "Your product has been " + status_after + ".",
+                    icon: "success"
+                });
+            }
+            else {
+                $(checkbox).prop('checked', true);
+            }
         });
     });
 }
