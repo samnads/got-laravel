@@ -27,9 +27,11 @@
                             <th>Sl. No.</th>
                             <th>Brand</th>
                             <th>Product Name</th>
+                            <th>Size</th>
                             <th>Code</th>
                             <th>MRP.</th>
                             <th>Selling Price</th>
+                            <th>Status</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -40,9 +42,11 @@
                             <th>Sl. No.</th>
                             <th>Brand</th>
                             <th>Product Name</th>
+                            <th>Size</th>
                             <th>Code</th>
                             <th>MRP.</th>
                             <th>Selling Price</th>
+                             <th>Status</th>
                             <th>Actions</th>
                         </tr>
                     </tfoot>
