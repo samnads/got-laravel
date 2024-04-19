@@ -5383,3 +5383,8 @@ input[type=number].no-arrow::-webkit-outer-spin-button {
 	appearance: none;
 	margin: 0;
 }
+
+div.dt-processing > div:last-child > div {
+    background: #fecd00 !important;
+    background: rgb(254 205 0) !important;
+}
