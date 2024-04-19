@@ -59,6 +59,7 @@ class VendorProductController extends Controller
                         $data_table['recordsTotal'] = $rows->count();
                         $rows->where(function ($query) use ($request) {
                             $query->where([['p.name', 'LIKE', "%{$request->search['value']}%"]]);
+                            $query->orWhere([['p.code', 'LIKE', "%{$request->search['value']}%"]]);
                             $query->orWhere([['pc.name', 'LIKE', "%{$request->search['value']}%"]]);
                         });
                         if (@$request->order[0]['name']) {
@@ -70,15 +71,11 @@ class VendorProductController extends Controller
                         $data_table['data'] = $rows->offset($request->start)->limit($request->length)->get()->toArray();
                         foreach ($data_table['data'] as $key => $row) {
                             $data_table['data'][$key]['action_html'] = '<div class="btn-group bg-light" role="group" aria-label="Basic example">
-											<button type="button" class="btn btn-outline-primary"><i class="bx bx-show-alt"></i>
-											</button>
 											<button type="button" data-action="quick-edit-product" data-id="' . $row['id'] . '" class="btn btn-outline-primary"><i class="bx bx-pencil"></i>
-											</button>
-											<button type="button" class="btn btn-outline-primary"><i class="bx bx-right-arrow"></i>
 											</button>
 										</div>';
                             $data_table['data'][$key]['status_html'] = '<div class="form-check-success form-check form-switch">
-									<input data-action="toggle-status" data-id="' . $row['id'] . '" class="form-check-input" type="checkbox" id="status_' . $row['id'] . '" '. ($row['deleted_at'] == null ? 'checked' : '').'>
+									<input data-action="toggle-status" data-id="' . $row['id'] . '" class="form-check-input" type="checkbox" id="status_' . $row['id'] . '" ' . ($row['deleted_at'] == null ? 'checked' : '') . '>
 									<label class="form-check-label" for="status_' . $row['id'] . '"></label>
 								</div>';
                         }
@@ -178,6 +175,27 @@ class VendorProductController extends Controller
                                 ];
                         }
                         break;
+                    case 'toggle-status':
+                        $product = VendorProduct::where('vendor_products.vendor_id', Auth::guard('vendor')->id())
+                            ->where('vendor_products.id', $request->id)
+                            ->withTrashed()
+                            ->first();
+                        if ($request->status == "disable") {
+                            $product->delete();
+                        } else {
+                            $product->restore();
+                        }
+                        $product->save();
+                        DB::commit();
+                        $response = [
+                            'status' => true,
+                            'message' => [
+                                    'type' => 'success',
+                                    'title' => 'Status Updated !',
+                                    'content' => 'Product status updated successfully.'
+                                ]
+                        ];
+                        break;
                     default:
                         $response = [
                             'status' => false,
@@ -196,10 +214,10 @@ class VendorProductController extends Controller
                 $response = [
                     'status' => false,
                     'error' => [
-                        'type' => 'error',
-                        'title' => 'Error !',
-                        'content' => $e->getMessage()
-                    ]
+                            'type' => 'error',
+                            'title' => 'Error !',
+                            'content' => $e->getMessage()
+                        ]
                 ];
                 return response()->json($response, 200, [], JSON_PRETTY_PRINT);
             }

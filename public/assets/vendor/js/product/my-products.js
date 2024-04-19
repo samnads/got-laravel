@@ -36,7 +36,7 @@ let my_products_datatable = new DataTable('#my-products', {
         { data: 'code', name: 'code' },
         { data: 'maximum_retail_price', name: 'maximum_retail_price' },
         { data: 'retail_price', name: 'retail_price' },
-        { data: 'status_html', name: 'status_html' },
+        { data: 'status_html', name: 'deleted_at' },
         { data: 'action_html', name: 'action_html' }
     ],
     columnDefs: [
@@ -107,45 +107,51 @@ function quickEditListener() {
 function statusChangeListener() {
     $('[data-action="toggle-status"]').click(function () {
         let id = $(this).attr("data-id");
-        alert(id);
         let checkbox = this;
-        let status = $(checkbox).is(':checked') ? "Enable" : "Disable";
+        let checkbox_status = $(checkbox).is(':checked');
+        let status_text = $(checkbox).is(':checked') ? "Enable" : "Disable";
         let status_after = $(checkbox).is(':checked') ? "Enabled" : "Disabled";
         Swal.fire({
-            title: status + " Product ?",
-            text: "Are you sure want to " + status + " this product ?",
+            title: status_text + " Product ?",
+            text: "Are you sure want to " + status_text + " this product ?",
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#d33",
             cancelButtonColor: "#3085d6",
-            confirmButtonText: "Yes, " + status,
-            focusCancel:true
+            confirmButtonText: "Yes, " + status_text,
+            focusCancel: true
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
                     type: 'PUT',
                     url: _url,
                     dataType: 'json',
+                    headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
                     data: {
                         id: id,
-                        action: "status-toggle"
+                        action: "toggle-status",
+                        status: $(checkbox).is(':checked') ? "enable" : "disable"
                     },
                     success: function (response) {
                         if (response.status == true) {
-                        } else {
+                            Swal.fire({
+                                title: status_after + " !",
+                                text: response.message.content,
+                                icon: "success"
+                            });
+                            my_products_datatable.ajax.reload(null, false);
+                        }
+                        else{
+                            my_products_datatable.ajax.reload(null, false);
                         }
                     },
                     error: function (response) {
+                        my_products_datatable.ajax.reload(null, false);
                     },
-                });
-                Swal.fire({
-                    title: status_after + " !",
-                    text: "Your product has been " + status_after + ".",
-                    icon: "success"
                 });
             }
             else {
-                $(checkbox).prop('checked', true);
+                $(checkbox).prop('checked', !checkbox_status);
             }
         });
     });
