@@ -9,6 +9,8 @@
 <script src="{{ asset('assets/vendor/plugins/jquery-toast/jquery.toast.min.js') }}"></script>
 <!--app JS-->
 <script src="{{ asset('assets/vendor/js/app.js')}}"></script>
+<!-- sweet alert -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <!-- custom -->
 <script src="{{ asset('assets/vendor/js/vendor.js?v='). config('version.vendor_assets') }}"></script>
 <script>
