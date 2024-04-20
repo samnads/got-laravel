@@ -25,12 +25,11 @@
                     <thead>
                         <tr>
                             <th>Sl. No.</th>
+                            <th>Order Ref.</th>
                             <th>Customer</th>
-                            <th>Total Products</th>
                             <th>Payment Mode</th>
                             <th>Payment Status</th>
                             <th>Order Amount</th>
-                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -38,12 +37,11 @@
                     <tfoot>
                         <tr>
                             <th>Sl. No.</th>
+                            <th>Order Ref.</th>
                             <th>Customer</th>
-                            <th>Total Products</th>
                             <th>Payment Mode</th>
                             <th>Payment Status</th>
                             <th>Order Amount</th>
-                            <th>Actions</th>
                         </tr>
                     </tfoot>
                 </table>

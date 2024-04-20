@@ -30,12 +30,11 @@ let my_products_datatable = new DataTable('#my-products', {
     },
     columns: [
         { data: 'slno', name: 'slno' },
-        { data: 'brand', name: 'brand' },
-        { data: 'name', name: 'name' },
-        { data: 'size_label', name: 'size_label' },
-        { data: 'code', name: 'code' },
-        { data: 'maximum_retail_price', name: 'maximum_retail_price' },
-        { data: 'action_html', name: 'action_html' }
+        { data: 'order_reference', name: 'order_reference' },
+        { data: 'customer_name', name: 'customer_name' },
+        { data: 'payment_mode', name: 'payment_mode' },
+        { data: 'payment_status', name: 'payment_status' },
+        { data: 'total_payable', name: 'total_payable' },
     ],
     columnDefs: [
         {
