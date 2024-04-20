@@ -38,7 +38,7 @@ class VendorProductController extends Controller
                             'pc.name as category',
                             DB::raw('CONCAT(ROUND(p.item_size,2)," ",u.name) as size_label'),
                             'vendor_products.deleted_at',
-                            DB::raw('CONCAT("' . config('url.uploads_cdn') . '","products/",IFNULL(p.thumbnail_image,"default.jpg")) as thumbnail_url'),
+                            DB::raw('CONCAT("' . config('url.uploads_cdn') . '","products/",IFNULL(p.thumbnail_image,"default.jpg"),"?v=","'. config('version.vendor_assets').'") as thumbnail_url'),
                         )
                             ->leftJoin('products as p', function ($join) {
                                 $join->on('vendor_products.product_id', '=', 'p.id');
@@ -262,7 +262,7 @@ class VendorProductController extends Controller
                             DB::raw('IFNULL(b.name,"-") as brand'),
                             DB::raw('CONCAT(ROUND(products.item_size,2)," ",u.name) as size_label'),
                             'pc.name as category',
-                            DB::raw('CONCAT("' . config('url.uploads_cdn') . '","products/",IFNULL(products.thumbnail_image,"default.jpg")) as thumbnail_url'),
+                            DB::raw('CONCAT("' . config('url.uploads_cdn') . '","products/",IFNULL(products.thumbnail_image,"default.jpg"),"?v=","'. config('version.vendor_assets').'") as thumbnail_url'),
                         )
                             ->leftJoin('units as u', function ($join) {
                                 $join->on('products.unit_id', '=', 'u.id');

@@ -2,7 +2,7 @@
 <div class="sidebar-wrapper" data-simplebar="true">
     <div class="sidebar-header">
         <div>
-            <img src="{{ asset('assets/vendor/images/logo-icon.png')}}" class="logo-icon" alt="logo icon">
+            <img src="{{ asset('assets/vendor/images/logo-icon.png?v='). config('version.vendor_assets')}}" class="logo-icon" alt="logo icon">
         </div>
         <div>
             <h4 class="logo-text"></h4>
