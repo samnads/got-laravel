@@ -26,7 +26,9 @@
                         <tr>
                             <th>Sl. No.</th>
                             <th>Order Ref.</th>
+                            <th>Order Status</th>
                             <th>Customer</th>
+                            <th>Mobile</th>
                             <th>Payment Mode</th>
                             <th>Payment Status</th>
                             <th>Order Amount</th>
@@ -38,7 +40,9 @@
                         <tr>
                             <th>Sl. No.</th>
                             <th>Order Ref.</th>
+                            <th>Order Status</th>
                             <th>Customer</th>
+                            <th>Mobile</th>
                             <th>Payment Mode</th>
                             <th>Payment Status</th>
                             <th>Order Amount</th>

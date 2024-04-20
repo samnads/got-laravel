@@ -28,6 +28,7 @@ class VendorOrderController extends Controller
                             'orders.order_reference',
                             'orders.customer_id',
                             'c.name as customer_name',
+                            'c.mobile_number_1 as customer_mobile_number_1',
                             'orders.vendor_id',
                             'orders.address_id',
                             'orders.total_payable',
@@ -60,6 +61,7 @@ class VendorOrderController extends Controller
                         $data_table['recordsFiltered'] = $rows->count();
                         $data_table['data'] = $rows->offset($request->start)->limit($request->length)->get()->toArray();
                         foreach ($data_table['data'] as $key => $row) {
+                            $data_table['data'][$key]['order_status'] = '<span class="badge bg-warning text-dark w-100">'.$row['order_status'].'</span>';
                             $data_table['data'][$key]['action_html'] = '<div class="btn-group btn-group-sm" role="group" aria-label="First group">
 											<button data-action="add-product" data-id="' . $row['id'] . '" type="button" class="btn btn-sm btn-warning"><i class="fadeIn animated bx bx-plus"></i></button>
 										</div>';

@@ -31,27 +31,29 @@ let my_products_datatable = new DataTable('#my-products', {
     columns: [
         { data: 'slno', name: 'slno' },
         { data: 'order_reference', name: 'order_reference' },
+        { data: 'order_status', name: 'order_status' },
         { data: 'customer_name', name: 'customer_name' },
+        { data: 'customer_mobile_number_1', name: 'customer_mobile_number_1' },
         { data: 'payment_mode', name: 'payment_mode' },
         { data: 'payment_status', name: 'payment_status' },
         { data: 'total_payable', name: 'total_payable' },
     ],
     columnDefs: [
         {
-            targets: 0,
+            targets: 'slno:name',
             sortable: false,
             type: 'html'
         },
         {
-            targets: 5,
-            type: 'num',
-            className: "text-end"
+            targets: 'customer_mobile_number_1:name',
+            sortable: false,
+            type: 'html'
         },
         {
-            targets: -1,
+            targets: 'total_payable:name',
             sortable: false,
-            type: 'html',
-            width: 1
+            type: 'num',
+            className: "text-end"
         }
     ],
     drawCallback: function (settings) {
