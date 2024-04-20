@@ -36,12 +36,10 @@
             <a href="javascript:;" class="has-arrow">
                 <div class="parent-icon"><i class="bx bx-cart"></i>
                 </div>
-                <div class="menu-title">Order Management</div>
+                <div class="menu-title">Orders</div>
             </a>
             <ul>
-                <li> <a href="#"><i class='bx bx-radio-circle'></i>My Produts</a>
-                </li>
-                <li> <a href="#"><i class='bx bx-radio-circle'></i>Available Products</a>
+                <li> <a href="{{route('vendor.orders.pending')}}"><i class='bx bx-radio-circle'></i>Pending</a>
                 </li>
             </ul>
         </li>
