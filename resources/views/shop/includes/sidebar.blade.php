@@ -21,6 +21,17 @@
         </li>
         <li>
             <a href="javascript:;" class="has-arrow">
+                <div class="parent-icon"><i class="bx bx-cart"></i>
+                </div>
+                <div class="menu-title">Orders</div>
+            </a>
+            <ul>
+                <li> <a href="{{route('vendor.orders.pending')}}"><i class='bx bx-radio-circle'></i>Pending</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="javascript:;" class="has-arrow">
                 <div class="parent-icon"><i class="bx bx-category"></i>
                 </div>
                 <div class="menu-title">Products</div>
@@ -42,17 +53,6 @@
                 <li> <a href="{{route('vendor.product.requests')}}"><i class='bx bx-radio-circle'></i>My Requests</a>
                 </li>
                 <li> <a href="{{route('vendor.product.new-request')}}"><i class='bx bx-radio-circle'></i>New Request</a>
-                </li>
-            </ul>
-        </li>
-        <li>
-            <a href="javascript:;" class="has-arrow">
-                <div class="parent-icon"><i class="bx bx-cart"></i>
-                </div>
-                <div class="menu-title">Orders</div>
-            </a>
-            <ul>
-                <li> <a href="{{route('vendor.orders.pending')}}"><i class='bx bx-radio-circle'></i>Pending</a>
                 </li>
             </ul>
         </li>
