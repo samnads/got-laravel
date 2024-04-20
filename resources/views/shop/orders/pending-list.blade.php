@@ -25,11 +25,11 @@
                     <thead>
                         <tr>
                             <th>Sl. No.</th>
-                            <th>Brand</th>
-                            <th>Product Name</th>
-                            <th>Size</th>
-                            <th>Code</th>
-                            <th>MRP.</th>
+                            <th>Customer</th>
+                            <th>Total Products</th>
+                            <th>Payment Mode</th>
+                            <th>Payment Status</th>
+                            <th>Order Amount</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -38,11 +38,11 @@
                     <tfoot>
                         <tr>
                             <th>Sl. No.</th>
-                            <th>Brand</th>
-                            <th>Product Name</th>
-                            <th>Size</th>
-                            <th>Code</th>
-                            <th>MRP.</th>
+                            <th>Customer</th>
+                            <th>Total Products</th>
+                            <th>Payment Mode</th>
+                            <th>Payment Status</th>
+                            <th>Order Amount</th>
                             <th>Actions</th>
                         </tr>
                     </tfoot>
@@ -63,7 +63,7 @@
     <!-- Pushed Link Scripts -->
     <script src="https://cdn.datatables.net/2.0.5/js/dataTables.js"></script>
     <script src="https://cdn.datatables.net/2.0.5/js/dataTables.bootstrap5.js"></script>
-    <script src="{{ asset('assets/vendor/js/product/available-products.js?v=') . config('version.vendor_assets') }}"></script>
+    <script src="{{ asset('assets/vendor/js/orders/pending-list.js?v=') . config('version.vendor_assets') }}"></script>
 @endpush
 @push('inline-scripts')
     <!-- Pushed Inline Scripts -->
