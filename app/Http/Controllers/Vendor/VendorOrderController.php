@@ -61,7 +61,7 @@ class VendorOrderController extends Controller
                         $data_table['recordsFiltered'] = $rows->count();
                         $data_table['data'] = $rows->offset($request->start)->limit($request->length)->get()->toArray();
                         foreach ($data_table['data'] as $key => $row) {
-                            $data_table['data'][$key]['order_status'] = '<span class="badge bg-warning text-dark w-100">'.$row['order_status'].'</span>';
+                            $data_table['data'][$key]['order_status'] = '<span class="badge bg-gradient-blooker text-white shadow-sm w-100">'.$row['order_status'].'</span>';
                             $data_table['data'][$key]['action_html'] = '<div class="btn-group btn-group-sm" role="group" aria-label="First group">
 											<button data-action="add-product" data-id="' . $row['id'] . '" type="button" class="btn btn-sm btn-warning"><i class="fadeIn animated bx bx-plus"></i></button>
 										</div>';
