@@ -73,6 +73,9 @@ function productAddListener() {
             },
             success: function (response) {
                 if (response.status == true) {
+                    product_quick_add_form_validator.resetForm();
+                    product_quick_add_form.trigger("reset");
+                    $('input[name="min_cart_quantity"]', product_quick_add_form).val(1);
                     $('#pname', product_quick_add_form).val(response.data.product.name);
                     $('#pcode', product_quick_add_form).val(response.data.product.code);
                     $('[name="maximum_retail_price"]', product_quick_add_form).val(response.data.product.maximum_retail_price);
@@ -88,7 +91,7 @@ function productAddListener() {
     });
 }
 $(document).ready(function () {
-    product_quick_add_form.validate({
+    product_quick_add_form_validator = product_quick_add_form.validate({
         focusInvalid: true,
         ignore: [],
         rules: {

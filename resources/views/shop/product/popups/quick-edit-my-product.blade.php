@@ -25,6 +25,20 @@
                             </div>
                         </div>
                         <div class="col-md-6">
+                            <label for="micc" class="form-label">Minimum Cart Quantity</label>
+                            <div class="position-relative input-icon">
+                                <input type="number" step="1" min="1" class="form-control no-arrow" id="micc" name="min_cart_quantity">
+                                <span class="position-absolute top-50 translate-middle-y"><i class="lni lni-cart"></i></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="mxcc" class="form-label">Maximum Cart Quantity</label>
+                            <div class="position-relative input-icon">
+                                <input type="number" step="1" min="1" class="form-control no-arrow" id="mxcc" name="max_cart_quantity">
+                                <span class="position-absolute top-50 translate-middle-y"><i class="lni lni-cart-full"></i></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
                             <label for="pmrp" class="form-label">MRP.</label>
                             <div class="position-relative input-icon">
                                 <input type="number" step="any" class="form-control no-arrow" id="pmrp" name="maximum_retail_price">
@@ -41,7 +55,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn btn-success">Update</button>
                 </div>
             </form>

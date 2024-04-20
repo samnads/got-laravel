@@ -89,8 +89,12 @@ function quickEditListener() {
             },
             success: function (response) {
                 if (response.status == true) {
+                    product_quick_edit_form_validator.resetForm();
+                    product_quick_edit_form.trigger("reset");
                     $('#pname', product_quick_edit_form).val(response.data.product.name);
                     $('#pcode', product_quick_edit_form).val(response.data.product.code);
+                    $('[name="min_cart_quantity"]', product_quick_edit_form).val(response.data.product.min_cart_quantity);
+                    $('[name="max_cart_quantity"]', product_quick_edit_form).val(response.data.product.max_cart_quantity);
                     $('[name="maximum_retail_price"]', product_quick_edit_form).val(response.data.product.maximum_retail_price);
                     $('[name="retail_price"]', product_quick_edit_form).val(response.data.product.retail_price);
                     product_quick_edit_modal.show();
@@ -157,11 +161,17 @@ function statusChangeListener() {
     });
 }
 $(document).ready(function () {
-    product_quick_edit_form.validate({
+    product_quick_edit_form_validator = product_quick_edit_form.validate({
         focusInvalid: true,
         ignore: [],
         rules: {
             "id": {
+                required: true,
+            },
+            "min_cart_quantity": {
+                required: true,
+            },
+            "max_cart_quantity": {
                 required: true,
             },
             "maximum_retail_price": {

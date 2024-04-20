@@ -26,7 +26,7 @@
                         <div class="col-md-6">
                             <label for="micc" class="form-label">Minimum Cart Quantity</label>
                             <div class="position-relative input-icon">
-                                <input type="number" step="1" min="1" class="form-control no-arrow" id="micc" name="min_cart_quantity">
+                                <input type="number" step="1" min="1" class="form-control no-arrow" id="micc" name="min_cart_quantity" value="1">
                                 <span class="position-absolute top-50 translate-middle-y"><i class="lni lni-cart"></i></span>
                             </div>
                         </div>
@@ -54,7 +54,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn btn-success">Save</button>
                 </div>
             </form>

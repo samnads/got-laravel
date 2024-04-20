@@ -98,7 +98,9 @@ class VendorProductController extends Controller
                                     'p.description',
                                     'p.deleted_at',
                                     'pc.name as category',
-                                    'vendor_products.deleted_at'
+                                    'vendor_products.deleted_at',
+                                    'vendor_products.min_cart_quantity',
+                                    'vendor_products.max_cart_quantity'
                                 )
                                     ->leftJoin('products as p', function ($join) {
                                         $join->on('vendor_products.product_id', '=', 'p.id');
@@ -127,15 +129,21 @@ class VendorProductController extends Controller
                                 ];
                                 break;
                             case 'PUT':
-                                $input = $request->all();
+                                /******************************************************************************* */
                                 $validator = Validator::make(
-                                    (array) $input,
+                                    (array) $request->all(),
                                     [
+                                        'id' => 'required|exists:vendor_products,id',
+                                        'min_cart_quantity' => 'required|integer|min:1',
+                                        'max_cart_quantity' => 'required|integer|gte:min_cart_quantity',
                                         'maximum_retail_price' => 'required_with:retail_price|regex:/^\d+(\.\d{1,2})?$/',
                                         'retail_price' => 'required_with:maximum_retail_price|lte:maximum_retail_price',
                                     ],
                                     [],
                                     [
+                                        'id' => 'Product',
+                                        'min_cart_quantity' => 'Min. Cart Quantity',
+                                        'max_cart_quantity' => 'Max Cart Quantity',
                                         'maximum_retail_price' => 'MRP.',
                                         'retail_price' => 'Selling Price',
                                     ]
@@ -151,10 +159,13 @@ class VendorProductController extends Controller
                                     ];
                                     return response()->json($response, 200, [], JSON_PRETTY_PRINT);
                                 }
+                                /******************************************************************************* */
                                 $product = VendorProduct::where('vendor_products.vendor_id', Auth::guard('vendor')->id())
                                     ->where('vendor_products.id', $request->id)
                                     ->withTrashed()
                                     ->first();
+                                $product->min_cart_quantity = $request->min_cart_quantity;
+                                $product->max_cart_quantity = $request->max_cart_quantity;
                                 $product->maximum_retail_price = $request->maximum_retail_price;
                                 $product->retail_price = $request->retail_price;
                                 $product->save();
@@ -292,6 +303,37 @@ class VendorProductController extends Controller
                         ];
                         return response()->json($response, 200, [], JSON_PRETTY_PRINT);
                     case 'save-new-product':
+                        /******************************************************************************* */
+                        $validator = Validator::make(
+                            (array) $request->all(),
+                            [
+                                'id' => 'required|exists:products,id',
+                                'min_cart_quantity' => 'required|integer|min:1',
+                                'max_cart_quantity' => 'required|integer|gte:min_cart_quantity',
+                                'maximum_retail_price' => 'required|numeric|gt:0',
+                                'retail_price' => 'required|numeric|lte:maximum_retail_price',
+                            ],
+                            [],
+                            [
+                                'id' => 'Product',
+                                'min_cart_quantity' => 'Min. Cart Quantity',
+                                'max_cart_quantity' => 'Max Cart Quantity',
+                                'maximum_retail_price' => 'MRP.',
+                                'retail_price' => 'Selling Price',
+                            ]
+                        );
+                        if ($validator->fails()) {
+                            $response = [
+                                'status' => false,
+                                'error' => [
+                                    'type' => 'error',
+                                    'title' => 'Validation Error !',
+                                    'content' => $validator->errors()->first()
+                                ]
+                            ];
+                            return response()->json($response, 200, [], JSON_PRETTY_PRINT);
+                        }
+                        /******************************************************************************* */
                         $product = new VendorProduct();
                         $product->vendor_id = Auth::guard('vendor')->id();
                         $product->product_id = $request->id;
