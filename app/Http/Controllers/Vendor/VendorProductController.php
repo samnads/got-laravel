@@ -80,7 +80,7 @@ class VendorProductController extends Controller
 									<input data-action="toggle-status" data-id="' . $row['id'] . '" class="form-check-input" type="checkbox" id="status_' . $row['id'] . '" ' . ($row['deleted_at'] == null ? 'checked' : '') . '>
 									<label class="form-check-label" for="status_' . $row['id'] . '"></label>
 								</div>';
-                                $data_table['data'][$key]['thumbnail_image_html'] = '<img src="'. $row['thumbnail_url'].'" class="product-img-2" alt="product img">';
+                            $data_table['data'][$key]['thumbnail_image_html'] = '<img src="' . $row['thumbnail_url'] . '" class="product-img-2" alt="product img">';
                         }
                         return response()->json($data_table, 200, [], JSON_PRETTY_PRINT);
                     case 'quick-edit':
@@ -262,6 +262,7 @@ class VendorProductController extends Controller
                             DB::raw('IFNULL(b.name,"-") as brand'),
                             DB::raw('CONCAT(ROUND(products.item_size,2)," ",u.name) as size_label'),
                             'pc.name as category',
+                            DB::raw('CONCAT("' . config('url.uploads_cdn') . '","products/",IFNULL(products.thumbnail_image,"default.jpg")) as thumbnail_url'),
                         )
                             ->leftJoin('units as u', function ($join) {
                                 $join->on('products.unit_id', '=', 'u.id');
@@ -291,8 +292,9 @@ class VendorProductController extends Controller
                         $data_table['data'] = $rows->offset($request->start)->limit($request->length)->get()->toArray();
                         foreach ($data_table['data'] as $key => $row) {
                             $data_table['data'][$key]['action_html'] = '<div class="btn-group btn-group-sm" role="group" aria-label="First group">
-											<button data-action="add-product" data-id="'.$row['id'].'" type="button" class="btn btn-sm btn-warning"><i class="fadeIn animated bx bx-plus"></i></button>
+											<button data-action="add-product" data-id="' . $row['id'] . '" type="button" class="btn btn-sm btn-warning"><i class="fadeIn animated bx bx-plus"></i></button>
 										</div>';
+                            $data_table['data'][$key]['thumbnail_image_html'] = '<img src="' . $row['thumbnail_url'] . '" class="product-img-2" alt="product img">';
                         }
                         return response()->json($data_table, 200, [], JSON_PRETTY_PRINT);
                     case 'product-for-add':

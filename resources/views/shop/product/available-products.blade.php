@@ -25,6 +25,7 @@
                     <thead>
                         <tr>
                             <th>Sl. No.</th>
+                            <th>Thumbnail</th>
                             <th>Brand</th>
                             <th>Product Name</th>
                             <th>Size</th>
@@ -38,6 +39,7 @@
                     <tfoot>
                         <tr>
                             <th>Sl. No.</th>
+                            <th>Thumbnail</th>
                             <th>Brand</th>
                             <th>Product Name</th>
                             <th>Size</th>
