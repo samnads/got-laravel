@@ -41,6 +41,8 @@
             <ul>
                 <li> <a href="{{route('vendor.product.requests')}}"><i class='bx bx-radio-circle'></i>My Requests</a>
                 </li>
+                <li> <a href="{{route('vendor.product.new-request')}}"><i class='bx bx-radio-circle'></i>New Request</a>
+                </li>
             </ul>
         </li>
         <li>

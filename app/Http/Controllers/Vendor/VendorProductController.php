@@ -529,4 +529,8 @@ class VendorProductController extends Controller
         }
         return view('shop.product.product-request-list', []);
     }
+    public function new_product_request(Request $request)
+    {
+        return view('shop.product.new-product-request', []);
+    }
 }

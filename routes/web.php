@@ -91,6 +91,7 @@ Route::prefix('vendor')->name('vendor.')->group(function () {
             Route::any('/my-products', [VendorProductController::class, 'my_products'])->name('my-products');
             Route::any('/available-products', [VendorProductController::class, 'available_products'])->name('available-products');
             Route::any('/product-requests', [VendorProductController::class, 'product_requests'])->name('requests');
+            Route::any('/new-request', [VendorProductController::class, 'new_product_request'])->name('new-request');
         });
         Route::prefix('orders')->name('orders.')->group(function () {
             Route::get('/pending', [VendorOrderController::class, 'pending_orders_list'])->name('pending');
