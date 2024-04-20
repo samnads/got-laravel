@@ -30,6 +30,7 @@ let my_products_datatable = new DataTable('#my-products', {
     },
     columns: [
         { data: 'slno', name: 'slno' },
+        { data: 'thumbnail_image_html', name: 'thumbnail_image_html' },
         { data: 'brand', name: 'brand' },
         { data: 'name', name: 'name' },
         { data: 'size_label', name: 'size_label' },
@@ -41,30 +42,36 @@ let my_products_datatable = new DataTable('#my-products', {
     ],
     columnDefs: [
         {
-            targets: 0,
+            targets: 'slno:name',
             sortable: false,
             type: 'html'
         },
         {
-            targets: 1,
+            targets: 'thumbnail_image_html:name',
+            sortable: false,
+            type: 'html',
+            'width':1
+        },
+        {
+            targets: 'brand:name',
             type: 'html'
         },
         {
-            targets: 5,
+            targets: 'maximum_retail_price:name',
             type: 'num',
             className: "text-end"
         },
         {
-            targets: 6,
+            targets: 'retail_price:name',
             type: 'num',
             className: "text-end"
         },
         {
-            targets: -2,
+            targets: 'deleted_at:name',
             width: 1
         },
         {
-            targets: -1,
+            targets: 'action_html:name',
             sortable: false,
             type: 'html',
             width: 1

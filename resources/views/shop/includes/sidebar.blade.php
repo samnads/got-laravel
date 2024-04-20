@@ -43,13 +43,6 @@
                 </li>
             </ul>
         </li>
-        <li>
-            <a href="#" target="_blank">
-                <div class="parent-icon"><i class="bx bx-support"></i>
-                </div>
-                <div class="menu-title">Support</div>
-            </a>
-        </li>
     </ul>
     <!--end navigation-->
 </div>

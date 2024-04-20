@@ -37,7 +37,8 @@ class VendorProductController extends Controller
                             'p.description',
                             'pc.name as category',
                             DB::raw('CONCAT(ROUND(p.item_size,2)," ",u.name) as size_label'),
-                            'vendor_products.deleted_at'
+                            'vendor_products.deleted_at',
+                            DB::raw('CONCAT("' . config('url.uploads_cdn') . '","products/",IFNULL(p.thumbnail_image,"default.jpg")) as thumbnail_url'),
                         )
                             ->leftJoin('products as p', function ($join) {
                                 $join->on('vendor_products.product_id', '=', 'p.id');
@@ -79,6 +80,7 @@ class VendorProductController extends Controller
 									<input data-action="toggle-status" data-id="' . $row['id'] . '" class="form-check-input" type="checkbox" id="status_' . $row['id'] . '" ' . ($row['deleted_at'] == null ? 'checked' : '') . '>
 									<label class="form-check-label" for="status_' . $row['id'] . '"></label>
 								</div>';
+                                $data_table['data'][$key]['thumbnail_image_html'] = '<img src="'. $row['thumbnail_url'].'" class="product-img-2" alt="product img">';
                         }
                         return response()->json($data_table, 200, [], JSON_PRETTY_PRINT);
                     case 'quick-edit':
