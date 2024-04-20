@@ -86,16 +86,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
 Route::prefix('vendor')->name('vendor.')->group(function () {
     Route::middleware([VendorAuthWeb::class])->group(function () {
         Route::get('/dashboard', [VendorDashboardController::class, 'dashboard'])->name('dashboard');
-        Route::get('/profile', [VendorController::class, 'vendor_profile'])->name('my-profile'); // new theme
+        Route::get('/profile', [VendorController::class, 'vendor_profile'])->name('my-profile');
         Route::prefix('product')->name('product.')->group(function () {
-            //Route::get('/list', [VendorProductController::class, 'product_list'])->name('list');
-            //Route::get('/add/list', [VendorProductController::class, 'product_list_for_add'])->name('list-for-add');
-            //Route::post('/update', [VendorProductController::class, 'update_product']);
-            //Route::post('/add', [VendorProductController::class, 'add_product']);
-            //Route::get('/delete/{product_id}', [VendorProductController::class, 'delete']);
-            //Route::get('/restore/{product_id}', [VendorProductController::class, 'restore']);
-            Route::any('/my-products', [VendorProductController::class, 'my_products'])->name('my-products'); // new theme
-            Route::any('/available-products', [VendorProductController::class, 'available_products'])->name('available-products'); // new theme
+            Route::any('/my-products', [VendorProductController::class, 'my_products'])->name('my-products');
+            Route::any('/available-products', [VendorProductController::class, 'available_products'])->name('available-products');
+            Route::any('/product-requests', [VendorProductController::class, 'product_requests'])->name('requests');
         });
         Route::prefix('orders')->name('orders.')->group(function () {
             Route::get('/pending', [VendorOrderController::class, 'pending_orders_list'])->name('pending');

@@ -26,9 +26,20 @@
                 <div class="menu-title">Products</div>
             </a>
             <ul>
-                <li> <a href="{{route('vendor.product.my-products')}}"><i class='bx bx-radio-circle'></i>My Produts</a>
+                <li> <a href="{{route('vendor.product.my-products')}}"><i class='bx bx-radio-circle'></i>My Products</a>
                 </li>
                 <li> <a href="{{route('vendor.product.available-products')}}"><i class='bx bx-radio-circle'></i>Available Products</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="javascript:;" class="has-arrow">
+                <div class="parent-icon"><i class="bx bx-category"></i>
+                </div>
+                <div class="menu-title">Product Requests</div>
+            </a>
+            <ul>
+                <li> <a href="{{route('vendor.product.requests')}}"><i class='bx bx-radio-circle'></i>My Requests</a>
                 </li>
             </ul>
         </li>
