@@ -13,7 +13,7 @@
     <!--navigation-->
     <ul class="metismenu" id="menu">
         <li>
-            <a href="#">
+            <a href="{{route('vendor.dashboard')}}">
                 <div class="parent-icon"><i class='bx bx-home-alt'></i>
                 </div>
                 <div class="menu-title">Dashboard</div>
@@ -29,6 +29,19 @@
                 <li> <a href="{{route('vendor.product.my-products')}}"><i class='bx bx-radio-circle'></i>My Produts</a>
                 </li>
                 <li> <a href="{{route('vendor.product.available-products')}}"><i class='bx bx-radio-circle'></i>Available Products</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="javascript:;" class="has-arrow">
+                <div class="parent-icon"><i class="bx bx-cart"></i>
+                </div>
+                <div class="menu-title">Order Management</div>
+            </a>
+            <ul>
+                <li> <a href="#"><i class='bx bx-radio-circle'></i>My Produts</a>
+                </li>
+                <li> <a href="#"><i class='bx bx-radio-circle'></i>Available Products</a>
                 </li>
             </ul>
         </li>

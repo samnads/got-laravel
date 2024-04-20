@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Vendor\VendorController;
+use App\Http\Controllers\Vendor\VendorDashboardController;
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Vendor\VendorAuthController;
 use App\Http\Controllers\Vendor\VendorProductController;
@@ -84,7 +85,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
 Route::prefix('vendor')->name('vendor.')->group(function () {
     Route::middleware([VendorAuthWeb::class])->group(function () {
-        Route::get('/dashboard', [VendorController::class, 'dashboard'])->name('dashboard');
+        Route::get('/dashboard', [VendorDashboardController::class, 'dashboard'])->name('dashboard');
         Route::get('/profile', [VendorController::class, 'vendor_profile'])->name('my-profile'); // new theme
         Route::prefix('product')->name('product.')->group(function () {
             Route::get('/list', [VendorProductController::class, 'product_list'])->name('list');
