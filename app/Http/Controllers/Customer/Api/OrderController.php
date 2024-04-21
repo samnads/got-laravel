@@ -110,7 +110,7 @@ class OrderController extends Controller
         $order->address_id = $input['address_id'];
         $order->total_payable = 0;
         $order->save();
-        $order->order_reference = config('prefix.ORDER_REF') . sprintf('%06d', $order->id);
+        $order->order_reference = config('prefix.ORDER_REF') . sprintf('%07d', $order->id);
         $order->save();
         // save products
         foreach ($products as $key => $product) {

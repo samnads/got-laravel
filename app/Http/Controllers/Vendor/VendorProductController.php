@@ -548,7 +548,7 @@ class VendorProductController extends Controller
                         $product_request->product_request_status_id = 1;
                         $product_request->additional_information = $request->additional_information;
                         $product_request->save();
-                        $product_request->product_request_reference = config('prefix.PRODUCT_REQUEST_REF') . $product_request->id;
+                        $product_request->product_request_reference = config('prefix.PRODUCT_REQUEST_REF') . sprintf('%07d', $product_request->id);
                         $product_request->save();
                         DB::commit();
                         $response = [
