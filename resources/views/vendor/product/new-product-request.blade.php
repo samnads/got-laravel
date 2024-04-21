@@ -71,7 +71,7 @@
                                     </div>
                                     <div class="col-12">
                                         <label for="fdfa" class="form-label">Additional Information</label>
-                                        <textarea class="form-control" id="fdfa" rows="3"></textarea>
+                                        <textarea class="form-control" id="fdfa" rows="3" placeholder="If you need category, brand or other additional requirements, please specify here..."></textarea>
                                     </div>
                                     <div class="col-12">
                                         <div class="d-grid">
