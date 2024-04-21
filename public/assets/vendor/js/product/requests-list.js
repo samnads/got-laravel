@@ -25,13 +25,12 @@ let my_products_datatable = new DataTable('#my-products', {
     },
     columns: [
         { data: 'slno', name: 'slno' },
-        { data: 'order_reference', name: 'order_reference' },
-        { data: 'order_status', name: 'order_status' },
-        { data: 'customer_name', name: 'customer_name' },
-        { data: 'customer_mobile_number_1', name: 'customer_mobile_number_1' },
-        { data: 'payment_mode', name: 'payment_mode' },
-        { data: 'payment_status', name: 'payment_status' },
-        { data: 'total_payable', name: 'total_payable' },
+        { data: 'product_request_reference', name: 'product_request_reference' },
+        { data: 'name', name: 'name' },
+        { data: 'code', name: 'code' },
+        { data: 'size_label', name: 'size_label' },
+        { data: 'maximum_retail_price', name: 'maximum_retail_price' },
+        { data: 'product_request_status_html', name: 'product_request_status' },
     ],
     columnDefs: [
         {
@@ -40,15 +39,15 @@ let my_products_datatable = new DataTable('#my-products', {
             type: 'html'
         },
         {
-            targets: 'customer_mobile_number_1:name',
-            sortable: false,
-            type: 'html'
-        },
-        {
-            targets: 'total_payable:name',
-            sortable: false,
+            targets: 'maximum_retail_price:name',
             type: 'num',
             className: "text-end"
+        },
+        {
+            targets: 'product_request_status:name',
+            sortable: true,
+            type: 'html',
+            width:1
         }
     ],
     drawCallback: function (settings) {

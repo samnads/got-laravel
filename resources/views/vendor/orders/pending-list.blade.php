@@ -52,7 +52,6 @@
             </div>
         </div>
     </div>
-    @include('vendor.product.popups.quick-add-product')
 @endsection
 @push('link-styles')
     <!-- Pushed Link Styles -->

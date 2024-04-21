@@ -393,54 +393,58 @@ class VendorProductController extends Controller
                     case 'datatable':
                         $data_table['draw'] = $request->draw;
                         DB::statement("SET @count:=" . $request->start);
-                        $v_products = VendorProduct::select('product_id')->where('vendor_id', Auth::guard('vendor')->id())->withTrashed()->get();
-                        $vendor_product_ids = array_column($v_products->toArray(), 'product_id');
-                        $rows = Product::select(
+                        $rows = ProductRequest::select(
                             DB::raw('@count:=@count+1 AS slno'),
-                            'products.id',
-                            'products.code',
-                            'products.item_size',
-                            'products.name',
-                            'products.description',
-                            'products.maximum_retail_price',
+                            'product_requests.id',
+                            'product_requests.product_request_reference',
+                            'product_requests.vendor_id',
+                            'product_requests.product_id',
+                            'product_requests.code',
+                            'product_requests.item_size',
+                            'product_requests.unit_id',
+                            'product_requests.brand_id',
+                            'product_requests.name',
+                            'product_requests.description',
+                            'product_requests.maximum_retail_price',
+                            'product_requests.retail_price',
+                            'product_requests.product_request_status_id',
+                            'prs.label as product_request_status',
+                            'product_requests.product_request_status_user_id',
+                            'product_requests.product_request_status_changed_at',
+                            'product_requests.additional_information',
                             'u.name as unit',
                             'u.code as unit_code',
                             DB::raw('IFNULL(b.name,"-") as brand'),
-                            DB::raw('CONCAT(ROUND(products.item_size,2)," ",u.name) as size_label'),
-                            'pc.name as category',
-                            DB::raw('CONCAT("' . config('url.uploads_cdn') . '","products/",IFNULL(products.thumbnail_image,"default.jpg"),"?v=","' . config('version.vendor_assets') . '") as thumbnail_url'),
+                            DB::raw('CONCAT(ROUND(product_requests.item_size,2)," ",u.name) as size_label'),
+                            'prs.bg_color as product_request_status_bg_color',
+                            'prs.text_color as product_request_status_text_color'
                         )
                             ->leftJoin('units as u', function ($join) {
-                                $join->on('products.unit_id', '=', 'u.id');
+                                $join->on('product_requests.unit_id', '=', 'u.id');
                             })
                             ->leftJoin('brands as b', function ($join) {
-                                $join->on('products.brand_id', '=', 'b.id');
+                                $join->on('product_requests.brand_id', '=', 'b.id');
                             })
-                            ->leftJoin('product_category_mappings as pcm', function ($join) {
-                                $join->on('products.id', '=', 'pcm.product_id');
+                            ->leftJoin('product_request_statuses as prs', function ($join) {
+                                $join->on('product_requests.product_request_status_id', '=', 'prs.id');
                             })
-                            ->leftJoin('product_categories as pc', function ($join) {
-                                $join->on('pcm.category_id', '=', 'pc.id');
-                            })
-                            ->whereNotIn('products.id', $vendor_product_ids);
+                            ->where('product_requests.vendor_id', Auth::guard('vendor')->id());
                         $data_table['recordsTotal'] = $rows->count();
                         $rows->where(function ($query) use ($request) {
-                            $query->where([['products.name', 'LIKE', "%{$request->search['value']}%"]]);
-                            $query->orWhere([['products.code', 'LIKE', "%{$request->search['value']}%"]]);
-                            $query->orWhere([['pc.name', 'LIKE', "%{$request->search['value']}%"]]);
+                            $query->where([['product_requests.name', 'LIKE', "%{$request->search['value']}%"]]);
+                            $query->orWhere([['product_requests.code', 'LIKE', "%{$request->search['value']}%"]]);
+                            $query->orWhere([['product_requests.description', 'LIKE', "%{$request->search['value']}%"]]);
+                            $query->orWhere([['product_requests.additional_information', 'LIKE', "%{$request->search['value']}%"]]);
                         });
                         if (@$request->order[0]['name']) {
                             $rows->orderBy($request->order[0]['name'], $request->order[0]['dir']);
                         } else {
-                            $rows->orderBy('products.id', 'asc');
+                            $rows->orderBy('product_requests.id', 'desc');
                         }
                         $data_table['recordsFiltered'] = $rows->count();
                         $data_table['data'] = $rows->offset($request->start)->limit($request->length)->get()->toArray();
                         foreach ($data_table['data'] as $key => $row) {
-                            $data_table['data'][$key]['action_html'] = '<div class="btn-group btn-group-sm" role="group" aria-label="First group">
-											<button data-action="add-product" data-id="' . $row['id'] . '" type="button" class="btn btn-sm btn-warning"><i class="fadeIn animated bx bx-plus"></i></button>
-										</div>';
-                            $data_table['data'][$key]['thumbnail_image_html'] = '<img src="' . $row['thumbnail_url'] . '" class="product-img-2" alt="product img">';
+                            $data_table['data'][$key]['product_request_status_html'] = '<span class="badge shadow-sm w-100" style="background:'.$row['product_request_status_bg_color'].';color:' . $row['product_request_status_text_color'] . ';">' . $row['product_request_status'] . '</span>';
                         }
                         return response()->json($data_table, 200, [], JSON_PRETTY_PRINT);
                     case 'product-for-add':
