@@ -1,5 +1,4 @@
 let login_form = $('form[id="login-form"]');
-let loading_button_html = `Please wait...`;
 $(document).ready(function () {
     login_form_validator = login_form.validate({
         focusInvalid: true,

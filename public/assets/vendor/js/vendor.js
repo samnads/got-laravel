@@ -21,6 +21,7 @@ $(document).ready(function () {
     if (_toast) {
         toast(_toast.title, _toast.content, _toast.type);
     }
+    Pace.stop();
 });
 
 function beep(type = 'error') {
