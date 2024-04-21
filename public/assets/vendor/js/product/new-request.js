@@ -154,13 +154,15 @@ $(document).ready(function () {
                 data: product_request_form.serialize(),
                 success: function (response) {
                     if (response.status == true) {
-                        //toast(response.message.title, response.message.content, response.message.type);
+                        submit_btn.html(response.message.title);
                         Swal.fire({
                             title: response.message.title,
                             text: response.message.content,
                             icon: response.message.type,
-                            confirmButtonColor: "#d33",
+                            confirmButtonColor: swal_colors.success_ok,
                             confirmButtonText: "OK",
+                            allowOutsideClick: false,
+                            didOpen: () => Swal.getConfirmButton().blur()
                         }).then((result) => {
                             if (result.isConfirmed) {
                                 location.href = response.redirect;

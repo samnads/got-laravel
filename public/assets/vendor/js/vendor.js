@@ -46,3 +46,11 @@ function ajaxError(response) {
     toast("Unknown Error !", response.statusText, 'info');
 }
 let loading_button_html = `<span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span> Loading...`;
+/**
+ * 
+ * Sweet alert colors
+ * 
+ */
+let swal_colors = {
+    'success_ok' : 'green'
+}

@@ -601,7 +601,7 @@ class VendorProductController extends Controller
                             ],
                             'redirect' => route('vendor.product.requests')
                         ];
-                        Session::flash('toast', $response['message']);
+                        //Session::flash('toast', $response['message']);
                         break;
                     default:
                         $response = [
