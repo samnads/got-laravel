@@ -155,10 +155,21 @@ $(document).ready(function () {
                 success: function (response) {
                     if (response.status == true) {
                         //toast(response.message.title, response.message.content, response.message.type);
+                        Swal.fire({
+                            title: response.message.title,
+                            text: response.message.content,
+                            icon: response.message.type,
+                            confirmButtonColor: "#d33",
+                            confirmButtonText: "OK",
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                location.href = response.redirect;
+                            }
+                        });
                     } else {
-                        //toastStatusFalse(response);
+                        toastStatusFalse(response, { stack: 1 });
+                        submit_btn.html('Send Request').prop("disabled", false);
                     }
-                    submit_btn.html('Send Request').prop("disabled", false);
                 },
                 error: function (response) {
                     submit_btn.html('Send Request').prop("disabled", false);

@@ -38,9 +38,9 @@ function play(data) {
     var snd = new Audio(data);
     snd.play();
 }
-function toastStatusFalse(response) {
+function toastStatusFalse(response, settings = {}) {
     beep();
-    toast(response.error.title, response.error.content, response.error.type);
+    toast(response.error.title, response.error.content, response.error.type, settings);
 }
 function ajaxError(response) {
     toast("Unknown Error !", response.statusText, 'info');

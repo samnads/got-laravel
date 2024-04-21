@@ -16,4 +16,7 @@
 <script>
     let _base_url = "{{url('vendor')}}/";
     let _url = "{{request()->url()}}";
+    @if (Session::get('toast'))
+        _toast = {!! json_encode(Session::get('toast')) !!};
+    @endif
 </script>

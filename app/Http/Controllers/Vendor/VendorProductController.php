@@ -591,14 +591,17 @@ class VendorProductController extends Controller
                         $product_request->product_request_status = 1;
                         $product_request->additional_information = $request->additional_information;
                         $product_request->save();
+                        DB::commit();
                         $response = [
                             'status' => true,
                             'message' => [
                                 'type' => 'success',
                                 'title' => 'Request Sent !',
                                 'content' => 'Product request send successfully.'
-                            ]
+                            ],
+                            'redirect' => route('vendor.product.requests')
                         ];
+                        Session::flash('toast', $response['message']);
                         break;
                     default:
                         $response = [
