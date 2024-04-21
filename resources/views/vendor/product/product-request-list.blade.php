@@ -26,6 +26,8 @@
                         <tr>
                             <th>Sl. No.</th>
                             <th>Request Ref.</th>
+                            <th>Category</th>
+                            <th>Brand</th>
                             <th>Product Name</th>
                             <th>Code</th>
                             <th>Size</th>
@@ -37,8 +39,10 @@
                     </tbody>
                     <tfoot>
                         <tr>
-                            <th>Sl. No.</th>
+                           <th>Sl. No.</th>
                             <th>Request Ref.</th>
+                            <th>Category</th>
+                            <th>Brand</th>
                             <th>Product Name</th>
                             <th>Code</th>
                             <th>Size</th>

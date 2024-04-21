@@ -399,7 +399,7 @@ class VendorProductController extends Controller
                             'product_requests.product_request_reference',
                             'product_requests.vendor_id',
                             'product_requests.product_id',
-                            'product_requests.code',
+                            DB::raw('IFNULL(product_requests.code,"-") as code'),
                             'product_requests.item_size',
                             'product_requests.unit_id',
                             'product_requests.brand_id',
@@ -417,7 +417,8 @@ class VendorProductController extends Controller
                             DB::raw('IFNULL(b.name,"-") as brand'),
                             DB::raw('CONCAT(ROUND(product_requests.item_size,2)," ",u.name) as size_label'),
                             'prs.bg_color as product_request_status_bg_color',
-                            'prs.text_color as product_request_status_text_color'
+                            'prs.text_color as product_request_status_text_color',
+                            DB::raw('IFNULL(pc.name,"-") as category'),
                         )
                             ->leftJoin('units as u', function ($join) {
                                 $join->on('product_requests.unit_id', '=', 'u.id');
@@ -427,6 +428,9 @@ class VendorProductController extends Controller
                             })
                             ->leftJoin('product_request_statuses as prs', function ($join) {
                                 $join->on('product_requests.product_request_status_id', '=', 'prs.id');
+                            })
+                            ->leftJoin('product_categories as pc', function ($join) {
+                                $join->on('product_requests.product_category_id', '=', 'pc.id');
                             })
                             ->where('product_requests.vendor_id', Auth::guard('vendor')->id());
                         $data_table['recordsTotal'] = $rows->count();
@@ -447,64 +451,6 @@ class VendorProductController extends Controller
                             $data_table['data'][$key]['product_request_status_html'] = '<span class="badge shadow-sm w-100" style="background:'.$row['product_request_status_bg_color'].';color:' . $row['product_request_status_text_color'] . ';">' . $row['product_request_status'] . '</span>';
                         }
                         return response()->json($data_table, 200, [], JSON_PRETTY_PRINT);
-                    case 'product-for-add':
-                        $product = Product::findOrFail($request->id);
-                        $response = [
-                            'status' => true,
-                            'data' => [
-                                'product' => $product
-                            ]
-                        ];
-                        return response()->json($response, 200, [], JSON_PRETTY_PRINT);
-                    case 'save-new-product':
-                        /******************************************************************************* */
-                        $validator = Validator::make(
-                            (array) $request->all(),
-                            [
-                                'id' => 'required|exists:products,id',
-                                'min_cart_quantity' => 'required|integer|min:1',
-                                'max_cart_quantity' => 'required|integer|gte:min_cart_quantity',
-                                'maximum_retail_price' => 'required|numeric|gt:0',
-                                'retail_price' => 'required|numeric|lte:maximum_retail_price',
-                            ],
-                            [],
-                            [
-                                'id' => 'Product',
-                                'min_cart_quantity' => 'Min. Cart Quantity',
-                                'max_cart_quantity' => 'Max Cart Quantity',
-                                'maximum_retail_price' => 'MRP.',
-                                'retail_price' => 'Selling Price',
-                            ]
-                        );
-                        if ($validator->fails()) {
-                            $response = [
-                                'status' => false,
-                                'error' => [
-                                    'type' => 'error',
-                                    'title' => 'Validation Error !',
-                                    'content' => $validator->errors()->first()
-                                ]
-                            ];
-                            return response()->json($response, 200, [], JSON_PRETTY_PRINT);
-                        }
-                        /******************************************************************************* */
-                        $product = new VendorProduct();
-                        $product->vendor_id = Auth::guard('vendor')->id();
-                        $product->product_id = $request->id;
-                        $product->min_cart_quantity = $request->min_cart_quantity;
-                        $product->max_cart_quantity = $request->max_cart_quantity;
-                        $product->maximum_retail_price = $request->maximum_retail_price;
-                        $product->retail_price = $request->retail_price;
-                        $product->save();
-                        $response = [
-                            'status' => true,
-                            'message' => [
-                                'type' => 'success',
-                                'title' => 'Added !',
-                                'content' => 'Product added successfully.'
-                            ]
-                        ];
-                        return response()->json($response, 200, [], JSON_PRETTY_PRINT);
                     default:
                         $response = [
                             'status' => false,
@@ -589,11 +535,12 @@ class VendorProductController extends Controller
                         $product_request->item_size = $request->item_size;
                         $product_request->unit_id = $request->unit_id;
                         $product_request->brand_id = $request->brand_id;
+                        $product_request->product_category_id = $request->category_id;
                         $product_request->name = $request->name;
                         $product_request->description = $request->description;
                         $product_request->maximum_retail_price = $request->maximum_retail_price;
                         $product_request->retail_price = $request->retail_price;
-                        $product_request->product_request_status = 1;
+                        $product_request->product_request_status_id = 1;
                         $product_request->additional_information = $request->additional_information;
                         $product_request->save();
                         DB::commit();

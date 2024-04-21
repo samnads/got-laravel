@@ -26,6 +26,8 @@ let my_products_datatable = new DataTable('#my-products', {
     columns: [
         { data: 'slno', name: 'slno' },
         { data: 'product_request_reference', name: 'product_request_reference' },
+        { data: 'category', name: 'category' },
+        { data: 'brand', name: 'brand' },
         { data: 'name', name: 'name' },
         { data: 'code', name: 'code' },
         { data: 'size_label', name: 'size_label' },
@@ -47,7 +49,7 @@ let my_products_datatable = new DataTable('#my-products', {
             targets: 'product_request_status:name',
             sortable: true,
             type: 'html',
-            width:1
+            width: 1
         }
     ],
     drawCallback: function (settings) {
