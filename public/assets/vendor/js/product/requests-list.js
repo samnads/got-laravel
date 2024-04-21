@@ -1,4 +1,4 @@
-let my_products_datatable = new DataTable('#my-products', {
+let datatable = new DataTable('#datatable', {
     processing: true,
     serverSide: true,
     autoWidth: true,
@@ -8,7 +8,7 @@ let my_products_datatable = new DataTable('#my-products', {
         'url': _url,
         'data': function (data) {
             data.action = 'datatable'
-            //data.keywordsearch = $('#search').val();
+            data.filter_request_status_id = $('select[name="filter_request_status_id"]').val();
         },
         "complete": function (json, type) { // data sent from controllerr
             let response = json.responseJSON;
@@ -54,4 +54,14 @@ let my_products_datatable = new DataTable('#my-products', {
     ],
     drawCallback: function (settings) {
     },
+});
+/*let filter_request_status_id_select = new TomSelect('select[name="filter_request_status_id"]', {
+    create: false,
+    allowEmptyOption: true,
+    onChange: function (values) {
+
+    }
+});*/
+$('select[name="filter_request_status_id"]').change(function () {
+    datatable.draw();
 });

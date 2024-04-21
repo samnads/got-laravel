@@ -16,12 +16,22 @@
         </div>
     </div>
     <!--end breadcrumb-->
-    <h6 class="mb-0 text-uppercase">Orders List</h6>
-    <hr />
+    <div class="d-flex justify-content-start mb-3">
+        <div class="bd-highlight">
+            <select class="form-select" name="filter_request_status_id">
+                <option value="" selected>-- Any Status --</option>
+                @foreach ($product_request_statuses as $key => $product_request_status)
+                    <option value="{{ $product_request_status->id }}">{{ $product_request_status->label }}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="bd-highlight"></div>
+        <div class="bd-highlight"></div>
+    </div>
     <div class="card">
         <div class="card-body">
             <div class="table-responsive">
-                <table id="my-products" class="table table-striped table-hover table-bordered align-middle">
+                <table id="datatable" class="table table-striped table-hover table-bordered align-middle">
                     <thead>
                         <tr>
                             <th>Sl. No.</th>
@@ -39,7 +49,7 @@
                     </tbody>
                     <tfoot>
                         <tr>
-                           <th>Sl. No.</th>
+                            <th>Sl. No.</th>
                             <th>Request Ref.</th>
                             <th>Category</th>
                             <th>Brand</th>
@@ -54,11 +64,12 @@
             </div>
         </div>
     </div>
-    @include('vendor.product.popups.quick-add-product')
 @endsection
 @push('link-styles')
     <!-- Pushed Link Styles -->
     <link href="https://cdn.datatables.net/2.0.5/css/dataTables.bootstrap5.css" rel="stylesheet">
+    <link href="{{ asset('assets/vendor/plugins/tom-select/tom-select.min.css?v=') . config('version.vendor_assets') }}"
+        rel="stylesheet">
 @endpush
 @push('inline-styles')
     <!-- Pushed Inline Styles -->
@@ -67,6 +78,9 @@
     <!-- Pushed Link Scripts -->
     <script src="https://cdn.datatables.net/2.0.5/js/dataTables.js"></script>
     <script src="https://cdn.datatables.net/2.0.5/js/dataTables.bootstrap5.js"></script>
+    <script
+        src="{{ asset('assets/vendor/plugins/tom-select/tom-select.complete.js?v=') . config('version.vendor_assets') }}">
+    </script>
     <script src="{{ asset('assets/vendor/js/product/requests-list.js?v=') . config('version.vendor_assets') }}"></script>
 @endpush
 @push('inline-scripts')

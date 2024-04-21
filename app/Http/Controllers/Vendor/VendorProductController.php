@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Vendor;
 
 use App\Http\Controllers\Controller;
 use App\Models\ProductRequest;
+use App\Models\ProductRequestStatus;
 use Illuminate\Http\Request;
 use App\Models\VendorProduct;
 use App\Models\Product;
@@ -445,10 +446,13 @@ class VendorProductController extends Controller
                         } else {
                             $rows->orderBy('product_requests.id', 'desc');
                         }
+                        if (@$request->filter_request_status_id) {
+                            $rows->where('product_request_status_id', $request->filter_request_status_id);
+                        }
                         $data_table['recordsFiltered'] = $rows->count();
                         $data_table['data'] = $rows->offset($request->start)->limit($request->length)->get()->toArray();
                         foreach ($data_table['data'] as $key => $row) {
-                            $data_table['data'][$key]['product_request_status_html'] = '<span class="badge shadow-sm w-100" style="background:'.$row['product_request_status_bg_color'].';color:' . $row['product_request_status_text_color'] . ';">' . $row['product_request_status'] . '</span>';
+                            $data_table['data'][$key]['product_request_status_html'] = '<span class="badge shadow-sm w-100" style="background:' . $row['product_request_status_bg_color'] . ';color:' . $row['product_request_status_text_color'] . ';">' . $row['product_request_status'] . '</span>';
                         }
                         return response()->json($data_table, 200, [], JSON_PRETTY_PRINT);
                     default:
@@ -478,7 +482,8 @@ class VendorProductController extends Controller
             }
 
         }
-        return view('vendor.product.product-request-list', []);
+        $data['product_request_statuses'] = ProductRequestStatus::get();
+        return view('vendor.product.product-request-list', $data);
     }
     public function new_product_request(Request $request)
     {
@@ -542,6 +547,8 @@ class VendorProductController extends Controller
                         $product_request->retail_price = $request->retail_price;
                         $product_request->product_request_status_id = 1;
                         $product_request->additional_information = $request->additional_information;
+                        $product_request->save();
+                        $product_request->product_request_reference = config('prefix.PRODUCT_REQUEST_REF') . $product_request->id;
                         $product_request->save();
                         DB::commit();
                         $response = [

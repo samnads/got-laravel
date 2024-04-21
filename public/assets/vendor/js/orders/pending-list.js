@@ -26,12 +26,12 @@ let my_products_datatable = new DataTable('#my-products', {
     columns: [
         { data: 'slno', name: 'slno' },
         { data: 'order_reference', name: 'order_reference' },
-        { data: 'order_status', name: 'order_status' },
         { data: 'customer_name', name: 'customer_name' },
         { data: 'customer_mobile_number_1', name: 'customer_mobile_number_1' },
         { data: 'payment_mode', name: 'payment_mode' },
         { data: 'payment_status', name: 'payment_status' },
         { data: 'total_payable', name: 'total_payable' },
+        { data: 'order_status', name: 'order_status' },
     ],
     columnDefs: [
         {
@@ -49,6 +49,12 @@ let my_products_datatable = new DataTable('#my-products', {
             sortable: false,
             type: 'num',
             className: "text-end"
+        },
+        {
+            targets: 'order_status:name',
+            type: 'html',
+            className: "text-center",
+            width: 1
         }
     ],
     drawCallback: function (settings) {
