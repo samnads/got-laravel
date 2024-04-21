@@ -107,7 +107,7 @@ $(document).ready(function () {
                 required: true,
             },
             "code": {
-                required: true,
+                required: false,
             },
             "description": {
                 required: false,
