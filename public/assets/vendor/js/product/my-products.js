@@ -31,6 +31,7 @@ let my_products_datatable = new DataTable('#my-products', {
     columns: [
         { data: 'slno', name: 'slno' },
         { data: 'thumbnail_image_html', name: 'thumbnail_image_html' },
+        { data: 'category', name: 'category' },
         { data: 'brand', name: 'brand' },
         { data: 'name', name: 'name' },
         { data: 'size_label', name: 'size_label' },
