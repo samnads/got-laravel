@@ -112,23 +112,20 @@ $(document).ready(function () {
             let submit_btn = $('button[type="submit"]', form);
             submit_btn.html(loading_button_html).prop("disabled", true);
             $.ajax({
-                type: 'PUT',
+                type: 'POST',
                 url: _url,
                 dataType: 'json',
-                data: product_quick_edit_form.serialize(),
+                data: form.serialize(),
                 success: function (response) {
                     if (response.status == true) {
-                        product_quick_edit_modal.hide();
                         toast(response.message.title, response.message.content, response.message.type);
                     } else {
                         toastStatusFalse(response);
                     }
-                    submit_btn.html('Update').prop("disabled", false);
-                    my_products_datatable.ajax.reload(null, false);
+                    submit_btn.html('Send Request').prop("disabled", false);
                 },
                 error: function (response) {
-                    submit_btn.html('Update').prop("disabled", false);
-                    my_products_datatable.ajax.reload(null, false);
+                    submit_btn.html('Send Request').prop("disabled", false);
                 },
             });
         }
