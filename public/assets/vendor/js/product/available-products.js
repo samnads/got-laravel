@@ -31,6 +31,7 @@ let my_products_datatable = new DataTable('#my-products', {
     columns: [
         { data: 'slno', name: 'slno' },
         { data: 'thumbnail_image_html', name: 'thumbnail_image_html' },
+        { data: 'category', name: 'category' },
         { data: 'brand', name: 'brand' },
         { data: 'name', name: 'name' },
         { data: 'size_label', name: 'size_label' },
@@ -83,9 +84,11 @@ function productAddListener() {
                     product_quick_add_form_validator.resetForm();
                     product_quick_add_form.trigger("reset");
                     $('input[name="min_cart_quantity"]', product_quick_add_form).val(1);
+                    $('input[name="max_cart_quantity"]', product_quick_add_form).val(10);
                     $('#pname', product_quick_add_form).val(response.data.product.name);
                     $('#pcode', product_quick_add_form).val(response.data.product.code);
                     $('[name="maximum_retail_price"]', product_quick_add_form).val(response.data.product.maximum_retail_price);
+                    $('[name="retail_price"]', product_quick_add_form).val(response.data.product.maximum_retail_price);
                     product_quick_add_modal.show();
                 } else {
                     toastStatusFalse(response);

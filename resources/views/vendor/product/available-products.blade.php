@@ -26,6 +26,7 @@
                         <tr>
                             <th>Sl. No.</th>
                             <th>Thumbnail</th>
+                            <th>Category</th>
                             <th>Brand</th>
                             <th>Product Name</th>
                             <th>Size</th>
@@ -40,6 +41,7 @@
                         <tr>
                             <th>Sl. No.</th>
                             <th>Thumbnail</th>
+                            <th>Category</th>
                             <th>Brand</th>
                             <th>Product Name</th>
                             <th>Size</th>
