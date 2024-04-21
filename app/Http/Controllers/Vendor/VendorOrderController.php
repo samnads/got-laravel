@@ -56,7 +56,7 @@ class VendorOrderController extends Controller
                         if (@$request->order[0]['name']) {
                             $rows->orderBy($request->order[0]['name'], $request->order[0]['dir']);
                         } else {
-                            $rows->orderBy('orders.id', 'asc');
+                            $rows->orderBy('orders.id', 'desc');
                         }
                         $data_table['recordsFiltered'] = $rows->count();
                         $data_table['data'] = $rows->offset($request->start)->limit($request->length)->get()->toArray();
