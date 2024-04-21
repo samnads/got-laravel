@@ -547,7 +547,7 @@ class VendorProductController extends Controller
                                 'category_id' => 'required|exists:product_categories,id',
                                 'brand_id' => 'nullable|exists:brands,id',
                                 'maximum_retail_price' => 'required|numeric|gt:0',
-                                'retail_price' => 'required|numeric|lte:maximum_retail_price',
+                                'retail_price' => 'nullable|numeric|lte:maximum_retail_price',
                                 'item_size' => 'required|numeric|min:1',
                                 'unit_id' => 'required|exists:units,id',
                                 'additional_information' => 'nullable|string',
@@ -588,6 +588,7 @@ class VendorProductController extends Controller
                         $product_request->name = $request->name;
                         $product_request->description = $request->description;
                         $product_request->maximum_retail_price = $request->maximum_retail_price;
+                        $product_request->retail_price = $request->retail_price;
                         $product_request->product_request_status = 1;
                         $product_request->additional_information = $request->additional_information;
                         $product_request->save();

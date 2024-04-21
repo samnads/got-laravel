@@ -116,13 +116,13 @@ $(document).ready(function () {
                 required: true,
             },
             "brand_id": {
-                required: true,
+                required: false,
             },
             "maximum_retail_price": {
                 required: true,
             },
             "retail_price": {
-                required: true,
+                required: false,
             },
             "item_size": {
                 required: true,
