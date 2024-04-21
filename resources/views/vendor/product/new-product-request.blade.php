@@ -37,8 +37,8 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <label for="inputCostPerPrice" class="form-label">Category</label>
-                                    <select class="form-select" id="inputVendor">
+                                    <label for="ghdf" class="form-label">Category</label>
+                                    <select class="form-select" id="ghdf">
                                         <option></option>
                                         <option value="1">One</option>
                                         <option value="2">Two</option>
@@ -46,8 +46,8 @@
                                     </select>
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="inputStarPoints" class="form-label">Brand</label>
-                                    <select class="form-select" id="inputVendor">
+                                    <label for="jhdf" class="form-label">Brand</label>
+                                    <select class="form-select" id="jhdf">
                                         <option></option>
                                         <option value="1">One</option>
                                         <option value="2">Two</option>
@@ -69,12 +69,12 @@
                                     <input type="text" class="form-control" id="fdgas" name="unit_id">
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="cfjg" class="form-label">Item Size</label>
-                                    <input type="number" class="form-control no-arrow" id="cfjg" name="item_size">
+                                    <label for="ghwef" class="form-label">Item Size</label>
+                                    <input type="number" class="form-control no-arrow" id="ghwef" name="item_size">
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="fdgas" class="form-label">Unit</label>
-                                    <input type="text" class="form-control" id="fdgas" name="unit_id">
+                                    <label for="gdfs" class="form-label">Unit</label>
+                                    <input type="text" class="form-control" id="gdfs" name="unit_id">
                                 </div>
                                 <div class="col-12">
                                     <label for="inputProductType" class="form-label">Product Type</label>
@@ -86,13 +86,8 @@
                                     </select>
                                 </div>
                                 <div class="col-12">
-                                    <label for="inputVendor" class="form-label">Vendor</label>
-                                    <select class="form-select" id="inputVendor">
-                                        <option></option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
-                                    </select>
+                                    <label for="fdfa" class="form-label">Additional Information</label>
+                                    <textarea class="form-control" id="fdfa" rows="3"></textarea>
                                 </div>
                                 <div class="col-12">
                                     <div class="d-grid">
