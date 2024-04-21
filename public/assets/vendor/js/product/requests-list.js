@@ -65,3 +65,6 @@ let datatable = new DataTable('#datatable', {
 $('select[name="filter_request_status_id"]').change(function () {
     datatable.draw();
 });
+$('[data-action="dt-refresh"]').click(function () {
+    datatable.draw();
+});
