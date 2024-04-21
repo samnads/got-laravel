@@ -30,11 +30,11 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="pcode" class="form-label">Code</label>
-                                    <input type="email" class="form-control" id="pcode" name="code">
+                                    <input type="text" class="form-control" id="pcode" name="code">
                                 </div>
                                 <div class="mb-3">
                                     <label for="vgfd" class="form-label">Description</label>
-                                    <textarea class="form-control" id="vgfd" rows="3"></textarea>
+                                    <textarea class="form-control" id="vgfd" rows="3" name="description"></textarea>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
@@ -55,11 +55,11 @@
                                 <div class="row g-3">
                                     <div class="col-md-6">
                                         <label for="cfjg" class="form-label">MRP.</label>
-                                        <input type="number" class="form-control no-arrow" id="cfjg" name="item_size">
+                                        <input type="number" step="any" class="form-control no-arrow" id="cfjg" name="maximum_retail_price">
                                     </div>
                                     <div class="col-md-6">
                                         <label for="fdgas" class="form-label">Selling Price</label>
-                                        <input type="text" class="form-control" id="fdgas" name="unit_id">
+                                        <input type="number" step="any" class="form-control" id="fdgas" name="retail_price">
                                     </div>
                                     <div class="col-md-6">
                                         <label for="ghwef" class="form-label">Item Size</label>
@@ -71,7 +71,7 @@
                                     </div>
                                     <div class="col-12">
                                         <label for="fdfa" class="form-label">Additional Information</label>
-                                        <textarea class="form-control" id="fdfa" rows="3" placeholder="If you need category, brand or other additional requirements, please specify here..."></textarea>
+                                        <textarea class="form-control" id="fdfa" rows="3" placeholder="If you need category, brand or other additional requirements, please specify here..." name="additional_information"></textarea>
                                     </div>
                                     <div class="col-12">
                                         <div class="d-grid">
