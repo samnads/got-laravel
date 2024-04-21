@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Vendor;
 
 use App\Http\Controllers\Controller;
+use App\Models\ProductRequest;
 use Illuminate\Http\Request;
 use App\Models\VendorProduct;
 use App\Models\Product;
@@ -535,6 +536,7 @@ class VendorProductController extends Controller
             try {
                 switch ($request->method()) {
                     case 'POST':
+                        DB::beginTransaction();
                         /******************************************************************************* */
                         $validator = Validator::make(
                             (array) $request->all(),
@@ -576,7 +578,28 @@ class VendorProductController extends Controller
                             ];
                             return response()->json($response, 200, [], JSON_PRETTY_PRINT);
                         }
-                    /******************************************************************************* */
+                        /******************************************************************************* */
+                        $product_request = new ProductRequest();
+                        $product_request->vendor_id = Auth::guard('vendor')->id();
+                        $product_request->code = $request->code;
+                        $product_request->item_size = $request->item_size;
+                        $product_request->unit_id = $request->unit_id;
+                        $product_request->brand_id = $request->brand_id;
+                        $product_request->name = $request->name;
+                        $product_request->description = $request->description;
+                        $product_request->maximum_retail_price = $request->maximum_retail_price;
+                        $product_request->product_request_status = 1;
+                        $product_request->additional_information = $request->additional_information;
+                        $product_request->save();
+                        $response = [
+                            'status' => true,
+                            'message' => [
+                                'type' => 'success',
+                                'title' => 'Request Sent !',
+                                'content' => 'Product request send successfully.'
+                            ]
+                        ];
+                        break;
                     default:
                         $response = [
                             'status' => false,
@@ -587,6 +610,7 @@ class VendorProductController extends Controller
                             ]
                         ];
                 }
+                return response()->json($response, 200, [], JSON_PRETTY_PRINT);
             } catch (\Exception $e) {
                 if (DB::transactionLevel() > 0) {
                     DB::rollback();
