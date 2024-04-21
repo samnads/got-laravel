@@ -39,20 +39,12 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <label for="ghdf" class="form-label">Category</label>
-                                        <select class="form-select" id="ghdf">
-                                            <option></option>
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
+                                        <select placeholder="Search category..." id="ghdf" name="category_id">
                                         </select>
                                     </div>
                                     <div class="col-md-6">
                                         <label for="jhdf" class="form-label">Brand</label>
-                                        <select class="form-select" id="jhdf">
-                                            <option></option>
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
+                                        <select id="jhdf" placeholder="Search brand..." name="brand_id">
                                         </select>
                                     </div>
                                 </div>
@@ -76,15 +68,6 @@
                                     <div class="col-md-6">
                                         <label for="gdfs" class="form-label">Unit</label>
                                         <input type="text" class="form-control" id="gdfs" name="unit_id">
-                                    </div>
-                                    <div class="col-12">
-                                        <label for="inputProductType" class="form-label">Product Type</label>
-                                        <select class="form-select" id="inputProductType">
-                                            <option></option>
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
-                                        </select>
                                     </div>
                                     <div class="col-12">
                                         <label for="fdfa" class="form-label">Additional Information</label>

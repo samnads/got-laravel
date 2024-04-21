@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Vendor\VendorController;
 use App\Http\Controllers\Vendor\VendorDashboardController;
+use App\Http\Controllers\Vendor\VendorDropdownController;
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Vendor\VendorAuthController;
 use App\Http\Controllers\Vendor\VendorProductController;
@@ -96,6 +97,10 @@ Route::prefix('vendor')->name('vendor.')->group(function () {
         Route::prefix('orders')->name('orders.')->group(function () {
             Route::get('/pending', [VendorOrderController::class, 'pending_orders_list'])->name('pending');
         });
+    });
+    Route::prefix('dropdown')->name('dropdown.')->group(function () {
+        Route::get('brands/{usage}', [VendorDropdownController::class, 'brands']);
+        Route::get('categories/{usage}', [VendorDropdownController::class, 'categories']);
     });
     Route::middleware([])->group(function () {
         Route::get('/', [VendorController::class, 'vendor_login'])->name('login');
