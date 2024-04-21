@@ -101,6 +101,7 @@ Route::prefix('vendor')->name('vendor.')->group(function () {
     Route::prefix('dropdown')->name('dropdown.')->group(function () {
         Route::get('brands/{usage}', [VendorDropdownController::class, 'brands']);
         Route::get('categories/{usage}', [VendorDropdownController::class, 'categories']);
+        Route::get('units/{usage}', [VendorDropdownController::class, 'units']);
     });
     Route::middleware([])->group(function () {
         Route::get('/', [VendorController::class, 'vendor_login'])->name('login');

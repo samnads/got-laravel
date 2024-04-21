@@ -73,7 +73,8 @@
                                     </div>
                                     <div class="col-md-6">
                                         <label for="gdfs" class="form-label">Unit</label>
-                                        <input type="text" class="form-control" id="gdfs" name="unit_id">
+                                        <select id="gdfs" placeholder="Search unit..." name="unit_id">
+                                        </select>
                                     </div>
                                     <div class="col-12">
                                         <label for="fdfa" class="form-label">Additional Information</label>
