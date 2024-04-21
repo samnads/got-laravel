@@ -38,7 +38,7 @@ class VendorProductController extends Controller
                             'pc.name as category',
                             DB::raw('CONCAT(ROUND(p.item_size,2)," ",u.name) as size_label'),
                             'vendor_products.deleted_at',
-                            DB::raw('CONCAT("' . config('url.uploads_cdn') . '","products/",IFNULL(p.thumbnail_image,"default.jpg"),"?v=","'. config('version.vendor_assets').'") as thumbnail_url'),
+                            DB::raw('CONCAT("' . config('url.uploads_cdn') . '","products/",IFNULL(p.thumbnail_image,"default.jpg"),"?v=","' . config('version.vendor_assets') . '") as thumbnail_url'),
                         )
                             ->leftJoin('products as p', function ($join) {
                                 $join->on('vendor_products.product_id', '=', 'p.id');
@@ -262,7 +262,7 @@ class VendorProductController extends Controller
                             DB::raw('IFNULL(b.name,"-") as brand'),
                             DB::raw('CONCAT(ROUND(products.item_size,2)," ",u.name) as size_label'),
                             'pc.name as category',
-                            DB::raw('CONCAT("' . config('url.uploads_cdn') . '","products/",IFNULL(products.thumbnail_image,"default.jpg"),"?v=","'. config('version.vendor_assets').'") as thumbnail_url'),
+                            DB::raw('CONCAT("' . config('url.uploads_cdn') . '","products/",IFNULL(products.thumbnail_image,"default.jpg"),"?v=","' . config('version.vendor_assets') . '") as thumbnail_url'),
                         )
                             ->leftJoin('units as u', function ($join) {
                                 $join->on('products.unit_id', '=', 'u.id');
@@ -531,6 +531,77 @@ class VendorProductController extends Controller
     }
     public function new_product_request(Request $request)
     {
+        if ($request->ajax()) {
+            try {
+                switch ($request->method()) {
+                    case 'POST':
+                        /******************************************************************************* */
+                        $validator = Validator::make(
+                            (array) $request->all(),
+                            [
+                                'name' => 'required|string',
+                                'code' => 'nullable|unique:products,code',
+                                'description' => 'nullable|string',
+                                'category_id' => 'required|exists:product_categories,id',
+                                'brand_id' => 'nullable|exists:brands,id',
+                                'maximum_retail_price' => 'required|numeric|gt:0',
+                                'retail_price' => 'required|numeric|lte:maximum_retail_price',
+                                'item_size' => 'required|numeric|min:1',
+                                'unit_id' => 'required|exists:units,id',
+                                'additional_information' => 'nullable|string',
+
+                            ],
+                            [],
+                            [
+                                'name' => 'Name',
+                                'code' => 'Code',
+                                'description' => 'Description',
+                                'category_id' => 'Category',
+                                'brand_id' => 'Brand',
+                                'maximum_retail_price' => 'MRP.',
+                                'retail_price' => 'Selling Price',
+                                'item_size' => 'Item Size',
+                                'unit_id' => 'Unit',
+                                'additional_information' => 'Additional Information',
+                            ]
+                        );
+                        if ($validator->fails()) {
+                            $response = [
+                                'status' => false,
+                                'error' => [
+                                    'type' => 'error',
+                                    'title' => 'Validation Error !',
+                                    'content' => $validator->errors()->first()
+                                ]
+                            ];
+                            return response()->json($response, 200, [], JSON_PRETTY_PRINT);
+                        }
+                    /******************************************************************************* */
+                    default:
+                        $response = [
+                            'status' => false,
+                            'error' => [
+                                'type' => 'error',
+                                'title' => 'Error !',
+                                'content' => 'Unknown action.'
+                            ]
+                        ];
+                }
+            } catch (\Exception $e) {
+                if (DB::transactionLevel() > 0) {
+                    DB::rollback();
+                }
+                $response = [
+                    'status' => false,
+                    'error' => [
+                        'type' => 'error',
+                        'title' => 'Error !',
+                        'content' => $e->getMessage()
+                    ]
+                ];
+                return response()->json($response, 200, [], JSON_PRETTY_PRINT);
+            }
+        }
         return view('vendor.product.new-product-request', []);
     }
 }
