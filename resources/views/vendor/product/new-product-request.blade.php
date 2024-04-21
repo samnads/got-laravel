@@ -1,22 +1,23 @@
 @extends('layouts.vendor', ['body_css_class' => ''])
-@section('title', 'Product Requests')
+@section('title', 'New Product Request')
 @section('content')
     <!--breadcrumb-->
     <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-        <div class="breadcrumb-title pe-3">Product Requests</div>
+        <div class="breadcrumb-title pe-3">New Request</div>
         <div class="ps-3">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0 p-0">
                     <li class="breadcrumb-item"><i class="bx bx-home-alt"></i>
                     </li>
                     <li class="breadcrumb-item" aria-current="page">Product</li>
-                    <li class="breadcrumb-item active" aria-current="page">Requests</li>
+                    <li class="breadcrumb-item" aria-current="page">Requests</li>
+                    <li class="breadcrumb-item active" aria-current="page">New</li>
                 </ol>
             </nav>
         </div>
     </div>
     <!--end breadcrumb-->
-    @include('shop.product.popups.quick-add-product')
+    @include('vendor.product.popups.quick-add-product')
 @endsection
 @push('link-styles')
     <!-- Pushed Link Styles -->

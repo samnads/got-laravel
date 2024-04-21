@@ -1,7 +1,8 @@
-<footer class="footer">
-    <div class="container-fluid d-flex justify-content-between">
-        <span class="text-muted d-block text-center text-sm-start d-sm-inline-block">Copyright ©
-            CloudVeins Technologies {{date('Y') }}</span>
-        <span class="float-none float-sm-end mt-1 mt-sm-0 text-end"> Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})</span>
-    </div>
+<!--start overlay-->
+<div class="overlay toggle-icon"></div>
+<!--end overlay-->
+<!--Start Back To Top Button--> <a href="javaScript:;" class="back-to-top"><i class='bx bxs-up-arrow-alt'></i></a>
+<!--End Back To Top Button-->
+<footer class="page-footer">
+    <p class="mb-0">GOT © 2024. All rights reserved.</p>
 </footer>

@@ -237,7 +237,7 @@ class VendorProductController extends Controller
             }
 
         }
-        return view('shop.product.my-products', []);
+        return view('vendor.product.my-products', []);
     }
     public function available_products(Request $request)
     {
@@ -382,7 +382,7 @@ class VendorProductController extends Controller
             }
 
         }
-        return view('shop.product.available-products', []);
+        return view('vendor.product.available-products', []);
     }
     public function product_requests(Request $request)
     {
@@ -527,10 +527,10 @@ class VendorProductController extends Controller
             }
 
         }
-        return view('shop.product.product-request-list', []);
+        return view('vendor.product.product-request-list', []);
     }
     public function new_product_request(Request $request)
     {
-        return view('shop.product.new-product-request', []);
+        return view('vendor.product.new-product-request', []);
     }
 }

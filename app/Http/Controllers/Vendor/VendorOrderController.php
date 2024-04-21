@@ -93,6 +93,6 @@ class VendorOrderController extends Controller
                 return response()->json($response, 200, [], JSON_PRETTY_PRINT);
             }
         }
-        return view('shop.orders.pending-list', []);
+        return view('vendor.orders.pending-list', []);
     }
 }

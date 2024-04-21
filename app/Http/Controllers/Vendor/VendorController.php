@@ -14,10 +14,10 @@ class VendorController extends Controller
             // The user is logged in...
             return redirect()->route('vendor.dashboard');
         }
-        return view('shop.login', []);
+        return view('vendor.login', []);
     }
     public function vendor_profile(Request $request)
     {
-        return view('shop.profile', []);
+        return view('vendor.profile', []);
     }
 }
