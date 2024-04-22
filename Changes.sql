@@ -193,3 +193,4 @@ CREATE TABLE `vendor_delivery_persons` (
   KEY `vendor_id` (`vendor_id`),
   CONSTRAINT `vendor_delivery_persons_ibfk_1` FOREIGN KEY (`vendor_id`) REFERENCES `vendors` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+---------------------------------------------------------- DONE
