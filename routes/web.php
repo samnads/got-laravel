@@ -95,7 +95,7 @@ Route::prefix('vendor')->name('vendor.')->group(function () {
             Route::any('/new-request', [VendorProductController::class, 'new_product_request'])->name('new-request');
         });
         Route::prefix('orders')->name('orders.')->group(function () {
-            Route::get('/list', [VendorOrderController::class, 'orders_list_by_status_code'])->name('list');
+            Route::get('/list', [VendorOrderController::class, 'orders_list'])->name('list');
             Route::get('/filter/{status_code}', [VendorOrderController::class, 'orders_list_by_status_code'])->name('orders_list_by_status_code');
         });
     });

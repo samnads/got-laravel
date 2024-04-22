@@ -30,20 +30,8 @@
                 <li> <a href="{{ route('vendor.orders.list') }}"><i
                             class='bx bx-radio-circle'></i>All Orders</a>
                 </li>
-                <li> <a href="{{ route('vendor.orders.orders_list_by_status_code', ['status_code' => 'pending']) }}"><i
+                <li> <a href="{{ route('vendor.orders.orders_list_by_status_code', ['status_code' => 'created']) }}"><i
                             class='bx bx-radio-circle'></i>Pending</a>
-                </li>
-                <li> <a href="{{ route('vendor.orders.orders_list_by_status_code', ['status_code' => 'confirmed']) }}"><i
-                            class='bx bx-radio-circle'></i>Accepted</a>
-                </li>
-                <li> <a href="{{ route('vendor.orders.orders_list_by_status_code', ['status_code' => 'rejected']) }}"><i
-                            class='bx bx-radio-circle'></i>Rejected</a>
-                </li>
-                <li> <a href="{{ route('vendor.orders.orders_list_by_status_code', ['status_code' => 'delayed']) }}"><i
-                            class='bx bx-radio-circle'></i>Delayed</a>
-                </li>
-                <li> <a href="{{ route('vendor.orders.orders_list_by_status_code', ['status_code' => 'completed']) }}"><i
-                            class='bx bx-radio-circle'></i>Completed</a>
                 </li>
             </ul>
         </li>

@@ -7,7 +7,7 @@ let datatable = new DataTable('#datatable', {
         dataType: "JSON",
         'url': _url,
         'data': function (data) {
-            data.action = 'datatable'
+            data.action = 'datatable';
             data.filter_request_status_id = $('select[name="filter_request_status_id"]').val();
         },
         "complete": function (json, type) { // data sent from controllerr

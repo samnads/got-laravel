@@ -62,9 +62,12 @@
 @endpush
 @push('link-scripts')
     <!-- Pushed Link Scripts -->
+    <script>
+        let status_code = "{{request()->status_code}}";
+    </script>
     <script src="https://cdn.datatables.net/2.0.5/js/dataTables.js"></script>
     <script src="https://cdn.datatables.net/2.0.5/js/dataTables.bootstrap5.js"></script>
-    <script src="{{ asset('assets/vendor/js/orders/pending-list.js?v=') . config('version.vendor_assets') }}"></script>
+    <script src="{{ asset('assets/vendor/js/orders/orders-by-status-list.js?v=') . config('version.vendor_assets') }}"></script>
 @endpush
 @push('inline-scripts')
     <!-- Pushed Inline Scripts -->

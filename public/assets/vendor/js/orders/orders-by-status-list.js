@@ -8,7 +8,7 @@ let my_products_datatable = new DataTable('#my-products', {
         'url': _url,
         'data': function (data) {
             data.action = 'datatable'
-            //data.keywordsearch = $('#search').val();
+            data.status_code = status_code;
         },
         "complete": function (json, type) { // data sent from controllerr
             let response = json.responseJSON;
