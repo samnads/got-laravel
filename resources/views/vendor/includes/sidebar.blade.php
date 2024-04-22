@@ -52,7 +52,7 @@
         </li>
         <li>
             <a href="javascript:;" class="has-arrow">
-                <div class="parent-icon"><i class="bx bx-category"></i>
+                <div class="parent-icon"><i class="bx bx-layer-plus"></i>
                 </div>
                 <div class="menu-title">Product Requests</div>
             </a>
@@ -61,6 +61,29 @@
                 </li>
                 <li> <a href="{{ route('vendor.product.new-request') }}"><i class='bx bx-radio-circle'></i>New
                         Request</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="javascript:;" class="has-arrow">
+                <div class="parent-icon"><i class="bx bx-spreadsheet"></i>
+                </div>
+                <div class="menu-title">Master</div>
+            </a>
+            <ul>
+                <li> <a href="javascript:;"><i class='bx bx-radio-circle'></i>Delivery Persons</a>
+                </li>
+        </li>
+        <li>
+            <a href="javascript:;" class="has-arrow">
+                <div class="parent-icon"><i class="bx bx-cog"></i>
+                </div>
+                <div class="menu-title">Settings</div>
+            </a>
+            <ul>
+                <li> <a href="javascript:;"><i class='bx bx-radio-circle'></i>Profile</a>
+                </li>
+                <li> <a href="javascript:;"><i class='bx bx-radio-circle'></i>Order Settings</a>
                 </li>
             </ul>
         </li>
