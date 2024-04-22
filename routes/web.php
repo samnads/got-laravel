@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Vendor\VendorAuthController;
 use App\Http\Controllers\Vendor\VendorProductController;
 use App\Http\Controllers\Vendor\VendorOrderController;
+use App\Http\Controllers\Vendor\VendorDeliveryPersonController;
 use App\Http\Controllers\Admin\AdminProductCategoryController;
 use App\Http\Controllers\Admin\AdminProductController;
 use App\Http\Controllers\Admin\AdminStateController;
@@ -97,6 +98,11 @@ Route::prefix('vendor')->name('vendor.')->group(function () {
         Route::prefix('orders')->name('orders.')->group(function () {
             Route::get('/list', [VendorOrderController::class, 'orders_list'])->name('list');
             Route::get('/filter/{status_code}', [VendorOrderController::class, 'orders_list_by_status_code'])->name('orders_list_by_status_code');
+        });
+        Route::prefix('masters')->name('masters.')->group(function () {
+            Route::prefix('delivery-persons')->name('delivery-persons.')->group(function () {
+                Route::get('/list', [VendorDeliveryPersonController::class, 'delivery_persons_list'])->name('list');
+            });
         });
     });
     Route::prefix('dropdown')->name('dropdown.')->group(function () {

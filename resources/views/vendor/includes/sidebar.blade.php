@@ -71,7 +71,7 @@
                 <div class="menu-title">Masters</div>
             </a>
             <ul>
-                <li> <a href="javascript:;"><i class='bx bx-radio-circle'></i>Delivery Persons</a>
+                <li> <a href="{{ route('vendor.masters.delivery-persons.list') }}"><i class='bx bx-radio-circle'></i>Delivery Persons</a>
                 </li>
         </li>
         <li>
