@@ -308,9 +308,9 @@
                         </div>
                     </li>-->
 
-                    <!--<li class="nav-item dropdown dropdown-large">
+                    <li class="nav-item dropdown dropdown-large">
                         <a class="nav-link dropdown-toggle dropdown-toggle-nocaret position-relative" href="#"
-                            data-bs-toggle="dropdown"><span class="alert-count">7</span>
+                            data-bs-toggle="dropdown"><span class="alert-count">8</span>
                             <i class='bx bx-bell'></i>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end">
@@ -442,7 +442,7 @@
                                 </div>
                             </a>
                         </div>
-                    </li>-->
+                    </li>
                     <!--<li class="nav-item dropdown dropdown-large">
                         <a class="nav-link dropdown-toggle dropdown-toggle-nocaret position-relative" href="#"
                             role="button" data-bs-toggle="dropdown" aria-expanded="false"> <span

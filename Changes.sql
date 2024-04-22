@@ -158,6 +158,7 @@ CREATE TABLE `order_statuses` (
   `css_class` varchar(50) DEFAULT NULL,
   `css_inline` varchar(50) DEFAULT NULL,
   `vendor` tinyint(1) NOT NULL,
+  `progress` int(3) NOT NULL DEFAULT 1,
   `comment` varchar(255) NOT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
@@ -166,12 +167,12 @@ CREATE TABLE `order_statuses` (
   UNIQUE KEY `code` (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-INSERT INTO `order_statuses` (`id`, `code`, `label`, `labelled`, `bg_color`, `text_color`, `css_class`, `css_inline`, `vendor`, `comment`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1,	'created',	'Pending',	'Pending',	'#000',	'#fff',	NULL,	NULL,	0,	'For new order, this is default for new order',	'2024-04-22 23:26:00',	'2024-04-22 23:26:00',	NULL),
-(2,	'confirmed',	'Accept',	'Accepted',	'#000',	'#fff',	NULL,	NULL,	1,	'Ooder is accepted by vendor',	'2024-04-22 23:26:00',	'2024-04-22 23:26:00',	NULL),
-(3,	'rejected',	'Reject',	'Rejected',	'#000',	'#fff',	NULL,	NULL,	1,	'Oder is rejected by vendor',	'2024-04-22 23:26:00',	'2024-04-22 23:26:00',	NULL),
-(4,	'delayed',	'Delay',	'Delayed',	'#000',	'#fff',	NULL,	NULL,	1,	'Oder is delayed',	'2024-04-22 23:26:00',	'2024-04-22 23:26:00',	NULL),
-(5,	'completed',	'Complete',	'Completed',	'#000',	'#fff',	NULL,	NULL,	1,	'Oder is completed',	'2024-04-22 23:26:00',	'2024-04-22 23:26:00',	NULL);
+INSERT INTO `order_statuses` (`id`, `code`, `label`, `labelled`, `bg_color`, `text_color`, `css_class`, `css_inline`, `vendor`, `progress`, `comment`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1,	'created',	'Pending',	'Pending',	'#34a6ff',	'#ffffff',	NULL,	NULL,	0,	25,	'For new order, this is default for new order',	'2024-04-22 23:26:00',	'2024-04-22 23:26:00',	NULL),
+(2,	'confirmed',	'Accept',	'Accepted',	'#544ef3',	'#ffffff',	NULL,	NULL,	1,	75,	'Ooder is accepted by vendor',	'2024-04-22 23:26:00',	'2024-04-22 23:26:00',	NULL),
+(3,	'rejected',	'Reject',	'Rejected',	'#F34E4E',	'#ffffff',	NULL,	NULL,	1,	100,	'Oder is rejected by vendor',	'2024-04-22 23:26:00',	'2024-04-22 23:26:00',	NULL),
+(4,	'delayed',	'Delay',	'Delayed',	'#f3d94e',	'#020000',	NULL,	NULL,	1,	50,	'Oder is delayed',	'2024-04-22 23:26:00',	'2024-04-22 23:26:00',	NULL),
+(5,	'completed',	'Complete',	'Completed',	'#1fb52f',	'#ffffff',	NULL,	NULL,	1,	100,	'Oder is completed',	'2024-04-22 23:26:00',	'2024-04-22 23:26:00',	NULL);
 
 ALTER TABLE `orders`
 ADD `order_status_id` bigint(20) unsigned NOT NULL DEFAULT '1' AFTER `address_id`,
