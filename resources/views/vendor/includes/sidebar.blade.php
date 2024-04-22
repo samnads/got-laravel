@@ -32,7 +32,7 @@
                 </li>
                 <!--<li> <a href="{{ route('vendor.orders.orders_list_by_status_code', ['status_code' => 'created']) }}"><i
                             class='bx bx-radio-circle'></i>Pending</a>
-                </li>->
+                </li>-->
             </ul>
         </li>
         <li>
