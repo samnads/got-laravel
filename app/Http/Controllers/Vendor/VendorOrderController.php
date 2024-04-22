@@ -14,7 +14,7 @@ use DB;
 
 class VendorOrderController extends Controller
 {
-    public function pending_orders_list(Request $request)
+    public function orders_list_by_status_code(Request $request)
     {
         if ($request->ajax()) {
             try {
@@ -50,6 +50,7 @@ class VendorOrderController extends Controller
                             ->leftJoin('order_statuses as os', function ($join) {
                                 $join->on('orders.order_status_id', '=', 'os.id');
                             })
+                            ->where('orders.order_status_id', 1)
                             ->where('orders.vendor_id', Auth::guard('vendor')->id());
                         $data_table['recordsTotal'] = $rows->count();
                         $rows->where(function ($query) use ($request) {
