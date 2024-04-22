@@ -147,3 +147,32 @@ CREATE TABLE `product_requests` (
   CONSTRAINT `product_requests_ibfk_7` FOREIGN KEY (`product_request_status_id`) REFERENCES `product_request_statuses` (`id`),
   CONSTRAINT `product_requests_ibfk_8` FOREIGN KEY (`product_category_id`) REFERENCES `product_categories` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+---------------------------------------------------------- DONE
+CREATE TABLE `order_statuses` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `code` varchar(55) NOT NULL,
+  `label` varchar(100) NOT NULL,
+  `labelled` varchar(100) NOT NULL,
+  `bg_color` varchar(30) NOT NULL DEFAULT '#000',
+  `text_color` varchar(30) NOT NULL DEFAULT '#fff',
+  `css_class` varchar(50) DEFAULT NULL,
+  `css_inline` varchar(50) DEFAULT NULL,
+  `vendor` tinyint(1) NOT NULL,
+  `comment` varchar(255) NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `code` (`code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+INSERT INTO `order_statuses` (`id`, `code`, `label`, `labelled`, `bg_color`, `text_color`, `css_class`, `css_inline`, `vendor`, `comment`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1,	'created',	'Pending',	'Pending',	'#000',	'#fff',	NULL,	NULL,	0,	'For new order, this is default for new order',	'2024-04-22 23:26:00',	'2024-04-22 23:26:00',	NULL),
+(2,	'confirmed',	'Accept',	'Accepted',	'#000',	'#fff',	NULL,	NULL,	1,	'Ooder is accepted by vendor',	'2024-04-22 23:26:00',	'2024-04-22 23:26:00',	NULL),
+(3,	'rejected',	'Reject',	'Rejected',	'#000',	'#fff',	NULL,	NULL,	1,	'Oder is rejected by vendor',	'2024-04-22 23:26:00',	'2024-04-22 23:26:00',	NULL),
+(4,	'delayed',	'Delay',	'Delayed',	'#000',	'#fff',	NULL,	NULL,	1,	'Oder is delayed',	'2024-04-22 23:26:00',	'2024-04-22 23:26:00',	NULL),
+(5,	'completed',	'Complete',	'Completed',	'#000',	'#fff',	NULL,	NULL,	1,	'Oder is completed',	'2024-04-22 23:26:00',	'2024-04-22 23:26:00',	NULL);
+
+ALTER TABLE `orders`
+ADD `order_status_id` bigint(20) unsigned NOT NULL DEFAULT '1' AFTER `address_id`,
+ADD FOREIGN KEY (`order_status_id`) REFERENCES `order_statuses` (`id`);

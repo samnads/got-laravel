@@ -35,12 +35,20 @@ class VendorOrderController extends Controller
                             DB::raw('"Pending" as order_status'),
                             DB::raw('"Cash" as payment_mode'),
                             DB::raw('"Pending" as payment_status'),
+                            //
+                            'orders.order_status_id',
+                            'os.labelled as os_labelled',
+                            'os.bg_color as os_bg_color',
+                            'os.text_color as os_text_color'
                         )
                             ->leftJoin('customers as c', function ($join) {
                                 $join->on('orders.customer_id', '=', 'c.id');
                             })
                             ->leftJoin('order_customer_addresses as oca', function ($join) {
                                 $join->on('orders.id', '=', 'oca.order_id');
+                            })
+                            ->leftJoin('order_statuses as os', function ($join) {
+                                $join->on('orders.order_status_id', '=', 'os.id');
                             })
                             ->where('orders.vendor_id', Auth::guard('vendor')->id());
                         $data_table['recordsTotal'] = $rows->count();
@@ -61,7 +69,7 @@ class VendorOrderController extends Controller
                         $data_table['recordsFiltered'] = $rows->count();
                         $data_table['data'] = $rows->offset($request->start)->limit($request->length)->get()->toArray();
                         foreach ($data_table['data'] as $key => $row) {
-                            $data_table['data'][$key]['order_status'] = '<span class="badge bg-gradient-blooker text-white shadow-sm w-100">'.$row['order_status'].'</span>';
+                            $data_table['data'][$key]['order_status'] = '<span class="badge shadow-sm w-100" style="background:' . $row['os_bg_color'] . ';color:' . $row['os_text_color'] . ';">' . $row['os_labelled'] . '</span>';
                             $data_table['data'][$key]['action_html'] = '<div class="btn-group btn-group-sm" role="group" aria-label="First group">
 											<button data-action="add-product" data-id="' . $row['id'] . '" type="button" class="btn btn-sm btn-warning"><i class="fadeIn animated bx bx-plus"></i></button>
 										</div>';
