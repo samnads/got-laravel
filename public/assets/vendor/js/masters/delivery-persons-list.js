@@ -25,8 +25,8 @@ let datatable = new DataTable('#my-products', {
     },
     columns: [
         { data: 'slno', name: 'slno' },
-        { data: 'order_reference', name: 'order_reference' },
-        { data: 'customer_name', name: 'mobile_number_1' },
+        { data: 'name', name: 'name' },
+        { data: 'mobile_number_1', name: 'mobile_number_1' },
     ],
     columnDefs: [
         {
@@ -42,9 +42,6 @@ let datatable = new DataTable('#my-products', {
     ],
     drawCallback: function (settings) {
     },
-});
-$('select[name="filter_order_status_id"]').change(function () {
-    datatable.draw();
 });
 $('[data-action="dt-refresh"]').click(function () {
     datatable.draw();
