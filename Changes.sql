@@ -177,3 +177,19 @@ INSERT INTO `order_statuses` (`id`, `code`, `label`, `labelled`, `bg_color`, `te
 ALTER TABLE `orders`
 ADD `order_status_id` bigint(20) unsigned NOT NULL DEFAULT '1' AFTER `address_id`,
 ADD FOREIGN KEY (`order_status_id`) REFERENCES `order_statuses` (`id`);
+
+CREATE TABLE `vendor_delivery_persons` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `code` varchar(155) NOT NULL,
+  `vendor_id` bigint(20) unsigned NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `mobile_number_1_cc` varchar(10) NOT NULL DEFAULT '+91',
+  `mobile_number_1` varchar(100) NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `code` (`code`),
+  KEY `vendor_id` (`vendor_id`),
+  CONSTRAINT `vendor_delivery_persons_ibfk_1` FOREIGN KEY (`vendor_id`) REFERENCES `vendors` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;

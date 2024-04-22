@@ -68,7 +68,7 @@
             <a href="javascript:;" class="has-arrow">
                 <div class="parent-icon"><i class="bx bx-spreadsheet"></i>
                 </div>
-                <div class="menu-title">Master</div>
+                <div class="menu-title">Masters</div>
             </a>
             <ul>
                 <li> <a href="javascript:;"><i class='bx bx-radio-circle'></i>Delivery Persons</a>
