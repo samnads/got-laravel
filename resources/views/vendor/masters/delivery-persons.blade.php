@@ -54,6 +54,7 @@
         </div>
     </div>
     @include('vendor.masters.popups.new-delivery-person')
+    @include('vendor.masters.popups.edit-delivery-person')
 @endsection
 @push('link-styles')
     <!-- Pushed Link Styles -->

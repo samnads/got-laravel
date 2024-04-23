@@ -134,12 +134,71 @@ class VendorDeliveryPersonController extends Controller
                             'title' => 'Saved !',
                             'content' => 'Delivery person added successfully.'
                         ],
-                        'redirect' => route('vendor.product.requests')
                     ];
                     break;
                 case 'GET':
+                    switch ($request->action) {
+                        case 'quick-edit-popup':
+                            $vendor_delivery_person = VendorDeliveryPerson::findOrFail($request->id);
+                            $response = [
+                                'status' => true,
+                                'data' => [
+                                    'vendor_delivery_person' => $vendor_delivery_person
+                                ]
+                            ];
+                            break;
+                        default:
+                            $response = [
+                                'status' => false,
+                                'error' => [
+                                    'type' => 'error',
+                                    'title' => 'Error !',
+                                    'content' => 'Unknown action.'
+                                ]
+                            ];
+                    }
                     break;
                 case 'PUT':
+                    /******************************************************************************* */
+                    $validator = Validator::make(
+                        (array) $request->all(),
+                        [
+                            'name' => 'required|string|unique:vendor_delivery_persons,name,'.$request->id,
+                            'mobile_number_1' => 'required|digits:10|unique:vendor_delivery_persons,mobile_number_1,'.$request->id,
+
+                        ],
+                        [],
+                        [
+                            'name' => 'Delivery Person\'s Name',
+                            'mobile_number_1' => 'Mobile Number',
+                        ]
+                    );
+                    if ($validator->fails()) {
+                        $response = [
+                            'status' => false,
+                            'error' => [
+                                'type' => 'error',
+                                'title' => 'Failed !',
+                                'content' => $validator->errors()->first()
+                            ]
+                        ];
+                        return response()->json($response, 200, [], JSON_PRETTY_PRINT);
+                    }
+                    /******************************************************************************* */
+                    DB::beginTransaction();
+                    $vendor_delivery_person = VendorDeliveryPerson::findOrFail($request->id);
+                    $vendor_delivery_person->name = $request->name;
+                    $vendor_delivery_person->mobile_number_1 = $request->mobile_number_1;
+                    $vendor_delivery_person->save();
+                    DB::commit();
+                    $response = [
+                        'status' => true,
+                        'message' => [
+                            'type' => 'success',
+                            'title' => 'Updated !',
+                            'content' => 'Delivery person updated successfully.'
+                        ],
+                    ];
                     break;
                 case 'DELETE':
                     break;
