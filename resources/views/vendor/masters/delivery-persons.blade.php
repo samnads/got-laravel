@@ -19,7 +19,7 @@
     <div class="d-flex justify-content-start mb-3">
         <button type="button" class="btn btn-sm btn-light border" data-action="dt-refresh"><i class="bx bx-refresh"></i>
         </button>
-        <button type="button" class="btn btn-sm btn-light border" data-action="dt-refresh"><i class="bx bx-plus"></i>
+        <button type="button" class="btn btn-sm btn-light border" data-action="new-delivery-person"><i class="bx bx-plus"></i>
         </button>
         <div class="bd-highlight">
         </div>
@@ -49,6 +49,7 @@
             </div>
         </div>
     </div>
+    @include('vendor.masters.popups.new-delivery-person')
 @endsection
 @push('link-styles')
     <!-- Pushed Link Styles -->
