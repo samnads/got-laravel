@@ -15,6 +15,7 @@ let my_products_datatable = new DataTable('#my-products', {
             data.action = 'datatable'
             data.filter_category_id = $('select[name="filter_category_id"]').val();
             data.filter_brand_id = $('select[name="filter_brand_id"]').val();
+            data.filter_status = $('select[name="filter_status"]').val();
         },
         "complete": function (json, type) { // data sent from controllerr
             let response = json.responseJSON;
@@ -223,6 +224,6 @@ $(document).ready(function () {
 $('[data-action="dt-refresh"]').click(function () {
     my_products_datatable.draw();
 });
-$('select[name="filter_category_id"],select[name="filter_brand_id"]').change(function () {
+$('select[name="filter_category_id"],select[name="filter_brand_id"],select[name="filter_status"]').change(function () {
     my_products_datatable.draw();
 });

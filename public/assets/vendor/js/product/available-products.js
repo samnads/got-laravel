@@ -140,7 +140,7 @@ $(document).ready(function () {
                         product_quick_add_modal.hide();
                         toast(response.message.title, response.message.content, response.message.type);
                     } else {
-                        toastStatusFalse(response);
+                        toastStatusFalse(response, { stack: 1 });
                     }
                     submit_btn.html('Save').prop("disabled", false);
                     my_products_datatable.ajax.reload(null, false);
