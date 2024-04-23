@@ -17,9 +17,9 @@
     </div>
     <!--end breadcrumb-->
     <div class="d-flex justify-content-start mb-3">
-        <button type="button" class="btn btn-sm btn-light border" data-action="dt-refresh"><i class="bx bx-refresh"></i>
+        <button data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Refresh" type="button" class="btn btn-sm btn-light border" data-action="dt-refresh"><i class="bx bx-refresh"></i>
         </button>
-        <button type="button" class="btn btn-sm btn-light border" data-action="new-delivery-person"><i class="bx bx-plus"></i>
+        <button data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="New" type="button" class="btn btn-sm btn-light border" data-action="new-delivery-person"><i class="bx bx-plus"></i>
         </button>
         <div class="bd-highlight">
         </div>

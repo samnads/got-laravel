@@ -52,7 +52,7 @@ class VendorDeliveryPersonController extends Controller
                         foreach ($data_table['data'] as $key => $row) {
                             $data_table['data'][$key]['slno'] = $key + 1;
                             $data_table['data'][$key]['action_html'] = '<div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-											<button data-action="edit-row" data-id="' . $row['id'] . '" type="button" class="btn btn-warning"><i class="bx bxs-pencil"></i>
+											<button data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit" data-action="edit-row" data-id="' . $row['id'] . '" type="button" class="btn btn-warning"><i class="bx bxs-pencil"></i>
 											</button>
 										</div>';
                         }

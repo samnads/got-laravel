@@ -22,6 +22,9 @@ $(document).ready(function () {
         toast(_toast.title, _toast.content, _toast.type);
     }
     Pace.stop();
+    $('[data-bs-toggle="tooltip"]').tooltip({
+        trigger: 'hover'
+    });
 });
 
 function beep(type = 'error') {

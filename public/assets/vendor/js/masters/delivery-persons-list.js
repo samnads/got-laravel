@@ -62,6 +62,9 @@ let datatable = new DataTable('#my-products', {
     ],
     drawCallback: function (settings) {
         rowEditListener();
+        $('[data-bs-toggle="tooltip"]').tooltip({
+            trigger: 'hover'
+        });
     },
 });
 function rowEditListener() {
