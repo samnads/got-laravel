@@ -51,6 +51,10 @@ class VendorDeliveryPersonController extends Controller
                         $data_table['data'] = $rows->offset($request->start)->limit($request->length)->get()->toArray();
                         foreach ($data_table['data'] as $key => $row) {
                             $data_table['data'][$key]['slno'] = $key + 1;
+                            $data_table['data'][$key]['action_html'] = '<div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+											<button data-action="edit-row" data-id="' . $row['id'] . '" type="button" class="btn btn-warning"><i class="bx bxs-pencil"></i>
+											</button>
+										</div>';
                         }
                         return response()->json($data_table, 200, [], JSON_PRETTY_PRINT);
                     default:
@@ -81,5 +85,88 @@ class VendorDeliveryPersonController extends Controller
         }
         $data['order_statuses'] = OrderStatus::get();
         return view('vendor.masters.delivery-persons', $data);
+    }
+    public function index(Request $request)
+    {
+        try {
+            switch ($request->method()) {
+                case 'POST':
+                    /******************************************************************************* */
+                    $validator = Validator::make(
+                        (array) $request->all(),
+                        [
+                            'name' => 'required|string|unique:vendor_delivery_persons,name',
+                            'mobile_number_1' => 'required|digits:10|unique:vendor_delivery_persons,mobile_number_1',
+
+                        ],
+                        [],
+                        [
+                            'name' => 'Delivery Person\'s Name',
+                            'mobile_number_1' => 'Mobile Number',
+                        ]
+                    );
+                    if ($validator->fails()) {
+                        $response = [
+                            'status' => false,
+                            'error' => [
+                                'type' => 'error',
+                                'title' => 'Failed !',
+                                'content' => $validator->errors()->first()
+                            ]
+                        ];
+                        return response()->json($response, 200, [], JSON_PRETTY_PRINT);
+                    }
+                    /******************************************************************************* */
+                    DB::beginTransaction();
+                    $vendor_delivery_person = new VendorDeliveryPerson();
+                    $vendor_delivery_person->code = time();
+                    $vendor_delivery_person->vendor_id = Auth::guard('vendor')->id();
+                    $vendor_delivery_person->name = $request->name;
+                    $vendor_delivery_person->mobile_number_1 = $request->mobile_number_1;
+                    $vendor_delivery_person->save();
+                    $vendor_delivery_person->code = config('prefix.DELIVERY_PERSON_CODE') . sprintf('%07d', $vendor_delivery_person->id);
+                    $vendor_delivery_person->save();
+                    DB::commit();
+                    $response = [
+                        'status' => true,
+                        'message' => [
+                            'type' => 'success',
+                            'title' => 'Saved !',
+                            'content' => 'Delivery person added successfully.'
+                        ],
+                        'redirect' => route('vendor.product.requests')
+                    ];
+                    break;
+                case 'GET':
+                    break;
+                case 'PUT':
+                    break;
+                case 'DELETE':
+                    break;
+                default:
+                    $response = [
+                        'status' => false,
+                        'error' => [
+                            'type' => 'error',
+                            'title' => 'Error !',
+                            'content' => 'Unknown method.'
+                        ]
+                    ];
+            }
+            return response()->json(@$response ?: [], 200, [], JSON_PRETTY_PRINT);
+        } catch (\Exception $e) {
+            if (DB::transactionLevel() > 0) {
+                DB::rollback();
+            }
+            $response = [
+                'status' => false,
+                'error' => [
+                    'type' => 'error',
+                    'title' => 'Exception !',
+                    'content' => $e->getMessage()
+                ]
+            ];
+            return response()->json($response, 200, [], JSON_PRETTY_PRINT);
+        }
     }
 }

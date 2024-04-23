@@ -3,6 +3,7 @@ let new_delivery_person_modal = new bootstrap.Modal(document.querySelector('.mod
     keyboard: true
 });
 let new_delivery_person_form = $('form[id="new-delivery-person"]');
+loading_button_html = "Please wait...";
 let datatable = new DataTable('#my-products', {
     processing: true,
     serverSide: true,
@@ -30,8 +31,10 @@ let datatable = new DataTable('#my-products', {
     },
     columns: [
         { data: 'slno', name: 'slno' },
+        { data: 'code', name: 'code' },
         { data: 'name', name: 'name' },
         { data: 'mobile_number_1', name: 'mobile_number_1' },
+        { data: 'action_html', name: 'action_html' },
     ],
     columnDefs: [
         {
@@ -43,6 +46,13 @@ let datatable = new DataTable('#my-products', {
             targets: 'mobile_number_1:name',
             sortable: false,
             type: 'html'
+        },
+        {
+            targets: 'action_html:name',
+            sortable: false,
+            type: 'html',
+            className:"text-center",
+            width:1
         },
     ],
     drawCallback: function (settings) {
@@ -77,21 +87,34 @@ $(document).ready(function () {
             submit_btn.html(loading_button_html).prop("disabled", true);
             $.ajax({
                 type: 'POST',
-                url: _url,
+                url: _base_url + "masters/delivery-persons",
                 dataType: 'json',
+                headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
                 data: new_delivery_person_form.serialize(),
                 success: function (response) {
                     if (response.status == true) {
                         new_delivery_person_modal.hide();
-                        toast(response.message.title, response.message.content, response.message.type);
+                        submit_btn.html('Save').prop("disabled", false);
+                        Swal.fire({
+                            title: response.message.title,
+                            text: response.message.content,
+                            icon: response.message.type,
+                            confirmButtonColor: swal_colors.success_ok,
+                            confirmButtonText: "OK",
+                            allowOutsideClick: false,
+                            didOpen: () => Swal.getConfirmButton().blur()
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                datatable.ajax.reload(null, false);
+                            }
+                        });
                     } else {
-                        toastStatusFalse(response);
+                        toastStatusFalse(response, { stack: 1 });
+                        submit_btn.html('Save').prop("disabled", false);
                     }
-                    submit_btn.html('Update').prop("disabled", false);
-                    datatable.ajax.reload(null, false);
                 },
                 error: function (response) {
-                    submit_btn.html('Update').prop("disabled", false);
+                    submit_btn.html('Save').prop("disabled", false);
                     datatable.ajax.reload(null, false);
                 },
             });

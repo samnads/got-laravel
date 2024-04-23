@@ -52,5 +52,5 @@ let loading_button_html = `<span class="spinner-grow spinner-grow-sm" role="stat
  * 
  */
 let swal_colors = {
-    'success_ok' : 'green'
+    'success_ok': '#fbd02c'
 }

@@ -19,7 +19,7 @@
                         <div class="col-md-12">
                             <label for="sdgfgds" class="form-label">Mobile</label>
                             <div class="position-relative input-icon">
-                                <input type="number" maxlength="12" class="form-control no-arrow" id="sdgfgds" name="mobile_number_1">
+                                <input type="number" maxlength="10" minlength="10" class="form-control no-arrow" id="sdgfgds" name="mobile_number_1">
                                 <span class="position-absolute top-50 translate-middle-y"><i class="lni lni-phone"></i></span>
                             </div>
                         </div>

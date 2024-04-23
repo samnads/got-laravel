@@ -32,8 +32,10 @@
                     <thead>
                         <tr>
                             <th>Sl. No.</th>
+                            <th>Code</th>
                             <th>Name</th>
                             <th>Mobile</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -41,8 +43,10 @@
                     <tfoot>
                         <tr>
                             <th>Sl. No.</th>
+                            <th>Code</th>
                             <th>Name</th>
                             <th>Mobile</th>
+                            <th>Actions</th>
                         </tr>
                     </tfoot>
                 </table>

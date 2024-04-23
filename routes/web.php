@@ -101,6 +101,7 @@ Route::prefix('vendor')->name('vendor.')->group(function () {
         });
         Route::prefix('masters')->name('masters.')->group(function () {
             Route::prefix('delivery-persons')->name('delivery-persons.')->group(function () {
+                Route::any('/', [VendorDeliveryPersonController::class, 'index']);
                 Route::get('/list', [VendorDeliveryPersonController::class, 'delivery_persons_list'])->name('list');
             });
         });
