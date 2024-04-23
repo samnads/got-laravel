@@ -153,3 +153,6 @@ $(document).ready(function () {
         }
     });
 });
+$('[data-action="dt-refresh"]').click(function () {
+    my_products_datatable.draw();
+});

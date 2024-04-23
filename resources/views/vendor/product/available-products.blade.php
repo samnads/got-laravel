@@ -16,8 +16,29 @@
         </div>
     </div>
     <!--end breadcrumb-->
-    <h6 class="mb-0 text-uppercase">Products List</h6>
-    <hr />
+    <div class="d-flex justify-content-start mb-3">
+        <button type="button" class="btn btn-sm btn-light border" data-action="dt-refresh"><i class="bx bx-refresh"></i>
+        </button>
+        <div class="bd-highlight">
+            <select class="form-select form-select-sm" name="filter_request_status_id">
+                <option value="" selected>-- All Categories --</option>
+                @foreach ($product_categories as $key => $product_category)
+                    <option value="{{ $product_category->value }}">{{ $product_category->label }}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="bd-highlight">
+            <select class="form-select form-select-sm" name="filter_request_status_id">
+                <option value="" selected>-- All Brands --</option>
+                @foreach ($brands as $key => $brand)
+                    <option value="{{ $brand->value }}">{{ $brand->label }}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="bd-highlight">
+
+        </div>
+    </div>
     <div class="card">
         <div class="card-body">
             <div class="table-responsive">
@@ -67,7 +88,8 @@
     <!-- Pushed Link Scripts -->
     <script src="https://cdn.datatables.net/2.0.5/js/dataTables.js"></script>
     <script src="https://cdn.datatables.net/2.0.5/js/dataTables.bootstrap5.js"></script>
-    <script src="{{ asset('assets/vendor/js/product/available-products.js?v=') . config('version.vendor_assets') }}"></script>
+    <script src="{{ asset('assets/vendor/js/product/available-products.js?v=') . config('version.vendor_assets') }}">
+    </script>
 @endpush
 @push('inline-scripts')
     <!-- Pushed Inline Scripts -->

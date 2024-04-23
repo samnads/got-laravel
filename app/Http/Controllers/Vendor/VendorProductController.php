@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Vendor;
 
 use App\Http\Controllers\Controller;
+use App\Models\Brand;
+use App\Models\ProductCategories;
 use App\Models\ProductRequest;
 use App\Models\ProductRequestStatus;
 use Illuminate\Http\Request;
@@ -384,7 +386,9 @@ class VendorProductController extends Controller
             }
 
         }
-        return view('vendor.product.available-products', []);
+        $data['product_categories'] = ProductCategories::select('product_categories.id as value', 'product_categories.name as label')->get();
+        $data['brands'] = Brand::select('brands.id as value', 'brands.name as label')->get();
+        return view('vendor.product.available-products', $data);
     }
     public function product_requests(Request $request)
     {
