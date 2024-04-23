@@ -16,11 +16,11 @@
         </div>
     </div>
     <!--end breadcrumb-->
-    <div class="d-flex justify-content-start mb-3">
-        <button type="button" class="btn btn-sm btn-light border" data-action="dt-refresh"><i class="bx bx-refresh"></i>
+    <div class="d-flex justify-content-end mb-3">
+        <button data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Refresh" type="button" class="btn btn-sm btn-light border" data-action="dt-refresh"><i class="bx bx-refresh"></i>
         </button>
         <div class="bd-highlight">
-            <select class="form-select form-select-sm" name="filter_order_status_id">
+            <select data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Search By Status" class="form-select form-select-sm" name="filter_order_status_id">
                 <option value="" selected>-- Any Status --</option>
                 @foreach ($order_statuses as $key => $order_status)
                     <option value="{{ $order_status->id }}">{{ $order_status->labelled }}</option>

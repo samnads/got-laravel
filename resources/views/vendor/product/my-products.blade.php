@@ -16,8 +16,29 @@
         </div>
     </div>
     <!--end breadcrumb-->
-    <h6 class="mb-0 text-uppercase">Products List</h6>
-    <hr />
+    <div class="d-flex justify-content-end mb-3">
+        <button data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Refresh" type="button" class="btn btn-sm btn-light border" data-action="dt-refresh"><i class="bx bx-refresh"></i>
+        </button>
+        <div class="bd-highlight">
+            <select data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Search By Category" class="form-select form-select-sm" name="filter_category_id">
+                <option value="" selected>-- All Categories --</option>
+                @foreach ($product_categories as $key => $product_category)
+                    <option value="{{ $product_category->value }}">{{ $product_category->label }}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="bd-highlight">
+            <select data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Search By Brand" class="form-select form-select-sm" name="filter_brand_id">
+                <option value="" selected>-- All Brands --</option>
+                @foreach ($brands as $key => $brand)
+                    <option value="{{ $brand->value }}">{{ $brand->label }}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="bd-highlight">
+
+        </div>
+    </div>
     <div class="card">
         <div class="card-body">
             <div class="table-responsive">

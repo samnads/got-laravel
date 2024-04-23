@@ -16,7 +16,7 @@
         </div>
     </div>
     <!--end breadcrumb-->
-    <div class="d-flex justify-content-start mb-3">
+    <div class="d-flex justify-content-end mb-3">
         <button data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Refresh" type="button" class="btn btn-sm btn-light border" data-action="dt-refresh"><i class="bx bx-refresh"></i>
         </button>
         <button data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="New" type="button" class="btn btn-sm btn-light border" data-action="new-delivery-person"><i class="bx bx-plus"></i>

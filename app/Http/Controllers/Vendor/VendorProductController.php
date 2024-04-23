@@ -73,6 +73,14 @@ class VendorProductController extends Controller
                         } else {
                             $rows->orderBy('vendor_products.id', 'asc');
                         }
+                        // filter start
+                        if (@$request->filter_category_id) {
+                            $rows->where('pcm.category_id', $request->filter_category_id);
+                        }
+                        if (@$request->filter_brand_id) {
+                            $rows->where('b.id', $request->filter_brand_id);
+                        }
+                        // filter end
                         $data_table['recordsFiltered'] = $rows->count();
                         $data_table['data'] = $rows->offset($request->start)->limit($request->length)->get()->toArray();
                         foreach ($data_table['data'] as $key => $row) {
@@ -241,7 +249,9 @@ class VendorProductController extends Controller
             }
 
         }
-        return view('vendor.product.my-products', []);
+        $data['product_categories'] = ProductCategories::select('product_categories.id as value', 'product_categories.name as label')->get();
+        $data['brands'] = Brand::select('brands.id as value', 'brands.name as label')->get();
+        return view('vendor.product.my-products', $data);
     }
     public function available_products(Request $request)
     {
@@ -292,6 +302,14 @@ class VendorProductController extends Controller
                         } else {
                             $rows->orderBy('products.id', 'asc');
                         }
+                        // filter start
+                        if (@$request->filter_category_id) {
+                            $rows->where('pcm.category_id', $request->filter_category_id);
+                        }
+                        if (@$request->filter_brand_id) {
+                            $rows->where('b.id', $request->filter_brand_id);
+                        }
+                        // filter end
                         $data_table['recordsFiltered'] = $rows->count();
                         $data_table['data'] = $rows->offset($request->start)->limit($request->length)->get()->toArray();
                         foreach ($data_table['data'] as $key => $row) {

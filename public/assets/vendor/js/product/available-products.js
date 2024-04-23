@@ -12,8 +12,9 @@ let my_products_datatable = new DataTable('#my-products', {
         dataType: "JSON",
         'url': _url,
         'data': function (data) {
-            data.action = 'datatable'
-            //data.keywordsearch = $('#search').val();
+            data.action = 'datatable';
+            data.filter_category_id = $('select[name="filter_category_id"]').val();
+            data.filter_brand_id = $('select[name="filter_brand_id"]').val();
         },
         "complete": function (json, type) { // data sent from controllerr
             let response = json.responseJSON;
@@ -154,5 +155,8 @@ $(document).ready(function () {
     });
 });
 $('[data-action="dt-refresh"]').click(function () {
+    my_products_datatable.draw();
+});
+$('select[name="filter_category_id"],select[name="filter_brand_id"]').change(function () {
     my_products_datatable.draw();
 });

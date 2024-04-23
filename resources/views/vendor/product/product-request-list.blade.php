@@ -16,13 +16,13 @@
         </div>
     </div>
     <!--end breadcrumb-->
-    <div class="d-flex justify-content-start mb-3">
-        <button type="button" class="btn btn-sm btn-light border" data-action="dt-refresh"><i class="bx bx-refresh"></i>
+    <div class="d-flex justify-content-end mb-3">
+        <button data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Refresh" type="button" class="btn btn-sm btn-light border" data-action="dt-refresh"><i class="bx bx-refresh"></i>
             </button>
-            <a type="button" class="btn btn-sm btn-light border" data-action="new-pproduct-request" href="{{route('vendor.product.new-request')}}"><i class="bx bx-plus"></i>
+            <a data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="New Request" type="button" class="btn btn-sm btn-light border" data-action="new-product-request" href="{{route('vendor.product.new-request')}}"><i class="bx bx-plus"></i>
             </a>
         <div class="bd-highlight">
-            <select class="form-select form-select-sm" name="filter_request_status_id">
+            <select data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Search By Status" class="form-select form-select-sm" name="filter_request_status_id">
                 <option value="" selected>-- List All --</option>
                 @foreach ($product_request_statuses as $key => $product_request_status)
                     <option value="{{ $product_request_status->id }}">{{ $product_request_status->label }}</option>
