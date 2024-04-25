@@ -2,6 +2,8 @@ let quick_edit_category_modal = new bootstrap.Modal(document.querySelector('.mod
     //backdrop: 'static',
     keyboard: true
 }); 
+quick_edit_category_modal.show();
+let quick_edit_category_form = $('form[id="quick-edit-category"]');
 loading_button_html = "Please wait...";
 let datatable = new DataTable('#datatable', {
     processing: true,
@@ -66,7 +68,7 @@ function rowEditListener() {
         alert();
         quick_edit_category_modal.show();
         let id = this.getAttribute('data-id');
-        $('[name="id"]', edit_delivery_person_form).val(id);
+        $('[name="id"]', quick_edit_category_form).val(id);
         $.ajax({
             type: 'GET',
             url: _base_url + "masters/delivery-persons",
@@ -101,60 +103,7 @@ $('[data-action="new-delivery-person"]').click(function () {
     new_delivery_person_modal.show();
 });
 $(document).ready(function () {
-    new_delivery_person_form_validator = new_delivery_person_form.validate({
-        focusInvalid: true,
-        ignore: [],
-        rules: {
-            "name": {
-                required: true,
-            },
-            "mobile_number_1": {
-                required: true,
-            },
-        },
-        messages: {},
-        errorPlacement: function (error, element) {
-            error.insertAfter(element.parent());
-        },
-        submitHandler: function (form) {
-            let submit_btn = $('button[type="submit"]', form);
-            submit_btn.html(loading_button_html).prop("disabled", true);
-            $.ajax({
-                type: 'POST',
-                url: _base_url + "masters/delivery-persons",
-                dataType: 'json',
-                headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
-                data: new_delivery_person_form.serialize(),
-                success: function (response) {
-                    if (response.status == true) {
-                        new_delivery_person_modal.hide();
-                        submit_btn.html('Save').prop("disabled", false);
-                        Swal.fire({
-                            title: response.message.title,
-                            text: response.message.content,
-                            icon: response.message.type,
-                            confirmButtonColor: swal_colors.success_ok,
-                            confirmButtonText: "OK",
-                            allowOutsideClick: false,
-                            didOpen: () => Swal.getConfirmButton().blur()
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                datatable.ajax.reload(null, false);
-                            }
-                        });
-                    } else {
-                        toastStatusFalse(response, { stack: 1 });
-                        submit_btn.html('Save').prop("disabled", false);
-                    }
-                },
-                error: function (response) {
-                    submit_btn.html('Save').prop("disabled", false);
-                    datatable.ajax.reload(null, false);
-                },
-            });
-        }
-    });
-    edit_delivery_person_form_validator = edit_delivery_person_form.validate({
+    quick_edit_category_form_validator = quick_edit_category_form.validate({
         focusInvalid: true,
         ignore: [],
         rules: {
