@@ -14,11 +14,23 @@
     <!--navigation-->
     <ul class="metismenu" id="menu">
         <li>
-            <a href="{{ route('vendor.dashboard') }}">
+            <a href="{{ route('user.dashboard') }}">
                 <div class="parent-icon"><i class='bx bx-home-alt'></i>
                 </div>
                 <div class="menu-title">Dashboard</div>
             </a>
+        </li>
+        <li>
+            <a href="javascript:;" class="has-arrow">
+                <div class="parent-icon"><i class="bx bx-spreadsheet"></i>
+                </div>
+                <div class="menu-title">Masters</div>
+            </a>
+            <ul>
+                <li> <a href="{{ route('user.masters.categories.list') }}"><i
+                            class='bx bx-radio-circle'></i>Categories</a>
+                </li>
+            </ul>
         </li>
         <li>
             <a href="javascript:;" class="has-arrow">
@@ -27,8 +39,7 @@
                 <div class="menu-title">Orders</div>
             </a>
             <ul>
-                <li> <a href="{{ route('vendor.orders.list') }}"><i
-                            class='bx bx-radio-circle'></i>All Orders</a>
+                <li> <a href="{{ route('vendor.orders.list') }}"><i class='bx bx-radio-circle'></i>All Orders</a>
                 </li>
                 <!--<li> <a href="{{ route('vendor.orders.orders_list_by_status_code', ['status_code' => 'created']) }}"><i
                             class='bx bx-radio-circle'></i>Pending</a>
@@ -63,16 +74,6 @@
                         Request</a>
                 </li>
             </ul>
-        </li>
-        <li>
-            <a href="javascript:;" class="has-arrow">
-                <div class="parent-icon"><i class="bx bx-spreadsheet"></i>
-                </div>
-                <div class="menu-title">Masters</div>
-            </a>
-            <ul>
-                <li> <a href="{{ route('vendor.masters.delivery-persons.list') }}"><i class='bx bx-radio-circle'></i>Delivery Persons</a>
-                </li>
         </li>
         <li>
             <a href="javascript:;" class="has-arrow">

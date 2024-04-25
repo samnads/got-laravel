@@ -23,6 +23,7 @@ use App\Http\Middleware\UserAuthWeb;
 // User Imports
 use App\Http\Controllers\User\UserAuthController;
 use App\Http\Controllers\User\UserDashboardController;
+use App\Http\Controllers\User\UserProductCategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -89,13 +90,22 @@ Route::prefix('admin')->name('admin.')->group(function () {
     });
 });
 Route::prefix('user')->name('user.')->group(function () {
+    // Authentication Routes
     Route::middleware([])->group(function () {
         Route::get('/', [UserAuthController::class, 'login'])->name('login');
         Route::post('/login', [UserAuthController::class, 'login'])->name('do-login');
         Route::post('/logout', [UserAuthController::class, 'logout'])->name('do-logout');
     });
+    // Authentication Routes End
     Route::middleware([UserAuthWeb::class])->group(function () {
         Route::get('/dashboard', [UserDashboardController::class, 'dashboard'])->name('dashboard');
+        // Masters Routes
+        Route::prefix('masters')->name('masters.')->group(function () {
+            Route::prefix('categories')->name('categories.')->group(function () {
+                Route::any('/list', [UserProductCategoryController::class, 'categories_list'])->name('list');
+            });
+        });
+        // Masters Routes End
     });
 });
 Route::prefix('vendor')->name('vendor.')->group(function () {
