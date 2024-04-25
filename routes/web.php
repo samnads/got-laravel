@@ -19,6 +19,8 @@ use App\Http\Controllers\Admin\AdminVendorController;
 use App\Http\Controllers\Admin\AdminLocationController;
 use App\Http\Middleware\AdminAuthWeb;
 use App\Http\Middleware\VendorAuthWeb;
+// User Imports
+use App\Http\Controllers\User\UserAuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -84,7 +86,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('/logout', [AdminAuthController::class, 'logout'])->name('do-logout');
     });
 });
-
+Route::prefix('user')->name('user.')->group(function () {
+    Route::middleware([])->group(function () {
+        Route::get('/', [UserAuthController::class, 'login'])->name('login');
+        //Route::post('/login', [UserAuthController::class, 'vendor_login'])->name('do-login');
+        Route::post('/logout', [UserAuthController::class, 'logout'])->name('do-logout');
+    });
+});
 Route::prefix('vendor')->name('vendor.')->group(function () {
     Route::middleware([VendorAuthWeb::class])->group(function () {
         Route::get('/dashboard', [VendorDashboardController::class, 'dashboard'])->name('dashboard');
@@ -117,26 +125,3 @@ Route::prefix('vendor')->name('vendor.')->group(function () {
         Route::post('/logout', [VendorAuthController::class, 'logout'])->name('do-logout');
     });
 });
-
-/*Route::prefix('shop')->name('shop.')->group(function () {
-    Route::middleware([VendorAuthWeb::class])->group(function () {
-        Route::get('/dashboard', [VendorController::class, 'dashboard'])->name('dashboard');
-        Route::prefix('product')->name('product.')->group(function () {
-            Route::get('/list', [VendorProductController::class, 'product_list'])->name('list');
-            Route::get('/add/list', [VendorProductController::class, 'product_list_for_add'])->name('list-for-add');
-            Route::post('/update', [VendorProductController::class, 'update_product']);
-            Route::post('/add', [VendorProductController::class, 'add_product']);
-            Route::get('/delete/{product_id}', [VendorProductController::class, 'delete']);
-            Route::get('/restore/{product_id}', [VendorProductController::class, 'restore']);
-        });
-        Route::prefix('order')->name('order.')->group(function () {
-            Route::get('/pending', [VendorOrderController::class, 'pending_orders_list']);
-            Route::get('/completed', [VendorOrderController::class, 'completed_orders_list']);
-        });
-    });
-    Route::middleware([])->group(function () {
-        Route::get('/', [VendorController::class, 'vendor_login'])->name('login');
-        Route::post('/login', [VendorAuthController::class, 'vendor_login'])->name('do-login');
-        Route::post('/logout', [VendorAuthController::class, 'logout'])->name('do-logout');
-    });
-});*/
