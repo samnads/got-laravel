@@ -22,12 +22,12 @@ class UserAuthController extends Controller
                 'username' => ['required'],
                 'password' => ['required'],
             ]);
-            if (Auth::guard('vendor')->attempt($credentials, $remember)) {
+            if (Auth::guard('user')->attempt($credentials, $remember)) {
                 $request->session()->regenerate();
                 $response = [
                     'status' => 'success',
                     'message' => 'Logged in successfully.',
-                    'redirect' => route('vendor.dashboard')
+                    'redirect' => route('user.dashboard')
                 ];
             } else {
                 $response = [

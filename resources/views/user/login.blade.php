@@ -6,22 +6,21 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--favicon
-    <link rel="icon" href="{{ asset('assets/vendor/images/favicon-32x32.png') }}" type="image/png" />-->
+    <link rel="icon" href="{{ asset('assets/user/images/favicon-32x32.png') }}" type="image/png" />-->
     <!--plugins-->
-    <link href="{{ asset('assets/vendor/plugins/simplebar/css/simplebar.css?v=') . config('version.vendor_assets') }}" rel="stylesheet" />
-    <link href="{{ asset('assets/vendor/plugins/perfect-scrollbar/css/perfect-scrollbar.css?v=') . config('version.vendor_assets') }}" rel="stylesheet" />
-    <link href="{{ asset('assets/vendor/plugins/metismenu/css/metisMenu.min.css?v=') . config('version.vendor_assets') }}" rel="stylesheet" />
+    <link href="{{ asset('assets/user/plugins/simplebar/css/simplebar.css?v=') . config('version.user_assets') }}" rel="stylesheet" />
+    <link href="{{ asset('assets/user/plugins/metismenu/css/metisMenu.min.css?v=') . config('version.user_assets') }}" rel="stylesheet" />
     <!-- loader-->
-    <link href="{{ asset('assets/vendor/css/pace.css?v=') . config('version.vendor_assets') }}" rel="stylesheet" />
-    <script src="{{ asset('assets/vendor/js/pace.min.js?v=') . config('version.vendor_assets') }}"></script>
+    <link href="{{ asset('assets/user/css/pace.css?v=') . config('version.user_assets') }}" rel="stylesheet" />
+    <script src="{{ asset('assets/user/js/pace.min.js?v=') . config('version.user_assets') }}"></script>
     <!-- Bootstrap CSS -->
-    <link href="{{ asset('assets/vendor/css/bootstrap.min.css?v=') . config('version.vendor_assets') }}" rel="stylesheet">
-    <link href="{{ asset('assets/vendor/css/bootstrap-extended.css?v=') . config('version.vendor_assets') }}" rel="stylesheet">
+    <link href="{{ asset('assets/user/css/bootstrap.min.css?v=') . config('version.user_assets') }}" rel="stylesheet">
+    <link href="{{ asset('assets/user/css/bootstrap-extended.css?v=') . config('version.user_assets') }}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
-    <link href="{{ asset('assets/vendor/css/app.css?v=') . config('version.vendor_assets') }}" rel="stylesheet">
-    <link href="{{ asset('assets/vendor/css/icons.css?v=') . config('version.vendor_assets') }}" rel="stylesheet">
+    <link href="{{ asset('assets/user/css/app.css?v=') . config('version.user_assets') }}" rel="stylesheet">
+    <link href="{{ asset('assets/user/css/icons.css?v=') . config('version.user_assets') }}" rel="stylesheet">
     <!-- Toast -->
-    <link href="{{ asset('assets/vendor/css/jquery.toast.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/user/css/jquery.toast.min.css') }}" rel="stylesheet">
     <title>GOT | User Login</title>
 </head>
 
@@ -36,7 +35,7 @@
                             <div class="card-body">
                                 <div class="p-4">
                                     <div class="mb-3 text-center">
-                                        <img src="{{ asset('assets/vendor/images/logo-icon.png') }}" width="180"
+                                        <img src="{{ asset('assets/user/images/logo-icon.png') }}" width="180"
                                             alt="" />
                                     </div>
                                     <div class="text-center mb-4">
@@ -114,17 +113,16 @@
     </div>
     <!--end wrapper-->
     <!-- Bootstrap JS -->
-    <script src="{{ asset('assets/vendor/js/bootstrap.bundle.min.js?v=') . config('version.vendor_assets') }}"></script>
+    <script src="{{ asset('assets/user/js/bootstrap.bundle.min.js?v=') . config('version.user_assets') }}"></script>
     <!--plugins-->
-    <script src="{{ asset('assets/vendor/js/jquery.min.js?v=') . config('version.vendor_assets') }}"></script>
-    <script src="{{ asset('assets/vendor/js/jquery.validate.min.js?v=') . config('version.vendor_assets') }}"></script>
-    <script src="{{ asset('assets/vendor/plugins/simplebar/js/simplebar.min.js?v=') . config('version.vendor_assets') }}"></script>
-    <script src="{{ asset('assets/vendor/plugins/metismenu/js/metisMenu.min.js?v=') . config('version.vendor_assets') }}"></script>
-    <script src="{{ asset('assets/vendor/plugins/perfect-scrollbar/js/perfect-scrollbar.js?v=') . config('version.vendor_assets') }}"></script>
-    <script src="{{ asset('assets/vendor/js/jquery.toast.min.js?v=') . config('version.vendor_assets') }}"></script>
+    <script src="{{ asset('assets/user/js/jquery.min.js?v=') . config('version.user_assets') }}"></script>
+    <script src="{{ asset('assets/user/js/jquery.validate.min.js?v=') . config('version.user_assets') }}"></script>
+    <script src="{{ asset('assets/user/plugins/simplebar/js/simplebar.min.js?v=') . config('version.user_assets') }}"></script>
+    <script src="{{ asset('assets/user/plugins/metismenu/js/metisMenu.min.js?v=') . config('version.user_assets') }}"></script>
+    <script src="{{ asset('assets/user/js/jquery.toast.min.js?v=') . config('version.user_assets') }}"></script>
     <!--Password show & hide js -->
     <script>
-        let _base_url = "{{ url('vendor') }}/";
+        let _base_url = "{{ url('user') }}/";
         $(document).ready(function() {
             $("#show_hide_password a").on('click', function(event) {
                 event.preventDefault();
@@ -141,9 +139,8 @@
         });
     </script>
     <!--app JS-->
-    <script src="{{ asset('assets/vendor/js/app.js?v=') . config('version.vendor_assets') }}"></script>
-    <script src="{{ asset('assets/vendor/js/vendor.js?v=') . config('version.vendor_assets') }}"></script>
-    <script src="{{ asset('assets/vendor/js/login.js?v=') . config('version.vendor_assets') }}"></script>
+    <script src="{{ asset('assets/user/js/user.js?v=') . config('version.user_assets') }}"></script>
+    <script src="{{ asset('assets/user/js/login.js?v=') . config('version.user_assets') }}"></script>
 </body>
 
 </html>

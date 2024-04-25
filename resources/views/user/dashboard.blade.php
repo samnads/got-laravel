@@ -1,4 +1,4 @@
-@extends('layouts.vendor', ['body_css_class' => ''])
+@extends('layouts.user', ['body_css_class' => ''])
 @section('title', 'Dashboard')
 @section('content')
     <div class="row row-cols-1 row-cols-md-2 row-cols-xl-4">

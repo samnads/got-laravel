@@ -21,6 +21,7 @@ use App\Http\Middleware\AdminAuthWeb;
 use App\Http\Middleware\VendorAuthWeb;
 // User Imports
 use App\Http\Controllers\User\UserAuthController;
+use App\Http\Controllers\User\UserDashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -89,8 +90,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
 Route::prefix('user')->name('user.')->group(function () {
     Route::middleware([])->group(function () {
         Route::get('/', [UserAuthController::class, 'login'])->name('login');
-        //Route::post('/login', [UserAuthController::class, 'vendor_login'])->name('do-login');
+        Route::post('/login', [UserAuthController::class, 'login'])->name('do-login');
         Route::post('/logout', [UserAuthController::class, 'logout'])->name('do-logout');
+    });
+    Route::middleware([AdminAuthWeb::class])->group(function () {
+        Route::get('/dashboard', [UserDashboardController::class, 'dashboard'])->name('dashboard');
     });
 });
 Route::prefix('vendor')->name('vendor.')->group(function () {
