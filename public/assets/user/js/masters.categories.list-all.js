@@ -1,3 +1,7 @@
+let quick_edit_category_modal = new bootstrap.Modal(document.querySelector('.modal.quick-edit-category'), {
+    //backdrop: 'static',
+    keyboard: true
+}); 
 loading_button_html = "Please wait...";
 let datatable = new DataTable('#datatable', {
     processing: true,
@@ -58,7 +62,9 @@ let datatable = new DataTable('#datatable', {
     },
 });
 function rowEditListener() {
-    $('[data-action="edit-row"]').click(function () {
+    $('[data-action="quick-edit]').click(function () {
+        alert();
+        quick_edit_category_modal.show();
         let id = this.getAttribute('data-id');
         $('[name="id"]', edit_delivery_person_form).val(id);
         $.ajax({

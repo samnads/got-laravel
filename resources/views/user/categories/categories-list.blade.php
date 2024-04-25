@@ -53,7 +53,7 @@
             </div>
         </div>
     </div>
-    {{--@include('vendor.masters.popups.new-delivery-person')--}}
+    @include('user.popups.quick-edit-category')
 @endsection
 @push('link-styles')
     <!-- Pushed Link Styles -->
