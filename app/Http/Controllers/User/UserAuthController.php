@@ -10,9 +10,9 @@ class UserAuthController extends Controller
 {
     public function logout(Request $request)
     {
-        Auth::guard('vendor')->logout();
+        Auth::guard('user')->logout();
         $request->session()->invalidate();
-        return redirect()->route('vendor.login');
+        return redirect()->route('user.login');
     }
     public function login(Request $request)
     {

@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\AdminVendorController;
 use App\Http\Controllers\Admin\AdminLocationController;
 use App\Http\Middleware\AdminAuthWeb;
 use App\Http\Middleware\VendorAuthWeb;
+use App\Http\Middleware\UserAuthWeb;
 // User Imports
 use App\Http\Controllers\User\UserAuthController;
 use App\Http\Controllers\User\UserDashboardController;
@@ -93,7 +94,7 @@ Route::prefix('user')->name('user.')->group(function () {
         Route::post('/login', [UserAuthController::class, 'login'])->name('do-login');
         Route::post('/logout', [UserAuthController::class, 'logout'])->name('do-logout');
     });
-    Route::middleware([AdminAuthWeb::class])->group(function () {
+    Route::middleware([UserAuthWeb::class])->group(function () {
         Route::get('/dashboard', [UserDashboardController::class, 'dashboard'])->name('dashboard');
     });
 });
