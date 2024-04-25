@@ -9,7 +9,6 @@
             <form id="quick-edit-category">
                 @csrf
                 <input type="hidden" name="id">
-                <input type="hidden" name="action" value="quick-edit">
                 <div class="modal-body">
                     <div class="row g-3">
                         <div class="col-md-12">

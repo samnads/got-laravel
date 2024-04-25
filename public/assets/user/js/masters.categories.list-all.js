@@ -2,7 +2,6 @@ let quick_edit_category_modal = new bootstrap.Modal(document.querySelector('.mod
     //backdrop: 'static',
     keyboard: true
 }); 
-quick_edit_category_modal.show();
 let quick_edit_category_form = $('form[id="quick-edit-category"]');
 loading_button_html = "Please wait...";
 let datatable = new DataTable('#datatable', {
@@ -64,26 +63,21 @@ let datatable = new DataTable('#datatable', {
     },
 });
 function rowEditListener() {
-    $('[data-action="quick-edit]').click(function () {
-        alert();
-        quick_edit_category_modal.show();
+    $('[data-action="quick-edit"]').click(function () {
         let id = this.getAttribute('data-id');
         $('[name="id"]', quick_edit_category_form).val(id);
         $.ajax({
             type: 'GET',
-            url: _base_url + "masters/delivery-persons",
+            url: _base_url + "masters/categories/" + id,
             dataType: 'json',
-            data: {
-                id: id,
-                action: "quick-edit-popup"
-            },
+            data:{},
             success: function (response) {
                 if (response.status == true) {
-                    edit_delivery_person_form_validator.resetForm();
-                    edit_delivery_person_form.trigger("reset");
-                    $('input[name="name"]', edit_delivery_person_form).val(response.data.vendor_delivery_person.name);
-                    $('input[name="mobile_number_1"]', edit_delivery_person_form).val(response.data.vendor_delivery_person.mobile_number_1);
-                    edit_delivery_person_modal.show();
+                    quick_edit_category_form_validator.resetForm();
+                    quick_edit_category_form.trigger("reset");
+                    $('input[name="name"]', quick_edit_category_form).val(response.data.category.name);
+                    $('input[name="description"]', quick_edit_category_form).val(response.data.category.description);
+                    quick_edit_category_modal.show();
                 } else {
                     toastStatusFalse(response);
                 }
@@ -97,11 +91,6 @@ function rowEditListener() {
 $('[data-action="dt-refresh"]').click(function () {
     datatable.draw();
 });
-$('[data-action="new-delivery-person"]').click(function () {
-    new_delivery_person_form_validator.resetForm();
-    new_delivery_person_form.trigger("reset");
-    new_delivery_person_modal.show();
-});
 $(document).ready(function () {
     quick_edit_category_form_validator = quick_edit_category_form.validate({
         focusInvalid: true,
@@ -113,7 +102,7 @@ $(document).ready(function () {
             "name": {
                 required: true,
             },
-            "mobile_number_1": {
+            "description": {
                 required: true,
             },
         },
