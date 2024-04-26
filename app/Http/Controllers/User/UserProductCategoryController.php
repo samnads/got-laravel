@@ -34,13 +34,14 @@ class UserProductCategoryController extends Controller
                         } else {
                             $rows->orderBy('product_categories.id', 'desc');
                         }
-                        if (@$request->filter_status == "1") {
-                            $rows->where([['product_categories.deleted_at', '=', null]]);
-                        } else if (@$request->filter_status == "0") {
-                            $rows->where([['product_categories.deleted_at', '!=', null]]);
+                        if ($request->filter_status == null) {
+                            $rows->withTrashed();
+                        }
+                        else if (@$request->filter_status == "0") {
+                            $rows->onlyTrashed();
                         }
                         $data_table['recordsFiltered'] = $rows->count();
-                        $data_table['data'] = $rows->offset($request->start)->limit($request->length)->withTrashed()->get()->toArray();
+                        $data_table['data'] = $rows->offset($request->start)->limit($request->length)->get()->toArray();
                         foreach ($data_table['data'] as $key => $row) {
                             $data_table['data'][$key]['slno'] = $key + 1;
                             $data_table['data'][$key]['thumbnail_image_html'] = '<img src="' . config('url.uploads_cdn') . 'categories/' . ($row['thumbnail_image'] ?: 'default.jpg') . '" class="product-img-2" alt="product img">';
