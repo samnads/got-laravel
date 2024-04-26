@@ -1,7 +1,7 @@
 let quick_edit_category_modal = new bootstrap.Modal(document.querySelector('.modal.quick-edit-category'), {
     //backdrop: 'static',
     keyboard: true
-}); 
+});
 let quick_edit_category_form = $('form[id="quick-edit-category"]');
 loading_button_html = "Please wait...";
 let datatable = new DataTable('#datatable', {
@@ -70,13 +70,13 @@ function rowEditListener() {
             type: 'GET',
             url: _base_url + "masters/categories/" + id,
             dataType: 'json',
-            data:{},
+            data: { action: 'quick-edit' },
             success: function (response) {
                 if (response.status == true) {
                     quick_edit_category_form_validator.resetForm();
                     quick_edit_category_form.trigger("reset");
-                    $('input[name="name"]', quick_edit_category_form).val(response.data.category.name);
-                    $('input[name="description"]', quick_edit_category_form).val(response.data.category.description);
+                    $('input[name="name"]', quick_edit_category_form).val(response.data.product_category.name);
+                    $('textarea[name="description"]', quick_edit_category_form).val(response.data.product_category.description);
                     quick_edit_category_modal.show();
                 } else {
                     toastStatusFalse(response);
@@ -115,14 +115,15 @@ $(document).ready(function () {
             submit_btn.html(loading_button_html).prop("disabled", true);
             $.ajax({
                 type: 'PUT',
-                url: _base_url + "masters/delivery-persons",
+                url: _base_url + "masters/categories/" + $('input[name="id"]', quick_edit_category_form).val(),
                 dataType: 'json',
                 headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
-                data: edit_delivery_person_form.serialize(),
+                data: quick_edit_category_form.serialize(),
                 success: function (response) {
                     if (response.status == true) {
-                        edit_delivery_person_modal.hide();
+                        quick_edit_category_modal.hide();
                         submit_btn.html('Update').prop("disabled", false);
+                        datatable.ajax.reload(null, false);
                         Swal.fire({
                             title: response.message.title,
                             text: response.message.content,
@@ -132,9 +133,6 @@ $(document).ready(function () {
                             allowOutsideClick: false,
                             didOpen: () => Swal.getConfirmButton().blur()
                         }).then((result) => {
-                            if (result.isConfirmed) {
-                                datatable.ajax.reload(null, false);
-                            }
                         });
                     } else {
                         toastStatusFalse(response, { stack: 1 });

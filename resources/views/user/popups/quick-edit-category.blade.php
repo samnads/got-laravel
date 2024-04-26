@@ -9,18 +9,19 @@
             <form id="quick-edit-category">
                 @csrf
                 <input type="hidden" name="id">
+                <input type="hidden" name="action" value="quick-edit"/>
                 <div class="modal-body">
                     <div class="row g-3">
                         <div class="col-md-12">
                             <label for="fsfrerer" class="form-label">Category Name</label>
                             <div class="position-relative">
-                                <input type="text" class="form-control" id="fsfrerer">
+                                <input type="text" class="form-control" id="fsfrerer" name="name">
                             </div>
                         </div>
                         <div class="col-md-12">
                             <label for="fhfhs" class="form-label">Description</label>
                             <div class="position-relative">
-                                <textarea type="text" class="form-control" id="fhfhs"></textarea>
+                                <textarea type="text" class="form-control" id="fhfhs" name="description"></textarea>
                             </div>
                         </div>
                     </div>

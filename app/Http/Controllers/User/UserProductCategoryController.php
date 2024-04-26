@@ -37,7 +37,7 @@ class UserProductCategoryController extends Controller
                         $data_table['data'] = $rows->offset($request->start)->limit($request->length)->get()->toArray();
                         foreach ($data_table['data'] as $key => $row) {
                             $data_table['data'][$key]['slno'] = $key + 1;
-                            $data_table['data'][$key]['thumbnail_image_html'] = '<img src="'.config('url.uploads_cdn') . 'categories/' . ($row['thumbnail_image'] ?: 'default.jpg').'" class="product-img-2" alt="product img">';
+                            $data_table['data'][$key]['thumbnail_image_html'] = '<img src="' . config('url.uploads_cdn') . 'categories/' . ($row['thumbnail_image'] ?: 'default.jpg') . '" class="product-img-2" alt="product img">';
                             $data_table['data'][$key]['actions_html'] = '<div class="btn-group btn-group-sm bg-light" role="group">
 											<button type="button" data-action="quick-edit" data-id="' . $row['id'] . '" class="btn btn-outline-primary"><i class="bx bx-pencil"></i>
 											</button>
@@ -71,5 +71,46 @@ class UserProductCategoryController extends Controller
             }
         }
         return view('user.categories.categories-list', []);
+    }
+    public function get_category(Request $request, $category_id)
+    {
+        if ($request->ajax()) {
+            if ($request->action == 'quick-edit') {
+                $data['product_category'] = ProductCategories::findOrFail($category_id);
+            }
+            $response = [
+                'status' => true,
+                'message' => [
+                    'type' => 'success',
+                    'title' => 'Data fetched !',
+                    'content' => 'Data fetched successfully.'
+                ],
+                'data' => @$data ?: []
+            ];
+            return response()->json($response ?: [], 200, [], JSON_PRETTY_PRINT);
+        }
+    }
+    public function update_category(Request $request, $category_id)
+    {
+        if ($request->ajax()) {
+            if ($request->action == 'quick-edit') {
+                $product_category = ProductCategories::findOrFail($category_id);
+                $product_category->name = $request->name;
+                $product_category->description = $request->description;
+                $product_category->save();
+                $response = [
+                    'status' => true,
+                    'message' => [
+                        'type' => 'success',
+                        'title' => 'Updated !',
+                        'content' => 'Product category updated successfully.'
+                    ],
+                    'data' => [
+                        'product_category' => $product_category
+                    ]
+                ];
+            }
+            return response()->json(@$response ?: [], 200, [], JSON_PRETTY_PRINT);
+        }
     }
 }
