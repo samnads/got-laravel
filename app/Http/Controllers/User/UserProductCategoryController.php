@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ProductCategories;
 use Illuminate\Http\Request;
 use DB;
+use Intervention\Image\Facades\Image as Image;
 
 class UserProductCategoryController extends Controller
 {
@@ -108,6 +109,16 @@ class UserProductCategoryController extends Controller
                 $product_category = ProductCategories::findOrFail($category_id);
                 $product_category->name = $request->name;
                 $product_category->description = $request->description;
+                /************************************* */
+                if ($request->file('thumbnail_image')) {
+                    $file = $request->file('thumbnail_image');
+                    $fileName = $file->getClientOriginalName();
+                    $image_resize = Image::make($file->getRealPath());
+                    $image_resize->fit(300, 300);
+                    $image_resize->save(public_path('uploads/categories/' . $file->hashName()), 100);
+                    $product_category->thumbnail_image = $file->hashName();
+                }
+                /************************************* */
                 $product_category->save();
                 $response = [
                     'status' => true,

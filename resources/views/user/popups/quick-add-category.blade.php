@@ -1,12 +1,12 @@
 <!-- Modal -->
-<div class="modal fade quick-edit-category" tabindex="-1" aria-hidden="true">
+<div class="modal fade quick-add-category" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Edit Category</h5>
+                <h5 class="modal-title">New Category</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form id="quick-edit-category">
+            <form id="quick-add-category">
                 @csrf
                 <input type="hidden" name="id">
                 <input type="hidden" name="action" value="quick-edit" />

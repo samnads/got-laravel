@@ -19,7 +19,7 @@
     <div class="d-flex justify-content-end mb-3">
         <button data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Refresh" type="button" class="btn btn-sm btn-light border" data-action="dt-refresh"><i class="bx bx-refresh"></i>
         </button>
-        <button data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="New" type="button" class="btn btn-sm btn-light border" data-action="new-delivery-person"><i class="bx bx-plus"></i>
+        <button data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="New" type="button" class="btn btn-sm btn-light border" data-action="new-category"><i class="bx bx-plus"></i>
         </button>
         <div class="bd-highlight">
             <select data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Search By Status"
@@ -62,6 +62,7 @@
         </div>
     </div>
     @include('user.popups.quick-edit-category')
+    @include('user.popups.quick-add-category')
 @endsection
 @push('link-styles')
     <!-- Pushed Link Styles -->

@@ -1,5 +1,9 @@
 let quick_edit_category_modal = new bootstrap.Modal(document.querySelector('.modal.quick-edit-category'), {
-    //backdrop: 'static',
+    backdrop: 'static',
+    keyboard: true
+});
+let quick_add_category_modal = new bootstrap.Modal(document.querySelector('.modal.quick-add-category'), {
+    backdrop: 'static',
     keyboard: true
 });
 let quick_edit_category_form = $('form[id="quick-edit-category"]');
@@ -70,6 +74,11 @@ let datatable = new DataTable('#datatable', {
         });
     },
 });
+$('[data-action="new-category"]').click(function () {
+    //new_delivery_person_form_validator.resetForm();
+    //new_delivery_person_form.trigger("reset");
+    quick_add_category_modal.show();
+});
 function rowEditListener() {
     $('[data-action="quick-edit"]').click(function () {
         let id = this.getAttribute('data-id');
@@ -124,12 +133,22 @@ $(document).ready(function () {
         submitHandler: function (form) {
             let submit_btn = $('button[type="submit"]', form);
             submit_btn.html(loading_button_html).prop("disabled", true);
+            let formData = new FormData();
+            formData.append('_method', 'PUT');
+            formData.append('action', 'quick-edit');
+            formData.append('id', $('#quick-edit-category [name="id"]').val());
+            formData.append('name', $('#quick-edit-category [name="name"]').val());
+            formData.append('description', $('#quick-edit-category [name="description"]').val());
+            formData.append('thumbnail_image', $('input[type=file]')[0].files[0]);
             $.ajax({
                 type: 'PUT',
                 url: _base_url + "masters/categories/" + $('input[name="id"]', quick_edit_category_form).val(),
+                cache: false,
                 dataType: 'json',
-                headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
-                data: quick_edit_category_form.serialize(),
+                contentType: false,
+                processData: false,
+                data: formData,
+                headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content'), 'Content-type': 'multipart/form-data' },
                 success: function (response) {
                     if (response.status == true) {
                         quick_edit_category_modal.hide();

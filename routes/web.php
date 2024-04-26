@@ -105,6 +105,7 @@ Route::prefix('user')->name('user.')->group(function () {
                 Route::any('/list', [UserProductCategoryController::class, 'categories_list'])->name('list');
                 Route::get('/{category_id}', [UserProductCategoryController::class, 'get_category']);
                 Route::put('/{category_id}', [UserProductCategoryController::class, 'update_category']);
+                Route::post('/{category_id}/update', [UserProductCategoryController::class, 'update_category']);
             });
         });
         // Masters Routes End
