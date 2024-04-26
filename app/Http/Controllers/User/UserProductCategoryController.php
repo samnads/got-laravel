@@ -21,7 +21,8 @@ class UserProductCategoryController extends Controller
                             'product_categories.parent_id',
                             'product_categories.name',
                             'product_categories.description',
-                            'product_categories.thumbnail_image'
+                            'product_categories.thumbnail_image',
+                            'product_categories.deleted_at'
                         );
                         $data_table['recordsTotal'] = $rows->count();
                         $rows->where(function ($query) use ($request) {
@@ -33,8 +34,13 @@ class UserProductCategoryController extends Controller
                         } else {
                             $rows->orderBy('product_categories.id', 'desc');
                         }
+                        if (@$request->filter_status == "1") {
+                            $rows->where([['product_categories.deleted_at', '=', null]]);
+                        } else if (@$request->filter_status == "0") {
+                            $rows->where([['product_categories.deleted_at', '!=', null]]);
+                        }
                         $data_table['recordsFiltered'] = $rows->count();
-                        $data_table['data'] = $rows->offset($request->start)->limit($request->length)->get()->toArray();
+                        $data_table['data'] = $rows->offset($request->start)->limit($request->length)->withTrashed()->get()->toArray();
                         foreach ($data_table['data'] as $key => $row) {
                             $data_table['data'][$key]['slno'] = $key + 1;
                             $data_table['data'][$key]['thumbnail_image_html'] = '<img src="' . config('url.uploads_cdn') . 'categories/' . ($row['thumbnail_image'] ?: 'default.jpg') . '" class="product-img-2" alt="product img">';
@@ -42,6 +48,10 @@ class UserProductCategoryController extends Controller
 											<button type="button" data-action="quick-edit" data-id="' . $row['id'] . '" class="btn btn-outline-primary"><i class="bx bx-pencil"></i>
 											</button>
 										</div>';
+                            $data_table['data'][$key]['status_html'] = '<div class="form-check-success form-check form-switch">
+									<input data-action="toggle-status" data-id="' . $row['id'] . '" class="form-check-input" type="checkbox" id="status_' . $row['id'] . '" ' . ($row['deleted_at'] == null ? 'checked' : '') . '>
+									<label class="form-check-label" for="status_' . $row['id'] . '"></label>
+								</div>';
                         }
                         return response()->json($data_table, 200, [], JSON_PRETTY_PRINT);
                     default:

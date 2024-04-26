@@ -14,7 +14,7 @@ let datatable = new DataTable('#datatable', {
         'url': _url,
         'data': function (data) {
             data.action = 'datatable';
-            data.filter_order_status_id = $('select[name="filter_order_status_id"]').val();
+            data.filter_status = $('select[name="filter_status"]').val();
         },
         "complete": function (json, type) { // data sent from controllerr
             let response = json.responseJSON;
@@ -34,6 +34,7 @@ let datatable = new DataTable('#datatable', {
         { data: 'thumbnail_image_html', name: 'thumbnail_image_html' },
         { data: 'name', name: 'name' },
         { data: 'description', name: 'description' },
+        { data: 'status_html', name: 'status_html' },
         { data: 'actions_html', name: 'actions_html' },
     ],
     columnDefs: [
@@ -49,6 +50,12 @@ let datatable = new DataTable('#datatable', {
             width: 1
         },
         {
+            targets: 'status_html:name',
+            type: 'html',
+            sortable: false,
+            width: 1
+        },
+        {
             targets: 'actions_html:name',
             sortable: false,
             type: 'num',
@@ -57,6 +64,7 @@ let datatable = new DataTable('#datatable', {
     ],
     drawCallback: function (settings) {
         rowEditListener();
+        statusChangeListener();
         $('[data-bs-toggle="tooltip"]').tooltip({
             trigger: 'hover'
         });
@@ -89,6 +97,9 @@ function rowEditListener() {
     });
 }
 $('[data-action="dt-refresh"]').click(function () {
+    datatable.draw();
+});
+$('select[name="filter_status"]').change(function () {
     datatable.draw();
 });
 $(document).ready(function () {
@@ -146,4 +157,55 @@ $(document).ready(function () {
             });
         }
     });
-});
+}); function statusChangeListener() {
+    $('[data-action="toggle-status"]').click(function () {
+        let id = $(this).attr("data-id");
+        let checkbox = this;
+        let checkbox_status = $(checkbox).is(':checked');
+        let status_text = $(checkbox).is(':checked') ? "Enable" : "Disable";
+        let status_after = $(checkbox).is(':checked') ? "Enabled" : "Disabled";
+        Swal.fire({
+            title: status_text + " Category ?",
+            text: "Are you sure want to " + status_text.toLocaleLowerCase() + " this category ?",
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Yes, " + status_text,
+            focusCancel: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: 'PUT',
+                    url: _url,
+                    dataType: 'json',
+                    headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
+                    data: {
+                        id: id,
+                        action: "toggle-status",
+                        status: $(checkbox).is(':checked') ? "enable" : "disable"
+                    },
+                    success: function (response) {
+                        if (response.status == true) {
+                            Swal.fire({
+                                title: status_after + " !",
+                                text: response.message.content,
+                                icon: "success"
+                            });
+                            datatable.ajax.reload(null, false);
+                        }
+                        else {
+                            datatable.ajax.reload(null, false);
+                        }
+                    },
+                    error: function (response) {
+                        datatable.ajax.reload(null, false);
+                    },
+                });
+            }
+            else {
+                $(checkbox).prop('checked', !checkbox_status);
+            }
+        });
+    });
+}

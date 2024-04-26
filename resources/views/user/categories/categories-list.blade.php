@@ -22,6 +22,12 @@
         <button data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="New" type="button" class="btn btn-sm btn-light border" data-action="new-delivery-person"><i class="bx bx-plus"></i>
         </button>
         <div class="bd-highlight">
+            <select data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Search By Status"
+                class="form-select form-select-sm" name="filter_status">
+                <option value="">-- Any Status --</option>
+                <option value="1" selected>Active</option>
+                <option value="0">Disabled</option>
+            </select>
         </div>
         <div class="bd-highlight"></div>
     </div>
@@ -35,6 +41,7 @@
                             <th>Thumbnail</th>
                             <th>Name</th>
                             <th>Description</th>
+                            <th>Status</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -46,6 +53,7 @@
                             <th>Thumbnail</th>
                             <th>Name</th>
                             <th>Description</th>
+                            <th>Status</th>
                             <th>Actions</th>
                         </tr>
                     </tfoot>

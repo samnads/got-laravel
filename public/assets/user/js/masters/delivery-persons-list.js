@@ -19,7 +19,7 @@ let datatable = new DataTable('#my-products', {
         'url': _url,
         'data': function (data) {
             data.action = 'datatable';
-            data.filter_order_status_id = $('select[name="filter_order_status_id"]').val();
+            data.filter_status = $('select[name="filter_status"]').val();
         },
         "complete": function (json, type) { // data sent from controllerr
             let response = json.responseJSON;
