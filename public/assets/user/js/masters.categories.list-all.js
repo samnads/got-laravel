@@ -172,16 +172,15 @@ $(document).ready(function () {
             confirmButtonColor: "#d33",
             cancelButtonColor: "#3085d6",
             confirmButtonText: "Yes, " + status_text,
-            focusCancel: true
+            focusCancel: true,
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
                     type: 'PUT',
-                    url: _url,
+                    url: _base_url + "masters/categories/" + id,
                     dataType: 'json',
                     headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
                     data: {
-                        id: id,
                         action: "toggle-status",
                         status: $(checkbox).is(':checked') ? "enable" : "disable"
                     },
@@ -190,7 +189,8 @@ $(document).ready(function () {
                             Swal.fire({
                                 title: status_after + " !",
                                 text: response.message.content,
-                                icon: "success"
+                                icon: "success",
+                                didOpen: () => Swal.getConfirmButton().blur()
                             });
                             datatable.ajax.reload(null, false);
                         }

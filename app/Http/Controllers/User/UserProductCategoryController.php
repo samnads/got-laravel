@@ -121,6 +121,28 @@ class UserProductCategoryController extends Controller
                     ]
                 ];
             }
+            else if($request->action == 'toggle-status'){
+                $product_category = ProductCategories::withTrashed()->findOrFail($category_id);
+                if ($request->status == "disable") {
+                    $product_category->delete();
+                    $status = 'disabled';
+                } else {
+                    $product_category->restore();
+                    $status = 'enabled';
+                }
+                $product_category->save();
+                $response = [
+                    'status' => true,
+                    'message' => [
+                        'type' => 'success',
+                        'title' => 'Updated !',
+                        'content' => 'Product category '.$status.' successfully.'
+                    ],
+                    'data' => [
+                        'product_category' => $product_category
+                    ]
+                ];
+            }
             return response()->json(@$response ?: [], 200, [], JSON_PRETTY_PRINT);
         }
     }
