@@ -25,6 +25,7 @@ use App\Http\Controllers\User\UserAuthController;
 use App\Http\Controllers\User\UserDashboardController;
 use App\Http\Controllers\User\UserProductCategoryController;
 use App\Http\Controllers\User\UserBrandController;
+use App\Http\Controllers\User\UserVendorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -115,6 +116,13 @@ Route::prefix('user')->name('user.')->group(function () {
                 Route::get('/list', [UserBrandController::class, 'brands_list'])->name('list');
                 Route::get('/{brand_id}', [UserBrandController::class, 'get_brand']);
                 Route::put('/{brand_id}', [UserBrandController::class, 'update_brand']);
+            });
+            // Vendors routes
+            Route::prefix('vendors')->name('vendors.')->group(function () {
+                Route::post('/', [UserVendorController::class, 'create']);
+                Route::get('/list', [UserVendorController::class, 'list'])->name('list');
+                Route::get('/{id}', [UserVendorController::class, 'read']);
+                Route::put('/{id}', [UserVendorController::class, 'update']);
             });
         });
     });

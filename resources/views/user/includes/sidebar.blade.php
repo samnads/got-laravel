@@ -38,7 +38,7 @@
             </ul>
         </li>
         <li>
-            <a href="{{ route('user.dashboard') }}">
+            <a href="{{ route('user.masters.vendors.list') }}">
                 <div class="parent-icon"><i class='bx bx-buildings'></i>
                 </div>
                 <div class="menu-title">Vendors</div>
