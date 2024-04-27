@@ -5389,7 +5389,7 @@ div.dt-processing > div:last-child > div {
     background: rgb(254 205 0) !important;
 }
 
-rf::after {
+label>rf::after {
 	content: '*';
 	color: red;
 	font-size: 15px;

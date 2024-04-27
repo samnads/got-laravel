@@ -104,6 +104,7 @@ class UserProductCategoryController extends Controller
     public function add_category(Request $request)
     {
         try {
+            DB::beginTransaction();
             $product_category = new ProductCategories;
             $product_category->name = $request->name;
             $product_category->description = $request->description;
@@ -117,11 +118,12 @@ class UserProductCategoryController extends Controller
             }
             /************************************* */
             $product_category->save();
+            DB::commit();
             $response = [
                 'status' => true,
                 'message' => [
                     'type' => 'success',
-                    'title' => 'Saved !',
+                    'title' => 'Category Saved !',
                     'content' => 'Product category added successfully.'
                 ],
             ];
