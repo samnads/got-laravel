@@ -53,6 +53,12 @@ let datatable = new DataTable('#datatable', {
             width: 1
         },
         {
+            targets: 'mobile_number:name',
+            type: 'html',
+            sortable: false,
+            width: 1
+        },
+        {
             targets: 'actions_html:name',
             sortable: false,
             type: 'num',
