@@ -1,8 +1,8 @@
-let quick_edit_category_modal = new bootstrap.Modal(document.querySelector('.modal.quick-edit-brand'), {
+let quick_edit_vendor_modal = new bootstrap.Modal(document.querySelector('.modal.quick-edit-vendor'), {
     backdrop: 'static',
     keyboard: true
 });
-let quick_edit_category_form = $('form[id="quick-edit-brand"]');
+let quick_edit_vendor_form = $('form[id="quick-edit-vendor"]');
 loading_button_html = "Please wait...";
 let datatable = new DataTable('#datatable', {
     processing: true,
@@ -76,19 +76,19 @@ let datatable = new DataTable('#datatable', {
 function rowEditListener() {
     $('[data-action="quick-edit"]').click(function () {
         let id = this.getAttribute('data-id');
-        $('[name="id"]', quick_edit_category_form).val(id);
+        $('[name="id"]', quick_edit_vendor_form).val(id);
         $.ajax({
             type: 'GET',
-            url: _base_url + "masters/brands/" + id,
+            url: _base_url + "masters/vendors/" + id,
             dataType: 'json',
             data: { action: 'quick-edit' },
             success: function (response) {
                 if (response.status == true) {
-                    quick_edit_category_form_validator.resetForm();
-                    quick_edit_category_form.trigger("reset");
-                    $('input[name="name"]', quick_edit_category_form).val(response.data.brand.name);
-                    $('textarea[name="description"]', quick_edit_category_form).val(response.data.brand.description);
-                    quick_edit_category_modal.show();
+                    quick_edit_vendor_form_validator.resetForm();
+                    quick_edit_vendor_form.trigger("reset");
+                    $('input[name="name"]', quick_edit_vendor_form).val(response.data.vendor.name);
+                    $('textarea[name="description"]', quick_edit_vendor_form).val(response.data.vendor.description);
+                    quick_edit_vendor_modal.show();
                 } else {
                     toastStatusFalse(response);
                 }
@@ -106,7 +106,7 @@ $('select[name="filter_status"]').change(function () {
     datatable.draw();
 });
 $(document).ready(function () {
-    quick_edit_category_form_validator = quick_edit_category_form.validate({
+    quick_edit_vendor_form_validator = quick_edit_vendor_form.validate({
         focusInvalid: false,
         ignore: [],
         rules: {
@@ -131,7 +131,7 @@ $(document).ready(function () {
             formData.append('_method', 'PUT');
             $.ajax({
                 type: 'POST',
-                url: _base_url + "masters/brands/" + $('input[name="id"]', quick_edit_category_form).val(),
+                url: _base_url + "masters/brands/" + $('input[name="id"]', quick_edit_vendor_form).val(),
                 cache: false,
                 dataType: 'json',
                 contentType: false,
@@ -142,7 +142,7 @@ $(document).ready(function () {
                 },
                 success: function (response) {
                     if (response.status == true) {
-                        quick_edit_category_modal.hide();
+                        quick_edit_vendor_modal.hide();
                         submit_btn.html('Update').prop("disabled", false);
                         datatable.ajax.reload(null, false);
                         Swal.fire({
@@ -167,7 +167,8 @@ $(document).ready(function () {
             });
         }
     });
-}); function statusChangeListener() {
+});
+function statusChangeListener() {
     $('[data-action="toggle-status"]').click(function () {
         let id = $(this).attr("data-id");
         let checkbox = this;

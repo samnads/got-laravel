@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\District;
+use App\Models\Location;
+use App\Models\State;
 use App\Models\Vendor;
 use Illuminate\Http\Request;
 use App\Models\Brand;
@@ -98,11 +101,14 @@ class UserVendorController extends Controller
         }
         return view('user.vendors.vendors-list', []);
     }
-    public function get_brand(Request $request, $brand_id)
+    public function read(Request $request, $id)
     {
         if ($request->ajax()) {
             if ($request->action == 'quick-edit') {
-                $data['brand'] = Brand::findOrFail($brand_id);
+                $data['vendor'] = Vendor::findOrFail($id);
+                $data['vendor']['location'] = Location::find($data['vendor']->location_id);
+                $data['vendor']['district'] = District::find($data['vendor']['location']->district_id);
+                $data['vendor']['state'] = State::find($data['vendor']['district']->state_id);
             }
             $response = [
                 'status' => true,

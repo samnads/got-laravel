@@ -66,7 +66,7 @@
             </div>
         </div>
     </div>
-    @include('user.popups.quick-edit-brand')
+    @include('user.popups.quick-edit-vendor')
 @endsection
 @push('link-styles')
     <!-- Pushed Link Styles -->
