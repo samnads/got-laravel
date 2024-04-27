@@ -38,18 +38,11 @@
             </ul>
         </li>
         <li>
-            <a href="javascript:;" class="has-arrow">
-                <div class="parent-icon"><i class="bx bx-cart"></i>
+            <a href="{{ route('user.dashboard') }}">
+                <div class="parent-icon"><i class='bx bx-buildings'></i>
                 </div>
-                <div class="menu-title">Orders</div>
+                <div class="menu-title">Vendors</div>
             </a>
-            <ul>
-                <li> <a href="{{ route('vendor.orders.list') }}"><i class='bx bx-radio-circle'></i>All Orders</a>
-                </li>
-                <!--<li> <a href="{{ route('vendor.orders.orders_list_by_status_code', ['status_code' => 'created']) }}"><i
-                            class='bx bx-radio-circle'></i>Pending</a>
-                </li>-->
-            </ul>
         </li>
         <li>
             <a href="javascript:;" class="has-arrow">
