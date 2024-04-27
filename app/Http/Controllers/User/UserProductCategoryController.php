@@ -37,8 +37,7 @@ class UserProductCategoryController extends Controller
                         }
                         if ($request->filter_status == null) {
                             $rows->withTrashed();
-                        }
-                        else if (@$request->filter_status == "0") {
+                        } else if (@$request->filter_status == "0") {
                             $rows->onlyTrashed();
                         }
                         $data_table['recordsFiltered'] = $rows->count();
@@ -102,6 +101,47 @@ class UserProductCategoryController extends Controller
             return response()->json($response ?: [], 200, [], JSON_PRETTY_PRINT);
         }
     }
+    public function add_category(Request $request)
+    {
+        try {
+            $product_category = new ProductCategories;
+            $product_category->name = $request->name;
+            $product_category->description = $request->description;
+            /************************************* */
+            if ($request->file('thumbnail_image')) {
+                $file = $request->file('thumbnail_image');
+                $image_resize = Image::make($file->getRealPath());
+                $image_resize->fit(300, 300);
+                $image_resize->save(public_path('uploads/categories/' . $file->hashName()), 100);
+                $product_category->thumbnail_image = $file->hashName();
+            }
+            /************************************* */
+            $product_category->save();
+            $response = [
+                'status' => true,
+                'message' => [
+                    'type' => 'success',
+                    'title' => 'Saved !',
+                    'content' => 'Product category added successfully.'
+                ],
+            ];
+            return response()->json(@$response ?: [], 200, [], JSON_PRETTY_PRINT);
+        } catch (\Exception $e) {
+            if (DB::transactionLevel() > 0) {
+                DB::rollback();
+            }
+            $response = [
+                'status' => false,
+                'error' => [
+                    'type' => 'error',
+                    'title' => 'Error !',
+                    'content' => $e->getMessage()
+                ],
+                'request' => json_decode(file_get_contents('php://input'), true)
+            ];
+            return response()->json(@$response ?: [], 200, [], JSON_PRETTY_PRINT);
+        }
+    }
     public function update_category(Request $request, $category_id)
     {
         if ($request->ajax()) {
@@ -131,8 +171,7 @@ class UserProductCategoryController extends Controller
                         'product_category' => $product_category
                     ]
                 ];
-            }
-            else if($request->action == 'toggle-status'){
+            } else if ($request->action == 'toggle-status') {
                 $product_category = ProductCategories::withTrashed()->findOrFail($category_id);
                 if ($request->status == "disable") {
                     $product_category->delete();
@@ -147,7 +186,7 @@ class UserProductCategoryController extends Controller
                     'message' => [
                         'type' => 'success',
                         'title' => 'Updated !',
-                        'content' => 'Product category '.$status.' successfully.'
+                        'content' => 'Product category ' . $status . ' successfully.'
                     ],
                     'data' => [
                         'product_category' => $product_category

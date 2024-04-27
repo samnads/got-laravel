@@ -5388,3 +5388,11 @@ div.dt-processing > div:last-child > div {
     background: #fecd00 !important;
     background: rgb(254 205 0) !important;
 }
+
+rf::after {
+	content: '*';
+	color: red;
+	font-size: 15px;
+	line-height: 0;
+	vertical-align: middle;
+}
