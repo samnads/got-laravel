@@ -2,12 +2,7 @@ let quick_edit_category_modal = new bootstrap.Modal(document.querySelector('.mod
     backdrop: 'static',
     keyboard: true
 });
-let quick_add_category_modal = new bootstrap.Modal(document.querySelector('.modal.quick-add-brand'), {
-    backdrop: 'static',
-    keyboard: true
-});
 let quick_edit_category_form = $('form[id="quick-edit-brand"]');
-let quick_add_category_form = $('form[id="quick-add-brand"]');
 loading_button_html = "Please wait...";
 let datatable = new DataTable('#datatable', {
     processing: true,
@@ -72,11 +67,6 @@ let datatable = new DataTable('#datatable', {
         });
     },
 });
-$('[data-action="new-category"]').click(function () {
-    quick_add_category_form_validator.resetForm();
-    quick_add_category_form.trigger("reset");
-    quick_add_category_modal.show();
-});
 function rowEditListener() {
     $('[data-action="quick-edit"]').click(function () {
         let id = this.getAttribute('data-id');
@@ -110,62 +100,6 @@ $('select[name="filter_status"]').change(function () {
     datatable.draw();
 });
 $(document).ready(function () {
-    quick_add_category_form_validator = quick_add_category_form.validate({
-        focusInvalid: false,
-        ignore: [],
-        rules: {
-            "name": {
-                required: true,
-            },
-            "description": {
-                required: true,
-            },
-        },
-        messages: {},
-        errorPlacement: function (error, element) {
-            error.insertAfter(element.parent());
-        },
-        submitHandler: function (form) {
-            let submit_btn = $('button[type="submit"]', form);
-            submit_btn.prop("disabled", true);
-            let formData = new FormData($("#quick-add-brand")[0]);
-            $.ajax({
-                url: _base_url + "masters/brands",
-                type: 'POST',
-                contentType: false,
-                processData: false,
-                cache: false,
-                data: formData,
-                headers: {
-                    'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
-                },
-                success: function (response) {
-                    if (response.status == true) {
-                        quick_add_category_modal.hide();
-                        submit_btn.html('Save').prop("disabled", false);
-                        datatable.ajax.reload(null, false);
-                        Swal.fire({
-                            title: response.message.title,
-                            text: response.message.content,
-                            icon: response.message.type,
-                            confirmButtonColor: swal_colors.success_ok,
-                            confirmButtonText: "OK",
-                            allowOutsideClick: false,
-                            didOpen: () => Swal.getConfirmButton().blur()
-                        }).then((result) => {
-                        });
-                    } else {
-                        toastStatusFalse(response, { stack: 1 });
-                        submit_btn.html('Save').prop("disabled", false);
-                    }
-                },
-                error: function (response) {
-                    submit_btn.html('Save').prop("disabled", false);
-                    datatable.ajax.reload(null, false);
-                },
-            });
-        }
-    });
     quick_edit_category_form_validator = quick_edit_category_form.validate({
         focusInvalid: false,
         ignore: [],

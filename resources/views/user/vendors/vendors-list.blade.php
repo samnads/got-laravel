@@ -20,9 +20,6 @@
         <button data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Refresh" type="button"
             class="btn btn-sm btn-light border" data-action="dt-refresh"><i class="bx bx-refresh"></i>
         </button>
-        <button data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="New Brand" type="button"
-            class="btn btn-sm btn-light border" data-action="new-category"><i class="bx bx-plus"></i>
-        </button>
         <div class="bd-highlight">
             <select data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Search By Status"
                 class="form-select form-select-sm" name="filter_status">
@@ -70,7 +67,6 @@
         </div>
     </div>
     @include('user.popups.quick-edit-brand')
-    @include('user.popups.quick-add-brand')
 @endsection
 @push('link-styles')
     <!-- Pushed Link Styles -->
