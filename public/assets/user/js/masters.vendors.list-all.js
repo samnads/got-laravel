@@ -167,10 +167,9 @@ $(document).ready(function () {
         let checkbox = this;
         let checkbox_status = $(checkbox).is(':checked');
         let status_text = $(checkbox).is(':checked') ? "Enable" : "Disable";
-        let status_after = $(checkbox).is(':checked') ? "Enabled" : "Disabled";
         Swal.fire({
-            title: status_text + " Brand ?",
-            text: "Are you sure want to " + status_text.toLocaleLowerCase() + " this brand ?",
+            title: status_text + " Vendor ?",
+            text: "Are you sure want to " + status_text.toLocaleLowerCase() + " this vendor ?",
             icon: "question",
             showCancelButton: true,
             confirmButtonColor: "#d33",
@@ -181,7 +180,7 @@ $(document).ready(function () {
             if (result.isConfirmed) {
                 $.ajax({
                     type: 'PUT',
-                    url: _base_url + "masters/brands/" + id,
+                    url: _base_url + "masters/vendors/" + id,
                     dataType: 'json',
                     headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
                     data: {

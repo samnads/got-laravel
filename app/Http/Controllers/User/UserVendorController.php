@@ -159,12 +159,12 @@ class UserVendorController extends Controller
             return response()->json(@$response ?: [], 200, [], JSON_PRETTY_PRINT);
         }
     }
-    public function update_brand(Request $request, $brand_id)
+    public function update(Request $request, $id)
     {
         try {
             if ($request->ajax()) {
                 if ($request->action == 'quick-edit') {
-                    $brand = Brand::findOrFail($brand_id);
+                    $brand = Vendor::findOrFail($id);
                     $brand->name = $request->name;
                     $brand->description = $request->description;
                     /************************************* */
@@ -186,21 +186,21 @@ class UserVendorController extends Controller
                         ]
                     ];
                 } else if ($request->action == 'toggle-status') {
-                    $brand = Brand::withTrashed()->findOrFail($brand_id);
+                    $row = Vendor::withTrashed()->findOrFail($id);
                     if ($request->status == "disable") {
-                        $brand->delete();
+                        $row->delete();
                         $status = 'disabled';
                     } else {
-                        $brand->restore();
+                        $row->restore();
                         $status = 'enabled';
                     }
-                    $brand->save();
+                    $row->save();
                     $response = [
                         'status' => true,
                         'message' => [
                             'type' => 'success',
                             'title' => 'Status Updated !',
-                            'content' => 'Brand ' . $status . ' successfully.'
+                            'content' => 'Vendor ' . $status . ' successfully.'
                         ]
                     ];
                 }
