@@ -146,55 +146,70 @@ class UserProductCategoryController extends Controller
     }
     public function update_category(Request $request, $category_id)
     {
-        if ($request->ajax()) {
-            if ($request->action == 'quick-edit') {
-                $product_category = ProductCategories::findOrFail($category_id);
-                $product_category->name = $request->name;
-                $product_category->description = $request->description;
-                /************************************* */
-                if ($request->file('thumbnail_image')) {
-                    $file = $request->file('thumbnail_image');
-                    $fileName = $file->getClientOriginalName();
-                    $image_resize = Image::make($file->getRealPath());
-                    $image_resize->fit(300, 300);
-                    $image_resize->save(public_path('uploads/categories/' . $file->hashName()), 100);
-                    $product_category->thumbnail_image = $file->hashName();
+        try {
+            if ($request->ajax()) {
+                if ($request->action == 'quick-edit') {
+                    $product_category = ProductCategories::findOrFail($category_id);
+                    $product_category->name = $request->name;
+                    $product_category->description = $request->description;
+                    /************************************* */
+                    if ($request->file('thumbnail_image')) {
+                        $file = $request->file('thumbnail_image');
+                        $image_resize = Image::make($file->getRealPath());
+                        $image_resize->fit(300, 300);
+                        $image_resize->save(public_path('uploads/categories/' . $file->hashName()), 100);
+                        $product_category->thumbnail_image = $file->hashName();
+                    }
+                    /************************************* */
+                    $product_category->save();
+                    $response = [
+                        'status' => true,
+                        'message' => [
+                            'type' => 'success',
+                            'title' => 'Category Updated !',
+                            'content' => 'Product category updated successfully.'
+                        ],
+                        'data' => [
+                            'product_category' => $product_category
+                        ]
+                    ];
+                } else if ($request->action == 'toggle-status') {
+                    $product_category = ProductCategories::withTrashed()->findOrFail($category_id);
+                    if ($request->status == "disable") {
+                        $product_category->delete();
+                        $status = 'disabled';
+                    } else {
+                        $product_category->restore();
+                        $status = 'enabled';
+                    }
+                    $product_category->save();
+                    $response = [
+                        'status' => true,
+                        'message' => [
+                            'type' => 'success',
+                            'title' => 'Status Updated !',
+                            'content' => 'Product category ' . $status . ' successfully.'
+                        ],
+                        'data' => [
+                            'product_category' => $product_category
+                        ]
+                    ];
                 }
-                /************************************* */
-                $product_category->save();
-                $response = [
-                    'status' => true,
-                    'message' => [
-                        'type' => 'success',
-                        'title' => 'Updated !',
-                        'content' => 'Product category updated successfully.'
-                    ],
-                    'data' => [
-                        'product_category' => $product_category
-                    ]
-                ];
-            } else if ($request->action == 'toggle-status') {
-                $product_category = ProductCategories::withTrashed()->findOrFail($category_id);
-                if ($request->status == "disable") {
-                    $product_category->delete();
-                    $status = 'disabled';
-                } else {
-                    $product_category->restore();
-                    $status = 'enabled';
-                }
-                $product_category->save();
-                $response = [
-                    'status' => true,
-                    'message' => [
-                        'type' => 'success',
-                        'title' => 'Updated !',
-                        'content' => 'Product category ' . $status . ' successfully.'
-                    ],
-                    'data' => [
-                        'product_category' => $product_category
-                    ]
-                ];
+                return response()->json(@$response ?: [], 200, [], JSON_PRETTY_PRINT);
             }
+        } catch (\Exception $e) {
+            if (DB::transactionLevel() > 0) {
+                DB::rollback();
+            }
+            $response = [
+                'status' => false,
+                'error' => [
+                    'type' => 'error',
+                    'title' => 'Exception !',
+                    'content' => $e->getMessage()
+                ],
+                'request' => json_decode(file_get_contents('php://input'), true)
+            ];
             return response()->json(@$response ?: [], 200, [], JSON_PRETTY_PRINT);
         }
     }

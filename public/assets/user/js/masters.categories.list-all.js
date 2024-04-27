@@ -137,7 +137,7 @@ $(document).ready(function () {
                 type: 'POST',
                 contentType: false,
                 processData: false,
-                cache: false,        
+                cache: false,
                 data: formData,
                 headers: {
                     'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
@@ -189,23 +189,20 @@ $(document).ready(function () {
         },
         submitHandler: function (form) {
             let submit_btn = $('button[type="submit"]', form);
-            submit_btn.html(loading_button_html).prop("disabled", true);
-            let formData = new FormData();
+            submit_btn.prop("disabled", true);
+            let formData = new FormData($("#quick-edit-category")[0]);
             formData.append('_method', 'PUT');
-            formData.append('action', 'quick-edit');
-            formData.append('id', $('#quick-edit-category [name="id"]').val());
-            formData.append('name', $('#quick-edit-category [name="name"]').val());
-            formData.append('description', $('#quick-edit-category [name="description"]').val());
-            formData.append('thumbnail_image', $('input[type=file]')[0].files[0]);
             $.ajax({
-                type: 'PUT',
+                type: 'POST',
                 url: _base_url + "masters/categories/" + $('input[name="id"]', quick_edit_category_form).val(),
                 cache: false,
                 dataType: 'json',
                 contentType: false,
                 processData: false,
                 data: formData,
-                headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content'), 'Content-type': 'multipart/form-data' },
+                headers: {
+                    'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content'),
+                },
                 success: function (response) {
                     if (response.status == true) {
                         quick_edit_category_modal.hide();
@@ -263,7 +260,7 @@ $(document).ready(function () {
                     success: function (response) {
                         if (response.status == true) {
                             Swal.fire({
-                                title: status_after + " !",
+                                title: response.message.title,
                                 text: response.message.content,
                                 icon: "success",
                                 didOpen: () => Swal.getConfirmButton().blur()

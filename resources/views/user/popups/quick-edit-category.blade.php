@@ -6,20 +6,20 @@
                 <h5 class="modal-title">Edit Category</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form id="quick-edit-category">
+            <form id="quick-edit-category" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="id">
                 <input type="hidden" name="action" value="quick-edit" />
                 <div class="modal-body">
                     <div class="row g-3">
                         <div class="col-md-12">
-                            <label for="fsfrerer" class="form-label">Category Name</label>
+                            <label for="fsfrerer" class="form-label">Category Name <rf/></label>
                             <div class="position-relative">
                                 <input type="text" class="form-control" id="fsfrerer" name="name">
                             </div>
                         </div>
                         <div class="col-md-12">
-                            <label for="fhfhs" class="form-label">Description</label>
+                            <label for="fhfhs" class="form-label">Description <rf/></label>
                             <div class="position-relative">
                                 <textarea type="text" class="form-control" id="fhfhs" name="description"></textarea>
                             </div>
