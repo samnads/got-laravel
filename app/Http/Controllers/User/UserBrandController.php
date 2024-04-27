@@ -3,37 +3,37 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use App\Models\ProductCategories;
+use App\Models\Brand;
 use Illuminate\Http\Request;
+use App\Models\ProductCategories;
 use DB;
 use Intervention\Image\Facades\Image as Image;
 
-class UserProductCategoryController extends Controller
+class UserBrandController extends Controller
 {
-    public function categories_list(Request $request)
+    public function brands_list(Request $request)
     {
         if ($request->ajax()) {
             try {
                 switch ($request->action) {
                     case 'datatable':
                         $data_table['draw'] = $request->draw;
-                        $rows = ProductCategories::select(
-                            'product_categories.id',
-                            'product_categories.parent_id',
-                            'product_categories.name',
-                            'product_categories.description',
-                            'product_categories.thumbnail_image',
-                            'product_categories.deleted_at'
+                        $rows = Brand::select(
+                            'brands.id',
+                            'brands.name',
+                            'brands.description',
+                            'brands.thumbnail_image',
+                            'brands.deleted_at'
                         );
                         $data_table['recordsTotal'] = $rows->count();
                         $rows->where(function ($query) use ($request) {
-                            $query->where([['product_categories.name', 'LIKE', "%{$request->search['value']}%"]]);
-                            $query->orWhere([['product_categories.description', 'LIKE', "%{$request->search['value']}%"]]);
+                            $query->where([['brands.name', 'LIKE', "%{$request->search['value']}%"]]);
+                            $query->orWhere([['brands.description', 'LIKE', "%{$request->search['value']}%"]]);
                         });
                         if (@$request->order[0]['name']) {
                             $rows->orderBy($request->order[0]['name'], $request->order[0]['dir']);
                         } else {
-                            $rows->orderBy('product_categories.id', 'desc');
+                            $rows->orderBy('brands.id', 'desc');
                         }
                         if ($request->filter_status == null) {
                             $rows->withTrashed();
@@ -44,7 +44,7 @@ class UserProductCategoryController extends Controller
                         $data_table['data'] = $rows->offset($request->start)->limit($request->length)->get()->toArray();
                         foreach ($data_table['data'] as $key => $row) {
                             $data_table['data'][$key]['slno'] = $key + 1;
-                            $data_table['data'][$key]['thumbnail_image_html'] = '<img src="' . config('url.uploads_cdn') . 'categories/' . ($row['thumbnail_image'] ?: 'default.jpg') . '" class="product-img-2" alt="product img">';
+                            $data_table['data'][$key]['thumbnail_image_html'] = '<img src="' . config('url.uploads_cdn') . 'brands/' . ($row['thumbnail_image'] ?: 'default.jpg') . '" class="product-img-2" alt="product img">';
                             $data_table['data'][$key]['actions_html'] = '<div class="btn-group btn-group-sm bg-light" role="group">
 											<button type="button" data-action="quick-edit" data-id="' . $row['id'] . '" class="btn btn-outline-primary"><i class="bx bx-pencil"></i>
 											</button>
@@ -81,13 +81,13 @@ class UserProductCategoryController extends Controller
                 return response()->json($response, 200, [], JSON_PRETTY_PRINT);
             }
         }
-        return view('user.categories.categories-list', []);
+        return view('user.brands.brands-list', []);
     }
-    public function get_category(Request $request, $category_id)
+    public function get_brand(Request $request, $brand_id)
     {
         if ($request->ajax()) {
             if ($request->action == 'quick-edit') {
-                $data['product_category'] = ProductCategories::findOrFail($category_id);
+                $data['brand'] = Brand::findOrFail($brand_id);
             }
             $response = [
                 'status' => true,
@@ -101,30 +101,30 @@ class UserProductCategoryController extends Controller
             return response()->json($response ?: [], 200, [], JSON_PRETTY_PRINT);
         }
     }
-    public function add_category(Request $request)
+    public function add_brand(Request $request)
     {
         try {
             DB::beginTransaction();
-            $product_category = new ProductCategories;
-            $product_category->name = $request->name;
-            $product_category->description = $request->description;
+            $row = new Brand;
+            $row->name = $request->name;
+            $row->description = $request->description;
             /************************************* */
             if ($request->file('thumbnail_image')) {
                 $file = $request->file('thumbnail_image');
                 $image_resize = Image::make($file->getRealPath());
                 $image_resize->fit(300, 300);
-                $image_resize->save(public_path('uploads/categories/' . $file->hashName()), 100);
-                $product_category->thumbnail_image = $file->hashName();
+                $image_resize->save(public_path('uploads/brands/' . $file->hashName()), 100);
+                $row->thumbnail_image = $file->hashName();
             }
             /************************************* */
-            $product_category->save();
+            $row->save();
             DB::commit();
             $response = [
                 'status' => true,
                 'message' => [
                     'type' => 'success',
-                    'title' => 'Category Saved !',
-                    'content' => 'Product category added successfully.'
+                    'title' => 'Brand Saved !',
+                    'content' => 'Brand added successfully.'
                 ],
             ];
             return response()->json(@$response ?: [], 200, [], JSON_PRETTY_PRINT);
@@ -144,54 +144,48 @@ class UserProductCategoryController extends Controller
             return response()->json(@$response ?: [], 200, [], JSON_PRETTY_PRINT);
         }
     }
-    public function update_category(Request $request, $category_id)
+    public function update_brand(Request $request, $brand_id)
     {
         try {
             if ($request->ajax()) {
                 if ($request->action == 'quick-edit') {
-                    $product_category = ProductCategories::findOrFail($category_id);
-                    $product_category->name = $request->name;
-                    $product_category->description = $request->description;
+                    $brand = Brand::findOrFail($brand_id);
+                    $brand->name = $request->name;
+                    $brand->description = $request->description;
                     /************************************* */
                     if ($request->file('thumbnail_image')) {
                         $file = $request->file('thumbnail_image');
                         $image_resize = Image::make($file->getRealPath());
                         $image_resize->fit(300, 300);
-                        $image_resize->save(public_path('uploads/categories/' . $file->hashName()), 100);
-                        $product_category->thumbnail_image = $file->hashName();
+                        $image_resize->save(public_path('uploads/brands/' . $file->hashName()), 100);
+                        $brand->thumbnail_image = $file->hashName();
                     }
                     /************************************* */
-                    $product_category->save();
+                    $brand->save();
                     $response = [
                         'status' => true,
                         'message' => [
                             'type' => 'success',
-                            'title' => 'Category Updated !',
-                            'content' => 'Product category updated successfully.'
-                        ],
-                        'data' => [
-                            'product_category' => $product_category
+                            'title' => 'Brand Updated !',
+                            'content' => 'Brand updated successfully.'
                         ]
                     ];
                 } else if ($request->action == 'toggle-status') {
-                    $product_category = ProductCategories::withTrashed()->findOrFail($category_id);
+                    $brand = Brand::withTrashed()->findOrFail($brand_id);
                     if ($request->status == "disable") {
-                        $product_category->delete();
+                        $brand->delete();
                         $status = 'disabled';
                     } else {
-                        $product_category->restore();
+                        $brand->restore();
                         $status = 'enabled';
                     }
-                    $product_category->save();
+                    $brand->save();
                     $response = [
                         'status' => true,
                         'message' => [
                             'type' => 'success',
                             'title' => 'Status Updated !',
-                            'content' => 'Product category ' . $status . ' successfully.'
-                        ],
-                        'data' => [
-                            'product_category' => $product_category
+                            'content' => 'Brand ' . $status . ' successfully.'
                         ]
                     ];
                 }

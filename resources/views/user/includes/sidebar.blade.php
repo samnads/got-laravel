@@ -31,6 +31,11 @@
                             class='bx bx-radio-circle'></i>Categories</a>
                 </li>
             </ul>
+            <ul>
+                <li> <a href="{{ route('user.masters.brands.list') }}"><i
+                            class='bx bx-radio-circle'></i>Brands</a>
+                </li>
+            </ul>
         </li>
         <li>
             <a href="javascript:;" class="has-arrow">

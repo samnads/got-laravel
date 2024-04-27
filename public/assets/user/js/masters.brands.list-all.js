@@ -1,13 +1,13 @@
-let quick_edit_category_modal = new bootstrap.Modal(document.querySelector('.modal.quick-edit-category'), {
+let quick_edit_category_modal = new bootstrap.Modal(document.querySelector('.modal.quick-edit-brand'), {
     backdrop: 'static',
     keyboard: true
 });
-let quick_add_category_modal = new bootstrap.Modal(document.querySelector('.modal.quick-add-category'), {
+let quick_add_category_modal = new bootstrap.Modal(document.querySelector('.modal.quick-add-brand'), {
     backdrop: 'static',
     keyboard: true
 });
-let quick_edit_category_form = $('form[id="quick-edit-category"]');
-let quick_add_category_form = $('form[id="quick-add-category"]');
+let quick_edit_category_form = $('form[id="quick-edit-brand"]');
+let quick_add_category_form = $('form[id="quick-add-brand"]');
 loading_button_html = "Please wait...";
 let datatable = new DataTable('#datatable', {
     processing: true,
@@ -86,15 +86,15 @@ function rowEditListener() {
         $('[name="id"]', quick_edit_category_form).val(id);
         $.ajax({
             type: 'GET',
-            url: _base_url + "masters/categories/" + id,
+            url: _base_url + "masters/brands/" + id,
             dataType: 'json',
             data: { action: 'quick-edit' },
             success: function (response) {
                 if (response.status == true) {
                     quick_edit_category_form_validator.resetForm();
                     quick_edit_category_form.trigger("reset");
-                    $('input[name="name"]', quick_edit_category_form).val(response.data.product_category.name);
-                    $('textarea[name="description"]', quick_edit_category_form).val(response.data.product_category.description);
+                    $('input[name="name"]', quick_edit_category_form).val(response.data.brand.name);
+                    $('textarea[name="description"]', quick_edit_category_form).val(response.data.brand.description);
                     quick_edit_category_modal.show();
                 } else {
                     toastStatusFalse(response);
@@ -131,9 +131,9 @@ $(document).ready(function () {
         submitHandler: function (form) {
             let submit_btn = $('button[type="submit"]', form);
             submit_btn.prop("disabled", true);
-            let formData = new FormData($("#quick-add-category")[0]);
+            let formData = new FormData($("#quick-add-brand")[0]);
             $.ajax({
-                url: _base_url + "masters/categories",
+                url: _base_url + "masters/brands",
                 type: 'POST',
                 contentType: false,
                 processData: false,
@@ -190,11 +190,11 @@ $(document).ready(function () {
         submitHandler: function (form) {
             let submit_btn = $('button[type="submit"]', form);
             submit_btn.prop("disabled", true);
-            let formData = new FormData($("#quick-edit-category")[0]);
+            let formData = new FormData($("#quick-edit-brand")[0]);
             formData.append('_method', 'PUT');
             $.ajax({
                 type: 'POST',
-                url: _base_url + "masters/categories/" + $('input[name="id"]', quick_edit_category_form).val(),
+                url: _base_url + "masters/brands/" + $('input[name="id"]', quick_edit_category_form).val(),
                 cache: false,
                 dataType: 'json',
                 contentType: false,
@@ -238,8 +238,8 @@ $(document).ready(function () {
         let status_text = $(checkbox).is(':checked') ? "Enable" : "Disable";
         let status_after = $(checkbox).is(':checked') ? "Enabled" : "Disabled";
         Swal.fire({
-            title: status_text + " Category ?",
-            text: "Are you sure want to " + status_text.toLocaleLowerCase() + " this category ?",
+            title: status_text + " Brand ?",
+            text: "Are you sure want to " + status_text.toLocaleLowerCase() + " this brand ?",
             icon: "question",
             showCancelButton: true,
             confirmButtonColor: "#d33",
@@ -250,7 +250,7 @@ $(document).ready(function () {
             if (result.isConfirmed) {
                 $.ajax({
                     type: 'PUT',
-                    url: _base_url + "masters/categories/" + id,
+                    url: _base_url + "masters/brands/" + id,
                     dataType: 'json',
                     headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
                     data: {

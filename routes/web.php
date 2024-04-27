@@ -24,6 +24,7 @@ use App\Http\Middleware\UserAuthWeb;
 use App\Http\Controllers\User\UserAuthController;
 use App\Http\Controllers\User\UserDashboardController;
 use App\Http\Controllers\User\UserProductCategoryController;
+use App\Http\Controllers\User\UserBrandController;
 
 /*
 |--------------------------------------------------------------------------
@@ -101,14 +102,21 @@ Route::prefix('user')->name('user.')->group(function () {
         Route::get('/dashboard', [UserDashboardController::class, 'dashboard'])->name('dashboard');
         // Masters Routes
         Route::prefix('masters')->name('masters.')->group(function () {
+            // Category routes
             Route::prefix('categories')->name('categories.')->group(function () {
                 Route::post('/', [UserProductCategoryController::class, 'add_category']);
                 Route::get('/list', [UserProductCategoryController::class, 'categories_list'])->name('list');
                 Route::get('/{category_id}', [UserProductCategoryController::class, 'get_category']);
                 Route::put('/{category_id}', [UserProductCategoryController::class, 'update_category']);
             });
+            // Brand routes
+            Route::prefix('brands')->name('brands.')->group(function () {
+                Route::post('/', [UserBrandController::class, 'add_brand']);
+                Route::get('/list', [UserBrandController::class, 'brands_list'])->name('list');
+                Route::get('/{brand_id}', [UserBrandController::class, 'get_brand']);
+                Route::put('/{brand_id}', [UserBrandController::class, 'update_brand']);
+            });
         });
-        // Masters Routes End
     });
 });
 Route::prefix('vendor')->name('vendor.')->group(function () {
