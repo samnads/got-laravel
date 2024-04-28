@@ -238,6 +238,16 @@ class UserProductController extends Controller
                     $row->maximum_retail_price = $request->maximum_retail_price;
                     $row->code = $request->code;
                     $row->description = $request->description;
+                    /************************************* */
+                    if ($request->file('thumbnail_image')) {
+                        $file = $request->file('thumbnail_image');
+                        $fileName = $file->getClientOriginalName();
+                        $image_resize = Image::make($file->getRealPath());
+                        $image_resize->fit(300, 300);
+                        $image_resize->save(public_path('uploads/products/' . $file->hashName()), 100);
+                        //$filePath = $file->store('categories', 'public_uploads');
+                        $row->thumbnail_image = $file->hashName();
+                    }
                     $row->save();
                     $response = [
                         'status' => true,
