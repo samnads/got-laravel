@@ -200,7 +200,7 @@ class UserProductController extends Controller
                             'code' => 'required|unique:products,code,' . $request->id,
                             'description' => 'nullable|string',
                             'category_id' => 'required|exists:product_categories,id',
-                            'brand_id' => 'required|exists:brands,id',
+                            'brand_id' => 'nullable|exists:brands,id',
                             'item_size' => 'required|integer',
                             'unit_id' => 'required|exists:units,id',
                             'maximum_retail_price' => 'required|numeric',
@@ -230,6 +230,7 @@ class UserProductController extends Controller
                         return response()->json($response, 200, [], JSON_PRETTY_PRINT);
                     }
                     /******************************************************************************* */
+                    DB::beginTransaction();
                     $row = Product::findOrFail($id);
                     $row->name = $request->name;
                     $row->brand_id = $request->brand_id;
@@ -249,6 +250,12 @@ class UserProductController extends Controller
                         $row->thumbnail_image = $file->hashName();
                     }
                     $row->save();
+                    $category_mapping = ProductCategoryMapping::where([['product_id', '=', $row->id]])->first();
+                    $category_mapping->category_id = $request->category_id;
+                    $category_mapping->save();
+                    // Delete duplicate category entries
+                    ProductCategoryMapping::where([['product_id', '=', $row->id], ['category_id', '!=', $request->category_id]])->withTrashed()->forceDelete();
+                    DB::commit();
                     $response = [
                         'status' => true,
                         'message' => [
