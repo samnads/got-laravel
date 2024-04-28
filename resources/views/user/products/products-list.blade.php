@@ -43,6 +43,7 @@
                             <th>Category</th>
                             <th>Brand</th>
                             <th>Pack Size</th>
+                            <th>MRP.</th>
                             <th>Status</th>
                             <th>Actions</th>
                         </tr>
@@ -58,6 +59,7 @@
                             <th>Category</th>
                             <th>Brand</th>
                             <th>Pack Size</th>
+                            <th>MRP.</th>
                             <th>Status</th>
                             <th>Actions</th>
                         </tr>

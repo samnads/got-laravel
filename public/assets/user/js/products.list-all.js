@@ -35,6 +35,7 @@ let datatable = new DataTable('#datatable', {
         { data: 'product_category', name: 'product_category' },
         { data: 'brand', name: 'brand' },
         { data: 'item_size', name: 'item_size' },
+        { data: 'maximum_retail_price', name: 'maximum_retail_price' },
         { data: 'status_html', name: 'status_html' },
         { data: 'actions_html', name: 'actions_html' },
     ],
