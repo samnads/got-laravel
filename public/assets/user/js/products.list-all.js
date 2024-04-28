@@ -29,12 +29,12 @@ let datatable = new DataTable('#datatable', {
     },
     columns: [
         { data: 'slno', name: 'slno' },
+        { data: 'thumbnail_image_html', name: 'thumbnail_image_html' },
         { data: 'name', name: 'name' },
-        { data: 'owner', name: 'owner' },
-        { data: 'mobile_number', name: 'mobile_number' },
-        { data: 'state', name: 'state' },
-        { data: 'district', name: 'district' },
-        { data: 'location', name: 'location' },
+        { data: 'code', name: 'code' },
+        { data: 'product_category', name: 'product_category' },
+        { data: 'brand', name: 'brand' },
+        { data: 'item_size', name: 'item_size' },
         { data: 'status_html', name: 'status_html' },
         { data: 'actions_html', name: 'actions_html' },
     ],
@@ -45,16 +45,21 @@ let datatable = new DataTable('#datatable', {
             type: 'html'
         },
         {
+            targets: 'thumbnail_image_html:name',
+            type: 'html',
+            sortable: false,
+            width: 1
+        },
+        {
             targets: 'status_html:name',
             type: 'html',
             sortable: false,
             width: 1
         },
         {
-            targets: 'mobile_number:name',
+            targets: 'item_size:name',
             type: 'html',
-            sortable: false,
-            width: 1
+            sortable: false
         },
         {
             targets: 'actions_html:name',

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Models\District;
 use App\Models\Location;
@@ -23,36 +24,40 @@ class UserProductController extends Controller
                 switch ($request->action) {
                     case 'datatable':
                         $data_table['draw'] = $request->draw;
-                        $rows = Vendor::select(
-                            'vendors.id',
-                            'vendors.vendor_name as name',
-                            'vendors.owner_name as owner',
-                            'vendors.mobile_number',
-                            'vendors.gst_number',
-                            'vendors.deleted_at',
-                            'l.name as location',
-                            'd.name as district',
-                            's.name as state',
-                            'vendors.shop_thumbnail as thumbnail_image'
+                        $rows = Product::select(
+                            'products.id',
+                            'products.code',
+                            'products.item_size',
+                            'products.name',
+                            'products.maximum_retail_price',
+                            'products.thumbnail_image',
+                            'b.name as brand',
+                            'u.name as unit',
+                            'pc.name as product_category',
+                            'products.deleted_at',
                         )
-                            ->leftJoin('locations as l', function ($join) {
-                                $join->on('vendors.location_id', '=', 'l.id');
+                            ->leftJoin('brands as b', function ($join) {
+                                $join->on('products.brand_id', '=', 'b.id');
                             })
-                            ->leftJoin('districts as d', function ($join) {
-                                $join->on('l.district_id', '=', 'd.district_id');
+                            ->leftJoin('units as u', function ($join) {
+                                $join->on('products.unit_id', '=', 'u.id');
                             })
-                            ->leftJoin('states as s', function ($join) {
-                                $join->on('d.state_id', '=', 's.state_id');
+                            ->leftJoin('product_category_mappings as pcm', function ($join) {
+                                $join->on('products.id', '=', 'pcm.product_id');
+                            })
+                            ->leftJoin('product_categories as pc', function ($join) {
+                                $join->on('pcm.category_id', '=', 'pc.id');
                             });
                         $data_table['recordsTotal'] = $rows->count();
                         $rows->where(function ($query) use ($request) {
-                            $query->where([['vendors.vendor_name', 'LIKE', "%{$request->search['value']}%"]]);
-                            $query->orWhere([['vendors.mobile_number', 'LIKE', "%{$request->search['value']}%"]]);
+                            $query->where([['products.name', 'LIKE', "%{$request->search['value']}%"]]);
+                            $query->orWhere([['b.name', 'LIKE', "%{$request->search['value']}%"]]);
+                            $query->orWhere([['pc.name', 'LIKE', "%{$request->search['value']}%"]]);
                         });
                         if (@$request->order[0]['name']) {
                             $rows->orderBy($request->order[0]['name'], $request->order[0]['dir']);
                         } else {
-                            $rows->orderBy('vendors.id', 'desc');
+                            $rows->orderBy('products.id', 'desc');
                         }
                         if ($request->filter_status == null) {
                             $rows->withTrashed();
@@ -63,7 +68,7 @@ class UserProductController extends Controller
                         $data_table['data'] = $rows->offset($request->start)->limit($request->length)->get()->toArray();
                         foreach ($data_table['data'] as $key => $row) {
                             $data_table['data'][$key]['slno'] = $key + 1;
-                            $data_table['data'][$key]['thumbnail_image_html'] = '<img src="' . config('url.uploads_cdn') . 'vendors/' . ($row['thumbnail_image'] ?: 'default.jpg') . '" class="product-img-2" alt="product img">';
+                            $data_table['data'][$key]['thumbnail_image_html'] = '<img src="' . config('url.uploads_cdn') . 'products/' . ($row['thumbnail_image'] ?: 'default.jpg') . '" class="product-img-2" alt="product img">';
                             $data_table['data'][$key]['actions_html'] = '<div class="btn-group btn-group-sm bg-light" role="group">
 											<button type="button" data-action="quick-edit" data-id="' . $row['id'] . '" class="btn btn-outline-primary"><i class="bx bx-pencil"></i>
 											</button>
