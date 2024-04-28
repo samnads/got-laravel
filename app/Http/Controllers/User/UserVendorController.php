@@ -99,16 +99,17 @@ class UserVendorController extends Controller
                 return response()->json($response, 200, [], JSON_PRETTY_PRINT);
             }
         }
-        return view('user.vendors.vendors-list', []);
+        $data['states'] = State::select('states.state_id as value','states.name as label')->get();
+        return view('user.vendors.vendors-list', $data);
     }
     public function read(Request $request, $id)
     {
         if ($request->ajax()) {
             if ($request->action == 'quick-edit') {
                 $data['vendor'] = Vendor::findOrFail($id);
-                $data['vendor']['location'] = Location::find($data['vendor']->location_id);
-                $data['vendor']['district'] = District::find($data['vendor']['location']->district_id);
-                $data['vendor']['state'] = State::find($data['vendor']['district']->state_id);
+                $data['vendor']['location'] = Location::find(@$data['vendor']->location_id);
+                $data['vendor']['district'] = District::find(@$data['vendor']['location']->district_id);
+                $data['vendor']['state'] = State::find(@$data['vendor']['district']->state_id);
             }
             $response = [
                 'status' => true,

@@ -26,6 +26,7 @@ use App\Http\Controllers\User\UserDashboardController;
 use App\Http\Controllers\User\UserProductCategoryController;
 use App\Http\Controllers\User\UserBrandController;
 use App\Http\Controllers\User\UserVendorController;
+use App\Http\Controllers\User\UserDropdownController;
 
 /*
 |--------------------------------------------------------------------------
@@ -124,6 +125,10 @@ Route::prefix('user')->name('user.')->group(function () {
                 Route::get('/{id}', [UserVendorController::class, 'read']);
                 Route::put('/{id}', [UserVendorController::class, 'update']);
             });
+        });
+        Route::prefix('dropdown')->name('dropdown.')->group(function () {
+            Route::get('districts/{usage}', [UserDropdownController::class, 'districts']);
+            Route::get('locations/{usage}', [UserDropdownController::class, 'locations']);
         });
     });
 });

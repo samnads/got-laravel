@@ -76,7 +76,6 @@ let datatable = new DataTable('#datatable', {
 function rowEditListener() {
     $('[data-action="quick-edit"]').click(function () {
         let id = this.getAttribute('data-id');
-        $('[name="id"]', quick_edit_vendor_form).val(id);
         $.ajax({
             type: 'GET',
             url: _base_url + "masters/vendors/" + id,
@@ -86,6 +85,7 @@ function rowEditListener() {
                 if (response.status == true) {
                     quick_edit_vendor_form_validator.resetForm();
                     quick_edit_vendor_form.trigger("reset");
+                    $('[name="id"]', quick_edit_vendor_form).val(id);
                     $('[name="vendor_name"]', quick_edit_vendor_form).val(response.data.vendor.vendor_name);
                     $('[name="owner_name"]', quick_edit_vendor_form).val(response.data.vendor.owner_name);
                     $('[name="mobile_number"]', quick_edit_vendor_form).val(response.data.vendor.mobile_number);
@@ -118,10 +118,28 @@ $(document).ready(function () {
             "id": {
                 required: true,
             },
-            "name": {
+            "vendor_name": {
                 required: true,
             },
-            "description": {
+            "owner_name": {
+                required: true,
+            },
+            "mobile_number": {
+                required: true,
+            },
+            "gst_number": {
+                required: false,
+            },
+            "email": {
+                required: false,
+            },
+            "address": {
+                required: true,
+            },
+            "username": {
+                required: true,
+            },
+            "location_id": {
                 required: true,
             },
         },
@@ -224,3 +242,93 @@ function statusChangeListener() {
         });
     });
 }
+/******************************************************************* */
+let state_id_select = new TomSelect('#quick-edit-vendor [name="state_id"]', {
+    plugins: {
+        'clear_button': {}
+    },
+});
+let district_id_select = new TomSelect('#quick-edit-vendor [name="district_id"]', {
+    plugins: {
+        clear_button: {
+        }
+    },
+    valueField: 'value',
+    labelField: 'label',
+    searchField: ['label'],
+    // fetch remote data
+    load: function (query, callback) {
+        var url = _base_url + 'dropdown/districts/quick-edit-vendor?' + new URLSearchParams({
+            query: encodeURIComponent(query),
+            state_id: $('[name="state_id"]', quick_edit_vendor_form).val(),
+        })
+        fetch(url)
+            .then(response => response.json())
+            .then(json => {
+                callback(json.items);
+            }).catch(() => {
+                callback();
+            });
+
+    },
+    // custom rendering functions for options and items
+    render: {
+        option: function (item, escape) {
+            return `<div class="py-2 d-flex">${escape(item.label)}</div>`;
+        },
+        no_results: function (data, escape) {
+            return '<div class="no-results">No districts found for "' + escape(data.input) + '"</div>';
+        },
+        item: function (item, escape) {
+            return `<div>${escape(item.label)}</div>`;
+        }
+    },
+    onItemRemove: function (values) {
+    },
+    onDelete: function (values) {
+    },
+    onItemAdd: function (values) {
+    },
+});
+let location_id_select = new TomSelect('#quick-edit-vendor [name="location_id"]', {
+    plugins: {
+        clear_button: {
+        }
+    },
+    valueField: 'value',
+    labelField: 'label',
+    searchField: ['label'],
+    // fetch remote data
+    load: function (query, callback) {
+        var url = _base_url + 'dropdown/locations/quick-edit-vendor?' + new URLSearchParams({
+            query: encodeURIComponent(query),
+            district_id: $('[name="district_id"]', quick_edit_vendor_form).val(),
+        })
+        fetch(url)
+            .then(response => response.json())
+            .then(json => {
+                callback(json.items);
+            }).catch(() => {
+                callback();
+            });
+
+    },
+    // custom rendering functions for options and items
+    render: {
+        option: function (item, escape) {
+            return `<div class="py-2 d-flex">${escape(item.label)}</div>`;
+        },
+        no_results: function (data, escape) {
+            return '<div class="no-results">No districts found for "' + escape(data.input) + '"</div>';
+        },
+        item: function (item, escape) {
+            return `<div>${escape(item.label)}</div>`;
+        }
+    },
+    onItemRemove: function (values) {
+    },
+    onDelete: function (values) {
+    },
+    onItemAdd: function (values) {
+    },
+});
