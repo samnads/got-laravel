@@ -231,8 +231,8 @@ function statusChangeListener() {
         let checkbox_status = $(checkbox).is(':checked');
         let status_text = $(checkbox).is(':checked') ? "Enable" : "Disable";
         Swal.fire({
-            title: status_text + " Vendor ?",
-            text: "Are you sure want to " + status_text.toLocaleLowerCase() + " this vendor ?",
+            title: status_text + " Product ?",
+            text: "Are you sure want to " + status_text.toLocaleLowerCase() + " this product ?",
             icon: "question",
             showCancelButton: true,
             confirmButtonColor: "#d33",
@@ -243,7 +243,7 @@ function statusChangeListener() {
             if (result.isConfirmed) {
                 $.ajax({
                     type: 'PUT',
-                    url: _base_url + "masters/vendors/" + id,
+                    url: _base_url + "products/" + id,
                     dataType: 'json',
                     headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
                     data: {
@@ -265,6 +265,7 @@ function statusChangeListener() {
                         }
                     },
                     error: function (response) {
+                        ajaxError(response);
                         datatable.ajax.reload(null, false);
                     },
                 });

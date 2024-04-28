@@ -51,6 +51,7 @@ class UserProductController extends Controller
                         $data_table['recordsTotal'] = $rows->count();
                         $rows->where(function ($query) use ($request) {
                             $query->where([['products.name', 'LIKE', "%{$request->search['value']}%"]]);
+                            $query->orWhere([['products.code', 'LIKE', "%{$request->search['value']}%"]]);
                             $query->orWhere([['b.name', 'LIKE', "%{$request->search['value']}%"]]);
                             $query->orWhere([['pc.name', 'LIKE', "%{$request->search['value']}%"]]);
                         });
@@ -231,7 +232,7 @@ class UserProductController extends Controller
                         ]
                     ];
                 } else if ($request->action == 'toggle-status') {
-                    $row = Vendor::withTrashed()->findOrFail($id);
+                    $row = Product::withTrashed()->findOrFail($id);
                     if ($request->status == "disable") {
                         $row->delete();
                         $status = 'disabled';
@@ -245,7 +246,7 @@ class UserProductController extends Controller
                         'message' => [
                             'type' => 'success',
                             'title' => 'Status Updated !',
-                            'content' => 'Vendor ' . $status . ' successfully.'
+                            'content' => 'Product ' . $status . ' successfully.'
                         ]
                     ];
                 }
