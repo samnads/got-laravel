@@ -13,7 +13,8 @@
                 <div class="modal-body">
                     <div class="row g-3">
                         <div class="col-md-4">
-                            <label for="ssdsd" class="form-label">Name <rf />
+                            <label for="ssdsd" class="form-label">Name
+                                <rf />
                             </label>
                             <div class="position-relative">
                                 <input type="text" class="form-control" id="ssdsd" name="name"
@@ -21,44 +22,55 @@
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <label for="dfgfd" class="form-label">Category <rf />
+                            <label for="dfgfd" class="form-label">Category
+                                <rf />
                             </label>
                             <div class="position-relative">
-                                <select type="text" class="form-control" id="dfgfd" name="category_id"
+                                <select class="form-control" id="dfgfd" name="category_id"
                                     autocomplete="off" placeholder="Search category...">
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <label for="dfsteg" class="form-label">Brand <rf />
-                            </label>
+                            <label for="dfsteg" class="form-label">Brand</label>
                             <div class="position-relative">
-                                <select type="number" class="form-control no-arrow" id="dfsteg" name="brand_id"
+                                <select class="form-control" id="dfsteg" name="brand_id"
                                     autocomplete="off">
-                                    <option value=""> -- Select Brand --</option>
+                                    <option value="">-- Select Brand --</option>
+                                    @foreach ($brands as $key => $brand)
+                                        <option value="{{ $brand->value }}">{{ $brand->label }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
                     </div>
                     <div class="row g-3 mt-2">
                         <div class="col-md-4">
-                            <label for="rysfs" class="form-label">Item Size <rf /></label>
+                            <label for="rysfs" class="form-label">Item Size
+                                <rf />
+                            </label>
                             <div class="position-relative">
-                                <input type="text" class="form-control" id="rysfs" name="item_size"
+                                <input type="number" class="form-control no-arrow" id="rysfs" name="item_size"
                                     autocomplete="off">
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <label for="ghsfre" class="form-label">Unit <rf /></label>
+                            <label for="ghsfre" class="form-label">Unit
+                                <rf />
+                            </label>
                             <div class="position-relative">
                                 <select type="text" class="form-control" id="ghsfre" name="unit_id"
                                     autocomplete="off">
                                     <option value=""> -- Select Unit --</option>
+                                    @foreach ($units as $key => $unit)
+                                        <option value="{{ $unit->value }}">{{ $unit->label }} ({{$unit->code}})</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <label for="gdstwe" class="form-label">MRP. <rf />
+                            <label for="gdstwe" class="form-label">MRP.
+                                <rf />
                             </label>
                             <div class="position-relative">
                                 <textarea class="form-control" id="gdstwe" name="maximum_retail_price" rows="1"></textarea>
@@ -67,7 +79,8 @@
                     </div>
                     <div class="row g-3 mt-2">
                         <div class="col-md-4">
-                            <label for="sdfse" class="form-label">Code <rf />
+                            <label for="sdfse" class="form-label">Code
+                                <rf />
                             </label>
                             <div class="position-relative">
                                 <input type="text" class="form-control" id="sdfse" name="code"
@@ -85,7 +98,7 @@
                             <label for="deshd" class="form-label">Description
                             </label>
                             <div class="position-relative">
-                                <textarea type="number" class="form-control no-arrow" id="deshd" name="description"></textarea>
+                                <textarea class="form-control" id="deshd" name="description"></textarea>
                             </div>
                         </div>
                     </div>

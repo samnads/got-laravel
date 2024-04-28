@@ -2,7 +2,7 @@ let quick_edit_vendor_modal = new bootstrap.Modal(document.querySelector('.modal
     backdrop: 'static',
     keyboard: true
 });
-let quick_edit_vendor_form = $('form[id="quick-edit-product"]');
+let quick_edit_product_form = $('form[id="quick-edit-product"]');
 loading_button_html = "Please wait...";
 let datatable = new DataTable('#datatable', {
     processing: true,
@@ -95,20 +95,15 @@ function rowEditListener() {
             data: { action: 'quick-edit' },
             success: function (response) {
                 if (response.status == true) {
-                    quick_edit_vendor_form_validator.resetForm();
-                    quick_edit_vendor_form.trigger("reset");
-                    //
-                    /*state_id_select.clear();
-                    district_id_select.clear();
-                    district_id_select.clearOptions();
-                    location_id_select.clear();
-                    location_id_select.clearOptions();
-                    district_id_select.disable();
-                    location_id_select.disable();*/
-                    $('[name="id"]', quick_edit_vendor_form).val(id);
-                    $('[name="name"]', quick_edit_vendor_form).val(response.data.product.name);
-                    $('[name="item_size"]', quick_edit_vendor_form).val(response.data.product.item_size);
-                    $('[name="maximum_retail_price"]', quick_edit_vendor_form).val(response.data.product.maximum_retail_price);
+                    quick_edit_product_form_validator.resetForm();
+                    quick_edit_product_form.trigger("reset");
+                    category_id_select.clear();
+                    category_id_select.clearOptions();
+                    $('[name="id"]', quick_edit_product_form).val(id);
+                    $('[name="name"]', quick_edit_product_form).val(response.data.product.name);
+                    $('[name="item_size"]', quick_edit_product_form).val(response.data.product.item_size);
+                    $('[name="maximum_retail_price"]', quick_edit_product_form).val(response.data.product.maximum_retail_price);
+                    $('[name="description"]', quick_edit_product_form).val(response.data.product.description);
                     if (response.data.product.category) {
                         category_id_select.addOption({
                             value: response.data.product.category.id,
@@ -116,22 +111,8 @@ function rowEditListener() {
                         });
                         category_id_select.setValue([response.data.product.category.id]);
                     }
-                    /*if (response.data.vendor.location) {
-                        state_id_select.setValue([response.data.vendor.state.state_id]);
-                        district_id_select.addOption({
-                            value: response.data.vendor.district.district_id,
-                            label: response.data.vendor.district.name,
-                        });
-                        district_id_select.setValue([response.data.vendor.location.district_id]);
-                        location_id_select.addOption({
-                            value: response.data.vendor.location.id,
-                            label: response.data.vendor.location.name,
-                        });
-                        location_id_select.setValue([response.data.vendor.location.id]);
-                    }
-                    else {
-
-                    }*/
+                    unit_id_select.setValue([response.data.product.unit_id]);
+                    brand_id_select.setValue([response.data.product.brand_id]);
                     quick_edit_vendor_modal.show();
                 } else {
                     toastStatusFalse(response);
@@ -150,42 +131,39 @@ $('select[name="filter_status"]').change(function () {
     datatable.draw();
 });
 $(document).ready(function () {
-    quick_edit_vendor_form_validator = quick_edit_vendor_form.validate({
+    quick_edit_product_form_validator = quick_edit_product_form.validate({
         focusInvalid: false,
         ignore: [],
         rules: {
             "id": {
                 required: true,
             },
-            "vendor_name": {
+            "name": {
                 required: true,
             },
-            "owner_name": {
+            "category_id": {
                 required: true,
             },
-            "mobile_number": {
-                required: true,
-            },
-            "gst_number": {
+            "brand_id": {
                 required: false,
             },
-            "email": {
+            "item_size": {
+                required: true,
+            },
+            "unit_id": {
+                required: true,
+            },
+            "maximum_retail_price": {
+                required: true,
+            },
+            "code": {
+                required: true,
+            },
+            "thumbnail_image": {
                 required: false,
             },
-            "address": {
-                required: true,
-            },
-            "username": {
-                required: true,
-            },
-            "state_id": {
-                required: true,
-            },
-            "district_id": {
-                required: true,
-            },
-            "location_id": {
-                required: true,
+            "description": {
+                required: false,
             },
         },
         messages: {},
@@ -199,7 +177,7 @@ $(document).ready(function () {
             formData.append('_method', 'PUT');
             $.ajax({
                 type: 'POST',
-                url: _base_url + "masters/vendors/" + $('input[name="id"]', quick_edit_vendor_form).val(),
+                url: _base_url + "masters/vendors/" + $('input[name="id"]', quick_edit_product_form).val(),
                 cache: false,
                 dataType: 'json',
                 contentType: false,
@@ -330,4 +308,12 @@ let category_id_select = new TomSelect('#quick-edit-product [name="category_id"]
     onItemAdd: function (values) {
         category_id_select.blur();
     },
+});
+let unit_id_select = new TomSelect('#quick-edit-product [name="unit_id"]', {
+    plugins: ['clear_button'],
+    maxItems: 1,
+});
+let brand_id_select = new TomSelect('#quick-edit-product [name="brand_id"]', {
+    plugins: ['clear_button'],
+    maxItems: 1,
 });

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\ProductCategoryMapping;
+use App\Models\Unit;
 use Illuminate\Http\Request;
 use App\Models\District;
 use App\Models\Location;
@@ -107,7 +108,8 @@ class UserProductController extends Controller
                 return response()->json($response, 200, [], JSON_PRETTY_PRINT);
             }
         }
-        $data['states'] = State::select('states.state_id as value', 'states.name as label')->get();
+        $data['units'] = Unit::select('units.id as value', 'units.name as label', 'units.code')->get();
+        $data['brands'] = Brand::select('brands.id as value', 'brands.name as label')->get();
         return view('user.products.products-list', $data);
     }
     public function read(Request $request, $id)
