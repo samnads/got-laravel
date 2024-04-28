@@ -58,6 +58,14 @@ let datatable = new DataTable('#datatable', {
             width: 1
         },
         {
+            targets: 'brand:name',
+            type: 'html',
+        },
+        {
+            targets: 'maximum_retail_price:name',
+            type: 'html',
+        },
+        {
             targets: 'item_size:name',
             type: 'html',
             sortable: false
