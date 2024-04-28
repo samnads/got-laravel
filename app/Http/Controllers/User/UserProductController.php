@@ -29,7 +29,7 @@ class UserProductController extends Controller
                         $rows = Product::select(
                             'products.id',
                             'products.code',
-                            'products.item_size',
+                            DB::raw('CONCAT(round(products.item_size)," ",u.name) as item_size'),
                             'products.name',
                             'products.maximum_retail_price',
                             'products.thumbnail_image',

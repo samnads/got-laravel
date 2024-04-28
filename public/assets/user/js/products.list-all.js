@@ -275,7 +275,7 @@ $(document).ready(function () {
                 },
                 success: function (response) {
                     if (response.status == true) {
-                        quick_edit_product_modal.hide();
+                        quick_add_product_modal.hide();
                         submit_btn.html('Update').prop("disabled", false);
                         datatable.ajax.reload(null, false);
                         Swal.fire({
