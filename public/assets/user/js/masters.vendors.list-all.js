@@ -35,6 +35,7 @@ let datatable = new DataTable('#datatable', {
         { data: 'state', name: 'state' },
         { data: 'district', name: 'district' },
         { data: 'location', name: 'location' },
+        { data: 'google_map_link_html', name: 'google_map_link_html' },
         { data: 'status_html', name: 'status_html' },
         { data: 'actions_html', name: 'actions_html' },
     ],
@@ -57,10 +58,17 @@ let datatable = new DataTable('#datatable', {
             width: 1
         },
         {
+            targets: 'google_map_link_html:name',
+            type: 'html',
+            sortable: false,
+            width: 1
+        },
+        {
             targets: 'actions_html:name',
             sortable: false,
-            type: 'num',
-            width: 1
+            type: 'html',
+            width: 1,
+            className:'text-center'
         },
     ],
     drawCallback: function (settings) {

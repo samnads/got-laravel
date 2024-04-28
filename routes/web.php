@@ -48,7 +48,7 @@ Route::get('/', function () {
 });
 
 
-Route::prefix('admin')->name('admin.')->group(function () {
+/*Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware([AdminAuthWeb::class])->group(function () {
         Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
         Route::get('/product/block/{product_id}', [AdminProductController::class, 'product_block'])->name('product-block');
@@ -95,7 +95,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('/login', [AdminAuthController::class, 'login'])->name('do-login');
         Route::post('/logout', [AdminAuthController::class, 'logout'])->name('do-logout');
     });
-});
+});*/
 Route::prefix('user')->name('user.')->group(function () {
     // Authentication Routes
     Route::middleware([])->group(function () {
@@ -155,7 +155,7 @@ Route::prefix('user')->name('user.')->group(function () {
             Route::get('categories/{usage}', [UserDropdownController::class, 'categories']);
         });
     });
-});
+})->domain('user.gotonline.in');
 Route::prefix('vendor')->name('vendor.')->group(function () {
     Route::middleware([VendorAuthWeb::class])->group(function () {
         Route::get('/dashboard', [VendorDashboardController::class, 'dashboard'])->name('dashboard');

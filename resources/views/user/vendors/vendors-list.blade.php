@@ -43,6 +43,7 @@
                             <th>State</th>
                             <th>District</th>
                             <th>Location</th>
+                            <th>Map</th>
                             <th>Status</th>
                             <th>Actions</th>
                         </tr>
@@ -58,6 +59,7 @@
                             <th>State</th>
                             <th>District</th>
                             <th>Location</th>
+                            <th>Map</th>
                             <th>Status</th>
                             <th>Actions</th>
                         </tr>

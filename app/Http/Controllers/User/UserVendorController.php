@@ -29,6 +29,8 @@ class UserVendorController extends Controller
                             'vendors.owner_name as owner',
                             'vendors.mobile_number',
                             'vendors.gst_number',
+                            'vendors.latitude',
+                            'vendors.longitude',
                             'vendors.deleted_at',
                             'l.name as location',
                             'd.name as district',
@@ -64,6 +66,7 @@ class UserVendorController extends Controller
                         foreach ($data_table['data'] as $key => $row) {
                             $data_table['data'][$key]['slno'] = ($request->start + $key + 1);
                             $data_table['data'][$key]['thumbnail_image_html'] = '<img src="' . config('url.uploads_cdn') . 'vendors/' . ($row['thumbnail_image'] ?: 'default.jpg') . '" class="product-img-2" alt="product img">';
+                            $data_table['data'][$key]['google_map_link_html'] = '<a href="https://www.google.com/maps/search/?api=1&query=' . $row['latitude'] . ',' . $row['longitude'] . '" class="" target="_blank"><i class="lni lni-map-marker"></i></a>';
                             $data_table['data'][$key]['actions_html'] = '<div class="btn-group btn-group-sm bg-light" role="group">
 											<button type="button" data-action="quick-edit" data-id="' . $row['id'] . '" class="btn btn-outline-primary"><i class="bx bx-pencil"></i>
 											</button>
