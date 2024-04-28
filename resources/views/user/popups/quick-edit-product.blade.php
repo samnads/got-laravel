@@ -1,112 +1,92 @@
 <!-- Modal -->
-<div class="modal fade quick-edit-vendor" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-xl modal-dialog-centered">
+<div class="modal fade quick-edit-product" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Edit Product</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form id="quick-edit-vendor" enctype="multipart/form-data">
+            <form id="quick-edit-product" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="id">
                 <input type="hidden" name="action" value="quick-edit" />
                 <div class="modal-body">
                     <div class="row g-3">
                         <div class="col-md-4">
-                            <label for="dfdfdfd" class="form-label">Vendor Name
-                                <rf />
+                            <label for="ssdsd" class="form-label">Name <rf />
                             </label>
                             <div class="position-relative">
-                                <input type="text" class="form-control" id="dfdfdfd" name="vendor_name"
+                                <input type="text" class="form-control" id="ssdsd" name="name"
                                     autocomplete="off">
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <label for="sdcgfs" class="form-label">Owner Name
-                                <rf />
+                            <label for="dfgfd" class="form-label">Category <rf />
                             </label>
                             <div class="position-relative">
-                                <input type="text" class="form-control" id="sdcgfs" name="owner_name"
+                                <select type="text" class="form-control" id="dfgfd" name="category_id"
                                     autocomplete="off">
+                                    <option value=""> -- Select Category --</option>
+                                </select>
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <label for="drggdgs" class="form-label">Mobile
-                                <rf />
+                            <label for="dfsteg" class="form-label">Brand <rf />
                             </label>
                             <div class="position-relative">
-                                <input type="number" class="form-control no-arrow" id="drggdgs" name="mobile_number"
+                                <select type="number" class="form-control no-arrow" id="dfsteg" name="brand_id"
                                     autocomplete="off">
+                                    <option value=""> -- Select Brand --</option>
+                                </select>
                             </div>
                         </div>
                     </div>
                     <div class="row g-3 mt-2">
                         <div class="col-md-4">
-                            <label for="hjfgd" class="form-label">GST Number</label>
+                            <label for="rysfs" class="form-label">Item Size <rf /></label>
                             <div class="position-relative">
-                                <input type="text" class="form-control" id="hjfgd" name="gst_number"
+                                <input type="text" class="form-control" id="rysfs" name="item_size"
                                     autocomplete="off">
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <label for="dgfddg" class="form-label">Email</label>
+                            <label for="ghsfre" class="form-label">Unit <rf /></label>
                             <div class="position-relative">
-                                <input type="email" class="form-control" id="dgfddg" name="email"
+                                <select type="text" class="form-control" id="ghsfre" name="unit_id"
                                     autocomplete="off">
+                                    <option value=""> -- Select Unit --</option>
+                                </select>
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <label for="sfsfrd" class="form-label">Address
-                                <rf />
+                            <label for="gdstwe" class="form-label">MRP. <rf />
                             </label>
                             <div class="position-relative">
-                                <textarea class="form-control" id="sfsfrd" name="address" rows="1"></textarea>
+                                <textarea class="form-control" id="gdstwe" name="maximum_retail_price" rows="1"></textarea>
                             </div>
                         </div>
                     </div>
                     <div class="row g-3 mt-2">
                         <div class="col-md-4">
-                            <label for="iutgdwr" class="form-label">Login Username
-                                <rf />
+                            <label for="sdfse" class="form-label">Code <rf />
                             </label>
                             <div class="position-relative">
-                                <input type="text" class="form-control" id="iutgdwr" name="username"
-                                    autocomplete="off" readonly onfocus="this.removeAttribute('readonly');" onblur="this.setAttribute('readonly', true);" />
+                                <input type="text" class="form-control" id="sdfse" name="code"
+                                    autocomplete="off">
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <label for="gfsgdxa" class="form-label">Login Password</label>
-                            <div class="position-relative">
-                                <input type="text" class="form-control" id="gfsgdxa" name="password" autocomplete="off" onfocus="this.removeAttribute('readonly');" onblur="this.setAttribute('readonly', true);" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row g-3 mt-2">
-                        <div class="col-md-4">
-                            <label for="yttrd" class="form-label">State <rf /></label>
-                            <div class="position-relative">
-                                <select type="text" class="form-control" id="yttrd" name="state_id" placeholder="-- Select District --">
-                                    <option value="">-- Select District --</option>
-                                    @foreach ($states as $key => $state)
-                                        <option value="{{ $state->value }}">{{ $state->label }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <label for="hydw" class="form-label">District <rf /></label>
-                            <div class="position-relative">
-                                <select type="text" class="form-control" id="hydw" name="district_id" placeholder="Search district...">
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <label for="hfdghre" class="form-label">Location
-                                <rf />
+                            <label for="thxse" class="form-label">Thumbnail Image (300 x 300px)
                             </label>
                             <div class="position-relative">
-                                <select type="text" class="form-control" id="hfdghre" name="location_id" placeholder="Search location...">
-                                </select>
+                                <input class="form-control" type="file" id="thxse" name="thumbnail_image" accept="image/*">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="deshd" class="form-label">Description
+                            </label>
+                            <div class="position-relative">
+                                <textarea type="number" class="form-control no-arrow" id="deshd" name="description"></textarea>
                             </div>
                         </div>
                     </div>

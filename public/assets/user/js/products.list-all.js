@@ -1,8 +1,8 @@
-let quick_edit_vendor_modal = new bootstrap.Modal(document.querySelector('.modal.quick-edit-vendor'), {
+let quick_edit_vendor_modal = new bootstrap.Modal(document.querySelector('.modal.quick-edit-product'), {
     backdrop: 'static',
     keyboard: true
 });
-let quick_edit_vendor_form = $('form[id="quick-edit-vendor"]');
+let quick_edit_vendor_form = $('form[id="quick-edit-product"]');
 loading_button_html = "Please wait...";
 let datatable = new DataTable('#datatable', {
     processing: true,
@@ -90,7 +90,7 @@ function rowEditListener() {
         let id = this.getAttribute('data-id');
         $.ajax({
             type: 'GET',
-            url: _base_url + "masters/vendors/" + id,
+            url: _base_url + "products/" + id,
             dataType: 'json',
             data: { action: 'quick-edit' },
             success: function (response) {
@@ -98,22 +98,25 @@ function rowEditListener() {
                     quick_edit_vendor_form_validator.resetForm();
                     quick_edit_vendor_form.trigger("reset");
                     //
-                    state_id_select.clear();
+                    /*state_id_select.clear();
                     district_id_select.clear();
                     district_id_select.clearOptions();
                     location_id_select.clear();
                     location_id_select.clearOptions();
                     district_id_select.disable();
-                    location_id_select.disable();
+                    location_id_select.disable();*/
                     $('[name="id"]', quick_edit_vendor_form).val(id);
-                    $('[name="vendor_name"]', quick_edit_vendor_form).val(response.data.vendor.vendor_name);
-                    $('[name="owner_name"]', quick_edit_vendor_form).val(response.data.vendor.owner_name);
-                    $('[name="mobile_number"]', quick_edit_vendor_form).val(response.data.vendor.mobile_number);
-                    $('[name="gst_number"]', quick_edit_vendor_form).val(response.data.vendor.gst_number);
-                    $('[name="email"]', quick_edit_vendor_form).val(response.data.vendor.email);
-                    $('[name="address"]', quick_edit_vendor_form).val(response.data.vendor.address);
-                    $('[name="username"]', quick_edit_vendor_form).val(response.data.vendor.username);
-                    if (response.data.vendor.location) {
+                    $('[name="name"]', quick_edit_vendor_form).val(response.data.product.name);
+                    $('[name="item_size"]', quick_edit_vendor_form).val(response.data.product.item_size);
+                    $('[name="maximum_retail_price"]', quick_edit_vendor_form).val(response.data.product.maximum_retail_price);
+                    if (response.data.product.category) {
+                        category_id_select.addOption({
+                            value: response.data.product.category.id,
+                            label: response.data.product.category.name,
+                        });
+                        category_id_select.setValue([response.data.product.category.id]);
+                    }
+                    /*if (response.data.vendor.location) {
                         state_id_select.setValue([response.data.vendor.state.state_id]);
                         district_id_select.addOption({
                             value: response.data.vendor.district.district_id,
@@ -128,7 +131,7 @@ function rowEditListener() {
                     }
                     else {
 
-                    }
+                    }*/
                     quick_edit_vendor_modal.show();
                 } else {
                     toastStatusFalse(response);
@@ -286,91 +289,15 @@ function statusChangeListener() {
     });
 }
 /******************************************************************* */
-let state_id_select = new TomSelect('#quick-edit-vendor [name="state_id"]', {
-    plugins: {
-        'clear_button': {}
-    },
-    valueField: 'value',
-    labelField: 'label',
-    create: function (input) {
-        $.ajax({
-            url: _base_url + "masters/states",
-            type: 'POST',
-            dataType: 'json',
-            headers: {
-                'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
-            },
-            data: {
-                name: input,
-            },
-            cache: false,
-            success: function (response) {
-                if (response.status == true) {
-                    toast(response.message.title, response.message.content, response.message.type);
-                    state_id_select.addOption({
-                        value: response.data.state.id,
-                        label: response.data.state.name,
-                    });
-                    state_id_select.setValue([response.data.state.id]);
-                } else {
-                    toastStatusFalse(response, { stack: 1 });
-                }
-            },
-            error: function (response) {
-                ajaxError(response);
-            },
-        });
-    },
-    onItemRemove: function (values) {
-        district_id_select.clear();
-        district_id_select.clearOptions();
-        district_id_select.disable();
-    },
-    onItemAdd: function (values) {
-        district_id_select.load('');
-        district_id_select.enable();
-    },
-});
-let district_id_select = new TomSelect('#quick-edit-vendor [name="district_id"]', {
+let category_id_select = new TomSelect('#quick-edit-product [name="category_id"]', {
     plugins: ['clear_button'],
     valueField: 'value',
     labelField: 'label',
     searchField: ['label'],
-    create: function (input) {
-        $.ajax({
-            url: _base_url + "masters/districts",
-            type: 'POST',
-            dataType: 'json',
-            headers: {
-                'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
-            },
-            data: {
-                state_id: $('[name="state_id"]', quick_edit_vendor_form).val(),
-                name: input,
-            },
-            cache: false,
-            success: function (response) {
-                if (response.status == true) {
-                    toast(response.message.title, response.message.content, response.message.type);
-                    district_id_select.addOption({
-                        value: response.data.district.id,
-                        label: response.data.district.name,
-                    });
-                    district_id_select.setValue([response.data.district.id]);
-                } else {
-                    toastStatusFalse(response, { stack: 1 });
-                }
-            },
-            error: function (response) {
-                ajaxError(response);
-            },
-        });
-    },
     // fetch remote data
     load: function (query, callback) {
-        var url = _base_url + 'dropdown/districts/quick-edit-vendor?' + new URLSearchParams({
+        var url = _base_url + 'dropdown/categories/quick-edit-product?' + new URLSearchParams({
             query: encodeURIComponent(query),
-            state_id: $('[name="state_id"]', quick_edit_vendor_form).val(),
         })
         fetch(url)
             .then(response => response.json())
@@ -390,83 +317,6 @@ let district_id_select = new TomSelect('#quick-edit-vendor [name="district_id"]'
         },
         no_results: function (data, escape) {
             return '<div class="no-results">No districts found for "' + escape(data.input) + '"</div>';
-        },
-        item: function (item, escape) {
-            return `<div>${escape(item.label)}</div>`;
-        }
-    },
-    onItemRemove: function (values) {
-        location_id_select.clear();
-        location_id_select.clearOptions();
-        location_id_select.disable();
-    },
-    onDelete: function (values) {
-    },
-    onItemAdd: function (values) {
-        location_id_select.enable();
-        location_id_select.load('');
-    },
-});
-let location_id_select = new TomSelect('#quick-edit-vendor [name="location_id"]', {
-    plugins: ['clear_button'],
-    valueField: 'value',
-    labelField: 'label',
-    searchField: ['label'],
-    create: function (input) {
-        $.ajax({
-            url: _base_url + "masters/locations",
-            type: 'POST',
-            dataType: 'json',
-            headers: {
-                'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
-            },
-            data: {
-                district_id: $('[name="district_id"]', quick_edit_vendor_form).val(),
-                name: input,
-            },
-            cache: false,
-            success: function (response) {
-                if (response.status == true) {
-                    toast(response.message.title, response.message.content, response.message.type);
-                    location_id_select.addOption({
-                        value: response.data.location.id,
-                        label: response.data.location.name,
-                    });
-                    location_id_select.setValue([response.data.location.id]);
-                } else {
-                    toastStatusFalse(response, { stack: 1 });
-                }
-            },
-            error: function (response) {
-                ajaxError(response);
-            },
-        });
-    },
-    // fetch remote data
-    load: function (query, callback) {
-        var url = _base_url + 'dropdown/locations/quick-edit-vendor?' + new URLSearchParams({
-            query: encodeURIComponent(query),
-            district_id: $('[name="district_id"]', quick_edit_vendor_form).val(),
-        })
-        fetch(url)
-            .then(response => response.json())
-            .then(json => {
-                callback(json.items);
-            }).catch(() => {
-                callback();
-            });
-
-    },
-    // custom rendering functions for options and items
-    render: {
-        option: function (item, escape) {
-            return `<div class="py-2 d-flex">${escape(item.label)}</div>`;
-        },
-        option_create: function (data, escape) {
-            return '<div class="create">Add <strong>' + escape(data.input) + '</strong>&hellip;</div>';
-        },
-        no_results: function (data, escape) {
-            return '<div class="no-results">No locations found for "' + escape(data.input) + '"</div>';
         },
         item: function (item, escape) {
             return `<div>${escape(item.label)}</div>`;

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Models\District;
 use App\Models\Location;
+use App\Models\ProductCategories;
 use Illuminate\Http\Request;
 
 class UserDropdownController extends Controller
@@ -45,6 +46,31 @@ class UserDropdownController extends Controller
                     ->where('locations.district_id', $request->district_id)
                     ->whereAny([
                         'locations.name',
+                    ], 'LIKE', "%" . $query_string . "%")
+                    ->take(30)
+                    ->get();
+                $response = [
+                    'status' => true,
+                    'items' => $items
+                ];
+                break;
+            default:
+                $response = [
+                    'status' => false,
+                    'error' => 'Unknown usage.'
+                ];
+        }
+        return response()->json($response, 200, [], JSON_PRETTY_PRINT);
+    }
+    public function categories(Request $request, $usage)
+    {
+        switch ($usage) {
+            case 'quick-edit-product':
+                $query_string = @$request->all()['query'];
+                $items = ProductCategories::
+                    select('product_categories.id as value', 'product_categories.name as label')
+                    ->whereAny([
+                        'product_categories.name',
                     ], 'LIKE', "%" . $query_string . "%")
                     ->take(30)
                     ->get();

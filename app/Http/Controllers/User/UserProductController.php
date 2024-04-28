@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\Models\ProductCategoryMapping;
 use Illuminate\Http\Request;
 use App\Models\District;
 use App\Models\Location;
@@ -113,10 +114,21 @@ class UserProductController extends Controller
     {
         if ($request->ajax()) {
             if ($request->action == 'quick-edit') {
-                $data['vendor'] = Vendor::findOrFail($id);
-                $data['vendor']['location'] = Location::withTrashed()->find(@$data['vendor']->location_id);
+                $data['product'] = Product::findOrFail($id);
+                $data['product']['category'] = ProductCategoryMapping::
+                    select(
+                        'pc.id',
+                        'pc.name'
+                    )
+                    ->leftJoin('product_categories as pc', function ($join) {
+                        $join->on('product_category_mappings.category_id', '=', 'pc.id');
+                    })
+                    ->withTrashed()
+                    ->where('product_category_mappings.product_id', $id)
+                    ->first();
+                /*$data['vendor']['location'] = Location::withTrashed()->find(@$data['vendor']->location_id);
                 $data['vendor']['district'] = District::withTrashed()->find(@$data['vendor']['location']->district_id);
-                $data['vendor']['state'] = State::withTrashed()->find(@$data['vendor']['district']->state_id);
+                $data['vendor']['state'] = State::withTrashed()->find(@$data['vendor']['district']->state_id);*/
             }
             $response = [
                 'status' => true,
