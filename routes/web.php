@@ -30,6 +30,7 @@ use App\Http\Controllers\User\UserDropdownController;
 use App\Http\Controllers\User\UserLocationController;
 use App\Http\Controllers\User\UserDistrictController;
 use App\Http\Controllers\User\UserStateController;
+use App\Http\Controllers\User\UserProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -140,6 +141,13 @@ Route::prefix('user')->name('user.')->group(function () {
             Route::prefix('states')->name('states.')->group(function () {
                 Route::post('/', [UserStateController::class, 'add_state']);
             });
+        });
+        // Vendors routes
+        Route::prefix('products')->name('products.')->group(function () {
+            Route::post('/', [UserProductController::class, 'create']);
+            Route::get('/list', [UserProductController::class, 'list'])->name('list');
+            Route::get('/{id}', [UserProductController::class, 'read']);
+            Route::put('/{id}', [UserProductController::class, 'update']);
         });
         Route::prefix('dropdown')->name('dropdown.')->group(function () {
             Route::get('districts/{usage}', [UserDropdownController::class, 'districts']);
