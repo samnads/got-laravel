@@ -23,10 +23,8 @@ let datatable = new DataTable('#datatable', {
             }
         },
         "beforeSend": function () {
-            //Pace.restart();
         },
         "complete": function () {
-            //Pace.stop();
         }
     },
     columns: [
@@ -85,6 +83,14 @@ function rowEditListener() {
                 if (response.status == true) {
                     quick_edit_vendor_form_validator.resetForm();
                     quick_edit_vendor_form.trigger("reset");
+                    //
+                    state_id_select.clear();
+                    district_id_select.clear();
+                    district_id_select.clearOptions();
+                    location_id_select.clear();
+                    location_id_select.clearOptions();
+                    district_id_select.disable();
+                    location_id_select.disable();
                     $('[name="id"]', quick_edit_vendor_form).val(id);
                     $('[name="vendor_name"]', quick_edit_vendor_form).val(response.data.vendor.vendor_name);
                     $('[name="owner_name"]', quick_edit_vendor_form).val(response.data.vendor.owner_name);
@@ -93,6 +99,22 @@ function rowEditListener() {
                     $('[name="email"]', quick_edit_vendor_form).val(response.data.vendor.email);
                     $('[name="address"]', quick_edit_vendor_form).val(response.data.vendor.address);
                     $('[name="username"]', quick_edit_vendor_form).val(response.data.vendor.username);
+                    if (response.data.vendor.location){
+                        state_id_select.setValue([response.data.vendor.state.state_id]);
+                        district_id_select.addOption({
+                            value: response.data.vendor.district.district_id,
+                            label: response.data.vendor.district.name,
+                        });
+                        district_id_select.setValue([response.data.vendor.location.district_id]);
+                        location_id_select.addOption({
+                            value: response.data.vendor.location.id,
+                            label: response.data.vendor.location.name,
+                        });
+                        location_id_select.setValue([response.data.vendor.location.id]);
+                    }
+                    else{
+
+                    }
                     quick_edit_vendor_modal.show();
                 } else {
                     toastStatusFalse(response);
@@ -247,6 +269,15 @@ let state_id_select = new TomSelect('#quick-edit-vendor [name="state_id"]', {
     plugins: {
         'clear_button': {}
     },
+    onItemRemove: function (values) {
+        district_id_select.clear();
+        district_id_select.clearOptions();
+        district_id_select.disable();
+    },
+    onItemAdd: function (values) {
+        district_id_select.load('');
+        district_id_select.enable();
+    },
 });
 let district_id_select = new TomSelect('#quick-edit-vendor [name="district_id"]', {
     plugins: {
@@ -263,7 +294,8 @@ let district_id_select = new TomSelect('#quick-edit-vendor [name="district_id"]'
             state_id: $('[name="state_id"]', quick_edit_vendor_form).val(),
         })
         fetch(url)
-            .then(response => response.json())
+            .then(response => {
+                response.json()})
             .then(json => {
                 callback(json.items);
             }).catch(() => {
@@ -284,10 +316,15 @@ let district_id_select = new TomSelect('#quick-edit-vendor [name="district_id"]'
         }
     },
     onItemRemove: function (values) {
+        location_id_select.clear();
+        location_id_select.clearOptions();
+        location_id_select.disable();
     },
     onDelete: function (values) {
     },
     onItemAdd: function (values) {
+        location_id_select.enable();
+        location_id_select.load('');
     },
 });
 let location_id_select = new TomSelect('#quick-edit-vendor [name="location_id"]', {
@@ -319,7 +356,7 @@ let location_id_select = new TomSelect('#quick-edit-vendor [name="location_id"]'
             return `<div class="py-2 d-flex">${escape(item.label)}</div>`;
         },
         no_results: function (data, escape) {
-            return '<div class="no-results">No districts found for "' + escape(data.input) + '"</div>';
+            return '<div class="no-results">No locations found for "' + escape(data.input) + '"</div>';
         },
         item: function (item, escape) {
             return `<div>${escape(item.label)}</div>`;

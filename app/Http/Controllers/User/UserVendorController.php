@@ -107,9 +107,9 @@ class UserVendorController extends Controller
         if ($request->ajax()) {
             if ($request->action == 'quick-edit') {
                 $data['vendor'] = Vendor::findOrFail($id);
-                $data['vendor']['location'] = Location::find(@$data['vendor']->location_id);
-                $data['vendor']['district'] = District::find(@$data['vendor']['location']->district_id);
-                $data['vendor']['state'] = State::find(@$data['vendor']['district']->state_id);
+                $data['vendor']['location'] = Location::withTrashed()->find(@$data['vendor']->location_id);
+                $data['vendor']['district'] = District::withTrashed()->find(@$data['vendor']['location']->district_id);
+                $data['vendor']['state'] = State::withTrashed()->find(@$data['vendor']['district']->state_id);
             }
             $response = [
                 'status' => true,
