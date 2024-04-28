@@ -161,6 +161,12 @@ $(document).ready(function () {
             "username": {
                 required: true,
             },
+            "state_id": {
+                required: true,
+            },
+            "district_id": {
+                required: true,
+            },
             "location_id": {
                 required: true,
             },
@@ -172,11 +178,11 @@ $(document).ready(function () {
         submitHandler: function (form) {
             let submit_btn = $('button[type="submit"]', form);
             submit_btn.prop("disabled", true);
-            let formData = new FormData($("#quick-edit-brand")[0]);
+            let formData = new FormData($("#quick-edit-vendor")[0]);
             formData.append('_method', 'PUT');
             $.ajax({
                 type: 'POST',
-                url: _base_url + "masters/brands/" + $('input[name="id"]', quick_edit_vendor_form).val(),
+                url: _base_url + "masters/vendors/" + $('input[name="id"]', quick_edit_vendor_form).val(),
                 cache: false,
                 dataType: 'json',
                 contentType: false,

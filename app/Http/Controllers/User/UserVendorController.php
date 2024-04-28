@@ -10,6 +10,7 @@ use App\Models\Vendor;
 use Illuminate\Http\Request;
 use App\Models\Brand;
 use App\Models\ProductCategories;
+use Illuminate\Support\Facades\Validator;
 use DB;
 use Intervention\Image\Facades\Image as Image;
 
@@ -171,25 +172,48 @@ class UserVendorController extends Controller
         try {
             if ($request->ajax()) {
                 if ($request->action == 'quick-edit') {
-                    $brand = Vendor::findOrFail($id);
-                    $brand->name = $request->name;
-                    $brand->description = $request->description;
-                    /************************************* */
-                    if ($request->file('thumbnail_image')) {
-                        $file = $request->file('thumbnail_image');
-                        $image_resize = Image::make($file->getRealPath());
-                        $image_resize->fit(300, 300);
-                        $image_resize->save(public_path('uploads/brands/' . $file->hashName()), 100);
-                        $brand->thumbnail_image = $file->hashName();
+                    /******************************************************************************* */
+                    $validator = Validator::make(
+                        (array) $request->all(),
+                        [
+                            'id' => 'required|exists:vendors,id',
+                            'location_id' => 'required|exists:locations,id',
+
+                        ],
+                        [],
+                        [
+                            'id' => 'Vendor',
+                            'location_id' => 'Location',
+                        ]
+                    );
+                    if ($validator->fails()) {
+                        $response = [
+                            'status' => false,
+                            'error' => [
+                                'type' => 'error',
+                                'title' => 'Error !',
+                                'content' => $validator->errors()->first()
+                            ]
+                        ];
+                        return response()->json($response, 200, [], JSON_PRETTY_PRINT);
                     }
-                    /************************************* */
-                    $brand->save();
+                    /******************************************************************************* */
+                    $row = Vendor::findOrFail($id);
+                    $row->vendor_name = $request->vendor_name;
+                    $row->owner_name = $request->owner_name;
+                    $row->mobile_number = $request->mobile_number;
+                    $row->gst_number = $request->gst_number;
+                    $row->email = $request->email;
+                    $row->address = $request->address;
+                    $row->username = $request->username;
+                    $row->location_id = $request->location_id;
+                    $row->save();
                     $response = [
                         'status' => true,
                         'message' => [
                             'type' => 'success',
-                            'title' => 'Brand Updated !',
-                            'content' => 'Brand updated successfully.'
+                            'title' => 'Vendor Updated !',
+                            'content' => 'Vendor updated successfully.'
                         ]
                     ];
                 } else if ($request->action == 'toggle-status') {

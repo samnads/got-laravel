@@ -71,19 +71,19 @@
                             </label>
                             <div class="position-relative">
                                 <input type="text" class="form-control" id="iutgdwr" name="username"
-                                    autocomplete="off">
+                                    autocomplete="off" readonly onfocus="this.removeAttribute('readonly');" onblur="this.setAttribute('readonly', true);" />
                             </div>
                         </div>
                         <div class="col-md-4">
                             <label for="gfsgdxa" class="form-label">Login Password</label>
                             <div class="position-relative">
-                                <input type="password" class="form-control" id="gfsgdxa" name="password">
+                                <input type="password" class="form-control" id="gfsgdxa" name="password" autocomplete="off" onfocus="this.removeAttribute('readonly');" onblur="this.setAttribute('readonly', true);" />
                             </div>
                         </div>
                     </div>
                     <div class="row g-3 mt-2">
                         <div class="col-md-4">
-                            <label for="yttrd" class="form-label">State</label>
+                            <label for="yttrd" class="form-label">State <rf /></label>
                             <div class="position-relative">
                                 <select type="text" class="form-control" id="yttrd" name="state_id" placeholder="-- Select District --">
                                     <option value="">-- Select District --</option>
@@ -94,7 +94,7 @@
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <label for="hydw" class="form-label">District</label>
+                            <label for="hydw" class="form-label">District <rf /></label>
                             <div class="position-relative">
                                 <select type="text" class="form-control" id="hydw" name="district_id" placeholder="Search district...">
                                 </select>
