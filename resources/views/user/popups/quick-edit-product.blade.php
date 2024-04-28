@@ -25,8 +25,7 @@
                             </label>
                             <div class="position-relative">
                                 <select type="text" class="form-control" id="dfgfd" name="category_id"
-                                    autocomplete="off">
-                                    <option value=""> -- Select Category --</option>
+                                    autocomplete="off" placeholder="Search category...">
                                 </select>
                             </div>
                         </div>

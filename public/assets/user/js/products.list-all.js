@@ -294,6 +294,7 @@ let category_id_select = new TomSelect('#quick-edit-product [name="category_id"]
     valueField: 'value',
     labelField: 'label',
     searchField: ['label'],
+    maxItems: 1,
     // fetch remote data
     load: function (query, callback) {
         var url = _base_url + 'dropdown/categories/quick-edit-product?' + new URLSearchParams({
@@ -327,5 +328,6 @@ let category_id_select = new TomSelect('#quick-edit-product [name="category_id"]
     onDelete: function (values) {
     },
     onItemAdd: function (values) {
+        category_id_select.blur();
     },
 });
