@@ -283,7 +283,37 @@ let district_id_select = new TomSelect('#quick-edit-vendor [name="district_id"]'
     plugins: ['clear_button'],
     valueField: 'value',
     labelField: 'label',
-    searchField: 'label',
+    searchField: ['label'],
+    create: function (input) {
+        $.ajax({
+            url: _base_url + "masters/districts",
+            type: 'POST',
+            dataType: 'json',
+            headers: {
+                'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+            },
+            data: {
+                state_id: $('[name="state_id"]', quick_edit_vendor_form).val(),
+                name: input,
+            },
+            cache: false,
+            success: function (response) {
+                if (response.status == true) {
+                    toast(response.message.title, response.message.content, response.message.type);
+                    district_id_select.addOption({
+                        value: response.data.district.id,
+                        label: response.data.district.name,
+                    });
+                    district_id_select.setValue([response.data.district.id]);
+                } else {
+                    toastStatusFalse(response, { stack: 1 });
+                }
+            },
+            error: function (response) {
+                ajaxError(response);
+            },
+        });
+    },
     // fetch remote data
     load: function (query, callback) {
         var url = _base_url + 'dropdown/districts/quick-edit-vendor?' + new URLSearchParams({
@@ -302,6 +332,9 @@ let district_id_select = new TomSelect('#quick-edit-vendor [name="district_id"]'
     render: {
         option: function (item, escape) {
             return `<div class="py-2 d-flex">${escape(item.label)}</div>`;
+        },
+        option_create: function (data, escape) {
+            return '<div class="create">Add <strong>' + escape(data.input) + '</strong>&hellip;</div>';
         },
         no_results: function (data, escape) {
             return '<div class="no-results">No districts found for "' + escape(data.input) + '"</div>';
@@ -326,7 +359,37 @@ let location_id_select = new TomSelect('#quick-edit-vendor [name="location_id"]'
     plugins: ['clear_button'],
     valueField: 'value',
     labelField: 'label',
-    searchField: [],
+    searchField: ['label'],
+    create: function (input) {
+        $.ajax({
+            url: _base_url + "masters/locations",
+            type: 'POST',
+            dataType: 'json',
+            headers: {
+                'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+            },
+            data: {
+                district_id: $('[name="district_id"]', quick_edit_vendor_form).val(),
+                name: input,
+            },
+            cache: false,
+            success: function (response) {
+                if (response.status == true) {
+                    toast(response.message.title, response.message.content, response.message.type);
+                    location_id_select.addOption({
+                        value: response.data.location.id,
+                        label: response.data.location.name,
+                    });
+                    location_id_select.setValue([response.data.location.id]);
+                } else {
+                    toastStatusFalse(response, { stack: 1 });
+                }
+            },
+            error: function (response) {
+                ajaxError(response);
+            },
+        });
+    },
     // fetch remote data
     load: function (query, callback) {
         var url = _base_url + 'dropdown/locations/quick-edit-vendor?' + new URLSearchParams({
@@ -346,6 +409,9 @@ let location_id_select = new TomSelect('#quick-edit-vendor [name="location_id"]'
     render: {
         option: function (item, escape) {
             return `<div class="py-2 d-flex">${escape(item.label)}</div>`;
+        },
+        option_create: function (data, escape) {
+            return '<div class="create">Add <strong>' + escape(data.input) + '</strong>&hellip;</div>';
         },
         no_results: function (data, escape) {
             return '<div class="no-results">No locations found for "' + escape(data.input) + '"</div>';

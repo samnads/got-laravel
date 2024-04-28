@@ -27,6 +27,9 @@ use App\Http\Controllers\User\UserProductCategoryController;
 use App\Http\Controllers\User\UserBrandController;
 use App\Http\Controllers\User\UserVendorController;
 use App\Http\Controllers\User\UserDropdownController;
+use App\Http\Controllers\User\UserLocationController;
+use App\Http\Controllers\User\UserDistrictController;
+use App\Http\Controllers\User\UserStateController;
 
 /*
 |--------------------------------------------------------------------------
@@ -124,6 +127,18 @@ Route::prefix('user')->name('user.')->group(function () {
                 Route::get('/list', [UserVendorController::class, 'list'])->name('list');
                 Route::get('/{id}', [UserVendorController::class, 'read']);
                 Route::put('/{id}', [UserVendorController::class, 'update']);
+            });
+            // Location routes
+            Route::prefix('locations')->name('locations.')->group(function () {
+                Route::post('/', [UserLocationController::class, 'add_location']);
+            });
+            // District routes
+            Route::prefix('districts')->name('districts.')->group(function () {
+                Route::post('/', [UserDistrictController::class, 'add_district']);
+            });
+            // State routes
+            Route::prefix('states')->name('states.')->group(function () {
+                Route::post('/', [UserStateController::class, 'add_state']);
             });
         });
         Route::prefix('dropdown')->name('dropdown.')->group(function () {
