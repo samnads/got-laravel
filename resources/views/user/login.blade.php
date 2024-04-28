@@ -44,14 +44,14 @@
                                             <div class="col-12">
                                                 <label for="username" class="form-label">Username</label>
                                                 <input type="text" class="form-control" id="username"
-                                                    name="username" placeholder="Enter username" value="admin">
+                                                    name="username" placeholder="Enter username" value="">
                                             </div>
                                             <div class="col-12">
                                                 <label for="password" class="form-label">Password</label>
                                                 <div class="input-group" id="show_hide_password">
                                                     <input type="password" class="form-control border-end-0"
                                                         id="password" placeholder="Enter Password" name="password"
-                                                        value="12345"> <a href="javascript:;"
+                                                        value=""> <a href="javascript:;"
                                                         class="input-group-text bg-transparent"><i
                                                             class='bx bx-hide'></i></a>
                                                 </div>
@@ -88,7 +88,7 @@
     </script>
     <script src="{{ asset('assets/user/js/jquery.toast.min.js?v=') . config('version.user_assets') }}"></script>
     <script>
-        let _base_url = "{{ url('user') }}/";
+        let _base_url = "{{ url('admin') }}/";
     </script>
     <script src="{{ asset('assets/user/js/user.js?v=') . config('version.user_assets') }}"></script>
     <script src="{{ asset('assets/user/js/login.js?v=') . config('version.user_assets') }}"></script>

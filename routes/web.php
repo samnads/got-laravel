@@ -96,7 +96,7 @@ Route::get('/', function () {
         Route::post('/logout', [AdminAuthController::class, 'logout'])->name('do-logout');
     });
 });*/
-Route::prefix('user')->name('user.')->group(function () {
+Route::prefix('admin')->name('user.')->group(function () {
     // Authentication Routes
     Route::middleware([])->group(function () {
         Route::get('/', [UserAuthController::class, 'login'])->name('login');
