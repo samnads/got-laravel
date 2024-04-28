@@ -77,7 +77,7 @@
                         <div class="col-md-4">
                             <label for="gfsgdxa" class="form-label">Login Password</label>
                             <div class="position-relative">
-                                <input type="password" class="form-control" id="gfsgdxa" name="password" autocomplete="off" onfocus="this.removeAttribute('readonly');" onblur="this.setAttribute('readonly', true);" />
+                                <input type="text" class="form-control" id="gfsgdxa" name="password" autocomplete="off" onfocus="this.removeAttribute('readonly');" onblur="this.setAttribute('readonly', true);" />
                             </div>
                         </div>
                     </div>

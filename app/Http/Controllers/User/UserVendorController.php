@@ -178,12 +178,18 @@ class UserVendorController extends Controller
                         [
                             'id' => 'required|exists:vendors,id',
                             'location_id' => 'required|exists:locations,id',
+                            'username' => 'required|unique:vendors,username,'.$request->id,
+                            'password' => 'nullable|min:8',
+                            'email' => 'nullable|unique:vendors,email,' . $request->id,
 
                         ],
                         [],
                         [
                             'id' => 'Vendor',
                             'location_id' => 'Location',
+                            'username' => 'Username',
+                            'password' => 'Password',
+                            'email' => 'Email',
                         ]
                     );
                     if ($validator->fails()) {
@@ -206,6 +212,9 @@ class UserVendorController extends Controller
                     $row->email = $request->email;
                     $row->address = $request->address;
                     $row->username = $request->username;
+                    if($request->password){
+                        $row->password = $request->password;
+                    }
                     $row->location_id = $request->location_id;
                     $row->save();
                     $response = [
