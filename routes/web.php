@@ -142,7 +142,7 @@ Route::prefix('user')->name('user.')->group(function () {
                 Route::post('/', [UserStateController::class, 'add_state']);
             });
         });
-        // Vendors routes
+        // Products routes
         Route::prefix('products')->name('products.')->group(function () {
             Route::post('/', [UserProductController::class, 'create']);
             Route::get('/list', [UserProductController::class, 'list'])->name('list');

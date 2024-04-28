@@ -20,6 +20,9 @@
         <button data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Refresh" type="button"
             class="btn btn-sm btn-light border" data-action="dt-refresh"><i class="bx bx-refresh"></i>
         </button>
+        <button data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="New Product" type="button"
+            class="btn btn-sm btn-light border" data-action="quick-add-product"><i class="bx bx-plus"></i>
+        </button>
         <div class="bd-highlight">
             <select data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Search By Status"
                 class="form-select form-select-sm" name="filter_status">
@@ -69,6 +72,7 @@
         </div>
     </div>
     @include('user.popups.quick-edit-product')
+    @include('user.popups.quick-add-product')
 @endsection
 @push('link-styles')
     <!-- Pushed Link Styles -->

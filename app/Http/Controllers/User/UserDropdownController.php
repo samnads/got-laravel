@@ -79,6 +79,20 @@ class UserDropdownController extends Controller
                     'items' => $items
                 ];
                 break;
+            case 'quick-add-product':
+                $query_string = @$request->all()['query'];
+                $items = ProductCategories::
+                    select('product_categories.id as value', 'product_categories.name as label')
+                    ->whereAny([
+                        'product_categories.name',
+                    ], 'LIKE', "%" . $query_string . "%")
+                    ->take(30)
+                    ->get();
+                $response = [
+                    'status' => true,
+                    'items' => $items
+                ];
+                break;
             default:
                 $response = [
                     'status' => false,

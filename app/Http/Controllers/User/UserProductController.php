@@ -144,30 +144,76 @@ class UserProductController extends Controller
             return response()->json($response ?: [], 200, [], JSON_PRETTY_PRINT);
         }
     }
-    public function add_brand(Request $request)
+    public function create(Request $request)
     {
         try {
+            /******************************************************************************* */
+            $validator = Validator::make(
+                (array) $request->all(),
+                [
+                    'code' => 'required|unique:products,code',
+                    'description' => 'nullable|string',
+                    'category_id' => 'required|exists:product_categories,id',
+                    'brand_id' => 'nullable|exists:brands,id',
+                    'item_size' => 'required|integer',
+                    'unit_id' => 'required|exists:units,id',
+                    'maximum_retail_price' => 'required|numeric',
+
+                ],
+                [],
+                [
+                    'id' => 'Product',
+                    'code' => 'Code',
+                    'description' => 'Description',
+                    'category_id' => 'Category',
+                    'brand_id' => 'Brand',
+                    'item_size' => 'Item Size',
+                    'unit_id' => 'Unit',
+                    'maximum_retail_price' => 'MRP.',
+                ]
+            );
+            if ($validator->fails()) {
+                $response = [
+                    'status' => false,
+                    'error' => [
+                        'type' => 'error',
+                        'title' => 'Error !',
+                        'content' => $validator->errors()->first()
+                    ]
+                ];
+                return response()->json($response, 200, [], JSON_PRETTY_PRINT);
+            }
+            /******************************************************************************* */
             DB::beginTransaction();
-            $row = new Brand;
+            $row = new Product();
             $row->name = $request->name;
+            $row->brand_id = $request->brand_id;
+            $row->item_size = $request->item_size;
+            $row->unit_id = $request->unit_id;
+            $row->maximum_retail_price = $request->maximum_retail_price;
+            $row->code = $request->code;
             $row->description = $request->description;
             /************************************* */
             if ($request->file('thumbnail_image')) {
                 $file = $request->file('thumbnail_image');
                 $image_resize = Image::make($file->getRealPath());
                 $image_resize->fit(300, 300);
-                $image_resize->save(public_path('uploads/brands/' . $file->hashName()), 100);
+                $image_resize->save(public_path('uploads/products/' . $file->hashName()), 100);
                 $row->thumbnail_image = $file->hashName();
             }
             /************************************* */
             $row->save();
+            $category_mapping = new ProductCategoryMapping();
+            $category_mapping->product_id = $row->id;
+            $category_mapping->category_id = $request->category_id;
+            $category_mapping->save();
             DB::commit();
             $response = [
                 'status' => true,
                 'message' => [
                     'type' => 'success',
-                    'title' => 'Brand Saved !',
-                    'content' => 'Brand added successfully.'
+                    'title' => 'Product Saved !',
+                    'content' => 'Product added successfully.'
                 ],
             ];
             return response()->json(@$response ?: [], 200, [], JSON_PRETTY_PRINT);

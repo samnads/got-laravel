@@ -2,7 +2,12 @@ let quick_edit_product_modal = new bootstrap.Modal(document.querySelector('.moda
     backdrop: 'static',
     keyboard: true
 });
+let quick_add_product_modal = new bootstrap.Modal(document.querySelector('.modal.quick-add-product'), {
+    backdrop: 'static',
+    keyboard: true
+});
 let quick_edit_product_form = $('form[id="quick-edit-product"]');
+let quick_add_product_form = $('form[id="quick-add-product"]');
 loading_button_html = "Please wait...";
 let datatable = new DataTable('#datatable', {
     processing: true,
@@ -131,6 +136,9 @@ $('[data-action="dt-refresh"]').click(function () {
 $('select[name="filter_status"]').change(function () {
     datatable.draw();
 });
+$('[data-action="quick-add-product"]').click(function () {
+    quick_add_product_modal.show();
+});
 $(document).ready(function () {
     quick_edit_product_form_validator = quick_edit_product_form.validate({
         focusInvalid: false,
@@ -214,6 +222,84 @@ $(document).ready(function () {
             });
         }
     });
+    quick_add_product_form_validator = quick_add_product_form.validate({
+        focusInvalid: false,
+        ignore: [],
+        rules: {
+            "name": {
+                required: true,
+            },
+            "category_id": {
+                required: true,
+            },
+            "brand_id": {
+                required: false,
+            },
+            "item_size": {
+                required: true,
+            },
+            "unit_id": {
+                required: true,
+            },
+            "maximum_retail_price": {
+                required: true,
+            },
+            "code": {
+                required: true,
+            },
+            "thumbnail_image": {
+                required: false,
+            },
+            "description": {
+                required: false,
+            },
+        },
+        messages: {},
+        errorPlacement: function (error, element) {
+            error.insertAfter(element.parent());
+        },
+        submitHandler: function (form) {
+            let submit_btn = $('button[type="submit"]', form);
+            submit_btn.prop("disabled", true);
+            let formData = new FormData($("#quick-add-product")[0]);
+            $.ajax({
+                type: 'POST',
+                url: _base_url + "products/" + $('input[name="id"]', quick_edit_product_form).val(),
+                cache: false,
+                dataType: 'json',
+                contentType: false,
+                processData: false,
+                data: formData,
+                headers: {
+                    'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content'),
+                },
+                success: function (response) {
+                    if (response.status == true) {
+                        quick_edit_product_modal.hide();
+                        submit_btn.html('Update').prop("disabled", false);
+                        datatable.ajax.reload(null, false);
+                        Swal.fire({
+                            title: response.message.title,
+                            text: response.message.content,
+                            icon: response.message.type,
+                            confirmButtonColor: swal_colors.success_ok,
+                            confirmButtonText: "OK",
+                            allowOutsideClick: false,
+                            didOpen: () => Swal.getConfirmButton().blur()
+                        }).then((result) => {
+                        });
+                    } else {
+                        toastStatusFalse(response, { stack: 1 });
+                        submit_btn.html('Save').prop("disabled", false);
+                    }
+                },
+                error: function (response) {
+                    submit_btn.html('Save').prop("disabled", false);
+                    datatable.ajax.reload(null, false);
+                },
+            });
+        }
+    });
 });
 function statusChangeListener() {
     $('[data-action="toggle-status"]').click(function () {
@@ -290,9 +376,6 @@ let category_id_select = new TomSelect('#quick-edit-product [name="category_id"]
         option: function (item, escape) {
             return `<div class="py-2 d-flex">${escape(item.label)}</div>`;
         },
-        option_create: function (data, escape) {
-            return '<div class="create">Add <strong>' + escape(data.input) + '</strong>&hellip;</div>';
-        },
         no_results: function (data, escape) {
             return '<div class="no-results">No districts found for "' + escape(data.input) + '"</div>';
         },
@@ -300,12 +383,35 @@ let category_id_select = new TomSelect('#quick-edit-product [name="category_id"]
             return `<div>${escape(item.label)}</div>`;
         }
     },
-    onItemRemove: function (values) {
+});
+let category_id_select_new = new TomSelect('#quick-add-product [name="category_id"]', {
+    plugins: ['clear_button'],
+    valueField: 'value',
+    labelField: 'label',
+    searchField: ['label'],
+    maxItems: 1,
+    load: function (query, callback) {
+        var url = _base_url + 'dropdown/categories/quick-add-product?' + new URLSearchParams({
+            query: encodeURIComponent(query),
+        })
+        fetch(url)
+            .then(response => response.json())
+            .then(json => {
+                callback(json.items);
+            }).catch(() => {
+                callback();
+            });
     },
-    onDelete: function (values) {
-    },
-    onItemAdd: function (values) {
-        category_id_select.blur();
+    render: {
+        option: function (item, escape) {
+            return `<div class="py-2 d-flex">${escape(item.label)}</div>`;
+        },
+        no_results: function (data, escape) {
+            return '<div class="no-results">No districts found for "' + escape(data.input) + '"</div>';
+        },
+        item: function (item, escape) {
+            return `<div>${escape(item.label)}</div>`;
+        }
     },
 });
 let unit_id_select = new TomSelect('#quick-edit-product [name="unit_id"]', {
