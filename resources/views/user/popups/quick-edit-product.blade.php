@@ -50,7 +50,7 @@
                                 <rf />
                             </label>
                             <div class="position-relative">
-                                <input type="number" class="form-control no-arrow" id="rysfs" name="item_size"
+                                <input type="number" step="1" class="form-control no-arrow" id="rysfs" name="item_size"
                                     autocomplete="off">
                             </div>
                         </div>

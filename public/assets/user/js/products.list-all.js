@@ -1,4 +1,4 @@
-let quick_edit_vendor_modal = new bootstrap.Modal(document.querySelector('.modal.quick-edit-product'), {
+let quick_edit_product_modal = new bootstrap.Modal(document.querySelector('.modal.quick-edit-product'), {
     backdrop: 'static',
     keyboard: true
 });
@@ -101,7 +101,8 @@ function rowEditListener() {
                     category_id_select.clearOptions();
                     $('[name="id"]', quick_edit_product_form).val(id);
                     $('[name="name"]', quick_edit_product_form).val(response.data.product.name);
-                    $('[name="item_size"]', quick_edit_product_form).val(response.data.product.item_size);
+                    $('[name="code"]', quick_edit_product_form).val(response.data.product.code);
+                    $('[name="item_size"]', quick_edit_product_form).val(Math.round(response.data.product.item_size));
                     $('[name="maximum_retail_price"]', quick_edit_product_form).val(response.data.product.maximum_retail_price);
                     $('[name="description"]', quick_edit_product_form).val(response.data.product.description);
                     if (response.data.product.category) {
@@ -113,7 +114,7 @@ function rowEditListener() {
                     }
                     unit_id_select.setValue([response.data.product.unit_id]);
                     brand_id_select.setValue([response.data.product.brand_id]);
-                    quick_edit_vendor_modal.show();
+                    quick_edit_product_modal.show();
                 } else {
                     toastStatusFalse(response);
                 }
@@ -173,11 +174,11 @@ $(document).ready(function () {
         submitHandler: function (form) {
             let submit_btn = $('button[type="submit"]', form);
             submit_btn.prop("disabled", true);
-            let formData = new FormData($("#quick-edit-vendor")[0]);
+            let formData = new FormData($("#quick-edit-product")[0]);
             formData.append('_method', 'PUT');
             $.ajax({
                 type: 'POST',
-                url: _base_url + "masters/vendors/" + $('input[name="id"]', quick_edit_product_form).val(),
+                url: _base_url + "products/" + $('input[name="id"]', quick_edit_product_form).val(),
                 cache: false,
                 dataType: 'json',
                 contentType: false,
@@ -188,7 +189,7 @@ $(document).ready(function () {
                 },
                 success: function (response) {
                     if (response.status == true) {
-                        quick_edit_vendor_modal.hide();
+                        quick_edit_product_modal.hide();
                         submit_btn.html('Update').prop("disabled", false);
                         datatable.ajax.reload(null, false);
                         Swal.fire({
@@ -273,7 +274,6 @@ let category_id_select = new TomSelect('#quick-edit-product [name="category_id"]
     labelField: 'label',
     searchField: ['label'],
     maxItems: 1,
-    // fetch remote data
     load: function (query, callback) {
         var url = _base_url + 'dropdown/categories/quick-edit-product?' + new URLSearchParams({
             query: encodeURIComponent(query),
@@ -286,7 +286,6 @@ let category_id_select = new TomSelect('#quick-edit-product [name="category_id"]
                 callback();
             });
     },
-    // custom rendering functions for options and items
     render: {
         option: function (item, escape) {
             return `<div class="py-2 d-flex">${escape(item.label)}</div>`;

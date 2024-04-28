@@ -196,20 +196,26 @@ class UserProductController extends Controller
                     $validator = Validator::make(
                         (array) $request->all(),
                         [
-                            'id' => 'required|exists:vendors,id',
-                            'location_id' => 'required|exists:locations,id',
-                            'username' => 'required|unique:vendors,username,' . $request->id,
-                            'password' => 'nullable|min:8',
-                            'email' => 'nullable|unique:vendors,email,' . $request->id,
+                            'id' => 'required|exists:products,id',
+                            'code' => 'required|unique:products,code,' . $request->id,
+                            'description' => 'nullable|string',
+                            'category_id' => 'required|exists:product_categories,id',
+                            'brand_id' => 'required|exists:brands,id',
+                            'item_size' => 'required|integer',
+                            'unit_id' => 'required|exists:units,id',
+                            'maximum_retail_price' => 'required|numeric',
 
                         ],
                         [],
                         [
-                            'id' => 'Vendor',
-                            'location_id' => 'Location',
-                            'username' => 'Username',
-                            'password' => 'Password',
-                            'email' => 'Email',
+                            'id' => 'Product',
+                            'code' => 'Code',
+                            'description' => 'Description',
+                            'category_id' => 'Category',
+                            'brand_id' => 'Brand',
+                            'item_size' => 'Item Size',
+                            'unit_id' => 'Unit',
+                            'maximum_retail_price' => 'MRP.',
                         ]
                     );
                     if ($validator->fails()) {
@@ -224,25 +230,21 @@ class UserProductController extends Controller
                         return response()->json($response, 200, [], JSON_PRETTY_PRINT);
                     }
                     /******************************************************************************* */
-                    $row = Vendor::findOrFail($id);
-                    $row->vendor_name = $request->vendor_name;
-                    $row->owner_name = $request->owner_name;
-                    $row->mobile_number = $request->mobile_number;
-                    $row->gst_number = $request->gst_number;
-                    $row->email = $request->email;
-                    $row->address = $request->address;
-                    $row->username = $request->username;
-                    if ($request->password) {
-                        $row->password = $request->password;
-                    }
-                    $row->location_id = $request->location_id;
+                    $row = Product::findOrFail($id);
+                    $row->name = $request->name;
+                    $row->brand_id = $request->brand_id;
+                    $row->item_size = $request->item_size;
+                    $row->unit_id = $request->unit_id;
+                    $row->maximum_retail_price = $request->maximum_retail_price;
+                    $row->code = $request->code;
+                    $row->description = $request->description;
                     $row->save();
                     $response = [
                         'status' => true,
                         'message' => [
                             'type' => 'success',
-                            'title' => 'Vendor Updated !',
-                            'content' => 'Vendor updated successfully.'
+                            'title' => 'Product Updated !',
+                            'content' => 'Product updated successfully.'
                         ]
                     ];
                 } else if ($request->action == 'toggle-status') {
