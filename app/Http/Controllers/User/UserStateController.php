@@ -14,7 +14,6 @@ class UserStateController extends Controller
         try {
             DB::beginTransaction();
             $row = new State;
-            $row->district_id = $request->district_id;
             $row->name = $request->name;
             $row->save();
             DB::commit();
@@ -23,11 +22,11 @@ class UserStateController extends Controller
                 'message' => [
                     'type' => 'success',
                     'title' => 'Saved !',
-                    'content' => 'Location added successfully.'
+                    'content' => 'State added successfully.'
                 ],
                 'data' => [
-                    'location' => [
-                        'id' => $row->id,
+                    'state' => [
+                        'id' => $row->state_id,
                         'name' => $row->name
                     ]
                 ]

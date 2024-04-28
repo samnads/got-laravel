@@ -269,6 +269,37 @@ let state_id_select = new TomSelect('#quick-edit-vendor [name="state_id"]', {
     plugins: {
         'clear_button': {}
     },
+    valueField: 'value',
+    labelField: 'label',
+    create: function (input) {
+        $.ajax({
+            url: _base_url + "masters/states",
+            type: 'POST',
+            dataType: 'json',
+            headers: {
+                'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+            },
+            data: {
+                name: input,
+            },
+            cache: false,
+            success: function (response) {
+                if (response.status == true) {
+                    toast(response.message.title, response.message.content, response.message.type);
+                    state_id_select.addOption({
+                        value: response.data.state.id,
+                        label: response.data.state.name,
+                    });
+                    state_id_select.setValue([response.data.state.id]);
+                } else {
+                    toastStatusFalse(response, { stack: 1 });
+                }
+            },
+            error: function (response) {
+                ajaxError(response);
+            },
+        });
+    },
     onItemRemove: function (values) {
         district_id_select.clear();
         district_id_select.clearOptions();
