@@ -86,8 +86,13 @@ function rowEditListener() {
                 if (response.status == true) {
                     quick_edit_vendor_form_validator.resetForm();
                     quick_edit_vendor_form.trigger("reset");
-                    $('input[name="name"]', quick_edit_vendor_form).val(response.data.vendor.name);
-                    $('textarea[name="description"]', quick_edit_vendor_form).val(response.data.vendor.description);
+                    $('[name="vendor_name"]', quick_edit_vendor_form).val(response.data.vendor.vendor_name);
+                    $('[name="owner_name"]', quick_edit_vendor_form).val(response.data.vendor.owner_name);
+                    $('[name="mobile_number"]', quick_edit_vendor_form).val(response.data.vendor.mobile_number);
+                    $('[name="gst_number"]', quick_edit_vendor_form).val(response.data.vendor.gst_number);
+                    $('[name="email"]', quick_edit_vendor_form).val(response.data.vendor.email);
+                    $('[name="address"]', quick_edit_vendor_form).val(response.data.vendor.address);
+                    $('[name="username"]', quick_edit_vendor_form).val(response.data.vendor.username);
                     quick_edit_vendor_modal.show();
                 } else {
                     toastStatusFalse(response);
