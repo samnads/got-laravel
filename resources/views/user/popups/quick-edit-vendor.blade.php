@@ -96,7 +96,7 @@
                         <div class="col-md-4">
                             <label for="hydw" class="form-label">District</label>
                             <div class="position-relative">
-                                <select type="text" class="form-control" id="hydw" name="district_id" placeholder="Search district...">
+                                <select type="text" class="form-control" id=="hydw" name="district_id" placeholder="Search district...">
                                 </select>
                             </div>
                         </div>

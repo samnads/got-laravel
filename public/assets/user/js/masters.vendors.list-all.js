@@ -99,7 +99,7 @@ function rowEditListener() {
                     $('[name="email"]', quick_edit_vendor_form).val(response.data.vendor.email);
                     $('[name="address"]', quick_edit_vendor_form).val(response.data.vendor.address);
                     $('[name="username"]', quick_edit_vendor_form).val(response.data.vendor.username);
-                    if (response.data.vendor.location){
+                    if (response.data.vendor.location) {
                         state_id_select.setValue([response.data.vendor.state.state_id]);
                         district_id_select.addOption({
                             value: response.data.vendor.district.district_id,
@@ -112,7 +112,7 @@ function rowEditListener() {
                         });
                         location_id_select.setValue([response.data.vendor.location.id]);
                     }
-                    else{
+                    else {
 
                     }
                     quick_edit_vendor_modal.show();
@@ -280,13 +280,10 @@ let state_id_select = new TomSelect('#quick-edit-vendor [name="state_id"]', {
     },
 });
 let district_id_select = new TomSelect('#quick-edit-vendor [name="district_id"]', {
-    plugins: {
-        clear_button: {
-        }
-    },
+    plugins: ['clear_button'],
     valueField: 'value',
     labelField: 'label',
-    searchField: ['label'],
+    searchField: 'label',
     // fetch remote data
     load: function (query, callback) {
         var url = _base_url + 'dropdown/districts/quick-edit-vendor?' + new URLSearchParams({
@@ -294,14 +291,12 @@ let district_id_select = new TomSelect('#quick-edit-vendor [name="district_id"]'
             state_id: $('[name="state_id"]', quick_edit_vendor_form).val(),
         })
         fetch(url)
-            .then(response => {
-                response.json()})
+            .then(response => response.json())
             .then(json => {
                 callback(json.items);
             }).catch(() => {
                 callback();
             });
-
     },
     // custom rendering functions for options and items
     render: {
@@ -328,13 +323,10 @@ let district_id_select = new TomSelect('#quick-edit-vendor [name="district_id"]'
     },
 });
 let location_id_select = new TomSelect('#quick-edit-vendor [name="location_id"]', {
-    plugins: {
-        clear_button: {
-        }
-    },
+    plugins: ['clear_button'],
     valueField: 'value',
     labelField: 'label',
-    searchField: ['label'],
+    searchField: [],
     // fetch remote data
     load: function (query, callback) {
         var url = _base_url + 'dropdown/locations/quick-edit-vendor?' + new URLSearchParams({
