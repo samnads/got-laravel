@@ -155,7 +155,7 @@ Route::prefix('user')->name('user.')->group(function () {
             Route::get('categories/{usage}', [UserDropdownController::class, 'categories']);
         });
     });
-})->domain('user.gotonline.in');
+})->domain('manage.gotonline.in');
 Route::prefix('vendor')->name('vendor.')->group(function () {
     Route::middleware([VendorAuthWeb::class])->group(function () {
         Route::get('/dashboard', [VendorDashboardController::class, 'dashboard'])->name('dashboard');
