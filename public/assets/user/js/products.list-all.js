@@ -137,6 +137,8 @@ $('select[name="filter_status"]').change(function () {
     datatable.draw();
 });
 $('[data-action="quick-add-product"]').click(function () {
+    quick_add_product_form_validator.resetForm();
+    quick_add_product_form.trigger("reset");
     quick_add_product_modal.show();
 });
 $(document).ready(function () {
@@ -198,7 +200,7 @@ $(document).ready(function () {
                 success: function (response) {
                     if (response.status == true) {
                         quick_edit_product_modal.hide();
-                        submit_btn.html('Update').prop("disabled", false);
+                        submit_btn.prop("disabled", false);
                         datatable.ajax.reload(null, false);
                         Swal.fire({
                             title: response.message.title,
@@ -212,11 +214,11 @@ $(document).ready(function () {
                         });
                     } else {
                         toastStatusFalse(response, { stack: 1 });
-                        submit_btn.html('Update').prop("disabled", false);
+                        submit_btn.prop("disabled", false);
                     }
                 },
                 error: function (response) {
-                    submit_btn.html('Update').prop("disabled", false);
+                    submit_btn.prop("disabled", false);
                     datatable.ajax.reload(null, false);
                 },
             });
@@ -276,7 +278,7 @@ $(document).ready(function () {
                 success: function (response) {
                     if (response.status == true) {
                         quick_add_product_modal.hide();
-                        submit_btn.html('Update').prop("disabled", false);
+                        submit_btn.prop("disabled", false);
                         datatable.ajax.reload(null, false);
                         Swal.fire({
                             title: response.message.title,
@@ -290,11 +292,11 @@ $(document).ready(function () {
                         });
                     } else {
                         toastStatusFalse(response, { stack: 1 });
-                        submit_btn.html('Save').prop("disabled", false);
+                        submit_btn.prop("disabled", false);
                     }
                 },
                 error: function (response) {
-                    submit_btn.html('Save').prop("disabled", false);
+                    submit_btn.prop("disabled", false);
                     datatable.ajax.reload(null, false);
                 },
             });
