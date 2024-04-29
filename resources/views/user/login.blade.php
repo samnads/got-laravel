@@ -88,7 +88,7 @@
     </script>
     <script src="{{ asset('assets/user/js/jquery.toast.min.js?v=') . config('version.user_assets') }}"></script>
     <script>
-        let _base_url = "{{ url('admin') }}/";
+        let _base_url = "{{ url('') }}/";
     </script>
     <script src="{{ asset('assets/user/js/user.js?v=') . config('version.user_assets') }}"></script>
     <script src="{{ asset('assets/user/js/login.js?v=') . config('version.user_assets') }}"></script>

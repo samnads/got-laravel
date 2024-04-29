@@ -45,8 +45,7 @@ use App\Http\Controllers\User\UserProductController;
 
 Route::get('/', function () {
     return view('welcome');
-})->domain('gotonline.in');
-
+});
 
 /*Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware([AdminAuthWeb::class])->group(function () {
@@ -96,95 +95,3 @@ Route::get('/', function () {
         Route::post('/logout', [AdminAuthController::class, 'logout'])->name('do-logout');
     });
 });*/
-Route::prefix('admin')->name('user.')->group(function () {
-    // Authentication Routes
-    Route::middleware([])->group(function () {
-        Route::get('/', [UserAuthController::class, 'login'])->name('login');
-        Route::post('/login', [UserAuthController::class, 'login'])->name('do-login');
-        Route::post('/logout', [UserAuthController::class, 'logout'])->name('do-logout');
-    });
-    // Authentication Routes End
-    Route::middleware([UserAuthWeb::class])->group(function () {
-        Route::get('/dashboard', [UserDashboardController::class, 'dashboard'])->name('dashboard');
-        // Masters Routes
-        Route::prefix('masters')->name('masters.')->group(function () {
-            // Category routes
-            Route::prefix('categories')->name('categories.')->group(function () {
-                Route::post('/', [UserProductCategoryController::class, 'add_category']);
-                Route::get('/list', [UserProductCategoryController::class, 'categories_list'])->name('list');
-                Route::get('/{category_id}', [UserProductCategoryController::class, 'get_category']);
-                Route::put('/{category_id}', [UserProductCategoryController::class, 'update_category']);
-            });
-            // Brand routes
-            Route::prefix('brands')->name('brands.')->group(function () {
-                Route::post('/', [UserBrandController::class, 'add_brand']);
-                Route::get('/list', [UserBrandController::class, 'brands_list'])->name('list');
-                Route::get('/{brand_id}', [UserBrandController::class, 'get_brand']);
-                Route::put('/{brand_id}', [UserBrandController::class, 'update_brand']);
-            });
-            // Vendors routes
-            Route::prefix('vendors')->name('vendors.')->group(function () {
-                Route::post('/', [UserVendorController::class, 'create']);
-                Route::get('/list', [UserVendorController::class, 'list'])->name('list');
-                Route::get('/{id}', [UserVendorController::class, 'read']);
-                Route::put('/{id}', [UserVendorController::class, 'update']);
-            });
-            // Location routes
-            Route::prefix('locations')->name('locations.')->group(function () {
-                Route::post('/', [UserLocationController::class, 'add_location']);
-            });
-            // District routes
-            Route::prefix('districts')->name('districts.')->group(function () {
-                Route::post('/', [UserDistrictController::class, 'add_district']);
-            });
-            // State routes
-            Route::prefix('states')->name('states.')->group(function () {
-                Route::post('/', [UserStateController::class, 'add_state']);
-            });
-        });
-        // Products routes
-        Route::prefix('products')->name('products.')->group(function () {
-            Route::post('/', [UserProductController::class, 'create']);
-            Route::get('/list', [UserProductController::class, 'list'])->name('list');
-            Route::get('/{id}', [UserProductController::class, 'read']);
-            Route::put('/{id}', [UserProductController::class, 'update']);
-        });
-        Route::prefix('dropdown')->name('dropdown.')->group(function () {
-            Route::get('districts/{usage}', [UserDropdownController::class, 'districts']);
-            Route::get('locations/{usage}', [UserDropdownController::class, 'locations']);
-            Route::get('categories/{usage}', [UserDropdownController::class, 'categories']);
-        });
-    });
-})->domain('manage.gotonline.in');
-Route::prefix('vendor')->name('vendor.')->group(function () {
-    Route::middleware([VendorAuthWeb::class])->group(function () {
-        Route::get('/dashboard', [VendorDashboardController::class, 'dashboard'])->name('dashboard');
-        Route::get('/profile', [VendorController::class, 'vendor_profile'])->name('my-profile');
-        Route::prefix('product')->name('product.')->group(function () {
-            Route::any('/my-products', [VendorProductController::class, 'my_products'])->name('my-products');
-            Route::any('/available-products', [VendorProductController::class, 'available_products'])->name('available-products');
-            Route::any('/product-requests', [VendorProductController::class, 'product_requests'])->name('requests');
-            Route::any('/new-request', [VendorProductController::class, 'new_product_request'])->name('new-request');
-        });
-        Route::prefix('orders')->name('orders.')->group(function () {
-            Route::get('/list', [VendorOrderController::class, 'orders_list'])->name('list');
-            Route::get('/filter/{status_code}', [VendorOrderController::class, 'orders_list_by_status_code'])->name('orders_list_by_status_code');
-        });
-        Route::prefix('masters')->name('masters.')->group(function () {
-            Route::prefix('delivery-persons')->name('delivery-persons.')->group(function () {
-                Route::any('/', [VendorDeliveryPersonController::class, 'index']);
-                Route::get('/list', [VendorDeliveryPersonController::class, 'delivery_persons_list'])->name('list');
-            });
-        });
-    });
-    Route::prefix('dropdown')->name('dropdown.')->group(function () {
-        Route::get('brands/{usage}', [VendorDropdownController::class, 'brands']);
-        Route::get('categories/{usage}', [VendorDropdownController::class, 'categories']);
-        Route::get('units/{usage}', [VendorDropdownController::class, 'units']);
-    });
-    Route::middleware([])->group(function () {
-        Route::get('/', [VendorController::class, 'vendor_login'])->name('login');
-        Route::post('/login', [VendorAuthController::class, 'vendor_login'])->name('do-login');
-        Route::post('/logout', [VendorAuthController::class, 'logout'])->name('do-logout');
-    });
-})->domain('vendor.gotonline.in');

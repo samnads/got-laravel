@@ -14,7 +14,7 @@
 <!-- custom -->
 <script src="{{ asset('assets/vendor/js/vendor.js?v='). config('version.vendor_assets') }}"></script>
 <script>
-    let _base_url = "{{url('vendor')}}/";
+    let _base_url = "{{url('')}}/";
     let _url = "{{request()->url()}}";
     let _route = "{{request()->route()->getName()}}";
     @if (Session::get('toast'))
