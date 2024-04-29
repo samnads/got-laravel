@@ -45,9 +45,10 @@ class LoginController extends Controller
         DB::beginTransaction();
         if ($customer) {
             // EXISTING CUSTOMER FOUND
-            $otp = '1234';
+            $otp = generateOTP(4);
+            sendSmsOTP($input['mobile_no'], $otp);
             $customer->mobile_number_1_otp = $otp;
-            $customer->mobile_number_1_otp_expired_at = Carbon::now()->addSeconds(10);
+            $customer->mobile_number_1_otp_expired_at = Carbon::now()->addSeconds(60);
             $customer->save();
             $response = [
                 'status' => [
@@ -60,12 +61,13 @@ class LoginController extends Controller
             return Response::json($response, 200, [], JSON_PRETTY_PRINT);
         } else {
             // NEW CUSTOMER FOUND
-            $otp = '1234';
+            $otp = generateOTP(4);
+            sendSmsOTP($input['mobile_no'], $otp);
             $customer = new Customer();
             $customer->mobile_number_1_cc = $input['country_code'];
             $customer->mobile_number_1 = $input['mobile_no'];
             $customer->mobile_number_1_otp = $otp;
-            $customer->mobile_number_1_otp_expired_at = Carbon::now()->addSeconds(10);
+            $customer->mobile_number_1_otp_expired_at = Carbon::now()->addSeconds(60);
             $customer->save();
             $response = [
                 'status' => [
@@ -130,9 +132,10 @@ class LoginController extends Controller
             return Response::json($response, 200, [], JSON_PRETTY_PRINT);
         }
         DB::beginTransaction();
-        $otp = '1234';
+        $otp = generateOTP(4);
+        sendSmsOTP($input['mobile_no'], $otp);
         $customer->mobile_number_1_otp = $otp;
-        $customer->mobile_number_1_otp_expired_at = Carbon::now()->addSeconds(10);
+        $customer->mobile_number_1_otp_expired_at = Carbon::now()->addSeconds(60);
         $customer->save();
         $response = [
             'status' => [

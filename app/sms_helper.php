@@ -1,7 +1,7 @@
 <?php
 function sendSms($mobile, $message)
 {
-    $username = "GOT"; //your username
+    $username = "got"; //your username
     $password = "got@india"; //your password
     $sender = "GOTIND"; //Your senderid
     $username = urlencode($username);
@@ -20,5 +20,14 @@ function sendSms($mobile, $message)
 }
 function sendSmsOTP($mobile, $otp)
 {
-    sendSms($mobile, $otp . ' is your OTP for login to GOT. Do not share this OTP with anyone.');
+    $template ="{#var#} is your Verification OTP Code to log in to the GOT App.";
+    sendSms($mobile, $otp . ' is your Verification OTP Code to log in to the GOT App.');
+}
+function generateOTP($n){
+    $generator = "1357902468";
+    $result = "";
+    for ($i = 1; $i <= $n; $i++) {
+        $result .= substr($generator, (rand() % (strlen($generator))), 1);
+    }
+    return $result;
 }
