@@ -37,11 +37,11 @@ class RouteServiceProvider extends ServiceProvider
                 ->group(base_path('routes/web.php'));
         });
         //
-        Route::domain('manage.localhost.test')
+        Route::domain('manage.' . env('DOMAIN'))
             ->middleware('web')
             ->namespace($this->namespace)
             ->group(base_path('routes/manage.php'));
-        Route::domain('vendor.localhost.test')
+        Route::domain('vendor.' . env('DOMAIN'))
             ->middleware('web')
             ->namespace($this->namespace)
             ->group(base_path('routes/vendor.php'));
