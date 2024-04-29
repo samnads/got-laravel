@@ -187,4 +187,4 @@ Route::prefix('vendor')->name('vendor.')->group(function () {
         Route::post('/login', [VendorAuthController::class, 'vendor_login'])->name('do-login');
         Route::post('/logout', [VendorAuthController::class, 'logout'])->name('do-logout');
     });
-});
+})->domain('vendor.gotonline.in');
