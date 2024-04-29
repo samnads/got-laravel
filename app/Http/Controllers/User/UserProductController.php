@@ -67,6 +67,12 @@ class UserProductController extends Controller
                         } else if (@$request->filter_status == "0") {
                             $rows->onlyTrashed();
                         }
+                        if ($request->filter_brand_id) {
+                            $rows->where('b.id', $request->filter_brand_id);
+                        }
+                        if (@$request->filter_category_id) {
+                            $rows->where('pcm.category_id', $request->filter_category_id);
+                        }
                         $data_table['recordsFiltered'] = $rows->count();
                         $data_table['data'] = $rows->offset($request->start)->limit($request->length)->get()->toArray();
                         foreach ($data_table['data'] as $key => $row) {
@@ -110,6 +116,7 @@ class UserProductController extends Controller
         }
         $data['units'] = Unit::select('units.id as value', 'units.name as label', 'units.code')->get();
         $data['brands'] = Brand::select('brands.id as value', 'brands.name as label')->get();
+        $data['product_categories'] = ProductCategories::select('product_categories.id as value', 'product_categories.name as label')->get();
         return view('user.products.products-list', $data);
     }
     public function read(Request $request, $id)

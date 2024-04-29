@@ -20,6 +20,8 @@ let datatable = new DataTable('#datatable', {
         'data': function (data) {
             data.action = 'datatable';
             data.filter_status = $('select[name="filter_status"]').val();
+            data.filter_brand_id = $('select[name="filter_brand_id"]').val();
+            data.filter_category_id = $('select[name="filter_category_id"]').val();
         },
         "complete": function (json, type) { // data sent from controllerr
             let response = json.responseJSON;
@@ -130,15 +132,19 @@ function rowEditListener() {
         });
     });
 }
+/*********************************************************************** */
 $('[data-action="dt-refresh"]').click(function () {
     datatable.draw();
 });
-$('select[name="filter_status"]').change(function () {
+$('select[name="filter_status"],[name="filter_brand_id"],[name="filter_category_id"]').change(function () {
     datatable.draw();
 });
+/*********************************************************************** */
 $('[data-action="quick-add-product"]').click(function () {
     quick_add_product_form_validator.resetForm();
     quick_add_product_form.trigger("reset");
+    category_id_select_new.clear();
+    category_id_select_new.clearOptions();
     quick_add_product_modal.show();
 });
 $(document).ready(function () {
@@ -424,3 +430,4 @@ let brand_id_select = new TomSelect('#quick-edit-product [name="brand_id"]', {
     plugins: ['clear_button'],
     maxItems: 1,
 });
+/************************************************************************************** */
