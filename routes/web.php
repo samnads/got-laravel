@@ -45,7 +45,7 @@ use App\Http\Controllers\User\UserProductController;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->domain('gotonline.in');
 
 
 /*Route::prefix('admin')->name('admin.')->group(function () {
