@@ -22,7 +22,7 @@
                         <div class="col-md-12">
                             <label for="gdsdsd" class="form-label">Status</label>
                             <div class="position-relative">
-                                <select type="text" class="" id="gdsdsd" name="status_id">
+                                <select type="text" class="" id="gdsdsd" name="order_status_id">
                                     @foreach ($order_statuses as $key => $order_status)
                                         <option value="{{ $order_status->id }}">{{ $order_status->label }}</option>
                                     @endforeach

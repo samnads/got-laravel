@@ -1,9 +1,9 @@
 let order_status_change_modal = new bootstrap.Modal(document.querySelector('.modal.order-status-change'), {
     //backdrop: 'static',
     keyboard: true
-}); 
+});
 let order_status_change_form = $('form[id="order-status-change"]');
-let order_status_change_select = new TomSelect('select[name="status_id"]', {
+let order_status_change_select = new TomSelect('select[name="order_status_id"]', {
     create: false,
     allowEmptyOption: true,
     onChange: function (values) {
@@ -125,3 +125,49 @@ function createOrderStatusEditListeneer() {
         });
     });
 }
+order_status_change_form_validator = order_status_change_form.validate({
+    focusInvalid: true,
+    ignore: [],
+    rules: {
+        "id": {
+            required: true,
+        },
+        "order_status_id": {
+            required: true,
+        }
+    },
+    messages: {},
+    errorPlacement: function (error, element) {
+        error.insertAfter(element.parent());
+    },
+    submitHandler: function (form) {
+        let submit_btn = $('button[type="submit"]', form);
+        submit_btn.prop("disabled", true);
+        $.ajax({
+            type: 'PUT',
+            url: _base_url + 'orders',
+            dataType: 'json',
+            data: order_status_change_form.serialize(),
+            success: function (response) {
+                if (response.status == true) {
+                    order_status_change_modal.hide();
+                    Swal.fire({
+                        title: response.message.title,
+                        text: response.message.content,
+                        icon: "success",
+                        didOpen: () => Swal.getConfirmButton().blur()
+                    });
+                } else {
+                    toastStatusFalse(response);
+                }
+                submit_btn.prop("disabled", false);
+                datatable.ajax.reload(null, false);
+            },
+            error: function (response) {
+                ajaxError(response);
+                submit_btn.prop("disabled", false);
+                datatable.ajax.reload(null, false);
+            },
+        });
+    }
+});
