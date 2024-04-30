@@ -200,13 +200,16 @@ class UserProductController extends Controller
             $row->maximum_retail_price = $request->maximum_retail_price;
             $row->code = $request->code;
             $row->description = $request->description;
+            $row->save();
             /************************************* */
             if ($request->file('thumbnail_image')) {
                 $file = $request->file('thumbnail_image');
                 $image_resize = Image::make($file->getRealPath());
                 $image_resize->fit(300, 300);
-                $image_resize->save(public_path('uploads/products/' . $file->hashName()), 100);
-                $row->thumbnail_image = $file->hashName();
+                //$image_resize->save(public_path('uploads/products/' . $file->hashName()), 100);
+                $thumbnail_image_name = $row->id . '-' . $file->hashName();
+                $image_resize->save(config('filesystems.uploads_path') . ('products/' . $thumbnail_image_name), 100);
+                $row->thumbnail_image = $thumbnail_image_name;
             }
             /************************************* */
             $row->save();
@@ -299,7 +302,6 @@ class UserProductController extends Controller
                         $image_resize = Image::make($file->getRealPath());
                         $image_resize->fit(300, 300);
                         $image_resize->save(public_path('uploads/products/' . $file->hashName()), 100);
-                        //$filePath = $file->store('categories', 'public_uploads');
                         $row->thumbnail_image = $file->hashName();
                     }
                     $row->save();

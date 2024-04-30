@@ -72,7 +72,6 @@ class AdminProductController extends Controller
             $image_resize = Image::make($file->getRealPath());
             $image_resize->fit(300, 300);
             $image_resize->save(public_path('uploads/products/' . $file->hashName()), 100);
-            //$filePath = $file->store('categories', 'public_uploads');
             $product->thumbnail_image = $file->hashName();
         }
         $product->save();
@@ -102,7 +101,6 @@ class AdminProductController extends Controller
             $image_resize = Image::make($file->getRealPath());
             $image_resize->fit(300, 300);
             $image_resize->save(public_path('uploads/products/' . $file->hashName()), 100);
-            //$filePath = $file->store('categories', 'public_uploads');
             $product->thumbnail_image = $file->hashName();
         }
         $product->save();

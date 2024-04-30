@@ -78,4 +78,13 @@ return [
         public_path('storage') => storage_path('app/public'),
     ],
 
+    /*
+    |
+    |
+    | Custom paths
+    |
+    |
+    */
+
+    'uploads_path' => env('UPLOADS_PATH'),
 ];

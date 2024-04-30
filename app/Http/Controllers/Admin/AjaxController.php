@@ -29,7 +29,6 @@ class AjaxController extends Controller
                     $image_resize = Image::make($file->getRealPath());
                     $image_resize->fit(300, 300);
                     $image_resize->save(public_path('uploads/categories/' . $file->hashName()), 100);
-                    //$filePath = $file->store('categories', 'public_uploads');
                     $category->thumbnail_image = $file->hashName();
                 }
                 /************************************* */
@@ -49,7 +48,6 @@ class AjaxController extends Controller
                     $image_resize = Image::make($file->getRealPath());
                     $image_resize->fit(300, 300);
                     $image_resize->save(public_path('uploads/categories/' . $file->hashName()), 100);
-                    //$filePath = $file->store('categories', 'public_uploads');
                     $category->thumbnail_image = $file->hashName();
                 }
                 $category->save();
@@ -124,7 +122,6 @@ class AjaxController extends Controller
                     $image_resize = Image::make($file->getRealPath());
                     $image_resize->fit(300, 300);
                     $image_resize->save(public_path('uploads/brands/' . $file->hashName()), 100);
-                    //$filePath = $file->store('categories', 'public_uploads');
                     $row->thumbnail_image = $file->hashName();
                 }
                 /************************************* */
@@ -144,7 +141,6 @@ class AjaxController extends Controller
                     $image_resize = Image::make($file->getRealPath());
                     $image_resize->fit(300, 300);
                     $image_resize->save(public_path('uploads/brands/' . $file->hashName()), 100);
-                    //$filePath = $file->store('categories', 'public_uploads');
                     $row->thumbnail_image = $file->hashName();
                 }
                 /************************************* */
