@@ -123,7 +123,7 @@ class UserProductController extends Controller
     {
         if ($request->ajax()) {
             if ($request->action == 'quick-edit') {
-                $data['product'] = Product::findOrFail($id);
+                $data['product'] = Product::withTrashed()->findOrFail($id);
                 $data['product']['category'] = ProductCategoryMapping::
                     select(
                         'pc.id',
@@ -287,7 +287,7 @@ class UserProductController extends Controller
                     }
                     /******************************************************************************* */
                     DB::beginTransaction();
-                    $row = Product::findOrFail($id);
+                    $row = Product::withTrashed()->findOrFail($id);
                     $row->name = $request->name;
                     $row->brand_id = $request->brand_id;
                     $row->item_size = $request->item_size;

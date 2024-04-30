@@ -87,7 +87,7 @@ class UserProductCategoryController extends Controller
     {
         if ($request->ajax()) {
             if ($request->action == 'quick-edit') {
-                $data['product_category'] = ProductCategories::findOrFail($category_id);
+                $data['product_category'] = ProductCategories::withTrashed()->findOrFail($category_id);
             }
             $response = [
                 'status' => true,
@@ -152,7 +152,7 @@ class UserProductCategoryController extends Controller
         try {
             if ($request->ajax()) {
                 if ($request->action == 'quick-edit') {
-                    $product_category = ProductCategories::findOrFail($category_id);
+                    $product_category = ProductCategories::withTrashed()->findOrFail($category_id);
                     $product_category->name = $request->name;
                     $product_category->description = $request->description;
                     /************************************* */

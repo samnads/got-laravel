@@ -110,7 +110,7 @@ class UserVendorController extends Controller
     {
         if ($request->ajax()) {
             if ($request->action == 'quick-edit') {
-                $data['vendor'] = Vendor::findOrFail($id);
+                $data['vendor'] = Vendor::withTrashed()->findOrFail($id);
                 $data['vendor']['location'] = Location::withTrashed()->find(@$data['vendor']->location_id);
                 $data['vendor']['district'] = District::withTrashed()->find(@$data['vendor']['location']->district_id);
                 $data['vendor']['state'] = State::withTrashed()->find(@$data['vendor']['district']->state_id);
@@ -207,7 +207,7 @@ class UserVendorController extends Controller
                         return response()->json($response, 200, [], JSON_PRETTY_PRINT);
                     }
                     /******************************************************************************* */
-                    $row = Vendor::findOrFail($id);
+                    $row = Vendor::withTrashed()->findOrFail($id);
                     $row->vendor_name = $request->vendor_name;
                     $row->owner_name = $request->owner_name;
                     $row->mobile_number = $request->mobile_number;

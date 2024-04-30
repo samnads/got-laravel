@@ -87,7 +87,7 @@ class UserBrandController extends Controller
     {
         if ($request->ajax()) {
             if ($request->action == 'quick-edit') {
-                $data['brand'] = Brand::findOrFail($brand_id);
+                $data['brand'] = Brand::withTrashed()->findOrFail($brand_id);
             }
             $response = [
                 'status' => true,
@@ -152,7 +152,7 @@ class UserBrandController extends Controller
         try {
             if ($request->ajax()) {
                 if ($request->action == 'quick-edit') {
-                    $brand = Brand::findOrFail($brand_id);
+                    $brand = Brand::withTrashed()->findOrFail($brand_id);
                     $brand->name = $request->name;
                     $brand->description = $request->description;
                     /************************************* */
