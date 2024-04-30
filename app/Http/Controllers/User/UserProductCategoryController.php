@@ -116,7 +116,7 @@ class UserProductCategoryController extends Controller
                 $image_resize->fit(300, 300);
                 //$image_resize->save(public_path('uploads/categories/' . $file->hashName()), 100);
                 $thumbnail_image_name = $product_category->id . '-' . $file->hashName();
-                $image_resize->save(config('filesystems.uploads_path') . ('products/' . $thumbnail_image_name), 100);
+                $image_resize->save(config('filesystems.uploads_path') . ('categories/' . $thumbnail_image_name), 100);
                 $product_category->thumbnail_image = $thumbnail_image_name;
             }
             /************************************* */
