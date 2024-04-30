@@ -155,12 +155,15 @@ class UserProductCategoryController extends Controller
                     $product_category = ProductCategories::findOrFail($category_id);
                     $product_category->name = $request->name;
                     $product_category->description = $request->description;
+                    $product_category->save();
                     /************************************* */
                     if ($request->file('thumbnail_image')) {
                         $file = $request->file('thumbnail_image');
                         $image_resize = Image::make($file->getRealPath());
                         $image_resize->fit(300, 300);
-                        $image_resize->save(public_path('uploads/categories/' . $file->hashName()), 100);
+                        //$image_resize->save(public_path('uploads/categories/' . $file->hashName()), 100);
+                        $thumbnail_image_name = $product_category->id . '-' . $file->hashName();
+                        $image_resize->save(config('filesystems.uploads_path') . ('categories/' . $thumbnail_image_name), 100);
                         $product_category->thumbnail_image = $file->hashName();
                     }
                     /************************************* */
