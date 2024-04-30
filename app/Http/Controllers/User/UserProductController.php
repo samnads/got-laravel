@@ -304,7 +304,7 @@ class UserProductController extends Controller
                         //$image_resize->save(public_path('uploads/products/' . $file->hashName()), 100);
                         $thumbnail_image_name = $row->id . '-' . $file->hashName();
                         $image_resize->save(config('filesystems.uploads_path') . ('products/' . $thumbnail_image_name), 100);
-                        $row->thumbnail_image = $file->hashName();
+                        $row->thumbnail_image = $thumbnail_image_name;
                     }
                     $row->save();
                     $category_mapping = ProductCategoryMapping::where([['product_id', '=', $row->id]])->first();
