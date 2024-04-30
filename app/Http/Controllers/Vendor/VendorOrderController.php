@@ -74,7 +74,12 @@ class VendorOrderController extends Controller
                         $data_table['recordsFiltered'] = $rows->count();
                         $data_table['data'] = $rows->offset($request->start)->limit($request->length)->get()->toArray();
                         foreach ($data_table['data'] as $key => $row) {
-                            $data_table['data'][$key]['order_status'] = '<span class="badge shadow-sm w-100" style="background:' . $row['os_bg_color'] . ';color:' . $row['os_text_color'] . ';">' . $row['os_labelled'] . '</span>';
+                            $data_table['data'][$key]['order_status'] = '<div class="d-flex justify-content-between">
+  <div class="flex-fill"><span class="badge shadow-sm w-100" style="background:' . $row['os_bg_color'] . ';color:' . $row['os_text_color'] . ';">
+                                                                            ' . $row['os_labelled'] .
+                                '</span></div>
+  <div class="">&nbsp;<button data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Update Status" data-action="update-order-status" data-id="' . $row['id'] . '" type="button" class="btn btn-sm btn-warning"><i class="fadeIn animated bx bx-play"></i></button></div>
+</div>';
                             $data_table['data'][$key]['order_status_progess'] = '<div class="progress" style="height: 20px;">
 									<div class="progress-bar" style="background:' . $row['os_bg_color'] . ';color:' . $row['os_text_color'] . ';width: ' . $row['os_progress'] . '%" role="progressbar">' . $row['os_progress'] .'%</div>
 								  </div>';
@@ -83,6 +88,17 @@ class VendorOrderController extends Controller
 										</div>';
                         }
                         return response()->json($data_table, 200, [], JSON_PRETTY_PRINT);
+                    case 'update-order-status':
+                        $order = Order::findOrFail($request->id);
+                        $order_status = OrderStatus::findOrFail($order->order_status_id);
+                        $response = [
+                            'status' => true,
+                            'data' => [
+                                'order' => $order,
+                                'order_status' => $order_status
+                            ]
+                        ];
+                        return response()->json($response ?: [], 200, [], JSON_PRETTY_PRINT);
                     default:
                         $response = [
                             'status' => false,

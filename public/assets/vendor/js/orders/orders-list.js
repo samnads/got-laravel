@@ -1,3 +1,15 @@
+let order_status_change_modal = new bootstrap.Modal(document.querySelector('.modal.order-status-change'), {
+    //backdrop: 'static',
+    keyboard: true
+}); 
+let order_status_change_form = $('form[id="order-status-change"]');
+let order_status_change_select = new TomSelect('select[name="status_id"]', {
+    create: false,
+    allowEmptyOption: true,
+    onChange: function (values) {
+
+    }
+});
 let datatable = new DataTable('#my-products', {
     processing: true,
     serverSide: true,
@@ -33,6 +45,7 @@ let datatable = new DataTable('#my-products', {
         { data: 'total_payable', name: 'total_payable' },
         { data: 'order_status_progess', name: 'order_status_progess' },
         { data: 'order_status', name: 'order_status' },
+        { data: 'action_html', name: 'action_html' },
     ],
     columnDefs: [
         {
@@ -62,10 +75,18 @@ let datatable = new DataTable('#my-products', {
             targets: 'order_status:name',
             type: 'html',
             className: "text-center",
+            // width: 1
+        },
+        {
+            targets: 'action_html:name',
+            type: 'html',
+            visible: false,
             width: 1
         }
     ],
     drawCallback: function (settings) {
+        $('[data-bs-toggle="tooltip"]').tooltip({ trigger: 'hover' });
+        createOrderStatusEditListeneer();
     },
 });
 $('select[name="filter_order_status_id"]').change(function () {
@@ -74,3 +95,33 @@ $('select[name="filter_order_status_id"]').change(function () {
 $('[data-action="dt-refresh"]').click(function () {
     datatable.draw();
 });
+
+function createOrderStatusEditListeneer() {
+    $('[data-action="update-order-status"]').click(function () {
+        let id = this.getAttribute('data-id');
+        $.ajax({
+            type: 'GET',
+            url: _url,
+            dataType: 'json',
+            data: {
+                id: id,
+                action: "update-order-status"
+            },
+            success: function (response) {
+                if (response.status == true) {
+                    order_status_change_form.trigger("reset");
+                    order_status_change_select.clear();
+                    $('[name="id"]', order_status_change_form).val(id);
+                    $('[name="order_reference"]', order_status_change_form).val(response.data.order.order_reference);
+                    order_status_change_select.setValue([response.data.order.order_status_id]);
+                    order_status_change_modal.show();
+                } else {
+                    toastStatusFalse(response);
+                }
+            },
+            error: function (response) {
+                ajaxError(response);
+            },
+        });
+    });
+}

@@ -46,6 +46,7 @@
                             <th>Order Amount</th>
                             <th>Progress</th>
                             <th>Order Status</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -61,16 +62,19 @@
                             <th>Order Amount</th>
                             <th>Progress</th>
                             <th>Order Status</th>
+                            <th>Actions</th>
                         </tr>
                     </tfoot>
                 </table>
             </div>
         </div>
     </div>
+    @include('vendor.orders.popup-order-status-change')
 @endsection
 @push('link-styles')
     <!-- Pushed Link Styles -->
     <link href="https://cdn.datatables.net/2.0.5/css/dataTables.bootstrap5.css" rel="stylesheet">
+    <link href="{{ asset('assets/vendor/plugins/tom-select/tom-select.min.css?v=') . config('version.vendor_assets') }}" rel="stylesheet">
 @endpush
 @push('inline-styles')
     <!-- Pushed Inline Styles -->
@@ -79,6 +83,7 @@
     <!-- Pushed Link Scripts -->
     <script src="https://cdn.datatables.net/2.0.5/js/dataTables.js"></script>
     <script src="https://cdn.datatables.net/2.0.5/js/dataTables.bootstrap5.js"></script>
+    <script src="{{ asset('assets/vendor/plugins/tom-select/tom-select.complete.js?v=') . config('version.vendor_assets') }}"></script>
     <script src="{{ asset('assets/vendor/js/orders/orders-list.js?v=') . config('version.vendor_assets') }}"></script>
 @endpush
 @push('inline-scripts')
