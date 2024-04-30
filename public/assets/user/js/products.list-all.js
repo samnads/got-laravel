@@ -272,7 +272,7 @@ $(document).ready(function () {
             let formData = new FormData($("#quick-add-product")[0]);
             $.ajax({
                 type: 'POST',
-                url: _base_url + "products/" + $('input[name="id"]', quick_edit_product_form).val(),
+                url: _base_url + "products",
                 cache: false,
                 dataType: 'json',
                 contentType: false,
