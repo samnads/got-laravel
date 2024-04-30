@@ -155,7 +155,6 @@ class UserProductCategoryController extends Controller
                     $product_category = ProductCategories::findOrFail($category_id);
                     $product_category->name = $request->name;
                     $product_category->description = $request->description;
-                    $product_category->save();
                     /************************************* */
                     if ($request->file('thumbnail_image')) {
                         $file = $request->file('thumbnail_image');

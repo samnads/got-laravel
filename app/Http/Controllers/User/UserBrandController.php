@@ -108,13 +108,16 @@ class UserBrandController extends Controller
             $row = new Brand;
             $row->name = $request->name;
             $row->description = $request->description;
+            $row->save();
             /************************************* */
             if ($request->file('thumbnail_image')) {
                 $file = $request->file('thumbnail_image');
                 $image_resize = Image::make($file->getRealPath());
                 $image_resize->fit(300, 300);
-                $image_resize->save(public_path('uploads/brands/' . $file->hashName()), 100);
-                $row->thumbnail_image = $file->hashName();
+                //$image_resize->save(public_path('uploads/brands/' . $file->hashName()), 100);
+                $thumbnail_image_name = $row->id . '-' . $file->hashName();
+                $image_resize->save(config('filesystems.uploads_path') . ('brands/' . $thumbnail_image_name), 100);
+                $row->thumbnail_image = $thumbnail_image_name;
             }
             /************************************* */
             $row->save();
@@ -157,8 +160,10 @@ class UserBrandController extends Controller
                         $file = $request->file('thumbnail_image');
                         $image_resize = Image::make($file->getRealPath());
                         $image_resize->fit(300, 300);
-                        $image_resize->save(public_path('uploads/brands/' . $file->hashName()), 100);
-                        $brand->thumbnail_image = $file->hashName();
+                        //$image_resize->save(public_path('uploads/brands/' . $file->hashName()), 100);
+                        $thumbnail_image_name = $brand->id . '-' . $file->hashName();
+                        $image_resize->save(config('filesystems.uploads_path') . ('brands/' . $thumbnail_image_name), 100);
+                        $brand->thumbnail_image = $thumbnail_image_name;
                     }
                     /************************************* */
                     $brand->save();

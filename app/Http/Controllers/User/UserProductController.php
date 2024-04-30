@@ -295,7 +295,6 @@ class UserProductController extends Controller
                     $row->maximum_retail_price = $request->maximum_retail_price;
                     $row->code = $request->code;
                     $row->description = $request->description;
-                    $row->save();
                     /************************************* */
                     if ($request->file('thumbnail_image')) {
                         $file = $request->file('thumbnail_image');
