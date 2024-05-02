@@ -80,7 +80,6 @@ let datatable = new DataTable('#my-products', {
         {
             targets: 'action_html:name',
             type: 'html',
-            visible: false,
             width: 1
         }
     ],

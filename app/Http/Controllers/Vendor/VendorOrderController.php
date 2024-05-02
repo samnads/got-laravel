@@ -84,7 +84,7 @@ class VendorOrderController extends Controller
 									<div class="progress-bar" style="background:' . $row['os_bg_color'] . ';color:' . $row['os_text_color'] . ';width: ' . $row['os_progress'] . '%" role="progressbar">' . $row['os_progress'] . '%</div>
 								  </div>';
                             $data_table['data'][$key]['action_html'] = '<div class="btn-group btn-group-sm" role="group" aria-label="First group">
-											<button data-action="add-product" data-id="' . $row['id'] . '" type="button" class="btn btn-sm btn-warning"><i class="fadeIn animated bx bx-plus"></i></button>
+											<button data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Print" data-action="print-invoice" data-id="' . $row['id'] . '" type="button" class="btn btn-sm btn-info text-light"><i class="fadeIn animated bx bx-printer"></i></button>
 										</div>';
                         }
                         return response()->json($data_table, 200, [], JSON_PRETTY_PRINT);
