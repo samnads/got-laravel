@@ -9,6 +9,9 @@ $(document).ready(function () {
             },
             "min_order_weight": {
                 required: true,
+            },
+            "home_delivery_status_id": {
+                required: true,
             }
         },
         messages: {},

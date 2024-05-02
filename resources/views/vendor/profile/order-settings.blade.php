@@ -40,6 +40,17 @@
 								</div>
                             </div>
                         </div>
+                        <div class="row mb-3">
+                            <label for="fsfd" class="col-sm-3 col-form-label">Home Delivery
+                                <rf />
+                            </label>
+                            <div class="col-sm-9">
+                                <select id="input21" class="form-select" id="fsfd" name="home_delivery_status_id">
+                                    <option value="1" {{ $vendor->home_delivery_status_id == 1 ? 'selected' : '' }}>Available</option>
+                                    <option value="2" {{ $vendor->home_delivery_status_id == 2 ? 'selected' : '' }}>Not Available</option>
+                                </select>
+                            </div>
+                        </div>
                         <div class="row">
                             <label class="col-sm-3 col-form-label"></label>
                             <div class="col-sm-9">

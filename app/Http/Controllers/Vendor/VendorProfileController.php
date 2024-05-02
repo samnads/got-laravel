@@ -42,7 +42,6 @@ class VendorProfileController extends Controller
                             $vendor->mobile_number_cc = $request->mobile_number_cc;
                             $vendor->mobile_number = $request->mobile_number;
                             $vendor->address = $request->address;
-                            $vendor->home_delivery_status_id = $request->home_delivery_status_id == 1 ? 1 : 2;
                             $vendor->save();
                             $response = [
                                 'status' => true,
@@ -57,13 +56,14 @@ class VendorProfileController extends Controller
                             $vendor = Vendor::findOrFail(Auth::guard('vendor')->id());
                             $vendor->min_order_value = $request->min_order_value;
                             $vendor->min_order_weight = $request->min_order_weight;
+                            $vendor->home_delivery_status_id = $request->home_delivery_status_id == 1 ? 1 : 2;
                             $vendor->save();
                             $response = [
                                 'status' => true,
                                 'message' => [
                                     'type' => 'success',
                                     'title' => 'Updated',
-                                    'content' => 'Order settings successfully.'
+                                    'content' => 'Order settings updated successfully.'
                                 ]
                             ];
                         }
