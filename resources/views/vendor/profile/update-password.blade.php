@@ -20,30 +20,30 @@
             <div class="card">
                 <div class="card-body p-4">
                     <form id="profile_edit_from">
-                        <input type="hidden" name="action" value="profile-update"/>
+                        <input type="hidden" name="action" value="update-password"/>
                         <h5 class="mb-4">Change Password</h5>
                         <div class="row mb-3">
-                            <label for="gdfgdg" class="col-sm-3 col-form-label">Curent Password
+                            <label for="yyrw" class="col-sm-3 col-form-label">Curent Password
                                 <rf />
                             </label>
                             <div class="col-sm-9">
-                                <input type="password" class="form-control" id="gdfgdg" name="password" autocomplete="off">
+                                <input type="password" class="form-control" id="yyrw" name="current_password" autocomplete="off">
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <label for="ghffs" class="col-sm-3 col-form-label">New Password
+                            <label for="yrere" class="col-sm-3 col-form-label">New Password
                                 <rf />
                             </label>
                             <div class="col-sm-9">
-                                <input type="password" class="form-control" id="ghffs" name="owner_name" autocomplete="off">
+                                <input type="password" class="form-control" id="yrere" name="new_password" autocomplete="off">
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <label for="hjfgvf" class="col-sm-3 col-form-label">Retype New Password
+                            <label for="gdste" class="col-sm-3 col-form-label">Retype New Password
                                 <rf />
                             </label>
                             <div class="col-sm-9">
-                                <input type="password" class="form-control" id="hjfgvf" name="gst_number" autocomplete="off">
+                                <input type="password" class="form-control" id="gdste" name="new_password_confirm" autocomplete="off">
                             </div>
                         </div>
                         <div class="row">

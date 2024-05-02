@@ -4,23 +4,17 @@ $(document).ready(function () {
         focusInvalid: true,
         ignore: [],
         rules: {
-            "vendor_name": {
+            "current_password": {
                 required: true,
             },
-            "owner_name": {
+            "new_password": {
                 required: true,
+                minlength: 8,
             },
-            "gst_number": {
+            "new_password_confirm": {
                 required: true,
-            },
-            "email": {
-                required: false,
-            },
-            "mobile_number": {
-                required: true,
-            },
-            "address": {
-                required: true,
+                minlength: 8,
+                equalTo: '#yrere'
             },
         },
         messages: {},

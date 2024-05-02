@@ -194,3 +194,5 @@ CREATE TABLE `vendor_delivery_persons` (
   CONSTRAINT `vendor_delivery_persons_ibfk_1` FOREIGN KEY (`vendor_id`) REFERENCES `vendors` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 ---------------------------------------------------------- DONE
+ALTER TABLE `vendors`
+ADD `home_delivery_status_id` tinyint NOT NULL DEFAULT '1' AFTER `blocked_at`;

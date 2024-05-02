@@ -43,16 +43,16 @@ Route::prefix('')->name('vendor.')->group(function () {
                 Route::get('/list', [VendorDeliveryPersonController::class, 'delivery_persons_list'])->name('list');
             });
         });
-    });
-    Route::prefix('dropdown')->name('dropdown.')->group(function () {
-        Route::get('brands/{usage}', [VendorDropdownController::class, 'brands']);
-        Route::get('categories/{usage}', [VendorDropdownController::class, 'categories']);
-        Route::get('units/{usage}', [VendorDropdownController::class, 'units']);
-    });
-    Route::prefix('profile')->name('profile.')->group(function () {
-        Route::any('/', [VendorProfileController::class, 'index'])->name('index');
-        Route::get('view', [VendorProfileController::class, 'view'])->name('view');
-        Route::get('update-password', [VendorProfileController::class, 'update_password'])->name('update-password');
+        Route::prefix('dropdown')->name('dropdown.')->group(function () {
+            Route::get('brands/{usage}', [VendorDropdownController::class, 'brands']);
+            Route::get('categories/{usage}', [VendorDropdownController::class, 'categories']);
+            Route::get('units/{usage}', [VendorDropdownController::class, 'units']);
+        });
+        Route::prefix('profile')->name('profile.')->group(function () {
+            Route::any('/', [VendorProfileController::class, 'index'])->name('index');
+            Route::get('view', [VendorProfileController::class, 'view'])->name('view');
+            Route::get('update-password', [VendorProfileController::class, 'update_password'])->name('update-password');
+        });
     });
     Route::middleware([])->group(function () {
         Route::get('/', [VendorController::class, 'vendor_login'])->name('login');

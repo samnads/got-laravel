@@ -20,7 +20,7 @@
             <div class="card">
                 <div class="card-body p-4">
                     <form id="profile_edit_from">
-                        <input type="hidden" name="action" value="profile-update"/>
+                        <input type="hidden" name="action" value="profile-update" />
                         <h5 class="mb-4">Profile Details</h5>
                         <div class="row mb-3">
                             <label for="gdfgdg" class="col-sm-3 col-form-label">Vendor Name
@@ -72,6 +72,17 @@
                             </label>
                             <div class="col-sm-9">
                                 <textarea class="form-control" id="mfggf" rows="3" name="address">{{ $vendor->address }}</textarea>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="gjrwew" class="col-sm-3 col-form-label">Home Delivery Status
+                                <rf />
+                            </label>
+                            <div class="col-sm-9">
+                                <select id="input21" class="form-select" id="gjrwew" name="home_delivery_status_id">
+                                    <option value="1" {{ $vendor->home_delivery_status_id == 1 ? 'selected' : '' }}>Available</option>
+                                    <option value="2" {{ $vendor->home_delivery_status_id == 2 ? 'selected' : '' }}>Not Available</option>
+                                </select>
                             </div>
                         </div>
                         <div class="row">
