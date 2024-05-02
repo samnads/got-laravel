@@ -196,3 +196,9 @@ CREATE TABLE `vendor_delivery_persons` (
 ---------------------------------------------------------- DONE
 ALTER TABLE `vendors`
 ADD `home_delivery_status_id` tinyint NOT NULL DEFAULT '1' AFTER `blocked_at`;
+
+ALTER TABLE `vendors`
+CHANGE `password` `password` varchar(255) COLLATE 'utf8mb4_unicode_ci' NULL AFTER `email_verified_at`,
+CHANGE `username` `username` varchar(155) COLLATE 'utf8mb4_unicode_ci' NULL AFTER `password`,
+ADD `min_order_value` decimal(10,2) unsigned NOT NULL DEFAULT '100' AFTER `home_delivery_status_id`,
+ADD `min_order_weight` int(11) unsigned NOT NULL DEFAULT '1000' AFTER `min_order_value`;

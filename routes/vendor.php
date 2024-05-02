@@ -52,6 +52,7 @@ Route::prefix('')->name('vendor.')->group(function () {
             Route::any('/', [VendorProfileController::class, 'index'])->name('index');
             Route::get('view', [VendorProfileController::class, 'view'])->name('view');
             Route::get('update-password', [VendorProfileController::class, 'update_password'])->name('update-password');
+            Route::get('order-settings', [VendorProfileController::class, 'order_settings'])->name('order-settings');
         });
     });
     Route::middleware([])->group(function () {

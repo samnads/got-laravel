@@ -86,6 +86,8 @@
                 </li>
                 <li> <a href="{{ route('vendor.profile.update-password') }}"><i class='bx bx-radio-circle'></i>Change Password</a>
                 </li>
+                <li> <a href="{{ route('vendor.profile.order-settings') }}"><i class='bx bx-radio-circle'></i>Order Settings</a>
+                </li>
             </ul>
         </li>
     </ul>

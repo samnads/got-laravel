@@ -17,6 +17,11 @@ class VendorProfileController extends Controller
         $data['vendor'] = Vendor::findOrFail(Auth::guard('vendor')->id());
         return view('vendor.profile.profile', $data);
     }
+    public function order_settings(Request $request)
+    {
+        $data['vendor'] = Vendor::findOrFail(Auth::guard('vendor')->id());
+        return view('vendor.profile.order-settings', $data);
+    }
     public function update_password(Request $request)
     {
         $data['vendor'] = Vendor::findOrFail(Auth::guard('vendor')->id());
@@ -47,7 +52,22 @@ class VendorProfileController extends Controller
                                     'content' => 'Profile updated successfully.'
                                 ]
                             ];
-                        } else if ($request->action == "update-password") {
+                        }
+                        else if ($request->action == "order-settings-update") {
+                            $vendor = Vendor::findOrFail(Auth::guard('vendor')->id());
+                            $vendor->min_order_value = $request->min_order_value;
+                            $vendor->min_order_weight = $request->min_order_weight;
+                            $vendor->save();
+                            $response = [
+                                'status' => true,
+                                'message' => [
+                                    'type' => 'success',
+                                    'title' => 'Updated',
+                                    'content' => 'Order settings successfully.'
+                                ]
+                            ];
+                        }
+                        else if ($request->action == "update-password") {
                             /******************************************************************************* */
                             $validator = Validator::make(
                                 (array) $request->all(),
