@@ -1,36 +1,15 @@
 <?php
 
+use App\Http\Controllers\Vendor\VendorProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Vendor\VendorController;
 use App\Http\Controllers\Vendor\VendorDashboardController;
 use App\Http\Controllers\Vendor\VendorDropdownController;
-use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Vendor\VendorAuthController;
 use App\Http\Controllers\Vendor\VendorProductController;
 use App\Http\Controllers\Vendor\VendorOrderController;
 use App\Http\Controllers\Vendor\VendorDeliveryPersonController;
-use App\Http\Controllers\Admin\AdminProductCategoryController;
-use App\Http\Controllers\Admin\AdminProductController;
-use App\Http\Controllers\Admin\AdminStateController;
-use App\Http\Controllers\Admin\AdminBrandController;
-use App\Http\Controllers\Admin\AjaxController;
-use App\Http\Controllers\Admin\AdminVendorController;
-use App\Http\Controllers\Admin\AdminLocationController;
-use App\Http\Middleware\AdminAuthWeb;
 use App\Http\Middleware\VendorAuthWeb;
-use App\Http\Middleware\UserAuthWeb;
-// User Imports
-use App\Http\Controllers\User\UserAuthController;
-use App\Http\Controllers\User\UserDashboardController;
-use App\Http\Controllers\User\UserProductCategoryController;
-use App\Http\Controllers\User\UserBrandController;
-use App\Http\Controllers\User\UserVendorController;
-use App\Http\Controllers\User\UserDropdownController;
-use App\Http\Controllers\User\UserLocationController;
-use App\Http\Controllers\User\UserDistrictController;
-use App\Http\Controllers\User\UserStateController;
-use App\Http\Controllers\User\UserProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -69,6 +48,11 @@ Route::prefix('')->name('vendor.')->group(function () {
         Route::get('brands/{usage}', [VendorDropdownController::class, 'brands']);
         Route::get('categories/{usage}', [VendorDropdownController::class, 'categories']);
         Route::get('units/{usage}', [VendorDropdownController::class, 'units']);
+    });
+    Route::prefix('profile')->name('profile.')->group(function () {
+        Route::any('/', [VendorProfileController::class, 'index'])->name('index');
+        Route::get('view', [VendorProfileController::class, 'view'])->name('view');
+        Route::get('update-password', [VendorProfileController::class, 'update_password'])->name('update-password');
     });
     Route::middleware([])->group(function () {
         Route::get('/', [VendorController::class, 'vendor_login'])->name('login');

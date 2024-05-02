@@ -27,8 +27,7 @@
                 <div class="menu-title">Orders</div>
             </a>
             <ul>
-                <li> <a href="{{ route('vendor.orders.list') }}"><i
-                            class='bx bx-radio-circle'></i>All Orders</a>
+                <li> <a href="{{ route('vendor.orders.list') }}"><i class='bx bx-radio-circle'></i>All Orders</a>
                 </li>
                 <!--<li> <a href="{{ route('vendor.orders.orders_list_by_status_code', ['status_code' => 'created']) }}"><i
                             class='bx bx-radio-circle'></i>Pending</a>
@@ -71,8 +70,10 @@
                 <div class="menu-title">Masters</div>
             </a>
             <ul>
-                <li> <a href="{{ route('vendor.masters.delivery-persons.list') }}"><i class='bx bx-radio-circle'></i>Delivery Persons</a>
+                <li> <a href="{{ route('vendor.masters.delivery-persons.list') }}"><i
+                            class='bx bx-radio-circle'></i>Delivery Persons</a>
                 </li>
+            </ul>
         </li>
         <li>
             <a href="javascript:;" class="has-arrow">
@@ -81,9 +82,9 @@
                 <div class="menu-title">Settings</div>
             </a>
             <ul>
-                <li> <a href="javascript:;"><i class='bx bx-radio-circle'></i>Profile</a>
+                <li> <a href="{{ route('vendor.profile.view') }}"><i class='bx bx-radio-circle'></i>Profile</a>
                 </li>
-                <li> <a href="javascript:;"><i class='bx bx-radio-circle'></i>Order Settings</a>
+                <li> <a href="{{ route('vendor.profile.update-password') }}"><i class='bx bx-radio-circle'></i>Change Password</a>
                 </li>
             </ul>
         </li>
