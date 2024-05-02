@@ -27,7 +27,7 @@
                             </label>
                             <div class="col-sm-9">
                                 <div class="input-group mb-3">
-									<input type="number" step="any" class="form-control no-arrow" id="hjtww" name="min_order_value" value="{{$vendor->min_order_value}}"> <span class="input-group-text">Grams</span>
+									<input type="number" step="any" class="form-control no-arrow" id="hjtww" name="min_order_value" value="{{$vendor->min_order_value}}"> <span class="input-group-text">INR.</span>
 								</div>
                             </div>
                         </div>
@@ -36,7 +36,7 @@
                             </label>
                             <div class="col-sm-9">
                                  <div class="input-group mb-3">
-									<input type="number" class="form-control no-arrow" id="dfaasas" name="min_order_weight" value="{{$vendor->min_order_weight}}"> <span class="input-group-text">INR.</span>
+									<input type="number" class="form-control no-arrow" id="dfaasas" name="min_order_weight" value="{{$vendor->min_order_weight}}"> <span class="input-group-text">Kg.</span>
 								</div>
                             </div>
                         </div>
