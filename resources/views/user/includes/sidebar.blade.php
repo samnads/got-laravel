@@ -44,11 +44,20 @@
             </a>
         </li>
         <li>
-            <a href="{{ route('user.products.list') }}">
-                <div class="parent-icon"><i class='bx bx-category'></i>
+            <a href="javascript:;" class="has-arrow">
+                <div class="parent-icon"><i class="bx bx-category"></i>
                 </div>
                 <div class="menu-title">Products</div>
             </a>
+            <ul>
+                <li> <a href="{{ route('user.products.list') }}"><i
+                            class='bx bx-radio-circle'></i>List All</a>
+                </li>
+            </ul>
+            <ul>
+                <li> <a href="{{ route('user.products.new-product') }}"><i class='bx bx-radio-circle'></i>New Product</a>
+                </li>
+            </ul>
         </li>
         <li>
             <a href="#">

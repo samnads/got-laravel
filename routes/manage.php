@@ -1,26 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\AdminController;
-use App\Http\Controllers\Vendor\VendorController;
-use App\Http\Controllers\Vendor\VendorDashboardController;
-use App\Http\Controllers\Vendor\VendorDropdownController;
-use App\Http\Controllers\Admin\AdminAuthController;
-use App\Http\Controllers\Vendor\VendorAuthController;
-use App\Http\Controllers\Vendor\VendorProductController;
-use App\Http\Controllers\Vendor\VendorOrderController;
-use App\Http\Controllers\Vendor\VendorDeliveryPersonController;
-use App\Http\Controllers\Admin\AdminProductCategoryController;
-use App\Http\Controllers\Admin\AdminProductController;
-use App\Http\Controllers\Admin\AdminStateController;
-use App\Http\Controllers\Admin\AdminBrandController;
-use App\Http\Controllers\Admin\AjaxController;
-use App\Http\Controllers\Admin\AdminVendorController;
-use App\Http\Controllers\Admin\AdminLocationController;
-use App\Http\Middleware\AdminAuthWeb;
-use App\Http\Middleware\VendorAuthWeb;
 use App\Http\Middleware\UserAuthWeb;
-// User Imports
 use App\Http\Controllers\User\UserAuthController;
 use App\Http\Controllers\User\UserDashboardController;
 use App\Http\Controllers\User\UserProductCategoryController;
@@ -91,6 +72,7 @@ Route::prefix('')->name('user.')->group(function () {
         // Products routes
         Route::prefix('products')->name('products.')->group(function () {
             Route::post('/', [UserProductController::class, 'create']);
+            Route::get('/new', [UserProductController::class, 'new_product'])->name('new-product');;
             Route::get('/list', [UserProductController::class, 'list'])->name('list');
             Route::get('/{id}', [UserProductController::class, 'read']);
             Route::put('/{id}', [UserProductController::class, 'update']);

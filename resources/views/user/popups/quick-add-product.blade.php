@@ -72,7 +72,7 @@
                                 <rf />
                             </label>
                             <div class="position-relative">
-                                <textarea class="form-control" id="mrpy" name="maximum_retail_price" rows="1"></textarea>
+                                <input class="form-control" id="mrpy" name="maximum_retail_price"/>
                             </div>
                         </div>
                     </div>

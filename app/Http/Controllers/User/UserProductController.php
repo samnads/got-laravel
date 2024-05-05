@@ -19,6 +19,12 @@ use Intervention\Image\Facades\Image as Image;
 
 class UserProductController extends Controller
 {
+    public function new_product(Request $request){
+        $data['units'] = Unit::select('units.id as value', 'units.name as label', 'units.code')->get();
+        $data['brands'] = Brand::select('brands.id as value', 'brands.name as label')->get();
+        $data['product_categories'] = ProductCategories::select('product_categories.id as value', 'product_categories.name as label')->get();
+        return view('user.products.new-product', $data);
+    }
     public function list(Request $request)
     {
         if ($request->ajax()) {

@@ -18,7 +18,8 @@
     <!--end breadcrumb-->
     <div class="d-flex justify-content-end mb-3">
         <div class="bd-highlight">
-            <select data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Search By Category" class="form-select form-select-sm" name="filter_category_id">
+            <select data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Search By Category"
+                class="form-select form-select-sm" name="filter_category_id">
                 <option value="" selected>-- All Categories --</option>
                 @foreach ($product_categories as $key => $product_category)
                     <option value="{{ $product_category->value }}">{{ $product_category->label }}</option>
@@ -26,7 +27,8 @@
             </select>
         </div>
         <div class="bd-highlight">
-            <select data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Search By Brand" class="form-select form-select-sm" name="filter_brand_id">
+            <select data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Search By Brand"
+                class="form-select form-select-sm" name="filter_brand_id">
                 <option value="" selected>-- All Brands --</option>
                 @foreach ($brands as $key => $brand)
                     <option value="{{ $brand->value }}">{{ $brand->label }}</option>
@@ -36,7 +38,7 @@
         <button data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Refresh" type="button"
             class="btn btn-sm btn-light border" data-action="dt-refresh"><i class="bx bx-refresh"></i>
         </button>
-        <button data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="New Product" type="button"
+        <button data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Quick Product" type="button"
             class="btn btn-sm btn-light border" data-action="quick-add-product"><i class="bx bx-plus"></i>
         </button>
         <div class="bd-highlight">
@@ -93,8 +95,7 @@
 @push('link-styles')
     <!-- Pushed Link Styles -->
     <link href="https://cdn.datatables.net/2.0.5/css/dataTables.bootstrap5.css" rel="stylesheet">
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/tom-select/2.3.1/css/tom-select.bootstrap5.min.css"
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tom-select/2.3.1/css/tom-select.bootstrap5.min.css"
         integrity="sha512-w7Qns0H5VYP5I+I0F7sZId5lsVxTH217LlLUPujdU+nLMWXtyzsRPOP3RCRWTC8HLi77L4rZpJ4agDW3QnF7cw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 @endpush
