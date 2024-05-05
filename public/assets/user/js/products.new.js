@@ -16,18 +16,40 @@ $(document).ready(function () {
             $('#size-variants').show();
             $('#no-variants').hide();
             $('button[data-action="append-variant"]', new_product_form).show();
-            $('#size-variants').html(new_size_variant_html); // reset
+            //$('#size-variants').html(new_size_variant_html); // reset
         }
         else {
             $('#size-variants').hide();
             $('#no-variants').show();
             $('button[data-action="append-variant"]', new_product_form).hide();
-            $('#size-variants').html(new_size_variant_html); // reset
+            //$('#size-variants').html(new_size_variant_html); // reset
         }
     });
     $('button[data-action="append-variant"]', new_product_form).click(function () {
         $('#size-variants').prepend(new_size_variant_html);
+        $('[name="variant_codes[]"]').each(function (index) {
+            $(this).attr('id', 'variant_code_' + index);
+            $(this).closest('div').prev('label').attr('for', 'variant_code_' + index);
+        });
+        $('[name="variant_sizes[]"]').each(function (index) {
+            $(this).attr('id', 'variant_size_' + index);
+            $(this).closest('div').prev('label').attr('for', 'variant_size_' + index);
+        });
+        $('[name="variant_labels[]"]').each(function (index) {
+            $(this).attr('id', 'variant_label_' + index);
+            $(this).closest('div').prev('label').attr('for', 'variant_label_' + index);
+        });
+        $('[name="variant_mrps[]"]').each(function (index) {
+            $(this).attr('id', 'variant_mrp_' + index);
+            $(this).closest('div').prev('label').attr('for', 'variant_mrp_' + index);
+        });
+        $('[name="variant_thumbnail_images[]"]').each(function (index) {
+            $(this).attr('id', 'variant_thumbnail_image_' + index);
+            $(this).closest('div').prev('label').attr('for', 'variant_thumbnail_image_' + index);
+        });
+        removeVariantListener();
     });
+    removeVariantListener();
     $('[name="have_variations"]', new_product_form).trigger('click');
     new_product_form_validator = new_product_form.validate({
         focusInvalid: false,
@@ -153,3 +175,17 @@ let category_id_select = new TomSelect('#new-product-form [name="category_id"]',
         }
     },
 });
+function removeVariantListener(){
+    $('[data-action="remove-variant"]').off("click");
+    $('[data-action="remove-variant"]', new_product_form).click(function () {
+        $(this).closest('[data-row="size-variant"]').remove();
+        removeVariantListener();
+    });
+    let variant_rows = $('[data-row="size-variant"]').length;
+    if (variant_rows == 1) {
+        $('button[data-action="remove-variant"]').prop("disabled", true);
+    }
+    else {
+        $('button[data-action="remove-variant"]').prop("disabled", false);
+    }
+}

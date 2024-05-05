@@ -107,7 +107,7 @@
                             </label>
                         </span>
                     </div>
-                    <div class="p-2"><button style="display: none" data-bs-toggle="tooltip" data-bs-placement="top"
+                    <div class="p-0 mt-2"><button style="display: none" data-bs-toggle="tooltip" data-bs-placement="top"
                             data-bs-title="New Variant" type="button" class="btn btn-sm btn-info"
                             data-action="append-variant"><i class="fadeIn animated bx bx-plus"></i></button></div>
                 </div>
@@ -120,7 +120,7 @@
                                 <rf />
                             </label>
                             <div class="position-relative">
-                                <input type="text" step="1" class="form-control no-arrow"
+                                <input type="text" class="form-control no-arrow"
                                     name="variant_codes[]" autocomplete="off" placeholder="GO001234">
                             </div>
                         </div>
@@ -138,7 +138,7 @@
                                 <rf />
                             </label>
                             <div class="position-relative">
-                                <input type="text" step="1" class="form-control no-arrow"
+                                <input type="text" class="form-control no-arrow"
                                     name="variant_labels[]" autocomplete="off" placeholder="1 kg">
                             </div>
                         </div>
@@ -160,8 +160,8 @@
                         </div>
                         <div class="col-md-1 text-right">
                             <label class="form-label">&nbsp;</label>
-                            <div class="d-flex justify-content-end"><button type="button"
-                                    class="btn btn-primary btn-sm btn-danger"><i class="bx bx-trash"></i></button></di>
+                            <div class="d-flex justify-content-end"><button data-action="remove-variant" type="button"
+                                    class="btn btn-primary btn-sm btn-danger" disabled><i class="bx bx-trash"></i></button></di>
                             </div>
                         </div>
                     </div>
