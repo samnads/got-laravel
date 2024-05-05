@@ -457,7 +457,10 @@ INSERT INTO `products` (`id`, `parent_product_id`, `code`, `item_size`, `unit_id
 (41,	NULL,	'dfdf',	4.00,	2,	2,	'fdsd',	'dfdf',	3.00,	'C3Rexev41GGNavvbBbDUcJZpaDVYSHWMLkaNZ0u9.jpg',	'2024-04-30 17:55:14',	'2024-04-30 17:56:42',	NULL),
 (42,	NULL,	'4',	43.00,	1,	1,	'd',	'dfdf',	43.00,	'42-sWeVPREggvrLMitTkNsHbRsl4mWjy1ji63ITMKtm.jpg',	'2024-04-30 17:56:15',	'2024-04-30 18:34:52',	'2024-04-30 18:33:44'),
 (43,	NULL,	'gfg',	1.00,	3,	1,	'Sugar',	'qw',	12.00,	'43-WXSF8HL3eLJgOCtEyMweab5nK55sdtFgedF68trM.jpg',	'2024-04-30 19:21:00',	'2024-04-30 19:21:00',	NULL),
-(44,	NULL,	'fsd',	2.00,	3,	1,	'Sugar',	'df',	50.00,	'44-dKKp3hseRwyXhPyA6u9UebEXruNmwagctFoFMpgk.jpg',	'2024-04-30 19:21:24',	'2024-04-30 19:21:24',	NULL);
+(44,	NULL,	'fsd',	2.00,	3,	1,	'Sugar',	'df',	50.00,	'44-dKKp3hseRwyXhPyA6u9UebEXruNmwagctFoFMpgk.jpg',	'2024-04-30 19:21:24',	'2024-04-30 19:21:24',	NULL),
+(45,	NULL,	'3',	34.00,	1,	1,	'sdsd',	'er',	3.00,	'45-WcHP5AjHtpuRNLVrxnks1g1BgfvRHpTrCT55KI6d.jpg',	'2024-05-05 11:32:16',	'2024-05-05 11:32:23',	NULL),
+(46,	46,	'3434',	3434.00,	1,	8,	'rre',	'sasas',	343434.00,	NULL,	'2024-05-05 18:18:26',	'2024-05-05 18:18:26',	NULL),
+(47,	46,	'434',	34.00,	1,	8,	'rre',	'sasas',	34.00,	NULL,	'2024-05-05 18:18:26',	'2024-05-05 18:18:26',	NULL);
 
 DROP TABLE IF EXISTS `product_categories`;
 CREATE TABLE `product_categories` (
@@ -549,7 +552,10 @@ INSERT INTO `product_category_mappings` (`id`, `product_id`, `category_id`, `cre
 (36,	41,	4,	'2024-04-30 17:55:14',	'2024-04-30 17:55:14',	NULL),
 (37,	42,	4,	'2024-04-30 17:56:15',	'2024-04-30 17:56:15',	NULL),
 (38,	43,	1,	'2024-04-30 19:21:00',	'2024-04-30 19:21:00',	NULL),
-(39,	44,	1,	'2024-04-30 19:21:24',	'2024-04-30 19:21:24',	NULL);
+(39,	44,	1,	'2024-04-30 19:21:24',	'2024-04-30 19:21:24',	NULL),
+(40,	45,	2,	'2024-05-05 11:32:16',	'2024-05-05 11:32:16',	NULL),
+(41,	46,	3,	'2024-05-05 18:18:26',	'2024-05-05 18:18:26',	NULL),
+(42,	47,	3,	'2024-05-05 18:18:26',	'2024-05-05 18:18:26',	NULL);
 
 DROP TABLE IF EXISTS `product_requests`;
 CREATE TABLE `product_requests` (
@@ -950,4 +956,4 @@ CREATE TABLE `vendor_reviews` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
--- 2024-05-03 20:28:38
+-- 2024-05-05 18:20:56

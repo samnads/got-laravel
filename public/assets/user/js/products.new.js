@@ -119,9 +119,6 @@ $(document).ready(function () {
                 },
                 success: function (response) {
                     if (response.status == true) {
-                        quick_add_product_modal.hide();
-                        submit_btn.prop("disabled", false);
-                        datatable.ajax.reload(null, false);
                         Swal.fire({
                             title: response.message.title,
                             text: response.message.content,
@@ -139,7 +136,6 @@ $(document).ready(function () {
                 },
                 error: function (response) {
                     submit_btn.prop("disabled", false);
-                    datatable.ajax.reload(null, false);
                 },
             });
         }

@@ -115,6 +115,7 @@
             <div class="card-body">
                 <div id="size-variants" style="display: none">
                     <div class="row g-3 pb-3 pt-3 border-bottom" data-row="size-variant">
+                        <input type="hidden" name="variants[]">
                         <div class="col-md-2">
                             <label class="form-label">Code
                                 <rf />

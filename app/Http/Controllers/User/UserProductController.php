@@ -19,15 +19,67 @@ use Intervention\Image\Facades\Image as Image;
 
 class UserProductController extends Controller
 {
-    public function new_product(Request $request){
+    public function new_product(Request $request)
+    {
         if ($request->ajax()) {
-            if ($request->method() == 'POST') {
+            try {
+                if ($request->method() == 'POST') {
+                    if ($request->have_variations == "1") {
+                        DB::beginTransaction();
+                        $parent_product_id = null;
+                        foreach($request->variants as $key => $variant){
+                            $product = new Product();
+                            $product->parent_product_id = null;
+                            $product->unit_id = $request->unit_id;
+                            $product->brand_id = $request->brand_id;
+                            $product->name = $request->name;
+                            $product->description = $request->description;
+                            $product->code = $request->variant_codes[$key];
+                            $product->item_size = $request->variant_sizes[$key];
+                            $product->maximum_retail_price = $request->variant_mrps[$key];
+                            $product->save();
+                            $parent_product_id = $parent_product_id ?: $product->id;
+                            $product->parent_product_id = $parent_product_id;
+                            $product->save();
+                            $category_mapping = new ProductCategoryMapping();
+                            $category_mapping->product_id = $product->id;
+                            $category_mapping->category_id = $request->category_id;
+                            $category_mapping->save();
+                        }
+                        DB::commit();
+                    } else {
+
+                    }
+                    $response = [
+                        'status' => true,
+                        'message' => [
+                                'type' => 'success',
+                                'title' => 'Product Saved !',
+                                'content' => 'Product added successfully.'
+                            ],
+                    ];
+                    return response()->json(@$response ?: [], 200, [], JSON_PRETTY_PRINT);
+                }
+            } catch (\Exception $e) {
+                if (DB::transactionLevel() > 0) {
+                    DB::rollback();
+                }
+                $response = [
+                    'status' => false,
+                    'error' => [
+                            'type' => 'error',
+                            'title' => 'Error !',
+                            'content' => $e->getMessage()
+                        ]
+                ];
+                return response()->json($response, 200, [], JSON_PRETTY_PRINT);
             }
+        } else {
+            $data['units'] = Unit::select('units.id as value', 'units.name as label', 'units.code')->get();
+            $data['brands'] = Brand::select('brands.id as value', 'brands.name as label')->get();
+            $data['product_categories'] = ProductCategories::select('product_categories.id as value', 'product_categories.name as label')->get();
+            return view('user.products.new-product', $data);
         }
-        $data['units'] = Unit::select('units.id as value', 'units.name as label', 'units.code')->get();
-        $data['brands'] = Brand::select('brands.id as value', 'brands.name as label')->get();
-        $data['product_categories'] = ProductCategories::select('product_categories.id as value', 'product_categories.name as label')->get();
-        return view('user.products.new-product', $data);
     }
     public function list(Request $request)
     {
@@ -102,10 +154,10 @@ class UserProductController extends Controller
                         $response = [
                             'status' => false,
                             'error' => [
-                                'type' => 'error',
-                                'title' => 'Error !',
-                                'content' => 'Unknown action.'
-                            ]
+                                    'type' => 'error',
+                                    'title' => 'Error !',
+                                    'content' => 'Unknown action.'
+                                ]
                         ];
                 }
                 return response()->json($response, 200, [], JSON_PRETTY_PRINT);
@@ -116,10 +168,10 @@ class UserProductController extends Controller
                 $response = [
                     'status' => false,
                     'error' => [
-                        'type' => 'error',
-                        'title' => 'Error !',
-                        'content' => $e->getMessage()
-                    ]
+                            'type' => 'error',
+                            'title' => 'Error !',
+                            'content' => $e->getMessage()
+                        ]
                 ];
                 return response()->json($response, 200, [], JSON_PRETTY_PRINT);
             }
@@ -152,10 +204,10 @@ class UserProductController extends Controller
             $response = [
                 'status' => true,
                 'message' => [
-                    'type' => 'success',
-                    'title' => 'Data fetched !',
-                    'content' => 'Data fetched successfully.'
-                ],
+                        'type' => 'success',
+                        'title' => 'Data fetched !',
+                        'content' => 'Data fetched successfully.'
+                    ],
                 'data' => @$data ?: []
             ];
             return response()->json($response ?: [], 200, [], JSON_PRETTY_PRINT);
@@ -193,10 +245,10 @@ class UserProductController extends Controller
                 $response = [
                     'status' => false,
                     'error' => [
-                        'type' => 'error',
-                        'title' => 'Error !',
-                        'content' => $validator->errors()->first()
-                    ]
+                            'type' => 'error',
+                            'title' => 'Error !',
+                            'content' => $validator->errors()->first()
+                        ]
                 ];
                 return response()->json($response, 200, [], JSON_PRETTY_PRINT);
             }
@@ -231,10 +283,10 @@ class UserProductController extends Controller
             $response = [
                 'status' => true,
                 'message' => [
-                    'type' => 'success',
-                    'title' => 'Product Saved !',
-                    'content' => 'Product added successfully.'
-                ],
+                        'type' => 'success',
+                        'title' => 'Product Saved !',
+                        'content' => 'Product added successfully.'
+                    ],
             ];
             return response()->json(@$response ?: [], 200, [], JSON_PRETTY_PRINT);
         } catch (\Exception $e) {
@@ -244,10 +296,10 @@ class UserProductController extends Controller
             $response = [
                 'status' => false,
                 'error' => [
-                    'type' => 'error',
-                    'title' => 'Error !',
-                    'content' => $e->getMessage()
-                ],
+                        'type' => 'error',
+                        'title' => 'Error !',
+                        'content' => $e->getMessage()
+                    ],
                 'request' => json_decode(file_get_contents('php://input'), true)
             ];
             return response()->json(@$response ?: [], 200, [], JSON_PRETTY_PRINT);
@@ -288,10 +340,10 @@ class UserProductController extends Controller
                         $response = [
                             'status' => false,
                             'error' => [
-                                'type' => 'error',
-                                'title' => 'Error !',
-                                'content' => $validator->errors()->first()
-                            ]
+                                    'type' => 'error',
+                                    'title' => 'Error !',
+                                    'content' => $validator->errors()->first()
+                                ]
                         ];
                         return response()->json($response, 200, [], JSON_PRETTY_PRINT);
                     }
@@ -325,10 +377,10 @@ class UserProductController extends Controller
                     $response = [
                         'status' => true,
                         'message' => [
-                            'type' => 'success',
-                            'title' => 'Product Updated !',
-                            'content' => 'Product updated successfully.'
-                        ]
+                                'type' => 'success',
+                                'title' => 'Product Updated !',
+                                'content' => 'Product updated successfully.'
+                            ]
                     ];
                 } else if ($request->action == 'toggle-status') {
                     $row = Product::withTrashed()->findOrFail($id);
@@ -343,10 +395,10 @@ class UserProductController extends Controller
                     $response = [
                         'status' => true,
                         'message' => [
-                            'type' => 'success',
-                            'title' => 'Status Updated !',
-                            'content' => 'Product ' . $status . ' successfully.'
-                        ]
+                                'type' => 'success',
+                                'title' => 'Status Updated !',
+                                'content' => 'Product ' . $status . ' successfully.'
+                            ]
                     ];
                 }
                 return response()->json(@$response ?: [], 200, [], JSON_PRETTY_PRINT);
@@ -358,10 +410,10 @@ class UserProductController extends Controller
             $response = [
                 'status' => false,
                 'error' => [
-                    'type' => 'error',
-                    'title' => 'Exception !',
-                    'content' => $e->getMessage()
-                ]
+                        'type' => 'error',
+                        'title' => 'Exception !',
+                        'content' => $e->getMessage()
+                    ]
             ];
             return response()->json(@$response ?: [], 200, [], JSON_PRETTY_PRINT);
         }

@@ -72,7 +72,8 @@ Route::prefix('')->name('user.')->group(function () {
         // Products routes
         Route::prefix('products')->name('products.')->group(function () {
             Route::post('/', [UserProductController::class, 'create']);
-            Route::get('/new', [UserProductController::class, 'new_product'])->name('new-product');;
+            Route::get('/new', [UserProductController::class, 'new_product'])->name('new-product');
+            Route::post('/new', [UserProductController::class, 'new_product'])->name('save-product');
             Route::get('/list', [UserProductController::class, 'list'])->name('list');
             Route::get('/{id}', [UserProductController::class, 'read']);
             Route::put('/{id}', [UserProductController::class, 'update']);
