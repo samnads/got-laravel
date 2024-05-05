@@ -65,16 +65,16 @@ $(document).ready(function () {
                 required: false,
             },
             "item_size": {
-                required: true,
+                required: '[name="have_variations"][value="0"]:checked',
             },
             "unit_id": {
                 required: true,
             },
             "maximum_retail_price": {
-                required: true,
+                required: '[name="have_variations"][value="0"]:checked',
             },
             "code": {
-                required: true,
+                required: '[name="have_variations"][value="0"]:checked',
             },
             "thumbnail_image": {
                 required: false,
