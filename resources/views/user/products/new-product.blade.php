@@ -56,39 +56,13 @@
                             </div>
                         </div>
                         <div class="row g-3 mt-2">
-                            <div class="col-md-4">
-                                <label for="codegd" class="form-label">Code
-                                    <rf />
-                                </label>
-                                <div class="position-relative">
-                                    <input type="text" class="form-control" id="codegd" name="code"
-                                        autocomplete="off">
-                                </div>
-                            </div>
+                            
                             <div class="col-md-4">
                                 <label for="thumzsds" class="form-label">Thumbnail Image (300 x 300px)
                                 </label>
                                 <div class="position-relative">
                                     <input class="form-control" type="file" id="thumzsds" name="thumbnail_image"
                                         accept="image/*">
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <label for="desdssw" class="form-label">Description
-                                </label>
-                                <div class="position-relative">
-                                    <textarea class="form-control" id="desdssw" name="description"></textarea>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row g-3 mt-2">
-                            <div class="col-md-4">
-                                <label for="uids" class="form-label">Item Size
-                                    <rf />
-                                </label>
-                                <div class="position-relative">
-                                    <input type="number" step="1" class="form-control no-arrow" id="uids"
-                                        name="item_size" autocomplete="off">
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -107,6 +81,34 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="col-md-4">
+                                <label for="desdssw" class="form-label">Description
+                                </label>
+                                <div class="position-relative">
+                                    <textarea class="form-control" id="desdssw" name="description"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row g-3 mt-2">
+                            <div class="col-md-4">
+                                <label for="codegd" class="form-label">Code
+                                    <rf />
+                                </label>
+                                <div class="position-relative">
+                                    <input type="text" class="form-control" id="codegd" name="code"
+                                        autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="uids" class="form-label">Item Size
+                                    <rf />
+                                </label>
+                                <div class="position-relative">
+                                    <input type="number" step="1" class="form-control no-arrow" id="uids"
+                                        name="item_size" autocomplete="off">
+                                </div>
+                            </div>
+                            
                             <div class="col-md-4">
                                 <label for="mrpy" class="form-label">MRP.
                                     <rf />
@@ -192,6 +194,14 @@
                             <input class="form-control" type="file" name="variant_thumbnail_images" accept="image/*">
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex bd-highlight">
+                    <div class="me-auto p-2 bd-highlight"></div>
+                    <div class="p-2 bd-highlight"><button type="submit" class="btn btn-success">Save</button></div>
                 </div>
             </div>
         </div>
