@@ -158,9 +158,11 @@
                                     accept="image/*">
                             </div>
                         </div>
-                         <div class="col-md-1 text-right">
+                        <div class="col-md-1 text-right">
                             <label class="form-label">&nbsp;</label>
-                            <div class="d-flex justify-content-end"><button type="button" class="btn btn-primary btn-sm btn-danger"><i class="bx bx-trash"></i></button></di>
+                            <div class="d-flex justify-content-end"><button type="button"
+                                    class="btn btn-primary btn-sm btn-danger"><i class="bx bx-trash"></i></button></di>
+                            </div>
                         </div>
                     </div>
                 </div>
