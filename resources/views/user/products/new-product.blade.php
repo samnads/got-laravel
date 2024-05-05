@@ -24,7 +24,7 @@
                 <div class="row g-3">
                     <div class="col-md-7">
                         <div class="row g-3">
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <label for="dfdfdf" class="form-label">Name
                                     <rf />
                                 </label>
@@ -54,17 +54,6 @@
                                     </select>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row g-3 mt-2">
-                            
-                            <div class="col-md-4">
-                                <label for="thumzsds" class="form-label">Thumbnail Image (300 x 300px)
-                                </label>
-                                <div class="position-relative">
-                                    <input class="form-control" type="file" id="thumzsds" name="thumbnail_image"
-                                        accept="image/*">
-                                </div>
-                            </div>
                             <div class="col-md-4">
                                 <label for="hsfbzs" class="form-label">Unit
                                     <rf />
@@ -81,6 +70,8 @@
                                     </select>
                                 </div>
                             </div>
+                        </div>
+                        <div class="row g-3 mt-2">
                             <div class="col-md-4">
                                 <label for="desdssw" class="form-label">Description
                                 </label>
@@ -89,35 +80,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row g-3 mt-2">
-                            <div class="col-md-4">
-                                <label for="codegd" class="form-label">Code
-                                    <rf />
-                                </label>
-                                <div class="position-relative">
-                                    <input type="text" class="form-control" id="codegd" name="code"
-                                        autocomplete="off">
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <label for="uids" class="form-label">Item Size
-                                    <rf />
-                                </label>
-                                <div class="position-relative">
-                                    <input type="number" step="1" class="form-control no-arrow" id="uids"
-                                        name="item_size" autocomplete="off">
-                                </div>
-                            </div>
-                            
-                            <div class="col-md-4">
-                                <label for="mrpy" class="form-label">MRP.
-                                    <rf />
-                                </label>
-                                <div class="position-relative">
-                                    <input class="form-control" id="mrpy" name="maximum_retail_price">
-                                </div>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
             </div>
@@ -148,50 +111,94 @@
                             data-bs-title="New Variant" type="button" class="btn btn-sm btn-info"
                             data-action="append-variant"><i class="fadeIn animated bx bx-plus"></i></button></div>
                 </div>
-
             </div>
-            <div class="card-body" id="size-variants" style="display: none">
-                <div class="row g-3 pb-3 pt-3 border-bottom" data-row="size-variant">
-                    <div class="col-md-1">
-                        <label class="form-label">Code
-                            <rf />
-                        </label>
-                        <div class="position-relative">
-                            <input type="text" step="1" class="form-control no-arrow" name="variant_codes[]"
-                                autocomplete="off" placeholder="GO001234">
+            <div class="card-body">
+                <div id="size-variants" style="display: none">
+                    <div class="row g-3 pb-3 pt-3 border-bottom" data-row="size-variant">
+                        <div class="col-md-2">
+                            <label class="form-label">Code
+                                <rf />
+                            </label>
+                            <div class="position-relative">
+                                <input type="text" step="1" class="form-control no-arrow"
+                                    name="variant_codes[]" autocomplete="off" placeholder="GO001234">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">Size
+                                <rf />
+                            </label>
+                            <div class="position-relative">
+                                <input type="number" step="1" class="form-control no-arrow"
+                                    name="variant_sizes[]" autocomplete="off" placeholder="2">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">Label
+                                <rf />
+                            </label>
+                            <div class="position-relative">
+                                <input type="text" step="1" class="form-control no-arrow"
+                                    name="variant_labels[]" autocomplete="off" placeholder="1 kg">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">MRP.
+                                <rf />
+                            </label>
+                            <div class="position-relative">
+                                <input class="form-control" name="variant_mrps[]" placeholder="123.5">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Thumbnail Image (300 x 300px)
+                            </label>
+                            <div class="position-relative">
+                                <input class="form-control" type="file" name="variant_thumbnail_images[]"
+                                    accept="image/*">
+                            </div>
+                        </div>
+                         <div class="col-md-1 text-right">
+                            <label class="form-label">&nbsp;</label>
+                            <div class="d-flex justify-content-end"><button type="button" class="btn btn-primary btn-sm btn-danger"><i class="bx bx-trash"></i></button></di>
                         </div>
                     </div>
-                    <div class="col-md-1">
-                        <label class="form-label">Size
-                            <rf />
-                        </label>
-                        <div class="position-relative">
-                            <input type="number" step="1" class="form-control no-arrow" name="variant_sizes[]"
-                                autocomplete="off" placeholder="2">
+                </div>
+                <div id="no-variants" style="display: non">
+                    <div class="row g-3 mt-2">
+                        <div class="col-md-3">
+                            <label for="codegd" class="form-label">Code
+                                <rf />
+                            </label>
+                            <div class="position-relative">
+                                <input type="text" class="form-control" id="codegd" name="code"
+                                    autocomplete="off">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-1">
-                        <label class="form-label">Label
-                            <rf />
-                        </label>
-                        <div class="position-relative">
-                            <input type="text" step="1" class="form-control no-arrow" name="variant_labels[]"
-                                autocomplete="off" placeholder="1 kg">
+                        <div class="col-md-3">
+                            <label for="uids" class="form-label">Item Size
+                                <rf />
+                            </label>
+                            <div class="position-relative">
+                                <input type="number" step="1" class="form-control no-arrow" id="uids"
+                                    name="item_size" autocomplete="off">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-2">
-                        <label class="form-label">MRP.
-                            <rf />
-                        </label>
-                        <div class="position-relative">
-                            <input class="form-control" name="variant_mrps[]" placeholder="123.5">
+                        <div class="col-md-2">
+                            <label for="mrpy" class="form-label">MRP.
+                                <rf />
+                            </label>
+                            <div class="position-relative">
+                                <input class="form-control" id="mrpy" name="maximum_retail_price">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-2">
-                        <label class="form-label">Thumbnail Image (300 x 300px)
-                        </label>
-                        <div class="position-relative">
-                            <input class="form-control" type="file" name="variant_thumbnail_images" accept="image/*">
+                        <div class="col-md-4">
+                            <label for="thumzsds" class="form-label">Thumbnail Image (300 x 300px)
+                            </label>
+                            <div class="position-relative">
+                                <input class="form-control" type="file" id="thumzsds" name="thumbnail_image"
+                                    accept="image/*">
+                            </div>
                         </div>
                     </div>
                 </div>

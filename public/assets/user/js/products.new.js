@@ -14,11 +14,13 @@ $(document).ready(function () {
     $('[name="have_variations"]', new_product_form).click(function () {
         if (this.value == 1) { // Yes
             $('#size-variants').show();
+            $('#no-variants').hide();
             $('button[data-action="append-variant"]', new_product_form).show();
             $('#size-variants').html(new_size_variant_html); // reset
         }
         else {
             $('#size-variants').hide();
+            $('#no-variants').show();
             $('button[data-action="append-variant"]', new_product_form).hide();
             $('#size-variants').html(new_size_variant_html); // reset
         }
@@ -59,7 +61,19 @@ $(document).ready(function () {
                 required: false,
             },
             "variant_codes[]": {
-                required: true,
+                required: '[name="have_variations"][value="1"]:checked',
+            },
+            "variant_sizes[]": {
+                required: '[name="have_variations"][value="1"]:checked',
+            },
+            "variant_labels[]": {
+                required: '[name="have_variations"][value="1"]:checked',
+            },
+            "variant_mrps[]": {
+                required: '[name="have_variations"][value="1"]:checked',
+            },
+            "variant_thumbnail_images[]": {
+                required: false,
             },
         },
         messages: {},
@@ -108,4 +122,34 @@ $(document).ready(function () {
             });
         }
     });
+});
+let category_id_select = new TomSelect('#new-product-form [name="category_id"]', {
+    plugins: ['clear_button'],
+    valueField: 'value',
+    labelField: 'label',
+    searchField: ['label'],
+    maxItems: 1,
+    load: function (query, callback) {
+        var url = _base_url + 'dropdown/categories/quick-add-product?' + new URLSearchParams({
+            query: encodeURIComponent(query),
+        })
+        fetch(url)
+            .then(response => response.json())
+            .then(json => {
+                callback(json.items);
+            }).catch(() => {
+                callback();
+            });
+    },
+    render: {
+        option: function (item, escape) {
+            return `<div class="py-2 d-flex">${escape(item.label)}</div>`;
+        },
+        no_results: function (data, escape) {
+            return '<div class="no-results">No districts found for "' + escape(data.input) + '"</div>';
+        },
+        item: function (item, escape) {
+            return `<div>${escape(item.label)}</div>`;
+        }
+    },
 });
