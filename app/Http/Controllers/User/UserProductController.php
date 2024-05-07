@@ -196,7 +196,12 @@ class UserProductController extends Controller
                             $rows->where('pcm.category_id', $request->filter_category_id);
                         }
                         $data_table['recordsFiltered'] = $rows->count();
-                        $data_table['data'] = $rows->offset($request->start)->limit($request->length)->get()->toArray();
+                        if($request->length != -1){
+                            $data_table['data'] = $rows->offset($request->start)->limit($request->length)->get()->toArray();
+                        }
+                        else{
+                            $data_table['data'] = $rows->get()->toArray();
+                        }
                         foreach ($data_table['data'] as $key => $row) {
                             $data_table['data'][$key]['slno'] = ($request->start + $key + 1);
                             $data_table['data'][$key]['thumbnail_image_html'] = '<img src="' . config('url.uploads_cdn') . 'products/' . ($row['thumbnail_image'] ?: 'default.jpg') . '" class="product-img-2" alt="product img">';

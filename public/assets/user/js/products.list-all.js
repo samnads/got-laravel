@@ -34,6 +34,11 @@ let datatable = new DataTable('#datatable', {
         "complete": function () {
         }
     },
+    lengthMenu: [10, 25, 50, 75, 100, { label: 'All', value: -1 }],
+    dom: 'Blfrtip',
+    buttons: [
+        'copy', 'csv', 'excel', 'pdf', 'print'
+    ],
     columns: [
         { data: 'slno', name: 'slno' },
         { data: 'thumbnail_image_html', name: 'thumbnail_image_html' },

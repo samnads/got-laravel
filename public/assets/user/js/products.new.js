@@ -161,6 +161,7 @@ $(document).ready(function () {
                             allowOutsideClick: false,
                             didOpen: () => Swal.getConfirmButton().blur()
                         }).then((result) => {
+                            location.reload();
                         });
                     } else {
                         toastStatusFalse(response, { stack: 1 });

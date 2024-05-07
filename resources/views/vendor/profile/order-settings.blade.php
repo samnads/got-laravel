@@ -41,6 +41,15 @@
                             </div>
                         </div>
                         <div class="row mb-3">
+                            <label for="dfaasas" class="col-sm-3 col-form-label">Max. Order Weight<rf />
+                            </label>
+                            <div class="col-sm-9">
+                                 <div class="input-group mb-3">
+									<input type="number" class="form-control no-arrow" id="dfaasas" name="max_order_weight" value="{{$vendor->max_order_weight}}"> <span class="input-group-text">Kg.</span>
+								</div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
                             <label for="fsfd" class="col-sm-3 col-form-label">Home Delivery
                                 <rf />
                             </label>

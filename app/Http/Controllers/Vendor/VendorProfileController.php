@@ -56,6 +56,7 @@ class VendorProfileController extends Controller
                             $vendor = Vendor::findOrFail(Auth::guard('vendor')->id());
                             $vendor->min_order_value = $request->min_order_value;
                             $vendor->min_order_weight = $request->min_order_weight;
+                            $vendor->max_order_weight = $request->max_order_weight;
                             $vendor->home_delivery_status_id = $request->home_delivery_status_id == 1 ? 1 : 2;
                             $vendor->save();
                             $response = [
