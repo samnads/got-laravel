@@ -121,8 +121,8 @@
                                 <rf />
                             </label>
                             <div class="position-relative">
-                                <input type="text" class="form-control no-arrow"
-                                    name="variant_codes[]" autocomplete="off" placeholder="GO001234">
+                                <input type="text" class="form-control no-arrow variant_codes"
+                                    name="variant_codes[0]" autocomplete="off" placeholder="GO001234">
                             </div>
                         </div>
                         <div class="col-md-2">
@@ -130,8 +130,8 @@
                                 <rf />
                             </label>
                             <div class="position-relative">
-                                <input type="number" step="1" class="form-control no-arrow"
-                                    name="variant_sizes[]" autocomplete="off" placeholder="2">
+                                <input type="number" step="1" class="form-control no-arrow variant_sizes"
+                                    name="variant_sizes[0]" autocomplete="off" placeholder="2">
                             </div>
                         </div>
                         <div class="col-md-2">
@@ -139,8 +139,8 @@
                                 <rf />
                             </label>
                             <div class="position-relative">
-                                <input type="text" class="form-control no-arrow"
-                                    name="variant_labels[]" autocomplete="off" placeholder="1 kg">
+                                <input type="text" class="form-control no-arrow variant_labels"
+                                    name="variant_labels[0]" autocomplete="off" placeholder="1 kg">
                             </div>
                         </div>
                         <div class="col-md-2">
@@ -148,14 +148,14 @@
                                 <rf />
                             </label>
                             <div class="position-relative">
-                                <input class="form-control" name="variant_mrps[]" placeholder="123.5">
+                                <input type="number" class="form-control no-arrow variant_mrps" name="variant_mrps[0]" placeholder="123.5">
                             </div>
                         </div>
                         <div class="col-md-3">
                             <label class="form-label">Thumbnail Image (300 x 300px)
                             </label>
                             <div class="position-relative">
-                                <input class="form-control" type="file" name="variant_thumbnail_images[]"
+                                <input class="form-control variant_thumbnail_images" type="file" name="variant_thumbnail_images[0]"
                                     accept="image/*">
                             </div>
                         </div>

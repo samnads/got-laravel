@@ -27,25 +27,60 @@ $(document).ready(function () {
     });
     $('button[data-action="append-variant"]', new_product_form).click(function () {
         $('#size-variants').prepend(new_size_variant_html);
-        $('[name="variant_codes[]"]').each(function (index) {
+        $('.variant_codes').each(function (index) {
+            $(this).attr('name', 'variant_codes[' + index+']');
             $(this).attr('id', 'variant_code_' + index);
             $(this).closest('div').prev('label').attr('for', 'variant_code_' + index);
+            $(this).rules("add", {
+                required: true,
+                messages: {
+                    required: "Code is required",
+                }
+            });
         });
-        $('[name="variant_sizes[]"]').each(function (index) {
+        $('.variant_sizes').each(function (index) {
+            $(this).attr('name', 'variant_sizes[' + index + ']');
             $(this).attr('id', 'variant_size_' + index);
             $(this).closest('div').prev('label').attr('for', 'variant_size_' + index);
+            $(this).rules("add", {
+                required: true,
+                messages: {
+                    required: "Size is required",
+                }
+            });
         });
-        $('[name="variant_labels[]"]').each(function (index) {
+        $('.variant_labels').each(function (index) {
+            $(this).attr('name', 'variant_labels[' + index + ']');
             $(this).attr('id', 'variant_label_' + index);
             $(this).closest('div').prev('label').attr('for', 'variant_label_' + index);
+            $(this).rules("add", {
+                required: true,
+                messages: {
+                    required: "Label is required",
+                }
+            });
         });
-        $('[name="variant_mrps[]"]').each(function (index) {
+        $('.variant_mrps').each(function (index) {
+            $(this).attr('name', 'variant_mrps[' + index + ']');
             $(this).attr('id', 'variant_mrp_' + index);
             $(this).closest('div').prev('label').attr('for', 'variant_mrp_' + index);
+            $(this).rules("add", {
+                required: true,
+                messages: {
+                    required: "MRP. is required",
+                }
+            });
         });
-        $('[name="variant_thumbnail_images[]"]').each(function (index) {
+        $('.variant_thumbnail_images').each(function (index) {
+            $(this).attr('name', 'variant_thumbnail_images[' + index + ']');
             $(this).attr('id', 'variant_thumbnail_image_' + index);
             $(this).closest('div').prev('label').attr('for', 'variant_thumbnail_image_' + index);
+            $(this).rules("add", {
+                required: false,
+                messages: {
+                    required: "Thumbail is required",
+                }
+            });
         });
         removeVariantListener();
     });
@@ -82,23 +117,22 @@ $(document).ready(function () {
             "description": {
                 required: false,
             },
-            "variant_codes[]": {
+            "variant_codes[0]": {
                 required: '[name="have_variations"][value="1"]:checked',
             },
-            "variant_sizes[]": {
+            "variant_sizes[0]": {
                 required: '[name="have_variations"][value="1"]:checked',
             },
-            "variant_labels[]": {
+            "variant_labels[0]": {
                 required: '[name="have_variations"][value="1"]:checked',
             },
-            "variant_mrps[]": {
+            "variant_mrps[0]": {
                 required: '[name="have_variations"][value="1"]:checked',
             },
-            "variant_thumbnail_images[]": {
+            "variant_thumbnail_images[0]": {
                 required: false,
             },
         },
-        messages: {},
         errorPlacement: function (error, element) {
             error.insertAfter(element.parent());
         },
@@ -171,7 +205,8 @@ let category_id_select = new TomSelect('#new-product-form [name="category_id"]',
         }
     },
 });
-function removeVariantListener(){
+category_id_select.load('');
+function removeVariantListener() {
     $('[data-action="remove-variant"]').off("click");
     $('[data-action="remove-variant"]', new_product_form).click(function () {
         $(this).closest('[data-row="size-variant"]').remove();
