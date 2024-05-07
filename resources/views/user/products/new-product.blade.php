@@ -94,14 +94,14 @@
                                 ?</span></span>&nbsp;&nbsp;&nbsp;
                         <span class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="have_variations" id="visinaurgh"
-                                value="0">
+                                value="0" checked>
                             <label class="form-check-label" for="visinaurgh" style="cursor: pointer">
                                 NO
                             </label>
                         </span>
                         <span class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="have_variations" id="visinaurgy"
-                                value="1" checked>
+                                value="1">
                             <label class="form-check-label" for="visinaurgy" style="cursor: pointer">
                                 YES
                             </label>

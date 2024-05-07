@@ -43,6 +43,7 @@ let datatable = new DataTable('#datatable', {
         { data: 'brand', name: 'brand' },
         { data: 'item_size', name: 'item_size' },
         { data: 'maximum_retail_price', name: 'maximum_retail_price' },
+        { data: 'variant_option_name', name: 'variant_option_name' },
         { data: 'status_html', name: 'status_html' },
         { data: 'actions_html', name: 'actions_html' },
     ],
@@ -70,6 +71,10 @@ let datatable = new DataTable('#datatable', {
         },
         {
             targets: 'maximum_retail_price:name',
+            type: 'html',
+        },
+        {
+            targets: 'variant_option_name:name',
             type: 'html',
         },
         {

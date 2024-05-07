@@ -16,13 +16,12 @@ $(document).ready(function () {
             $('#size-variants').show();
             $('#no-variants').hide();
             $('button[data-action="append-variant"]', new_product_form).show();
-            //$('#size-variants').html(new_size_variant_html); // reset
         }
         else {
             $('#size-variants').hide();
             $('#no-variants').show();
             $('button[data-action="append-variant"]', new_product_form).hide();
-            //$('#size-variants').html(new_size_variant_html); // reset
+            $('#size-variants').html(new_size_variant_html); // reset
         }
     });
     $('button[data-action="append-variant"]', new_product_form).click(function () {
@@ -85,7 +84,7 @@ $(document).ready(function () {
         removeVariantListener();
     });
     removeVariantListener();
-    $('[name="have_variations"]', new_product_form).trigger('click');
+    $('[name="have_variations"]:checked', new_product_form).trigger('click');
     new_product_form_validator = new_product_form.validate({
         focusInvalid: false,
         ignore: [],

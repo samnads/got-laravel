@@ -65,6 +65,7 @@
                             <th>Brand</th>
                             <th>Pack Size</th>
                             <th>MRP.</th>
+                            <th>Variant</th>
                             <th>Status</th>
                             <th>Actions</th>
                         </tr>
