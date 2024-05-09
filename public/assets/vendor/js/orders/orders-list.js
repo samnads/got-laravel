@@ -102,6 +102,7 @@ $('[data-action="dt-refresh"]').click(function () {
 function createOrderDetailsListeneer() {
     $('[data-action="order-details"]').click(function () {
         new DataTable('#ordered-products', {
+            destroy: true,
             autoWidth: false,
             bPaginate: false,
             dom: 'lrt'
