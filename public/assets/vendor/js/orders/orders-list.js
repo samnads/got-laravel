@@ -2,6 +2,10 @@ let order_status_change_modal = new bootstrap.Modal(document.querySelector('.mod
     //backdrop: 'static',
     keyboard: true
 });
+let order_details_modal = new bootstrap.Modal(document.querySelector('.modal.order-details'), {
+    backdrop: 'static',
+    keyboard: true
+});
 let order_status_change_form = $('form[id="order-status-change"]');
 let order_status_change_select = new TomSelect('select[name="order_status_id"]', {
     create: false,
@@ -86,6 +90,7 @@ let datatable = new DataTable('#my-products', {
     drawCallback: function (settings) {
         $('[data-bs-toggle="tooltip"]').tooltip({ trigger: 'hover' });
         createOrderStatusEditListeneer();
+        createOrderDetailsListeneer();
     },
 });
 $('select[name="filter_order_status_id"]').change(function () {
@@ -94,7 +99,16 @@ $('select[name="filter_order_status_id"]').change(function () {
 $('[data-action="dt-refresh"]').click(function () {
     datatable.draw();
 });
-
+function createOrderDetailsListeneer() {
+    $('[data-action="order-details"]').click(function () {
+        new DataTable('#ordered-products', {
+            autoWidth: false,
+            bPaginate: false,
+            dom: 'lrt'
+        });
+        order_details_modal.show();
+    });
+}
 function createOrderStatusEditListeneer() {
     $('[data-action="update-order-status"]').click(function () {
         let id = this.getAttribute('data-id');

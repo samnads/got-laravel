@@ -84,6 +84,7 @@ class VendorOrderController extends Controller
 									<div class="progress-bar" style="background:' . $row['os_bg_color'] . ';color:' . $row['os_text_color'] . ';width: ' . $row['os_progress'] . '%" role="progressbar">' . $row['os_progress'] . '%</div>
 								  </div>';
                             $data_table['data'][$key]['action_html'] = '<div class="btn-group btn-group-sm" role="group" aria-label="First group">
+                            <button data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Details" data-action="order-details" data-id="' . $row['id'] . '" type="button" class="btn btn-sm btn-primary text-light"><i class="bx bx-info-circle"></i></button>
 											<button data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Print" data-action="print-invoice" data-id="' . $row['id'] . '" type="button" class="btn btn-sm btn-info text-light"><i class="fadeIn animated bx bx-printer"></i></button>
 										</div>';
                         }

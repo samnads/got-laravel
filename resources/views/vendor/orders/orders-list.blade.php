@@ -70,6 +70,7 @@
         </div>
     </div>
     @include('vendor.orders.popup-order-status-change')
+    @include('vendor.orders.popup-order-details')
 @endsection
 @push('link-styles')
     <!-- Pushed Link Styles -->
