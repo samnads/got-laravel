@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Vendor;
 
 use App\Http\Controllers\Controller;
+use App\Models\Customer;
 use App\Models\Order;
+use App\Models\OrderCustomerAddress;
+use App\Models\OrderProduct;
 use App\Models\OrderStatus;
 use Illuminate\Http\Request;
 use App\Models\VendorProduct;
@@ -97,6 +100,40 @@ class VendorOrderController extends Controller
                             'data' => [
                                 'order' => $order,
                                 'order_status' => $order_status
+                            ]
+                        ];
+                        return response()->json($response ?: [], 200, [], JSON_PRETTY_PRINT);
+                    case 'order-details':
+                        $order = Order::findOrFail($request->id);
+                        $order_status = OrderStatus::findOrFail($order->order_status_id);
+                        $customer = Customer::find($order->customer_id);
+                        $delivery_address = OrderCustomerAddress::where('order_id', $request->id)->first();
+                        $order_products = OrderProduct::
+                            select(
+                                'order_products.unit_price',
+                                'order_products.quantity',
+                                'order_products.total_price',
+                                'p.id as product_id',
+                                'p.name',
+                                'p.item_size',
+                                'u.name as unit',
+                                'u.code as unit_code',
+                                'vo.variant_option_name',
+                            )
+                            ->leftJoin('vendor_products as vp', 'order_products.vendor_product_id', '=', 'vp.id')
+                            ->leftJoin('products as p', 'vp.product_id', '=', 'p.id')
+                            ->leftJoin('units as u', 'p.unit_id', '=', 'u.id')
+                            ->leftJoin('product_variants as pv', 'p.id', '=', 'pv.product_id')
+                            ->leftJoin('variant_options as vo', 'pv.variant_option_id', '=', 'vo.id')
+                            ->where('order_id', $request->id)->get();
+                        $response = [
+                            'status' => true,
+                            'data' => [
+                                'order' => $order,
+                                'order_status' => $order_status,
+                                'order_products' => $order_products,
+                                'customer' => $customer,
+                                'delivery_address' => $delivery_address,
                             ]
                         ];
                         return response()->json($response ?: [], 200, [], JSON_PRETTY_PRINT);

@@ -101,13 +101,54 @@ $('[data-action="dt-refresh"]').click(function () {
 });
 function createOrderDetailsListeneer() {
     $('[data-action="order-details"]').click(function () {
-        new DataTable('#ordered-products', {
-            destroy: true,
-            autoWidth: false,
-            bPaginate: false,
-            dom: 'lrt'
+        let id = this.getAttribute('data-id');
+        $.ajax({
+            type: 'GET',
+            url: _url,
+            dataType: 'json',
+            data: {
+                id: id,
+                action: "order-details"
+            },
+            success: function (response) {
+                if (response.status == true) {
+                    let data = response.data;
+                    console.log(data);
+                    let order_details = $('.order-details');
+                    $('.c-name', order_details).html(data.customer.name);
+                    $('.c-mobile', order_details).html(data.customer.mobile_number_1);
+                    $('.c-address', order_details).html(data.delivery_address.address);
+                    $('.o-ref', order_details).html(data.order.order_reference);
+                    $('.o-status', order_details).html(data.order_status.labelled);
+                    $('.o-total_payable', order_details).html(data.order.total_payable);
+                    let product_rows = '';
+                    $.each(data.order_products, function (index, product) {
+                        product_rows += `<tr>
+                                            <th scope="row">${index + 1}</th>
+                                            <td>${product.name}</td>
+                                            <td>${product.variant_option_name || '-'}</td>
+                                            <td>${product.item_size} ${product.unit_code}</td>
+                                            <td>${product.unit_price}</td>
+                                            <td>${product.quantity}</td>
+                                            <td>${product.total_price}</td>
+                                        </tr>`;
+                    });
+                    $('.order-rows', order_details).html(product_rows);
+                    /*new DataTable('#ordered-products', {
+                        destroy: true,
+                        autoWidth: false,
+                        bPaginate: false,
+                        dom: 'lrt'
+                    });*/
+                    order_details_modal.show();
+                } else {
+                    toastStatusFalse(response);
+                }
+            },
+            error: function (response) {
+                ajaxError(response);
+            },
         });
-        order_details_modal.show();
     });
 }
 function createOrderStatusEditListeneer() {

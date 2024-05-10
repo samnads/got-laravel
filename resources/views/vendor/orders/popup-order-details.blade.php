@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-xl modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Order Details | <span>GOT-OR-LOCAL-0000048</span></h5>
+                <h5 class="modal-title">Order Details | <span class="o-ref"></span></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -15,8 +15,11 @@
                             </div>
                             <div class="card-body p-0">
                                 <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">Name&ensp;&ensp;&ensp;&ensp;:</li>
-                                    <li class="list-group-item">Mobile&ensp;&ensp;&ensp;:</li>
+                                    <li class="list-group-item">
+                                        Name&ensp;&ensp;&ensp;&ensp;:&ensp;&ensp;&ensp;&ensp;<span
+                                            class="c-name"></span></li>
+                                    <li class="list-group-item">Mobile&ensp;&ensp;&ensp;:&ensp;&ensp;&ensp;&ensp;<span
+                                            class="c-mobile"></span></li>
                                 </ul>
                             </div>
                         </div>
@@ -26,7 +29,7 @@
                             </div>
                             <div class="card-body p-0">
                                 <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">This is a sample address</li>
+                                    <li class="list-group-item c-address"></li>
                                 </ul>
                             </div>
                         </div>
@@ -36,10 +39,13 @@
                             </div>
                             <div class="card-body p-0">
                                 <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">Order Ref.&emsp;&emsp;:&emsp;&emsp;GOT-OR-LOCAL-0000048
+                                    <li class="list-group-item">Order Ref.&emsp;&emsp;:&emsp;&emsp;<span
+                                            class="o-ref"></span>
                                     </li>
                                     <li class="list-group-item">
-                                        Status&emsp;&emsp;&emsp;&ensp;:&emsp;&emsp;<span class="badge shadow-sm" style="background:#34a6ff;color:#ffffff;">Pending</span></li>
+                                        Status&emsp;&emsp;&emsp;&ensp;:&emsp;&emsp;<span class="o-status"></span></li>
+                                    <li class="list-group-item">
+                                        Total Payable :&emsp;&emsp;<span class="o-total_payable fw-bold"></span></li>
                                 </ul>
                             </div>
                         </div>
@@ -57,59 +63,12 @@
                                             <th scope="col">Product</th>
                                             <th scope="col">Variant</th>
                                             <th scope="col">Size</th>
+                                            <th scope="col">Unit Price</th>
                                             <th scope="col">Quantity</th>
                                             <th scope="col">Amount</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <tr>
-                                            <th scope="row">1</th>
-                                            <td>Mark</td>
-                                            <td>1 kg.</td>
-                                            <td>TYY</td>
-                                            <td>TYY</td>
-                                            <td>32.5</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">2</th>
-                                            <td>Mark</td>
-                                            <td>1 kg.</td>
-                                            <td>TYY</td>
-                                            <td>TYY</td>
-                                            <td>32.5</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">3</th>
-                                            <td>Mark</td>
-                                            <td>1 kg.</td>
-                                            <td>TYY</td>
-                                            <td>TYY</td>
-                                            <td>32.5</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">4</th>
-                                            <td>Mark</td>
-                                            <td>1 kg.</td>
-                                            <td>TYY</td>
-                                            <td>TYY</td>
-                                            <td>32.5</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">5</th>
-                                            <td>Mark</td>
-                                            <td>1 kg.</td>
-                                            <td>TYY</td>
-                                            <td>TYY</td>
-                                            <td>32.5</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">6</th>
-                                            <td>Mark</td>
-                                            <td>1 kg.</td>
-                                            <td>TYY</td>
-                                            <td>TYY</td>
-                                            <td>32.5</td>
-                                        </tr>
+                                    <tbody class="order-rows">
                                     </tbody>
                                 </table>
                             </div>
