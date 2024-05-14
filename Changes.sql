@@ -294,3 +294,16 @@ CREATE TABLE `product_variants` (
 ---------------------------------------------------------- DONE
 ALTER TABLE `vendors`
 ADD `max_order_weight` int(11) unsigned NOT NULL DEFAULT '10' AFTER `min_order_weight`;
+ALTER TABLE `vendors`
+ADD `got_commission_per_order` decimal(10,2) unsigned NOT NULL DEFAULT '3' AFTER `max_order_weight`;
+ALTER TABLE `vendors`
+ADD `got_commission_type` enum('F','P') NOT NULL DEFAULT 'F' AFTER `got_commission_per_order`;
+
+ALTER TABLE `orders`
+ADD `order_total` decimal(10,2) unsigned NOT NULL AFTER `order_status_id`;
+ALTER TABLE `orders`
+ADD `got_commission_per_order` decimal(10,2) unsigned NOT NULL AFTER `order_total`;
+ALTER TABLE `orders`
+ADD `got_commission_type` enum('F','P') NOT NULL DEFAULT 'F' AFTER `got_commission_per_order`;
+ALTER TABLE `orders`
+ADD `got_commission` decimal(10,2) unsigned NOT NULL AFTER `got_commission_type`;
