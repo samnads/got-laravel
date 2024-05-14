@@ -43,6 +43,13 @@
                 <div class="menu-title">Vendors</div>
             </a>
         </li>
+         <li>
+            <a href="{{ route('user.orders.list') }}">
+                <div class="parent-icon"><i class='bx bx-cart'></i>
+                </div>
+                <div class="menu-title">Vendor Orders</div>
+            </a>
+        </li>
         <li>
             <a href="javascript:;" class="has-arrow">
                 <div class="parent-icon"><i class="bx bx-category"></i>
@@ -65,6 +72,17 @@
                 </div>
                 <div class="menu-title">Product Requests</div>
             </a>
+        </li>
+        <li>
+            <a href="javascript:;" class="has-arrow">
+                <div class="parent-icon"><i class="bx bx-cog"></i>
+                </div>
+                <div class="menu-title">Settings</div>
+            </a>
+            <ul>
+                <li> <a href="{{ route('user.profile.update-password') }}"><i class='bx bx-radio-circle'></i>Change Password</a>
+                </li>
+            </ul>
         </li>
     </ul>
     <!--end navigation-->

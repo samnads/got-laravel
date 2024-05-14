@@ -1,5 +1,5 @@
-@extends('layouts.user', ['body_css_class' => ''])
-@section('title', 'Vendor Orders')
+@extends('layouts.vendor', ['body_css_class' => ''])
+@section('title', 'All Orders')
 @section('content')
     <!--breadcrumb-->
     <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
@@ -39,7 +39,6 @@
                         <tr>
                             <th>Sl. No.</th>
                             <th>Order Ref.</th>
-                            <th>Vendor</th>
                             <th>Customer</th>
                             <th>Mobile</th>
                             <th>Payment Mode</th>
@@ -47,7 +46,6 @@
                             <th>Order Amount</th>
                             <th>Progress</th>
                             <th>Order Status</th>
-                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -56,7 +54,6 @@
                         <tr>
                             <th>Sl. No.</th>
                             <th>Order Ref.</th>
-                            <th>Vendor</th>
                             <th>Customer</th>
                             <th>Mobile</th>
                             <th>Payment Mode</th>
@@ -64,19 +61,16 @@
                             <th>Order Amount</th>
                             <th>Progress</th>
                             <th>Order Status</th>
-                            <th>Actions</th>
                         </tr>
                     </tfoot>
                 </table>
             </div>
         </div>
     </div>
-    @include('user.orders.popup-order-details')
 @endsection
 @push('link-styles')
     <!-- Pushed Link Styles -->
     <link href="https://cdn.datatables.net/2.0.5/css/dataTables.bootstrap5.css" rel="stylesheet">
-    <link href="{{ asset('assets/vendor/plugins/tom-select/tom-select.min.css?v=') . config('version.user_assets') }}" rel="stylesheet">
 @endpush
 @push('inline-styles')
     <!-- Pushed Inline Styles -->
@@ -85,8 +79,7 @@
     <!-- Pushed Link Scripts -->
     <script src="https://cdn.datatables.net/2.0.5/js/dataTables.js"></script>
     <script src="https://cdn.datatables.net/2.0.5/js/dataTables.bootstrap5.js"></script>
-    <script src="{{ asset('assets/vendor/plugins/tom-select/tom-select.complete.js?v=') . config('version.user_assets') }}"></script>
-    <script src="{{ asset('assets/user/js/orders/orders-list.js?v=') . config('version.user_assets') }}"></script>
+    <script src="{{ asset('assets/vendor/js/orders/orders-list.js?v=') . config('version.vendor_assets') }}"></script>
 @endpush
 @push('inline-scripts')
     <!-- Pushed Inline Scripts -->

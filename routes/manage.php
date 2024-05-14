@@ -12,6 +12,8 @@ use App\Http\Controllers\User\UserLocationController;
 use App\Http\Controllers\User\UserDistrictController;
 use App\Http\Controllers\User\UserStateController;
 use App\Http\Controllers\User\UserProductController;
+use App\Http\Controllers\User\UserProfileController;
+use App\Http\Controllers\User\VendorOrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -82,6 +84,13 @@ Route::prefix('')->name('user.')->group(function () {
             Route::get('districts/{usage}', [UserDropdownController::class, 'districts']);
             Route::get('locations/{usage}', [UserDropdownController::class, 'locations']);
             Route::get('categories/{usage}', [UserDropdownController::class, 'categories']);
+        });
+        Route::prefix('profile')->name('profile.')->group(function () {
+            Route::any('/', [UserProfileController::class, 'index'])->name('index');
+            Route::get('update-password', [UserProfileController::class, 'update_password'])->name('update-password');
+        });
+        Route::prefix('orders')->name('orders.')->group(function () {
+            Route::get('/list', [VendorOrderController::class, 'orders_list'])->name('list');
         });
     });
 })->domain('manage.' . env('DOMAIN'));
