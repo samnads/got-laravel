@@ -14,7 +14,7 @@
 <!-- custom -->
 <script src="{{ asset('assets/user/js/user.js?v='). config('version.user_assets') }}"></script>
 <script>
-    let _base_url = "{{url('')}}/";
+    let _base_url = "{{ config('url.manage_url') }}";
     let _url = "{{request()->url()}}";
     let _route = "{{request()->route()->getName()}}";
     @if (Session::get('toast'))

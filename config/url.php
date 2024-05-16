@@ -11,6 +11,8 @@ return [
     |
     */
 
-    'uploads_cdn' => env('UPLOADS_CDN_URL')
+    'uploads_cdn' => env('UPLOADS_CDN_URL'),
+    'manage_url' => env('MANAGE_URL'),
+    'vendor_url' => env('VENDOR_URL')
 
 ];
