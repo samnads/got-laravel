@@ -68,6 +68,8 @@ class VendorProductController extends Controller
         $vendor_product_ids = array_column($v_products->toArray(), 'product_id');
         $vendor_products = ProductCategoryMapping::select(
             DB::raw('DISTINCT(vp.id) as product_id'),
+            'vp.product_id as master_product_id',
+            'p.parent_product_id',
             'p.name',
             'p.code',
             'p.item_size',
@@ -78,6 +80,8 @@ class VendorProductController extends Controller
             'vp.retail_price',
             'vp.min_cart_quantity',
             'vp.max_cart_quantity',
+            'vo.variant_option_name',
+            'vrt.variant_name',
             DB::raw('IFNULL(cr.quantity,0) as quantity'),
             DB::raw('CONCAT("' . config('url.uploads_cdn') . '","products/",IFNULL(p.thumbnail_image,"default.jpg")) as thumbnail_url'),
             DB::raw('ROUND((vp.maximum_retail_price - vp.retail_price),2) as offer'),
@@ -87,6 +91,15 @@ class VendorProductController extends Controller
         )
             ->leftJoin('products as p', function ($join) {
                 $join->on('product_category_mappings.product_id', '=', 'p.id');
+            })
+            ->leftJoin('product_variants as pv', function ($join) {
+                $join->on('p.id', '=', 'pv.product_id');
+            })
+            ->leftJoin('variant_options as vo', function ($join) {
+                $join->on('pv.variant_option_id', '=', 'vo.id');
+            })
+            ->leftJoin('variants as vrt', function ($join) {
+                $join->on('vo.variant_id', '=', 'vrt.id');
             })
             ->leftJoin('units as u', function ($join) {
                 $join->on('p.unit_id', '=', 'u.id');
@@ -102,7 +115,31 @@ class VendorProductController extends Controller
             })
             ->whereIn('product_category_mappings.product_id', $vendor_product_ids)
             ->where([['product_category_mappings.category_id', '=', $request->category_id], ['p.deleted_at', '=', null], ['vp.deleted_at', '=', null]])
-            ->get();
+            ->get()
+            ->toArray();
+        /************************************************************************************** */
+        $vendor_main_products = [];
+        foreach ($vendor_products as $key => $vendor_product) {
+            // Exclude variants, keep main product
+            if ($vendor_product['parent_product_id'] == null || ($vendor_product['parent_product_id'] == $vendor_product['master_product_id'])) {
+                $vendor_main_products[] = $vendor_product;
+            }
+        }
+        /************************************************************************************** */
+        $products = [];
+        foreach ($vendor_main_products as $key => $vendor_main_product) {
+            if ($vendor_main_product['parent_product_id'] != null) {
+                // variant found
+                $vendor_main_product['variants'][$vendor_main_product['variant_name']] = array_values(array_filter($vendor_products, function ($vendor_productss) use ($vendor_main_product) {
+                    return $vendor_main_product['parent_product_id'] == $vendor_productss['parent_product_id'];
+                }));
+                $products[] = $vendor_main_product;
+            } else {
+                $vendor_main_product['variants'] = null;
+                $products[] = $vendor_main_product;
+            }
+        }
+        /************************************************************************************** */
         $response = [
             'status' => [
                 'success' => 'true',
@@ -111,7 +148,7 @@ class VendorProductController extends Controller
             ],
             'data' => [
                 'category' => $category,
-                'products' => $vendor_products,
+                'products' => $products,
                 'cart_price' => cartPrice($input)
 
             ]
