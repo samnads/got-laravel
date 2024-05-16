@@ -229,6 +229,24 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (7,	'2024_03_07_160040_create_vendors_table',	1),
 (8,	'2024_03_07_172422_create_roles_table',	2);
 
+DROP TABLE IF EXISTS `notification_types`;
+CREATE TABLE `notification_types` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `code` varchar(255) NOT NULL COMMENT 'don''t use spaces, use underscore or hyphen',
+  `title` varchar(255) NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+INSERT INTO `notification_types` (`id`, `code`, `title`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1,	'order-received-from-customer',	'New Order',	'2024-05-10 00:27:18',	'2024-05-10 00:27:18',	NULL),
+(2,	'order-cancelled-by-customer',	'Order Cancelled',	'2024-05-10 00:27:18',	'2024-05-10 00:27:18',	NULL),
+(3,	'payment-received-from-customer',	'Payment Received',	'2024-05-10 00:27:18',	'2024-05-10 00:27:18',	NULL),
+(4,	'new-product-added-by-admin',	'New Product Available',	'2024-05-10 00:27:18',	'2024-05-10 00:27:18',	NULL),
+(5,	'new-review-from-customer',	'New Customer Review',	'2024-05-10 00:27:18',	'2024-05-10 00:27:18',	NULL);
+
 DROP TABLE IF EXISTS `orders`;
 CREATE TABLE `orders` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
@@ -237,6 +255,10 @@ CREATE TABLE `orders` (
   `vendor_id` bigint(20) unsigned NOT NULL,
   `address_id` bigint(20) unsigned NOT NULL,
   `order_status_id` bigint(20) unsigned NOT NULL DEFAULT 1,
+  `order_total` decimal(10,2) unsigned NOT NULL,
+  `got_commission_per_order` decimal(10,2) unsigned NOT NULL,
+  `got_commission_type` enum('F','P') NOT NULL DEFAULT 'F',
+  `got_commission` decimal(10,2) unsigned NOT NULL,
   `total_payable` decimal(10,2) unsigned NOT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
@@ -253,16 +275,16 @@ CREATE TABLE `orders` (
   CONSTRAINT `orders_ibfk_4` FOREIGN KEY (`order_status_id`) REFERENCES `order_statuses` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-INSERT INTO `orders` (`id`, `order_reference`, `customer_id`, `vendor_id`, `address_id`, `order_status_id`, `total_payable`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(40,	'GOT-OR-LOCAL-000040',	7,	1,	43,	1,	469.00,	'2024-04-20 19:29:59',	'2024-04-20 19:29:59',	NULL),
-(41,	'GOT-OR-LOCAL-000041',	7,	1,	43,	2,	90.00,	'2024-04-20 19:51:43',	'2024-04-20 19:51:43',	NULL),
-(42,	'GOT-OR-LOCAL-0000042',	7,	1,	49,	3,	55.00,	'2024-04-22 18:09:15',	'2024-04-22 18:09:15',	NULL),
-(43,	'GOT-OR-LOCAL-0000043',	7,	1,	49,	4,	55.00,	'2024-04-22 18:09:25',	'2024-04-22 18:09:25',	NULL),
-(44,	'GOT-OR-LOCAL-0000044',	7,	1,	49,	2,	55.00,	'2024-04-22 18:09:29',	'2024-04-30 21:12:42',	NULL),
-(45,	'GOT-OR-LOCAL-0000045',	7,	1,	49,	5,	55.00,	'2024-04-22 18:09:35',	'2024-04-22 18:09:35',	NULL),
-(46,	'GOT-OR-LOCAL-0000046',	7,	1,	49,	1,	55.00,	'2024-04-22 18:18:00',	'2024-04-22 18:18:00',	NULL),
-(47,	'GOT-OR-LOCAL-0000047',	7,	1,	49,	1,	55.00,	'2024-04-22 18:18:03',	'2024-04-22 18:18:03',	NULL),
-(48,	'GOT-OR-LOCAL-0000048',	7,	1,	49,	2,	55.00,	'2024-04-22 18:18:07',	'2024-05-02 19:42:12',	NULL);
+INSERT INTO `orders` (`id`, `order_reference`, `customer_id`, `vendor_id`, `address_id`, `order_status_id`, `order_total`, `got_commission_per_order`, `got_commission_type`, `got_commission`, `total_payable`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(40,	'GOT-OR-LOCAL-000040',	7,	1,	43,	1,	0.00,	0.00,	'F',	0.00,	469.00,	'2024-04-20 19:29:59',	'2024-04-20 19:29:59',	NULL),
+(41,	'GOT-OR-LOCAL-000041',	7,	1,	43,	3,	0.00,	0.00,	'F',	0.00,	90.00,	'2024-04-20 19:51:43',	'2024-05-10 19:45:27',	NULL),
+(42,	'GOT-OR-LOCAL-0000042',	7,	1,	49,	3,	0.00,	0.00,	'F',	0.00,	55.00,	'2024-04-22 18:09:15',	'2024-04-22 18:09:15',	NULL),
+(43,	'GOT-OR-LOCAL-0000043',	7,	1,	49,	4,	0.00,	0.00,	'F',	0.00,	55.00,	'2024-04-22 18:09:25',	'2024-04-22 18:09:25',	NULL),
+(44,	'GOT-OR-LOCAL-0000044',	7,	1,	49,	2,	0.00,	0.00,	'F',	0.00,	55.00,	'2024-04-22 18:09:29',	'2024-04-30 21:12:42',	NULL),
+(45,	'GOT-OR-LOCAL-0000045',	7,	1,	49,	5,	0.00,	0.00,	'F',	0.00,	55.00,	'2024-04-22 18:09:35',	'2024-04-22 18:09:35',	NULL),
+(46,	'GOT-OR-LOCAL-0000046',	7,	1,	49,	1,	0.00,	0.00,	'F',	0.00,	55.00,	'2024-04-22 18:18:00',	'2024-04-22 18:18:00',	NULL),
+(47,	'GOT-OR-LOCAL-0000047',	7,	1,	49,	1,	0.00,	0.00,	'F',	0.00,	55.00,	'2024-04-22 18:18:03',	'2024-04-22 18:18:03',	NULL),
+(48,	'GOT-OR-LOCAL-0000048',	7,	1,	49,	2,	0.00,	0.00,	'F',	0.00,	55.00,	'2024-04-22 18:18:07',	'2024-05-02 19:42:12',	NULL);
 
 DROP TABLE IF EXISTS `order_customer_addresses`;
 CREATE TABLE `order_customer_addresses` (
@@ -459,8 +481,21 @@ INSERT INTO `products` (`id`, `parent_product_id`, `code`, `item_size`, `unit_id
 (43,	NULL,	'gfg',	1.00,	3,	1,	'Sugar',	'qw',	12.00,	'43-WXSF8HL3eLJgOCtEyMweab5nK55sdtFgedF68trM.jpg',	'2024-04-30 19:21:00',	'2024-04-30 19:21:00',	NULL),
 (44,	NULL,	'fsd',	2.00,	3,	1,	'Sugar',	'df',	50.00,	'44-dKKp3hseRwyXhPyA6u9UebEXruNmwagctFoFMpgk.jpg',	'2024-04-30 19:21:24',	'2024-04-30 19:21:24',	NULL),
 (45,	NULL,	'3',	34.00,	1,	1,	'sdsd',	'er',	3.00,	'45-WcHP5AjHtpuRNLVrxnks1g1BgfvRHpTrCT55KI6d.jpg',	'2024-05-05 11:32:16',	'2024-05-05 11:32:23',	NULL),
-(46,	46,	'3434',	3434.00,	1,	8,	'rre',	'sasas',	343434.00,	NULL,	'2024-05-05 18:18:26',	'2024-05-05 18:18:26',	NULL),
-(47,	46,	'434',	34.00,	1,	8,	'rre',	'sasas',	34.00,	NULL,	'2024-05-05 18:18:26',	'2024-05-05 18:18:26',	NULL);
+(46,	NULL,	'3434',	3434.00,	1,	8,	'rre',	'sasas',	343434.00,	NULL,	'2024-05-05 18:18:26',	'2024-05-05 18:18:26',	NULL),
+(47,	NULL,	'434',	34.00,	1,	8,	'rre',	'sasas',	34.00,	NULL,	'2024-05-05 18:18:26',	'2024-05-05 18:18:26',	NULL),
+(51,	NULL,	'34',	3434.00,	1,	2,	'err',	NULL,	334343.00,	NULL,	'2024-05-07 17:43:02',	'2024-05-07 17:43:02',	NULL),
+(52,	52,	'dff',	4.00,	1,	8,	'fdf',	'test',	456.00,	NULL,	'2024-05-07 17:52:23',	'2024-05-07 17:52:23',	NULL),
+(53,	53,	'54',	45.00,	2,	1,	'rtt',	'ere',	54545.00,	NULL,	'2024-05-07 17:53:20',	'2024-05-07 17:53:20',	NULL),
+(54,	54,	'5',	454.00,	1,	NULL,	'rtrt',	'erer',	45.00,	'-vwOZt9B2dbO6KzB7remMvJxQCoVRyMv4dwjjBI1r.jpg',	'2024-05-07 17:59:44',	'2024-05-07 17:59:44',	NULL),
+(57,	57,	'er',	54.00,	3,	NULL,	'fdf',	'dfdf',	33.00,	'57-VcpyP4m82vtVfyMnejZ3ZI8cpwZFd1FheKuylvS5.jpg',	'2024-05-07 18:00:49',	'2024-05-07 18:00:49',	NULL),
+(58,	57,	'erer',	3434.00,	3,	NULL,	'fdf',	'dfdf',	434.00,	'58-MjZOzTVl6C7IlT4mJgdPXWfaMoWUWZsxbxT8ENvi.jpg',	'2024-05-07 18:00:49',	'2024-05-07 18:00:49',	NULL),
+(61,	NULL,	'fdftr',	1.00,	1,	2,	'erer',	'sas',	45.00,	NULL,	'2024-05-07 18:08:54',	'2024-05-07 18:08:54',	NULL),
+(63,	NULL,	'gfgfss',	4.00,	2,	2,	'wer',	'sdsd',	343434.00,	'63-FBkFjwD3b6d9hhSk434WDPHs9XUlzp13oooHFAeH.jpg',	'2024-05-07 18:09:28',	'2024-05-07 18:09:28',	NULL),
+(81,	81,	'cdggdg',	200.00,	3,	2,	'test',	NULL,	434.00,	NULL,	'2024-05-07 18:32:11',	'2024-05-07 18:33:49',	NULL),
+(82,	81,	'ererree',	100.00,	3,	2,	'test',	NULL,	5434.00,	'82-ngN1KaY78N77CIounzMezo0XN5wqIIvQRT8yrVcu.jpg',	'2024-05-07 18:32:11',	'2024-05-07 18:34:06',	NULL),
+(83,	81,	'cbcvbcb',	1.00,	1,	2,	'test',	NULL,	56.00,	NULL,	'2024-05-07 18:32:11',	'2024-05-07 18:32:11',	NULL),
+(84,	84,	'sdsd',	45.00,	1,	2,	're',	'dsds',	567.00,	'84-99fkEMrC3xk0iYPDwi8SA6fvlKLVLDLEuTKy8S6W.jpg',	'2024-05-07 18:45:24',	'2024-05-07 18:45:24',	NULL),
+(85,	85,	'dfd',	3.00,	1,	2,	'erer',	'rerer',	3223.00,	NULL,	'2024-05-07 18:59:30',	'2024-05-07 18:59:30',	NULL);
 
 DROP TABLE IF EXISTS `product_categories`;
 CREATE TABLE `product_categories` (
@@ -555,7 +590,20 @@ INSERT INTO `product_category_mappings` (`id`, `product_id`, `category_id`, `cre
 (39,	44,	1,	'2024-04-30 19:21:24',	'2024-04-30 19:21:24',	NULL),
 (40,	45,	2,	'2024-05-05 11:32:16',	'2024-05-05 11:32:16',	NULL),
 (41,	46,	3,	'2024-05-05 18:18:26',	'2024-05-05 18:18:26',	NULL),
-(42,	47,	3,	'2024-05-05 18:18:26',	'2024-05-05 18:18:26',	NULL);
+(42,	47,	3,	'2024-05-05 18:18:26',	'2024-05-05 18:18:26',	NULL),
+(46,	51,	2,	'2024-05-07 17:43:02',	'2024-05-07 17:43:02',	NULL),
+(47,	52,	2,	'2024-05-07 17:52:23',	'2024-05-07 17:52:23',	NULL),
+(48,	53,	2,	'2024-05-07 17:53:20',	'2024-05-07 17:53:20',	NULL),
+(49,	54,	2,	'2024-05-07 17:59:44',	'2024-05-07 17:59:44',	NULL),
+(51,	57,	1,	'2024-05-07 18:00:49',	'2024-05-07 18:00:49',	NULL),
+(52,	58,	1,	'2024-05-07 18:00:49',	'2024-05-07 18:00:49',	NULL),
+(53,	61,	2,	'2024-05-07 18:08:54',	'2024-05-07 18:08:54',	NULL),
+(54,	63,	3,	'2024-05-07 18:09:28',	'2024-05-07 18:09:28',	NULL),
+(58,	81,	3,	'2024-05-07 18:32:11',	'2024-05-07 18:32:11',	NULL),
+(59,	82,	3,	'2024-05-07 18:32:11',	'2024-05-07 18:32:11',	NULL),
+(60,	83,	3,	'2024-05-07 18:32:11',	'2024-05-07 18:32:11',	NULL),
+(61,	84,	3,	'2024-05-07 18:45:24',	'2024-05-07 18:45:24',	NULL),
+(62,	85,	3,	'2024-05-07 18:59:30',	'2024-05-07 18:59:30',	NULL);
 
 DROP TABLE IF EXISTS `product_requests`;
 CREATE TABLE `product_requests` (
@@ -657,6 +705,13 @@ CREATE TABLE `product_variants` (
   CONSTRAINT `product_variants_ibfk_2` FOREIGN KEY (`variant_option_id`) REFERENCES `variant_options` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+INSERT INTO `product_variants` (`id`, `product_id`, `variant_option_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(2,	81,	31,	'2024-05-07 18:32:11',	'2024-05-07 18:32:11',	NULL),
+(3,	82,	32,	'2024-05-07 18:32:11',	'2024-05-07 18:32:11',	NULL),
+(4,	83,	1,	'2024-05-07 18:32:11',	'2024-05-07 18:32:11',	NULL),
+(5,	84,	33,	'2024-05-07 18:45:24',	'2024-05-07 18:45:24',	NULL),
+(6,	85,	34,	'2024-05-07 18:59:30',	'2024-05-07 18:59:30',	NULL),
+(7,	1,	1,	'2024-05-07 18:59:30',	'2024-05-07 18:59:30',	NULL);
 
 DROP TABLE IF EXISTS `review_levels`;
 CREATE TABLE `review_levels` (
@@ -748,7 +803,7 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO `users` (`id`, `name`, `username`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1,	'Admin',	'admin',	'admin@example.com',	'2024-03-07 10:49:50',	'$2y$12$SjmwFDIffWTH4X84sgvv/.VFWHJdaCOH9i0P3s/mx.p8cqWSRHvIm',	'giVObMfx8hdheb9eU6mjlwd8sH8GAyiR3U66hoQd5AitcJPw3woTaell0dZD',	'2024-03-07 10:49:50',	'2024-03-07 10:49:50',	NULL);
+(1,	'Admin',	'admin',	'admin@example.com',	'2024-03-07 10:49:50',	'$2y$12$bY0PgIczSHHU7UaUhJkQVecMcyENbScxCZuKFgWA4oSYDBpiQRMgq',	'RA6hUId8LObyEBVlbB0WFjmjoAWgeWwHjgXWFSCDkizpgg7Nzyl1lVtAVX12',	'2024-03-07 10:49:50',	'2024-05-14 12:17:52',	NULL);
 
 DROP TABLE IF EXISTS `variants`;
 CREATE TABLE `variants` (
@@ -807,7 +862,11 @@ INSERT INTO `variant_options` (`id`, `variant_id`, `variant_option_name`, `creat
 (26,	1,	'100 ml',	'2024-05-04 01:05:03',	'2024-05-04 01:05:03',	NULL),
 (27,	1,	'200 ml',	'2024-05-04 01:05:03',	'2024-05-04 01:05:03',	NULL),
 (28,	1,	'500 ml',	'2024-05-04 01:05:03',	'2024-05-04 01:05:03',	NULL),
-(29,	1,	'650 ml',	'2024-05-04 01:05:03',	'2024-05-04 01:05:03',	NULL);
+(29,	1,	'650 ml',	'2024-05-04 01:05:03',	'2024-05-04 01:05:03',	NULL),
+(31,	1,	'200 kg',	'2024-05-07 18:32:11',	'2024-05-07 18:32:11',	NULL),
+(32,	1,	'100 kg',	'2024-05-07 18:32:11',	'2024-05-07 18:32:11',	NULL),
+(33,	1,	'45 Gm',	'2024-05-07 18:45:24',	'2024-05-07 18:45:24',	NULL),
+(34,	1,	'3434',	'2024-05-07 18:59:30',	'2024-05-07 18:59:30',	NULL);
 
 DROP TABLE IF EXISTS `variation_themes`;
 CREATE TABLE `variation_themes` (
@@ -848,6 +907,9 @@ CREATE TABLE `vendors` (
   `home_delivery_status_id` tinyint(4) NOT NULL DEFAULT 1,
   `min_order_value` decimal(10,2) unsigned NOT NULL DEFAULT 100.00,
   `min_order_weight` int(11) unsigned NOT NULL DEFAULT 1000,
+  `max_order_weight` int(11) unsigned NOT NULL DEFAULT 10000,
+  `got_commission_per_order` decimal(10,2) unsigned NOT NULL DEFAULT 3.00,
+  `got_commission_type` enum('F','P') NOT NULL DEFAULT 'F',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -860,10 +922,10 @@ CREATE TABLE `vendors` (
   CONSTRAINT `vendors_ibfk_3` FOREIGN KEY (`location_id`) REFERENCES `locations` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-INSERT INTO `vendors` (`id`, `vendor_name`, `owner_name`, `gst_number`, `pan_number`, `mobile_number_cc`, `mobile_number`, `district_id`, `location_id`, `address`, `latitude`, `longitude`, `accuracy`, `shop_thumbnail`, `email`, `email_verified_at`, `password`, `username`, `remember_token`, `blocked_at`, `home_delivery_status_id`, `min_order_value`, `min_order_weight`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1,	'Vendor ABC',	'Owner 1',	'GST1',	'',	'+91',	'42452445',	1,	17,	'address1',	'455',	'3545',	NULL,	NULL,	'vendor@example.com',	NULL,	'$2y$12$U/Ec779muT2CnJDaCzm0Ku3zzUHQbLpbQZBO9BbclVo.Twz5Pb/SG',	'vendor',	'9rlreK814HTnFUwEWFUdKFODumg3N4u5Dg5OmIPX6vcdKWaPvkomAMNfWwtS',	NULL,	1,	199.00,	1,	'2024-03-11 18:04:08',	'2024-05-02 14:10:42',	NULL),
-(2,	'Vendor XYZ',	'Owner 2',	'GST2',	'',	'+91',	'123456',	1,	5,	'address1',	'455',	'3545',	NULL,	NULL,	'vendor2@example.com',	NULL,	'$2y$12$fR9TPk/c5V3iBCWu1OWpNeisOi38XWW7fuGA4pI3xld3jGKyy4tQa',	'vendor2@example.com',	NULL,	NULL,	1,	100.00,	1,	'2024-03-11 18:04:08',	'2024-04-28 04:14:45',	NULL),
-(35,	'Test',	'dffdf',	'434334',	NULL,	'+91',	'343434',	NULL,	3,	'dsdsd',	'656',	'5656',	NULL,	NULL,	NULL,	NULL,	'$2y$12$IFC1D3s1YoUN8v81wHMJJ.TNiIDUU/0jKQ99RpoFellbDbu3Ev22m',	'samnads',	NULL,	NULL,	1,	100.00,	1,	'2024-03-21 14:01:45',	'2024-04-30 13:05:05',	'2024-04-30 13:05:05');
+INSERT INTO `vendors` (`id`, `vendor_name`, `owner_name`, `gst_number`, `pan_number`, `mobile_number_cc`, `mobile_number`, `district_id`, `location_id`, `address`, `latitude`, `longitude`, `accuracy`, `shop_thumbnail`, `email`, `email_verified_at`, `password`, `username`, `remember_token`, `blocked_at`, `home_delivery_status_id`, `min_order_value`, `min_order_weight`, `max_order_weight`, `got_commission_per_order`, `got_commission_type`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1,	'Vendor ABC',	'Owner 1',	'GST1',	'',	'+91',	'42452445',	1,	17,	'address1',	'455',	'3545',	NULL,	NULL,	'vendor@example.com',	NULL,	'$2y$12$U/Ec779muT2CnJDaCzm0Ku3zzUHQbLpbQZBO9BbclVo.Twz5Pb/SG',	'vendor',	'XgwRDq7bmVv9qsnMH7ct2zufpOB1k5o79Z6jnV7unB8DkWcq2PHhpoeAq79V',	NULL,	1,	199.00,	5,	10,	3.00,	'F',	'2024-03-11 18:04:08',	'2024-05-07 13:42:56',	NULL),
+(2,	'Vendor XYZ',	'Owner 2',	'GST2',	'',	'+91',	'123456',	1,	5,	'address1',	'455',	'3545',	NULL,	NULL,	'vendor2@example.com',	NULL,	'$2y$12$fR9TPk/c5V3iBCWu1OWpNeisOi38XWW7fuGA4pI3xld3jGKyy4tQa',	'vendor2@example.com',	NULL,	NULL,	1,	100.00,	1,	10000,	3.00,	'F',	'2024-03-11 18:04:08',	'2024-04-28 04:14:45',	NULL),
+(35,	'Test',	'dffdf',	'434334',	NULL,	'+91',	'343434',	NULL,	3,	'dsdsd',	'656',	'5656',	NULL,	NULL,	NULL,	NULL,	'$2y$12$IFC1D3s1YoUN8v81wHMJJ.TNiIDUU/0jKQ99RpoFellbDbu3Ev22m',	'samnads',	NULL,	NULL,	1,	100.00,	1,	10000,	3.00,	'F',	'2024-03-21 14:01:45',	'2024-04-30 13:05:05',	'2024-04-30 13:05:05');
 
 DROP TABLE IF EXISTS `vendor_delivery_persons`;
 CREATE TABLE `vendor_delivery_persons` (
@@ -901,6 +963,35 @@ CREATE TABLE `vendor_fssai` (
   CONSTRAINT `vendor_fssai_ibfk_1` FOREIGN KEY (`vendor_id`) REFERENCES `vendors` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+
+DROP TABLE IF EXISTS `vendor_notifications`;
+CREATE TABLE `vendor_notifications` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `notification_type_id` bigint(20) unsigned NOT NULL,
+  `vendor_id` bigint(20) unsigned DEFAULT NULL COMMENT 'NULL - show for all vendors',
+  `customer_id` bigint(20) unsigned DEFAULT NULL,
+  `order_id` bigint(20) unsigned DEFAULT NULL,
+  `read_at` datetime DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `vendor_id` (`vendor_id`),
+  KEY `customer_id` (`customer_id`),
+  KEY `order_id` (`order_id`),
+  KEY `notification_type_id` (`notification_type_id`),
+  CONSTRAINT `vendor_notifications_ibfk_1` FOREIGN KEY (`vendor_id`) REFERENCES `vendors` (`id`),
+  CONSTRAINT `vendor_notifications_ibfk_2` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`),
+  CONSTRAINT `vendor_notifications_ibfk_3` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`),
+  CONSTRAINT `vendor_notifications_ibfk_4` FOREIGN KEY (`notification_type_id`) REFERENCES `notification_types` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+INSERT INTO `vendor_notifications` (`id`, `notification_type_id`, `vendor_id`, `customer_id`, `order_id`, `read_at`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1,	1,	1,	NULL,	40,	NULL,	'2024-05-10 00:36:47',	'2024-05-10 00:36:47',	NULL),
+(2,	1,	1,	NULL,	42,	NULL,	'2024-05-10 00:36:47',	'2024-05-10 00:36:47',	NULL),
+(3,	1,	1,	NULL,	43,	NULL,	'2024-05-10 00:36:47',	'2024-05-10 00:36:47',	NULL),
+(4,	1,	1,	NULL,	44,	NULL,	'2024-05-10 00:36:47',	'2024-05-10 00:36:47',	NULL),
+(5,	1,	1,	NULL,	45,	NULL,	'2024-05-10 00:36:47',	'2024-05-10 00:36:47',	NULL);
 
 DROP TABLE IF EXISTS `vendor_products`;
 CREATE TABLE `vendor_products` (
@@ -942,6 +1033,7 @@ DROP TABLE IF EXISTS `vendor_reviews`;
 CREATE TABLE `vendor_reviews` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `customer_id` bigint(20) unsigned NOT NULL,
+  `vendor_id` bigint(20) unsigned NOT NULL,
   `review_level_id` bigint(20) unsigned NOT NULL,
   `review_title` varchar(255) NOT NULL,
   `review` text NOT NULL,
@@ -949,11 +1041,13 @@ CREATE TABLE `vendor_reviews` (
   `updated_at` datetime DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `customer_id` (`customer_id`),
+  UNIQUE KEY `customer_id_vendor_id` (`customer_id`,`vendor_id`),
   KEY `review_level_id` (`review_level_id`),
+  KEY `vendor_id` (`vendor_id`),
   CONSTRAINT `vendor_reviews_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`),
-  CONSTRAINT `vendor_reviews_ibfk_2` FOREIGN KEY (`review_level_id`) REFERENCES `review_levels` (`id`)
+  CONSTRAINT `vendor_reviews_ibfk_2` FOREIGN KEY (`review_level_id`) REFERENCES `review_levels` (`id`),
+  CONSTRAINT `vendor_reviews_ibfk_3` FOREIGN KEY (`vendor_id`) REFERENCES `vendors` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
--- 2024-05-05 18:20:56
+-- 2024-05-16 08:20:13
