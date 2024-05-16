@@ -41,6 +41,7 @@ function cartPrice($input)
         'maximum_retail_price' => 0,
         'retail_price' => 0,
         'saved_amount' => 0,
+        'got_commission' => 0,
         'total_payable' => 0,
     ];
     foreach ($cart_products as $key => $cart_product) {
@@ -48,6 +49,7 @@ function cartPrice($input)
         $response['retail_price'] += $cart_products[$key]['retail_price_total'];
     }
     $response['saved_amount'] = $response['maximum_retail_price'] - $response['retail_price'];
+    $response['got_commission'] = 0;
     $response['total_payable'] = $response['retail_price'];
     return $response;
 }
