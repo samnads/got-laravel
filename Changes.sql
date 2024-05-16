@@ -291,7 +291,7 @@ CREATE TABLE `product_variants` (
   CONSTRAINT `product_variants_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`),
   CONSTRAINT `product_variants_ibfk_2` FOREIGN KEY (`variant_option_id`) REFERENCES `variant_options` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
----------------------------------------------------------- DONE
+----------------------------------------------------------
 ALTER TABLE `vendors`
 ADD `max_order_weight` int(11) unsigned NOT NULL DEFAULT '10' AFTER `min_order_weight`;
 ALTER TABLE `vendors`
@@ -313,3 +313,4 @@ CHANGE `got_commission_per_order` `got_commission_per_order` decimal(10,2) unsig
 
 ALTER TABLE `orders`
 CHANGE `got_commission` `got_commission` decimal(10,2) unsigned NOT NULL DEFAULT '0' AFTER `got_commission_type`;
+---------------------------------------------------------- DONE
