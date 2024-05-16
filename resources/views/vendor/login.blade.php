@@ -124,7 +124,7 @@
     <script src="{{ asset('assets/vendor/js/jquery.toast.min.js?v=') . config('version.vendor_assets') }}"></script>
     <!--Password show & hide js -->
     <script>
-        let _base_url = "{{ url('') }}/";
+        let _base_url = "{{ config('url.vendor_url') }}";
         $(document).ready(function() {
             $("#show_hide_password a").on('click', function(event) {
                 event.preventDefault();
