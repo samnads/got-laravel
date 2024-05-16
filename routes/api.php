@@ -58,6 +58,9 @@ Route::prefix('customer')->group(function () {
         Route::post('create_order', [OrderController::class, 'create_order']);
         Route::post('order_history', [OrderController::class, 'order_history']);
     });
+    Route::get('/test', function (Request $request) {
+        return 'It works 😀 !';
+    });
 });
 Route::prefix('admin')->group(function () {
     Route::get('/', function (Request $request) {
