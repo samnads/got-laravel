@@ -62,6 +62,8 @@ class CartController extends Controller
         $cart_products = Cart::select(
             'cart.vendor_product_id as product_id',
             'cart.id as cart_id',
+            'vp.product_id as master_product_id',
+            'p.parent_product_id', 
             'p.name as name',
             'p.code as code',
             'p.item_size',
@@ -74,6 +76,8 @@ class CartController extends Controller
             'vp.retail_price',
             'vp.min_cart_quantity',
             'vp.max_cart_quantity',
+            'vo.variant_option_name',
+            'vrt.variant_name',
             DB::raw('ROUND((vp.maximum_retail_price - vp.retail_price),2) as offer'),
             DB::raw('ROUND((((vp.maximum_retail_price - vp.retail_price) / vp.maximum_retail_price)*100),2) as offer_percentage'),
             DB::raw('ROUND((IFNULL(cart.quantity,0) * vp.maximum_retail_price) - (IFNULL(cart.quantity,0) * vp.retail_price),2) as saved_amount'),
@@ -84,6 +88,15 @@ class CartController extends Controller
             })
             ->leftJoin('products as p', function ($join) {
                 $join->on('vp.product_id', '=', 'p.id');
+            })
+            ->leftJoin('product_variants as pv', function ($join) {
+                $join->on('p.id', '=', 'pv.product_id');
+            })
+            ->leftJoin('variant_options as vo', function ($join) {
+                $join->on('pv.variant_option_id', '=', 'vo.id');
+            })
+            ->leftJoin('variants as vrt', function ($join) {
+                $join->on('vo.variant_id', '=', 'vrt.id');
             })
             ->leftJoin('units as u', function ($join) {
                 $join->on('p.unit_id', '=', 'u.id');
@@ -203,6 +216,8 @@ class CartController extends Controller
         $cart_products = Cart::select(
             'cart.vendor_product_id as product_id',
             'cart.id as cart_id',
+            'vp.product_id as master_product_id',
+            'p.parent_product_id',
             'p.name as name',
             'p.code as code',
             'p.item_size',
@@ -215,6 +230,8 @@ class CartController extends Controller
             'vp.retail_price',
             'vp.min_cart_quantity',
             'vp.max_cart_quantity',
+            'vo.variant_option_name',
+            'vrt.variant_name',
             DB::raw('ROUND((vp.maximum_retail_price - vp.retail_price),2) as offer'),
             DB::raw('IFNULL(ROUND((((vp.maximum_retail_price - vp.retail_price) / vp.maximum_retail_price)*100),2),0) as offer_percentage'),
             DB::raw('IFNULL(ROUND((IFNULL(cart.quantity,0) * vp.maximum_retail_price) - (IFNULL(cart.quantity,0) * vp.retail_price),2),0) as saved_amount'),
@@ -225,6 +242,15 @@ class CartController extends Controller
             })
             ->leftJoin('products as p', function ($join) {
                 $join->on('vp.product_id', '=', 'p.id');
+            })
+            ->leftJoin('product_variants as pv', function ($join) {
+                $join->on('p.id', '=', 'pv.product_id');
+            })
+            ->leftJoin('variant_options as vo', function ($join) {
+                $join->on('pv.variant_option_id', '=', 'vo.id');
+            })
+            ->leftJoin('variants as vrt', function ($join) {
+                $join->on('vo.variant_id', '=', 'vrt.id');
             })
             ->leftJoin('units as u', function ($join) {
                 $join->on('p.unit_id', '=', 'u.id');

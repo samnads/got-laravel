@@ -307,3 +307,9 @@ ALTER TABLE `orders`
 ADD `got_commission_type` enum('F','P') NOT NULL DEFAULT 'F' AFTER `got_commission_per_order`;
 ALTER TABLE `orders`
 ADD `got_commission` decimal(10,2) unsigned NOT NULL AFTER `got_commission_type`;
+
+ALTER TABLE `orders`
+CHANGE `got_commission_per_order` `got_commission_per_order` decimal(10,2) unsigned NOT NULL DEFAULT '0' AFTER `order_total`;
+
+ALTER TABLE `orders`
+CHANGE `got_commission` `got_commission` decimal(10,2) unsigned NOT NULL DEFAULT '0' AFTER `got_commission_type`;

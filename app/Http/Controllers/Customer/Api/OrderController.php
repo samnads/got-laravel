@@ -62,6 +62,8 @@ class OrderController extends Controller
         /***************************************************************************************************** */
         $products = Cart::select(
             'cart.vendor_product_id as product_id',
+            'vp.product_id as master_product_id',
+            'p.parent_product_id',
             'cart.id as cart_id',
             'p.name as name',
             'p.code as code',
@@ -75,6 +77,8 @@ class OrderController extends Controller
             'vp.retail_price',
             'vp.min_cart_quantity',
             'vp.max_cart_quantity',
+            'vo.variant_option_name',
+            'vrt.variant_name',
             DB::raw('ROUND((vp.maximum_retail_price - vp.retail_price),2) as offer'),
             DB::raw('ROUND((((vp.maximum_retail_price - vp.retail_price) / vp.maximum_retail_price)*100),2) as offer_percentage'),
         )
@@ -84,6 +88,15 @@ class OrderController extends Controller
             ->leftJoin('products as p', function ($join) {
                 $join->on('vp.product_id', '=', 'p.id');
             })
+            ->leftJoin('product_variants as pv', function ($join) {
+                $join->on('p.id', '=', 'pv.product_id');
+            })
+            ->leftJoin('variant_options as vo', function ($join) {
+                $join->on('pv.variant_option_id', '=', 'vo.id');
+            })
+            ->leftJoin('variants as vrt', function ($join) {
+                $join->on('vo.variant_id', '=', 'vrt.id');
+            })
             ->leftJoin('units as u', function ($join) {
                 $join->on('p.unit_id', '=', 'u.id');
             })
@@ -91,7 +104,7 @@ class OrderController extends Controller
             ->get()
             ->toArray();
         /***************************************************************************************************** */
-        if (!$products) {
+        if (sizeof($products) == 0) {
             $response = [
                 'status' => [
                     'success' => 'false',
@@ -108,6 +121,8 @@ class OrderController extends Controller
         $order->customer_id = $input['id'];
         $order->vendor_id = $input['vendor_id'];
         $order->address_id = $input['address_id'];
+        $order->order_total = 0;
+        $order->got_commission_per_order = 0;
         $order->total_payable = 0;
         $order->save();
         $order->order_reference = config('prefix.ORDER_REF') . sprintf('%07d', $order->id);
@@ -155,6 +170,7 @@ class OrderController extends Controller
                     "order_reference" => $order->order_reference,
                 ],
                 'amount' => [
+                    "got_commission" => 0,
                     "total_payable" => $order->total_payable,
                 ],
                 'products' => $products,
