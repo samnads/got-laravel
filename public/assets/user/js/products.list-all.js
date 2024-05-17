@@ -101,6 +101,48 @@ let datatable = new DataTable('#datatable', {
         });
     },
 });
+function format(d) {
+    // `d` is the original data object for the row
+    return (
+        `<table class="table p-0 m-0">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">First</th>
+      <th scope="col">Last</th>
+      <th scope="col">Handle</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>Mark</td>
+      <td>Otto</td>
+      <td>@mdo</td>
+    </tr>
+  </tbody>
+</table>`
+    );
+}
+datatable.on('click', 'td [data-action="show-variants"]', function (e) {
+    let tr = e.target.closest('tr');
+    let row = datatable.row(tr);
+
+    if (row.child.isShown()) {
+        // This row is already open - close it
+        row.child.hide();
+    }
+    else {
+        // Open this row
+        datatable.rows().every(function (rowIdx, tableLoop, rowLoop) {
+            if (this.child.isShown()) {
+                this.child.hide();
+                $(this.node()).removeClass('shown');
+            }
+        });
+        row.child(format(row.data()), ['bg-light','p-3']).show();
+    }
+});
 function rowEditListener() {
     $('[data-action="quick-edit"]').click(function () {
         let id = this.getAttribute('data-id');

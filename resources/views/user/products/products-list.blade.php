@@ -54,7 +54,7 @@
     <div class="card">
         <div class="card-body">
             <div class="table-responsive">
-                <table id="datatable" class="table table-striped table-hover table-bordered align-middle">
+                <table id="datatable" class="table table-bordered align-middle">
                     <thead>
                         <tr>
                             <th>Sl. No.</th>

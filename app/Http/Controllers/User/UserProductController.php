@@ -239,7 +239,7 @@ class UserProductController extends Controller
                             }
                             else{
                                 // Variant product
-                                $data_table['data'][$key]['name'] .= '<p class="mt-2"><button class="small" role="button"><i class="lni lni-angle-double-right"></i> View variation SKUs</button></p>';
+                                $data_table['data'][$key]['name'] .= '<p class="mt-2"><button class="small" role="button" data-action="show-variants"><i class="lni lni-angle-double-right"></i> View variation SKUs</button></p>';
                                 $data_table['data'][$key]['maximum_retail_price'] = '';
                                 $data_table['data'][$key]['item_size'] = '';
                                 $data_table['data'][$key]['status_html'] = '';
