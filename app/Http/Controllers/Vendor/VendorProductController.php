@@ -29,6 +29,8 @@ class VendorProductController extends Controller
                         $rows = VendorProduct::select(
                             DB::raw('@count:=@count+1 AS slno'),
                             'vendor_products.id',
+                            'p.id as master_id',
+                            'p.parent_product_id',
                             'vendor_products.product_id',
                             'vendor_products.maximum_retail_price',
                             'vendor_products.retail_price',
@@ -63,6 +65,11 @@ class VendorProductController extends Controller
                             ->where('p.deleted_at', null)
                             ->withTrashed();
                         $data_table['recordsTotal'] = $rows->count();
+                        // Main and Variant family only
+                        $rows->where(function ($query) use ($request) {
+                            $query->whereNull('p.parent_product_id');
+                            $query->orWhereColumn('p.parent_product_id', 'p.id');
+                        });
                         $rows->where(function ($query) use ($request) {
                             $query->where([['p.name', 'LIKE', "%{$request->search['value']}%"]]);
                             $query->orWhere([['p.code', 'LIKE', "%{$request->search['value']}%"]]);
@@ -71,7 +78,7 @@ class VendorProductController extends Controller
                         if (@$request->order[0]['name']) {
                             $rows->orderBy($request->order[0]['name'], $request->order[0]['dir']);
                         } else {
-                            $rows->orderBy('vendor_products.id', 'asc');
+                            $rows->orderBy('vendor_products.id', 'desc');
                         }
                         // filter start
                         if (@$request->filter_category_id) {
@@ -98,6 +105,18 @@ class VendorProductController extends Controller
 									<label class="form-check-label" for="status_' . $row['id'] . '"></label>
 								</div>';
                             $data_table['data'][$key]['thumbnail_image_html'] = '<img src="' . $row['thumbnail_url'] . '" class="product-img-2" alt="product img">';
+                            if ($row['master_id'] != $row['parent_product_id']) {
+                                // No variant product
+                                //$data_table['data'][$key]['name'] = '';
+                            } else {
+                                // Variant product
+                                $data_table['data'][$key]['name'] .= '<p class="mt-2"><button class="small" role="button"><i class="lni lni-angle-double-right"></i> View variation SKUs</button></p>';
+                                $data_table['data'][$key]['maximum_retail_price'] = '';
+                                $data_table['data'][$key]['item_size'] = '';
+                                $data_table['data'][$key]['status_html'] = '';
+                                $data_table['data'][$key]['retail_price'] = '';
+                                $data_table['data'][$key]['action_html'] = '';
+                            }
                         }
                         return response()->json($data_table, 200, [], JSON_PRETTY_PRINT);
                     case 'quick-edit':
@@ -271,6 +290,7 @@ class VendorProductController extends Controller
                         $rows = Product::select(
                             DB::raw('@count:=@count+1 AS slno'),
                             'products.id',
+                            'products.parent_product_id',
                             'products.code',
                             'products.item_size',
                             'products.name',
@@ -297,6 +317,11 @@ class VendorProductController extends Controller
                             })
                             ->whereNotIn('products.id', $vendor_product_ids);
                         $data_table['recordsTotal'] = $rows->count();
+                        // Main and Variant family only
+                        $rows->where(function ($query) use ($request) {
+                            $query->whereNull('products.parent_product_id');
+                            $query->orWhereColumn('products.parent_product_id', 'products.id');
+                        });
                         $rows->where(function ($query) use ($request) {
                             $query->where([['products.name', 'LIKE', "%{$request->search['value']}%"]]);
                             $query->orWhere([['products.code', 'LIKE', "%{$request->search['value']}%"]]);
@@ -305,7 +330,7 @@ class VendorProductController extends Controller
                         if (@$request->order[0]['name']) {
                             $rows->orderBy($request->order[0]['name'], $request->order[0]['dir']);
                         } else {
-                            $rows->orderBy('products.id', 'asc');
+                            $rows->orderBy('products.id', 'desc');
                         }
                         // filter start
                         if (@$request->filter_category_id) {
@@ -322,6 +347,16 @@ class VendorProductController extends Controller
 											<button data-action="add-product" data-id="' . $row['id'] . '" type="button" class="btn btn-sm btn-warning"><i class="fadeIn animated bx bx-plus"></i></button>
 										</div>';
                             $data_table['data'][$key]['thumbnail_image_html'] = '<img src="' . $row['thumbnail_url'] . '" class="product-img-2" alt="product img">';
+                            if ($row['id'] != $row['parent_product_id']) {
+                                // No varint product
+                                //$data_table['data'][$key]['name'] = '';
+                            } else {
+                                // Variant product
+                                $data_table['data'][$key]['name'] .= '<p class="mt-2"><button class="small" role="button"><i class="lni lni-angle-double-right"></i> View variation SKUs</button></p>';
+                                $data_table['data'][$key]['maximum_retail_price'] = '';
+                                $data_table['data'][$key]['item_size'] = '';
+                                $data_table['data'][$key]['action_html'] = '';
+                            }
                         }
                         return response()->json($data_table, 200, [], JSON_PRETTY_PRINT);
                     case 'product-for-add':

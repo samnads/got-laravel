@@ -51,7 +51,7 @@
                             <th>Brand</th>
                             <th>Product Name</th>
                             <th>Size</th>
-                            <th>Code</th>
+                            <th>Code / SKU</th>
                             <th>MRP.</th>
                             <th>Actions</th>
                         </tr>

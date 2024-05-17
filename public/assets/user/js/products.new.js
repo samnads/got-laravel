@@ -14,12 +14,12 @@ $(document).ready(function () {
     $('[name="have_variations"]', new_product_form).click(function () {
         if (this.value == 1) { // Yes
             $('#size-variants').show();
-            $('#no-variants').hide();
+            //$('#no-variants').hide();
             $('button[data-action="append-variant"]', new_product_form).show();
         }
         else {
             $('#size-variants').hide();
-            $('#no-variants').show();
+            //$('#no-variants').show();
             $('button[data-action="append-variant"]', new_product_form).hide();
             $('#size-variants').html(new_size_variant_html); // reset
         }
@@ -99,16 +99,16 @@ $(document).ready(function () {
                 required: false,
             },
             "item_size": {
-                required: '[name="have_variations"][value="0"]:checked',
+                required: true,//'[name="have_variations"][value="0"]:checked',
             },
             "unit_id": {
                 required: true,
             },
             "maximum_retail_price": {
-                required: '[name="have_variations"][value="0"]:checked',
+                required: true,//'[name="have_variations"][value="0"]:checked',
             },
             "code": {
-                required: '[name="have_variations"][value="0"]:checked',
+                required: true,//'[name="have_variations"][value="0"]:checked',
             },
             "thumbnail_image": {
                 required: false,

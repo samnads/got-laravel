@@ -83,6 +83,41 @@
 
                     </div>
                 </div>
+                <div class="row g-3 mt-2">
+                    <div class="col-md-3">
+                        <label for="codegd" class="form-label">Code
+                            <rf />
+                        </label>
+                        <div class="position-relative">
+                            <input type="text" class="form-control" id="codegd" name="code" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="uids" class="form-label">Item Size
+                            <rf />
+                        </label>
+                        <div class="position-relative">
+                            <input type="number" step="1" class="form-control no-arrow" id="uids"
+                                name="item_size" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <label for="mrpy" class="form-label">MRP.
+                            <rf />
+                        </label>
+                        <div class="position-relative">
+                            <input class="form-control" id="mrpy" name="maximum_retail_price">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="thumzsds" class="form-label">Thumbnail Image (300 x 300px)
+                        </label>
+                        <div class="position-relative">
+                            <input class="form-control" type="file" id="thumzsds" name="thumbnail_image"
+                                accept="image/*">
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="card">
@@ -121,8 +156,8 @@
                                 <rf />
                             </label>
                             <div class="position-relative">
-                                <input type="text" class="form-control no-arrow variant_codes"
-                                    name="variant_codes[0]" autocomplete="off" placeholder="GO001234">
+                                <input type="text" class="form-control no-arrow variant_codes" name="variant_codes[0]"
+                                    autocomplete="off" placeholder="GO001234">
                             </div>
                         </div>
                         <div class="col-md-2">
@@ -148,26 +183,28 @@
                                 <rf />
                             </label>
                             <div class="position-relative">
-                                <input type="number" class="form-control no-arrow variant_mrps" name="variant_mrps[0]" placeholder="123.5">
+                                <input type="number" class="form-control no-arrow variant_mrps" name="variant_mrps[0]"
+                                    placeholder="123.5">
                             </div>
                         </div>
                         <div class="col-md-3">
                             <label class="form-label">Thumbnail Image (300 x 300px)
                             </label>
                             <div class="position-relative">
-                                <input class="form-control variant_thumbnail_images" type="file" name="variant_thumbnail_images[0]"
-                                    accept="image/*">
+                                <input class="form-control variant_thumbnail_images" type="file"
+                                    name="variant_thumbnail_images[0]" accept="image/*">
                             </div>
                         </div>
                         <div class="col-md-1 text-right">
                             <label class="form-label">&nbsp;</label>
                             <div class="d-flex justify-content-end"><button data-action="remove-variant" type="button"
-                                    class="btn btn-primary btn-sm btn-danger" disabled><i class="bx bx-trash"></i></button></di>
+                                    class="btn btn-primary btn-sm btn-danger" disabled><i
+                                        class="bx bx-trash"></i></button></di>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div id="no-variants" style="display: non">
+                {{--<div id="no-variants" style="display: non">
                     <div class="row g-3 mt-2">
                         <div class="col-md-3">
                             <label for="codegd" class="form-label">Code
@@ -204,7 +241,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>--}}
             </div>
         </div>
         <div class="card">

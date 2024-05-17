@@ -60,12 +60,11 @@
                             <th>Sl. No.</th>
                             <th>Thumbnail</th>
                             <th>Name</th>
-                            <th>Code</th>
+                            <th>Code / SKU</th>
                             <th>Category</th>
                             <th>Brand</th>
                             <th>Pack Size</th>
                             <th>MRP.</th>
-                            <th>Variant</th>
                             <th>Status</th>
                             <th>Actions</th>
                         </tr>

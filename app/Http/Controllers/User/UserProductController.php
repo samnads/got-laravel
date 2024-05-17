@@ -28,10 +28,25 @@ class UserProductController extends Controller
                 if ($request->method() == 'POST') {
                     if ($request->have_variations == "1") {
                         DB::beginTransaction();
-                        $parent_product_id = null;
+                        /************************************************************* */
+                        // Variant family identifier
+                        $product = new Product();
+                        $product->unit_id = $request->unit_id;
+                        $product->brand_id = $request->brand_id;
+                        $product->name = $request->name;
+                        $product->description = $request->description;
+                        $product->code = $request->code;
+                        $product->item_size = $request->item_size;
+                        $product->maximum_retail_price = $request->maximum_retail_price;
+                        $product->save();
+                        $product->parent_product_id = $product->id;
+                        $parent_product_id = $product->id;
+                        $product->save();
+                        $product_ids[] = $product->id;
+                        /************************************************************* */
                         foreach ($request->variants as $key => $variant) {
                             $product = new Product();
-                            $product->parent_product_id = null;
+                            $product->parent_product_id = $parent_product_id;
                             $product->unit_id = $request->unit_id;
                             $product->brand_id = $request->brand_id;
                             $product->name = $request->name;
@@ -40,28 +55,28 @@ class UserProductController extends Controller
                             $product->item_size = $request->variant_sizes[$key];
                             $product->maximum_retail_price = $request->variant_mrps[$key];
                             $product->save();
+                            $product_ids[] = $product->id;
                             /************************************* */
                             if (@$request->file('variant_thumbnail_images')[$key]) {
                                 $file = $request->file('variant_thumbnail_images')[$key];
                                 $image_resize = Image::make($file->getRealPath());
                                 $image_resize->fit(300, 300);
-                                //$image_resize->save(public_path('uploads/products/' . $file->hashName()), 100);
                                 $thumbnail_image_name = $product->id . '-' . $file->hashName();
                                 $image_resize->save(config('filesystems.uploads_path') . ('products/' . $thumbnail_image_name), 100);
                                 $product->thumbnail_image = $thumbnail_image_name;
                             }
                             /************************************* */
                             $product->save();
-                            $parent_product_id = $parent_product_id ?: $product->id;
-                            $product->parent_product_id = $parent_product_id;
-                            $product->save();
+                        }
+                        /************************************************************* */
+                        foreach ($product_ids as $product_id) {
                             $category_mapping = new ProductCategoryMapping();
-                            $category_mapping->product_id = $product->id;
+                            $category_mapping->product_id = $product_id;
                             $category_mapping->category_id = $request->category_id;
                             $category_mapping->save();
                             // Save variant details
                             $variant_option = VariantOption::where([['variant_id', '=', 1], ['variant_option_name', '=', $request->variant_labels[$key]]])->first();
-                            if(!$variant_option){
+                            if (!$variant_option) {
                                 $variant_option = new VariantOption;
                                 $variant_option->variant_id = 1;
                                 $variant_option->variant_option_name = $request->variant_labels[$key];
@@ -69,7 +84,7 @@ class UserProductController extends Controller
                             }
                             // Map variant to product
                             $product_variant = new ProductVariant;
-                            $product_variant->product_id = $product->id;
+                            $product_variant->product_id = $product_id;
                             $product_variant->variant_option_id = $variant_option->id;
                             $product_variant->save();
                         }
@@ -143,6 +158,7 @@ class UserProductController extends Controller
                         $data_table['draw'] = $request->draw;
                         $rows = Product::select(
                             'products.id',
+                            'products.parent_product_id',
                             'products.code',
                             DB::raw('CONCAT(round(products.item_size)," ",u.name) as item_size'),
                             'products.name',
@@ -173,6 +189,11 @@ class UserProductController extends Controller
                                 $join->on('pv.variant_option_id', '=', 'vo.id');
                             });
                         $data_table['recordsTotal'] = $rows->count();
+                        // Main and Variant family only
+                        $rows->where(function ($query) use ($request) {
+                            $query->whereNull('products.parent_product_id');
+                            $query->orWhereColumn('products.parent_product_id', 'products.id');
+                        });
                         $rows->where(function ($query) use ($request) {
                             $query->where([['products.name', 'LIKE', "%{$request->search['value']}%"]]);
                             $query->orWhere([['products.code', 'LIKE', "%{$request->search['value']}%"]]);
@@ -196,10 +217,9 @@ class UserProductController extends Controller
                             $rows->where('pcm.category_id', $request->filter_category_id);
                         }
                         $data_table['recordsFiltered'] = $rows->count();
-                        if($request->length != -1){
+                        if ($request->length != -1) {
                             $data_table['data'] = $rows->offset($request->start)->limit($request->length)->get()->toArray();
-                        }
-                        else{
+                        } else {
                             $data_table['data'] = $rows->get()->toArray();
                         }
                         foreach ($data_table['data'] as $key => $row) {
@@ -213,6 +233,18 @@ class UserProductController extends Controller
 									<input data-action="toggle-status" data-id="' . $row['id'] . '" class="form-check-input" type="checkbox" id="status_' . $row['id'] . '" ' . ($row['deleted_at'] == null ? 'checked' : '') . '>
 									<label class="form-check-label" for="status_' . $row['id'] . '"></label>
 								</div>';
+                            if ($row['id'] != $row['parent_product_id']) {
+                                // No varint product
+                                //$data_table['data'][$key]['name'] = '';
+                            }
+                            else{
+                                // Variant product
+                                $data_table['data'][$key]['name'] .= '<p class="mt-2"><button class="small" role="button"><i class="lni lni-angle-double-right"></i> View variation SKUs</button></p>';
+                                $data_table['data'][$key]['maximum_retail_price'] = '';
+                                $data_table['data'][$key]['item_size'] = '';
+                                $data_table['data'][$key]['status_html'] = '';
+                                $data_table['data'][$key]['actions_html'] = '';
+                            }
                         }
                         return response()->json($data_table, 200, [], JSON_PRETTY_PRINT);
                     default:

@@ -131,7 +131,7 @@ class VendorProductController extends Controller
             if ($vendor_main_product['parent_product_id'] != null) {
                 // variant found
                 $vendor_main_product['variants'][$vendor_main_product['variant_name']] = array_values(array_filter($vendor_products, function ($vendor_productss) use ($vendor_main_product) {
-                    return $vendor_main_product['parent_product_id'] == $vendor_productss['parent_product_id'];
+                    return ($vendor_main_product['parent_product_id'] == $vendor_productss['parent_product_id'] && $vendor_main_product['parent_product_id'] != $vendor_productss['master_product_id']);
                 }));
                 $products[] = $vendor_main_product;
             } else {
