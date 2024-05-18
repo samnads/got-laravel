@@ -67,13 +67,6 @@ class UserProductController extends Controller
                             }
                             /************************************* */
                             $product->save();
-                        }
-                        /************************************************************* */
-                        foreach ($product_ids as $product_id) {
-                            $category_mapping = new ProductCategoryMapping();
-                            $category_mapping->product_id = $product_id;
-                            $category_mapping->category_id = $request->category_id;
-                            $category_mapping->save();
                             // Save variant details
                             $variant_option = VariantOption::where([['variant_id', '=', 1], ['variant_option_name', '=', $request->variant_labels[$key]]])->first();
                             if (!$variant_option) {
@@ -84,9 +77,16 @@ class UserProductController extends Controller
                             }
                             // Map variant to product
                             $product_variant = new ProductVariant;
-                            $product_variant->product_id = $product_id;
+                            $product_variant->product_id = $product->id;
                             $product_variant->variant_option_id = $variant_option->id;
                             $product_variant->save();
+                        }
+                        /************************************************************* */
+                        foreach ($product_ids as $product_id) {
+                            $category_mapping = new ProductCategoryMapping();
+                            $category_mapping->product_id = $product_id;
+                            $category_mapping->category_id = $request->category_id;
+                            $category_mapping->save();
                         }
                         DB::commit();
                     } else {
