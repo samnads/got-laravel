@@ -120,6 +120,7 @@ function format(callback, data) {
                                     <td>${row.thumbnail_image_html}</td>
                                     <td>${row.code}</td>
                                     <td>${row.variant_option_name}</td>
+                                    <td>${row.item_size}</td>
                                     <td>${row.maximum_retail_price}</td>
                                      <td>${row.status_html}</td>
                                     <td>${row.actions_html}</td>
@@ -132,6 +133,7 @@ function format(callback, data) {
                             <th scope="col">Thumbnail</th>
                             <th scope="col">SKU</th>
                             <th scope="col">Variant</th>
+                            <th scope="col">SIze</th>
                             <th scope="col">MRP.</th>
                             <th scope="col">Status</th>
                             <th scope="col">Actions</th>
