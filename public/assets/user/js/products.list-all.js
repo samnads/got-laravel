@@ -101,46 +101,77 @@ let datatable = new DataTable('#datatable', {
         });
     },
 });
-function format(d) {
+function format(callback, data) {
     // `d` is the original data object for the row
-    return (
-        `<table class="table p-0 m-0">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">SKU</th>
-      <th scope="col">Name</th>
-      <th scope="col">Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Demo</td>
-      <td>Demo</td>
-      <td>Demo</td>
-    </tr>
-  </tbody>
-</table>`
-    );
+    $.ajax({
+        type: 'GET',
+        url: _url,
+        dataType: 'json',
+        data: {
+            action: 'variants',
+            id: data.id
+        },
+        success: function (response) {
+            let rows_html = ``;
+            if (response.status == true) {
+                $.each(response.data, function (index, row) {
+                    rows_html += `<tr>
+                                    <th scope="row">${index+1}</th>
+                                    <td>${row.thumbnail_image_html}</td>
+                                    <td>${row.code}</td>
+                                    <td>${row.variant_option_name}</td>
+                                    <td>${row.maximum_retail_price}</td>
+                                     <td>${row.status_html}</td>
+                                    <td>${row.actions_html}</td>
+                                </tr>`;
+                });
+                callback($(`<table class="table table-sm align-middle table-bordered mb-0">
+                        <thead>
+                            <tr>
+                            <th scope="col">Sl. No.</th>
+                            <th scope="col">Thumbnail</th>
+                            <th scope="col">SKU</th>
+                            <th scope="col">Variant</th>
+                            <th scope="col">MRP.</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${rows_html}
+                        </tbody>
+                    </table>`), ['table-secondary', 'p-1']).show();
+                rowEditListener();
+                statusChangeListener();
+            } else {
+                toastStatusFalse(response);
+            }
+        },
+        error: function (response) {
+            ajaxError(response);
+        },
+    });
 }
 datatable.on('click', 'td [data-action="show-variants"]', function (e) {
-    let tr = e.target.closest('tr');
+    var tr = $(this).closest('tr');
     let row = datatable.row(tr);
-
     if (row.child.isShown()) {
         // This row is already open - close it
+        $(tr).removeClass('table-secondary');
         row.child.hide();
     }
     else {
         // Open this row
         datatable.rows().every(function (rowIdx, tableLoop, rowLoop) {
             if (this.child.isShown()) {
+                $(this.node()).removeClass('table-secondary');
                 this.child.hide();
                 $(this.node()).removeClass('shown');
             }
         });
-        row.child(format(row.data()), ['bg-light','p-3']).show();
+        $(tr).addClass('table-secondary');
+        //row.child(format(row.data()), ['table-info', 'p-3']).show();
+        format(row.child, row.data());
     }
 });
 function rowEditListener() {

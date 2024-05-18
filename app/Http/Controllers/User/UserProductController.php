@@ -236,16 +236,77 @@ class UserProductController extends Controller
                             if ($row['id'] != $row['parent_product_id']) {
                                 // No varint product
                                 //$data_table['data'][$key]['name'] = '';
-                            }
-                            else{
+                            } else {
                                 // Variant product
                                 $data_table['data'][$key]['name'] .= '<p class="mt-2"><button class="small" role="button" data-action="show-variants"><i class="lni lni-angle-double-right"></i> View variation SKUs</button></p>';
-                                $data_table['data'][$key]['maximum_retail_price'] = '';
-                                $data_table['data'][$key]['item_size'] = '';
-                                $data_table['data'][$key]['status_html'] = '';
-                                $data_table['data'][$key]['actions_html'] = '';
+                                //$data_table['data'][$key]['maximum_retail_price'] = '';
+                                //$data_table['data'][$key]['item_size'] = '';
+                                //$data_table['data'][$key]['status_html'] = '';
+                                //$data_table['data'][$key]['actions_html'] = '';
                             }
                         }
+                        return response()->json($data_table, 200, [], JSON_PRETTY_PRINT);
+                    case 'variants':
+                        $rows = Product::select(
+                            'products.id',
+                            'products.parent_product_id',
+                            'products.code',
+                            DB::raw('CONCAT(round(products.item_size)," ",u.name) as item_size'),
+                            'products.name',
+                            'products.maximum_retail_price',
+                            'products.thumbnail_image',
+                            'b.name as brand',
+                            'u.name as unit',
+                            'pc.name as product_category',
+                            'products.deleted_at',
+                            'vo.variant_option_name',
+                        )
+                            ->leftJoin('brands as b', function ($join) {
+                                $join->on('products.brand_id', '=', 'b.id');
+                            })
+                            ->leftJoin('units as u', function ($join) {
+                                $join->on('products.unit_id', '=', 'u.id');
+                            })
+                            ->leftJoin('product_category_mappings as pcm', function ($join) {
+                                $join->on('products.id', '=', 'pcm.product_id');
+                            })
+                            ->leftJoin('product_categories as pc', function ($join) {
+                                $join->on('pcm.category_id', '=', 'pc.id');
+                            })
+                            ->leftJoin('product_variants as pv', function ($join) {
+                                $join->on('products.id', '=', 'pv.product_id');
+                            })
+                            ->leftJoin('variant_options as vo', function ($join) {
+                                $join->on('pv.variant_option_id', '=', 'vo.id');
+                            })
+                            ->where('products.parent_product_id', $request->id) // Keep variants
+                            ->where('products.id', '!=', $request->id); // Exclude parent
+                        $rows->orderBy('products.id', 'asc');
+                        $data_table['data'] = $rows->withTrashed()->get()->toArray();
+                        foreach ($data_table['data'] as $key => $row) {
+                            $data_table['data'][$key]['slno'] = ($request->start + $key + 1);
+                            $data_table['data'][$key]['thumbnail_image_html'] = '<img src="' . config('url.uploads_cdn') . 'products/' . ($row['thumbnail_image'] ?: 'default.jpg') . '" class="product-img-2" alt="product img">';
+                            $data_table['data'][$key]['actions_html'] = '<div class="btn-group btn-group-sm bg-light" role="group">
+											<button type="button" data-action="quick-edit" data-id="' . $row['id'] . '" class="btn btn-sm btn-outline-primary"><i class="bx bx-pencil"></i>
+											</button>
+										</div>';
+                            $data_table['data'][$key]['status_html'] = '<div class="form-check-success form-check form-switch">
+									<input data-action="toggle-status" data-id="' . $row['id'] . '" class="form-check-input" type="checkbox" id="status_' . $row['id'] . '" ' . ($row['deleted_at'] == null ? 'checked' : '') . '>
+									<label class="form-check-label" for="status_' . $row['id'] . '"></label>
+								</div>';
+                            if ($row['id'] != $row['parent_product_id']) {
+                                // No varint product
+                                //$data_table['data'][$key]['name'] = '';
+                            } else {
+                                // Variant product
+                                $data_table['data'][$key]['name'] .= '<p class="mt-2"><button class="small" role="button" data-action="show-variants"><i class="lni lni-angle-double-right"></i> View variation SKUs</button></p>';
+                                //$data_table['data'][$key]['maximum_retail_price'] = '';
+                                //$data_table['data'][$key]['item_size'] = '';
+                                //$data_table['data'][$key]['status_html'] = '';
+                                //$data_table['data'][$key]['actions_html'] = '';
+                            }
+                        }
+                        $data_table['status'] = true;
                         return response()->json($data_table, 200, [], JSON_PRETTY_PRINT);
                     default:
                         $response = [
