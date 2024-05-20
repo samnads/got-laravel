@@ -120,6 +120,7 @@ function createOrderDetailsListeneer() {
                     $('.c-address', order_details).html(data.delivery_address.address);
                     $('.o-ref', order_details).html(data.order.order_reference);
                     $('.o-status', order_details).html(data.order_status.labelled);
+                    $('.o-service_charge', order_details).html(data.order.got_commission);
                     $('.o-total_payable', order_details).html(data.order.total_payable);
                     let product_rows = '';
                     $.each(data.order_products, function (index, product) {
