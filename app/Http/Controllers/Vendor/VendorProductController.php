@@ -110,7 +110,7 @@ class VendorProductController extends Controller
                                 //$data_table['data'][$key]['name'] = '';
                             } else {
                                 // Variant product
-                                $data_table['data'][$key]['name'] .= '<p class="mt-2"><button class="small" role="button"><i class="lni lni-angle-double-right"></i> View variation SKUs</button></p>';
+                                $data_table['data'][$key]['name'] .= '<p class="mt-2"><button data-action="show-variants" class="small" role="button"><i class="lni lni-angle-double-right"></i> View variation SKUs</button></p>';
                                 $data_table['data'][$key]['maximum_retail_price'] = '';
                                 $data_table['data'][$key]['item_size'] = '';
                                 $data_table['data'][$key]['status_html'] = '';
@@ -118,6 +118,76 @@ class VendorProductController extends Controller
                                 $data_table['data'][$key]['action_html'] = '';
                             }
                         }
+                        return response()->json($data_table, 200, [], JSON_PRETTY_PRINT);
+                    case 'variants':
+                        $rows = Product::select(
+                            'products.id',
+                            'products.parent_product_id',
+                            'products.code',
+                            DB::raw('CONCAT(round(products.item_size)," ",u.name) as item_size'),
+                            'products.name',
+                            'products.maximum_retail_price',
+                            'products.thumbnail_image',
+                            'b.name as brand',
+                            'u.name as unit',
+                            'pc.name as product_category',
+                            'products.deleted_at',
+                            'vo.variant_option_name',
+                            'vp.id as vp_id'
+                        )
+                            ->leftJoin('vendor_products as vp', function ($join) {
+                                $join->on('products.id', '=', 'vp.product_id');
+                                $join->where('vp.vendor_id', '=', DB::raw(Auth::guard('vendor')->id()));
+                            })
+                            ->leftJoin('brands as b', function ($join) {
+                                $join->on('products.brand_id', '=', 'b.id');
+                            })
+                            ->leftJoin('units as u', function ($join) {
+                                $join->on('products.unit_id', '=', 'u.id');
+                            })
+                            ->leftJoin('product_category_mappings as pcm', function ($join) {
+                                $join->on('products.id', '=', 'pcm.product_id');
+                            })
+                            ->leftJoin('product_categories as pc', function ($join) {
+                                $join->on('pcm.category_id', '=', 'pc.id');
+                            })
+                            ->leftJoin('product_variants as pv', function ($join) {
+                                $join->on('products.id', '=', 'pv.product_id');
+                            })
+                            ->leftJoin('variant_options as vo', function ($join) {
+                                $join->on('pv.variant_option_id', '=', 'vo.id');
+                            })
+                            ->where('products.parent_product_id', '=', $request->id)
+                            ->whereColumn('products.parent_product_id', '!=', 'products.id')
+                            ->whereNull('products.deleted_at')
+                            ->whereNotNull('vp.id')
+                            ->whereNull('vp.deleted_at')
+                            ->orderBy('products.id', 'asc');
+                        $data_table['data'] = $rows->withTrashed()->get()->toArray();
+                        foreach ($data_table['data'] as $key => $row) {
+                            $data_table['data'][$key]['slno'] = ($request->start + $key + 1);
+                            $data_table['data'][$key]['thumbnail_image_html'] = '<img src="' . config('url.uploads_cdn') . 'products/' . ($row['thumbnail_image'] ?: 'default.jpg') . '" class="product-img-2" alt="product img">';
+                            $data_table['data'][$key]['actions_html'] = '<div class="btn-group bg-light" role="group" aria-label="Basic example">
+											<button type="button" data-action="quick-edit-product" data-id="' . $row['vp_id'] . '" class="btn btn-outline-primary"><i class="bx bx-pencil"></i>
+											</button>
+										</div>';
+                            $data_table['data'][$key]['status_html'] = '<div class="form-check-success form-check form-switch">
+									<input data-action="toggle-status" data-id="' . $row['vp_id'] . '" class="form-check-input" type="checkbox" id="status_' . $row['vp_id'] . '" ' . ($row['deleted_at'] == null ? 'checked' : '') . '>
+									<label class="form-check-label" for="status_' . $row['vp_id'] . '"></label>
+								</div>';
+                            if ($row['id'] != $row['parent_product_id']) {
+                                // No varint product
+                                //$data_table['data'][$key]['name'] = '';
+                            } else {
+                                // Variant product
+                                $data_table['data'][$key]['name'] .= '<p class="mt-2"><button class="small" role="button" data-action="show-variants"><i class="lni lni-angle-double-right"></i> View variation SKUs</button></p>';
+                                //$data_table['data'][$key]['maximum_retail_price'] = '';
+                                //$data_table['data'][$key]['item_size'] = '';
+                                //$data_table['data'][$key]['status_html'] = '';
+                                //$data_table['data'][$key]['actions_html'] = '';
+                            }
+                        }
+                        $data_table['status'] = true;
                         return response()->json($data_table, 200, [], JSON_PRETTY_PRINT);
                     case 'quick-edit':
                         switch ($request->method()) {
@@ -162,8 +232,8 @@ class VendorProductController extends Controller
                                 $response = [
                                     'status' => true,
                                     'data' => [
-                                            'product' => $product
-                                        ]
+                                        'product' => $product
+                                    ]
                                 ];
                                 break;
                             case 'PUT':
@@ -190,10 +260,10 @@ class VendorProductController extends Controller
                                     $response = [
                                         'status' => false,
                                         'error' => [
-                                                'type' => 'error',
-                                                'title' => 'Validation Error !',
-                                                'content' => $validator->errors()->first()
-                                            ]
+                                            'type' => 'error',
+                                            'title' => 'Validation Error !',
+                                            'content' => $validator->errors()->first()
+                                        ]
                                     ];
                                     return response()->json($response, 200, [], JSON_PRETTY_PRINT);
                                 }
@@ -210,10 +280,10 @@ class VendorProductController extends Controller
                                 $response = [
                                     'status' => true,
                                     'message' => [
-                                            'type' => 'success',
-                                            'title' => 'Product Updated',
-                                            'content' => 'Task completed successfully.'
-                                        ]
+                                        'type' => 'success',
+                                        'title' => 'Product Updated',
+                                        'content' => 'Task completed successfully.'
+                                    ]
                                 ];
                                 break;
                             default:
@@ -240,10 +310,10 @@ class VendorProductController extends Controller
                         $response = [
                             'status' => true,
                             'message' => [
-                                    'type' => 'success',
-                                    'title' => 'Status Updated !',
-                                    'content' => 'Product status updated successfully.'
-                                ]
+                                'type' => 'success',
+                                'title' => 'Status Updated !',
+                                'content' => 'Product status updated successfully.'
+                            ]
                         ];
                         break;
                     default:
@@ -264,10 +334,10 @@ class VendorProductController extends Controller
                 $response = [
                     'status' => false,
                     'error' => [
-                            'type' => 'error',
-                            'title' => 'Error !',
-                            'content' => $e->getMessage()
-                        ]
+                        'type' => 'error',
+                        'title' => 'Error !',
+                        'content' => $e->getMessage()
+                    ]
                 ];
                 return response()->json($response, 200, [], JSON_PRETTY_PRINT);
             }
@@ -285,7 +355,10 @@ class VendorProductController extends Controller
                     case 'datatable':
                         $data_table['draw'] = $request->draw;
                         DB::statement("SET @count:=" . $request->start);
-                        $v_products = VendorProduct::select('product_id')->where('vendor_id', Auth::guard('vendor')->id())->withTrashed()->get();
+                        $v_products = VendorProduct::select('product_id')
+                            ->where('vendor_id', Auth::guard('vendor')->id())
+
+                            ->withTrashed()->get();
                         $vendor_product_ids = array_column($v_products->toArray(), 'product_id');
                         $rows = Product::select(
                             DB::raw('@count:=@count+1 AS slno'),
@@ -352,20 +425,92 @@ class VendorProductController extends Controller
                                 //$data_table['data'][$key]['name'] = '';
                             } else {
                                 // Variant product
-                                $data_table['data'][$key]['name'] .= '<p class="mt-2"><button class="small" role="button"><i class="lni lni-angle-double-right"></i> View variation SKUs</button></p>';
+                                $data_table['data'][$key]['name'] .= '<p class="mt-2"><button data-action="show-variants" class="small" role="button"><i class="lni lni-angle-double-right"></i> View variation SKUs</button></p>';
                                 $data_table['data'][$key]['maximum_retail_price'] = '';
                                 $data_table['data'][$key]['item_size'] = '';
                                 $data_table['data'][$key]['action_html'] = '';
                             }
                         }
                         return response()->json($data_table, 200, [], JSON_PRETTY_PRINT);
+                    case 'variants':
+                        $rows = Product::select(
+                            'products.id',
+                            'products.parent_product_id',
+                            'products.code',
+                            DB::raw('CONCAT(round(products.item_size)," ",u.name) as item_size'),
+                            'products.name',
+                            'products.maximum_retail_price',
+                            'products.thumbnail_image',
+                            'b.name as brand',
+                            'u.name as unit',
+                            'pc.name as product_category',
+                            'products.deleted_at',
+                            'vo.variant_option_name',
+                        )
+                            ->leftJoin('vendor_products as vp', function ($join) {
+                                $join->on('vp.product_id', '=', 'products.id');
+                                $join->on('vp.vendor_id', '=', DB::raw(Auth::guard('vendor')->id()));
+                            })
+                            ->leftJoin('brands as b', function ($join) {
+                                $join->on('products.brand_id', '=', 'b.id');
+                            })
+                            ->leftJoin('units as u', function ($join) {
+                                $join->on('products.unit_id', '=', 'u.id');
+                            })
+                            ->leftJoin('product_category_mappings as pcm', function ($join) {
+                                $join->on('products.id', '=', 'pcm.product_id');
+                            })
+                            ->leftJoin('product_categories as pc', function ($join) {
+                                $join->on('pcm.category_id', '=', 'pc.id');
+                            })
+                            ->leftJoin('product_variants as pv', function ($join) {
+                                $join->on('products.id', '=', 'pv.product_id');
+                            })
+                            ->leftJoin('variant_options as vo', function ($join) {
+                                $join->on('pv.variant_option_id', '=', 'vo.id');
+                            })
+                            // Exclude if already exist
+                            ->whereNull('vp.id')
+                            // Hide variants if parent is not active
+                            ->where(function ($query) use ($request) {
+                                $query->where('products.parent_product_id', '=', $request->id)
+                                    ->whereNull('products.deleted_at');
+                            })
+                            // Exclude parent
+                            ->where('products.id', '!=', $request->id)
+                            ->orderBy('products.id', 'asc');
+                        $data_table['data'] = $rows->withTrashed()->get()->toArray();
+                        foreach ($data_table['data'] as $key => $row) {
+                            $data_table['data'][$key]['slno'] = ($request->start + $key + 1);
+                            $data_table['data'][$key]['thumbnail_image_html'] = '<img src="' . config('url.uploads_cdn') . 'products/' . ($row['thumbnail_image'] ?: 'default.jpg') . '" class="product-img-2" alt="product img">';
+                            $data_table['data'][$key]['actions_html'] = '<div class="btn-group btn-group-sm" role="group" aria-label="First group">
+											<button data-action="add-product" data-id="' . $row['id'] . '" type="button" class="btn btn-sm btn-warning"><i class="fadeIn animated bx bx-plus"></i></button>
+										</div>';
+                            $data_table['data'][$key]['status_html'] = '<div class="form-check-success form-check form-switch">
+									<input data-action="toggle-status" data-id="' . $row['id'] . '" class="form-check-input" type="checkbox" id="status_' . $row['id'] . '" ' . ($row['deleted_at'] == null ? 'checked' : '') . '>
+									<label class="form-check-label" for="status_' . $row['id'] . '"></label>
+								</div>';
+                            if ($row['id'] != $row['parent_product_id']) {
+                                // No varint product
+                                //$data_table['data'][$key]['name'] = '';
+                            } else {
+                                // Variant product
+                                $data_table['data'][$key]['name'] .= '<p class="mt-2"><button class="small" role="button" data-action="show-variants"><i class="lni lni-angle-double-right"></i> View variation SKUs</button></p>';
+                                //$data_table['data'][$key]['maximum_retail_price'] = '';
+                                //$data_table['data'][$key]['item_size'] = '';
+                                //$data_table['data'][$key]['status_html'] = '';
+                                //$data_table['data'][$key]['actions_html'] = '';
+                            }
+                        }
+                        $data_table['status'] = true;
+                        return response()->json($data_table, 200, [], JSON_PRETTY_PRINT);
                     case 'product-for-add':
                         $product = Product::findOrFail($request->id);
                         $response = [
                             'status' => true,
                             'data' => [
-                                    'product' => $product
-                                ]
+                                'product' => $product
+                            ]
                         ];
                         return response()->json($response, 200, [], JSON_PRETTY_PRINT);
                     case 'save-new-product':
@@ -392,12 +537,28 @@ class VendorProductController extends Controller
                             $response = [
                                 'status' => false,
                                 'error' => [
-                                        'type' => 'error',
-                                        'title' => 'Validation Error !',
-                                        'content' => $validator->errors()->first()
-                                    ]
+                                    'type' => 'error',
+                                    'title' => 'Validation Error !',
+                                    'content' => $validator->errors()->first()
+                                ]
                             ];
                             return response()->json($response, 200, [], JSON_PRETTY_PRINT);
+                        }
+                        /******************************************************************************* */
+                        $product_master = Product::findOrFail($request->id);
+                        if ($product_master->parent_product_id != null && ($product_master->parent_product_id != $product_master->id)) {
+                            // Product from variant family
+                            $check = VendorProduct::where([['vendor_id', '=', Auth::guard('vendor')->id()], ['product_id', '=', $product_master->id]])->first();
+                            if (!$check) {
+                                $product_new = new VendorProduct();
+                                $product_new->vendor_id = Auth::guard('vendor')->id();
+                                $product_new->product_id = $product_master->parent_product_id;
+                                $product_new->min_cart_quantity = $request->min_cart_quantity;
+                                $product_new->max_cart_quantity = $request->max_cart_quantity;
+                                $product_new->maximum_retail_price = $request->maximum_retail_price;
+                                $product_new->retail_price = $request->retail_price;
+                                $product_new->save();
+                            }
                         }
                         /******************************************************************************* */
                         $product = new VendorProduct();
@@ -411,20 +572,20 @@ class VendorProductController extends Controller
                         $response = [
                             'status' => true,
                             'message' => [
-                                    'type' => 'success',
-                                    'title' => 'Added !',
-                                    'content' => 'Product added successfully.'
-                                ]
+                                'type' => 'success',
+                                'title' => 'Added !',
+                                'content' => 'Product added successfully.'
+                            ]
                         ];
                         return response()->json($response, 200, [], JSON_PRETTY_PRINT);
                     default:
                         $response = [
                             'status' => false,
                             'error' => [
-                                    'type' => 'error',
-                                    'title' => 'Error !',
-                                    'content' => 'Unknown action.'
-                                ]
+                                'type' => 'error',
+                                'title' => 'Error !',
+                                'content' => 'Unknown action.'
+                            ]
                         ];
                 }
                 return response()->json($response, 200, [], JSON_PRETTY_PRINT);
@@ -435,10 +596,10 @@ class VendorProductController extends Controller
                 $response = [
                     'status' => false,
                     'error' => [
-                            'type' => 'error',
-                            'title' => 'Error !',
-                            'content' => $e->getMessage()
-                        ]
+                        'type' => 'error',
+                        'title' => 'Error !',
+                        'content' => $e->getMessage()
+                    ]
                 ];
                 return response()->json($response, 200, [], JSON_PRETTY_PRINT);
             }
@@ -521,10 +682,10 @@ class VendorProductController extends Controller
                         $response = [
                             'status' => false,
                             'error' => [
-                                    'type' => 'error',
-                                    'title' => 'Error !',
-                                    'content' => 'Unknown action.'
-                                ]
+                                'type' => 'error',
+                                'title' => 'Error !',
+                                'content' => 'Unknown action.'
+                            ]
                         ];
                 }
                 return response()->json($response, 200, [], JSON_PRETTY_PRINT);
@@ -535,10 +696,10 @@ class VendorProductController extends Controller
                 $response = [
                     'status' => false,
                     'error' => [
-                            'type' => 'error',
-                            'title' => 'Error !',
-                            'content' => $e->getMessage()
-                        ]
+                        'type' => 'error',
+                        'title' => 'Error !',
+                        'content' => $e->getMessage()
+                    ]
                 ];
                 return response()->json($response, 200, [], JSON_PRETTY_PRINT);
             }
@@ -588,10 +749,10 @@ class VendorProductController extends Controller
                             $response = [
                                 'status' => false,
                                 'error' => [
-                                        'type' => 'error',
-                                        'title' => 'Validation Error !',
-                                        'content' => $validator->errors()->first()
-                                    ]
+                                    'type' => 'error',
+                                    'title' => 'Validation Error !',
+                                    'content' => $validator->errors()->first()
+                                ]
                             ];
                             return response()->json($response, 200, [], JSON_PRETTY_PRINT);
                         }
@@ -616,10 +777,10 @@ class VendorProductController extends Controller
                         $response = [
                             'status' => true,
                             'message' => [
-                                    'type' => 'success',
-                                    'title' => 'Request Sent !',
-                                    'content' => 'Product request send successfully.'
-                                ],
+                                'type' => 'success',
+                                'title' => 'Request Sent !',
+                                'content' => 'Product request send successfully.'
+                            ],
                             'redirect' => route('vendor.product.requests')
                         ];
                         //Session::flash('toast', $response['message']);
@@ -628,10 +789,10 @@ class VendorProductController extends Controller
                         $response = [
                             'status' => false,
                             'error' => [
-                                    'type' => 'error',
-                                    'title' => 'Error !',
-                                    'content' => 'Unknown action.'
-                                ]
+                                'type' => 'error',
+                                'title' => 'Error !',
+                                'content' => 'Unknown action.'
+                            ]
                         ];
                 }
                 return response()->json($response, 200, [], JSON_PRETTY_PRINT);
@@ -642,10 +803,10 @@ class VendorProductController extends Controller
                 $response = [
                     'status' => false,
                     'error' => [
-                            'type' => 'error',
-                            'title' => 'Error !',
-                            'content' => $e->getMessage()
-                        ]
+                        'type' => 'error',
+                        'title' => 'Error !',
+                        'content' => $e->getMessage()
+                    ]
                 ];
                 return response()->json($response, 200, [], JSON_PRETTY_PRINT);
             }

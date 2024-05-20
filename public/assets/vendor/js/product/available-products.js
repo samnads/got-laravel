@@ -160,3 +160,80 @@ $('[data-action="dt-refresh"]').click(function () {
 $('select[name="filter_category_id"],select[name="filter_brand_id"]').change(function () {
     my_products_datatable.draw();
 });
+function format(callback, data) {
+    // `d` is the original data object for the row
+    $.ajax({
+        type: 'GET',
+        url: _url,
+        dataType: 'json',
+        data: {
+            action: 'variants',
+            id: data.id
+        },
+        success: function (response) {
+            let rows_html = ``;
+            if (response.status == true) {
+                $.each(response.data, function (index, row) {
+                    rows_html += `<tr>
+                                    <th scope="row">${index + 1}</th>
+                                    <td>${row.thumbnail_image_html}</td>
+                                    <td>${row.code}</td>
+                                    <td>${row.variant_option_name}</td>
+                                    <td>${row.item_size}</td>
+                                    <td>${row.maximum_retail_price}</td>
+                                     <td>${row.status_html}</td>
+                                    <td>${row.actions_html}</td>
+                                </tr>`;
+                });
+                rows_html = rows_html || `<tr>
+                                <td colspan="8" class="text-danger text-center">There is no variants currently available !</td>
+                            </tr>`;
+                callback($(`<table class="table table-sm align-middle table-bordered mb-0">
+                        <thead>
+                            <tr>
+                            <th scope="col">Sl. No.</th>
+                            <th scope="col">Thumbnail</th>
+                            <th scope="col">SKU</th>
+                            <th scope="col">Variant</th>
+                            <th scope="col">SIze</th>
+                            <th scope="col">MRP.</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${rows_html}
+                        </tbody>
+                    </table>`), ['table-secondary', 'p-1']).show();
+                productAddListener();
+            } else {
+                toastStatusFalse(response);
+            }
+        },
+        error: function (response) {
+            ajaxError(response);
+        },
+    });
+}
+my_products_datatable.on('click', 'td [data-action="show-variants"]', function (e) {
+    var tr = $(this).closest('tr');
+    let row = my_products_datatable.row(tr);
+    if (row.child.isShown()) {
+        // This row is already open - close it
+        $(tr).removeClass('table-secondary');
+        row.child.hide();
+    }
+    else {
+        // Open this row
+        my_products_datatable.rows().every(function (rowIdx, tableLoop, rowLoop) {
+            if (this.child.isShown()) {
+                $(this.node()).removeClass('table-secondary');
+                this.child.hide();
+                $(this.node()).removeClass('shown');
+            }
+        });
+        $(tr).addClass('table-secondary');
+        //row.child(format(row.data()), ['table-info', 'p-3']).show();
+        format(row.child, row.data());
+    }
+});
