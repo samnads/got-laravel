@@ -1,0 +1,1 @@
+<title>{{$order->order_reference}}</title>

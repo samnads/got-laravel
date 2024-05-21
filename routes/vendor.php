@@ -36,6 +36,7 @@ Route::prefix('')->name('vendor.')->group(function () {
             Route::any('/', [VendorOrderController::class, 'index']);
             Route::get('/list', [VendorOrderController::class, 'orders_list'])->name('list');
             Route::get('/filter/{status_code}', [VendorOrderController::class, 'orders_list_by_status_code'])->name('orders_list_by_status_code');
+            Route::get('/pdf/{order_id}', [VendorOrderController::class, 'order_pdf_view']);
         });
         Route::prefix('masters')->name('masters.')->group(function () {
             Route::prefix('delivery-persons')->name('delivery-persons.')->group(function () {

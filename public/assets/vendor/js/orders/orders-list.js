@@ -97,6 +97,7 @@ let datatable = new DataTable('#my-products', {
         $('[data-bs-toggle="tooltip"]').tooltip({ trigger: 'hover' });
         createOrderStatusEditListeneer();
         createOrderDetailsListeneer();
+        createPrintOrderListener();
     },
 });
 $('select[name="filter_order_status_id"]').change(function () {
@@ -105,6 +106,12 @@ $('select[name="filter_order_status_id"]').change(function () {
 $('[data-action="dt-refresh"]').click(function () {
     datatable.draw();
 });
+function createPrintOrderListener() {
+    $('[data-action="print-invoice"]').click(function () {
+        let id = this.getAttribute('data-id');
+        window.open(_base_url + 'orders/pdf/' + id, '_blank');
+    });
+}
 function createOrderDetailsListeneer() {
     $('[data-action="order-details"]').click(function () {
         let id = this.getAttribute('data-id');
