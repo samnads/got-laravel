@@ -43,6 +43,7 @@
                             <th>State</th>
                             <th>District</th>
                             <th>Location</th>
+                            <th>Service Charge</th>
                             <th>Map</th>
                             <th>Status</th>
                             <th>Actions</th>
@@ -59,6 +60,7 @@
                             <th>State</th>
                             <th>District</th>
                             <th>Location</th>
+                            <th>Service Charge</th>
                             <th>Map</th>
                             <th>Status</th>
                             <th>Actions</th>

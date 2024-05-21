@@ -31,11 +31,13 @@ let datatable = new DataTable('#my-products', {
     columns: [
         { data: 'slno', name: 'slno' },
         { data: 'order_reference', name: 'order_reference' },
+        { data: 'order_date_time', name: 'order_date_time' },
         { data: 'vendor', name: 'vendor' },
         { data: 'customer_name', name: 'customer_name' },
         { data: 'customer_mobile_number_1', name: 'customer_mobile_number_1' },
         { data: 'payment_mode', name: 'payment_mode' },
         { data: 'payment_status', name: 'payment_status' },
+        { data: 'got_commission', name: 'got_commission' },
         { data: 'total_payable', name: 'total_payable' },
         { data: 'order_status_progess', name: 'order_status_progess' },
         { data: 'order_status', name: 'order_status' },
@@ -109,7 +111,9 @@ function createOrderDetailsListeneer() {
                     $('.c-mobile', order_details).html(data.customer.mobile_number_1);
                     $('.c-address', order_details).html(data.delivery_address.address);
                     $('.o-ref', order_details).html(data.order.order_reference);
+                    $('.o-order_date_time', order_details).html(data.order.order_date_time);
                     $('.o-status', order_details).html(data.order_status.labelled);
+                    $('.o-service_charge', order_details).html(data.order.got_commission);
                     $('.o-total_payable', order_details).html(data.order.total_payable);
                     let product_rows = '';
                     $.each(data.order_products, function (index, product) {

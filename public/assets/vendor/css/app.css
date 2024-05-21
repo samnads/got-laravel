@@ -5395,3 +5395,7 @@ label>rf::after {
 	line-height: 0;
 	vertical-align: middle;
 }
+
+div[role="option"][aria-disabled="true"]{
+	cursor:not-allowed !important;
+}

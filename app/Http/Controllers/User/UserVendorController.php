@@ -31,6 +31,8 @@ class UserVendorController extends Controller
                             'vendors.gst_number',
                             'vendors.latitude',
                             'vendors.longitude',
+                            'vendors.got_commission_per_order',
+                            'vendors.got_commission_type',
                             'vendors.deleted_at',
                             'l.name as location',
                             'd.name as district',
@@ -215,6 +217,7 @@ class UserVendorController extends Controller
                     $row->email = $request->email;
                     $row->address = $request->address;
                     $row->username = $request->username;
+                    $row->got_commission_per_order = $request->got_commission_per_order;
                     if($request->password){
                         $row->password = $request->password;
                     }

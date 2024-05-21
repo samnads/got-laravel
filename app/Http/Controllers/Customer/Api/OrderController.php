@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Customer\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\CustomerAddress;
+use App\Models\Vendor;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Config;
@@ -116,6 +117,7 @@ class OrderController extends Controller
         }
         /***************************************************************************************************** */
         DB::beginTransaction();
+        $vendor = Vendor::findOrFail($request->vendor_id);
         // save order
         $order = new Order();
         $order->customer_id = $input['id'];
@@ -138,6 +140,11 @@ class OrderController extends Controller
             $order->total_payable += $order_product->total_price;
             $order_product->save();
         }
+        $order->order_total = $order->total_payable;
+        $order->got_commission_per_order = $vendor->got_commission_per_order;
+        $order->got_commission_type = $vendor->got_commission_type;
+        $order->got_commission = $order->got_commission_per_order;
+        $order->total_payable = $order->order_total + $order->got_commission;
         $order->save();
         // reset ordered cart data
         $vendor_product_cart_ids = array_column($products, 'cart_id');
@@ -170,7 +177,7 @@ class OrderController extends Controller
                     "order_reference" => $order->order_reference,
                 ],
                 'amount' => [
-                    "got_commission" => 0,
+                    "got_commission" => $order->got_commission,
                     "total_payable" => $order->total_payable,
                 ],
                 'products' => $products,

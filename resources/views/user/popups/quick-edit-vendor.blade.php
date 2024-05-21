@@ -80,6 +80,12 @@
                                 <input type="text" class="form-control" id="gfsgdxa" name="password" autocomplete="off" onfocus="this.removeAttribute('readonly');" onblur="this.setAttribute('readonly', true);" />
                             </div>
                         </div>
+                        <div class="col-md-4">
+                            <label for="gsf" class="form-label">GOT Commission / Service Charge</label>
+                            <div class="position-relative">
+                                <input type="number" step="any" class="form-control no-arrow" id="gsf" name="got_commission_per_order" autocomplete="off"/>
+                            </div>
+                        </div>
                     </div>
                     <div class="row g-3 mt-2">
                         <div class="col-md-4">

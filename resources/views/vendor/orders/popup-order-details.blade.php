@@ -42,6 +42,9 @@
                                     <li class="list-group-item">Order Ref.&emsp;&emsp;&emsp;&nbsp;&nbsp;:&emsp;&emsp;<span
                                             class="o-ref"></span>
                                     </li>
+                                    <li class="list-group-item">Date & Time&emsp;&emsp;&nbsp;&nbsp;:&emsp;&emsp;<span
+                                            class="o-order_date_time"></span>
+                                    </li>
                                     <li class="list-group-item">
                                         Status&emsp;&emsp;&emsp;&nbsp;&nbsp;&nbsp;&emsp;&ensp;:&emsp;&emsp;<span class="o-status"></span></li>
                                     <li class="list-group-item">

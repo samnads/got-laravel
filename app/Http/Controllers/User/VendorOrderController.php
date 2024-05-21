@@ -35,12 +35,14 @@ class VendorOrderController extends Controller
                             'c.mobile_number_1 as customer_mobile_number_1',
                             'orders.vendor_id',
                             'orders.address_id',
+                            'orders.got_commission',
                             'orders.total_payable',
                             DB::raw('"Pending" as order_status'),
                             DB::raw('"Cash" as payment_mode'),
                             DB::raw('"Pending" as payment_status'),
                             //
                             'orders.order_status_id',
+                            DB::raw('DATE_FORMAT(orders.created_at, "%d/%m/%Y %h:%i %p") as order_date_time'),
                             'os.labelled as os_labelled',
                             'os.bg_color as os_bg_color',
                             'os.text_color as os_text_color',
@@ -108,7 +110,7 @@ class VendorOrderController extends Controller
                         ];
                         return response()->json($response ?: [], 200, [], JSON_PRETTY_PRINT);
                     case 'order-details':
-                        $order = Order::findOrFail($request->id);
+                        $order = Order::select('orders.*', DB::raw('DATE_FORMAT(orders.created_at, "%d/%m/%Y %h:%i %p") as order_date_time'))->findOrFail($request->id);
                         $order_status = OrderStatus::findOrFail($order->order_status_id);
                         $customer = Customer::find($order->customer_id);
                         $delivery_address = OrderCustomerAddress::where('order_id', $request->id)->first();

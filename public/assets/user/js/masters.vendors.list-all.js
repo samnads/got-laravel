@@ -35,6 +35,11 @@ let datatable = new DataTable('#datatable', {
         { data: 'state', name: 'state' },
         { data: 'district', name: 'district' },
         { data: 'location', name: 'location' },
+        {
+            data: 'got_commission_per_order', name: 'got_commission_per_order', "render": function (data, type, row, meta) {
+                return data;
+            },
+        },
         { data: 'google_map_link_html', name: 'google_map_link_html' },
         { data: 'status_html', name: 'status_html' },
         { data: 'actions_html', name: 'actions_html' },
@@ -68,7 +73,7 @@ let datatable = new DataTable('#datatable', {
             sortable: false,
             type: 'html',
             width: 1,
-            className:'text-center'
+            className: 'text-center'
         },
     ],
     drawCallback: function (settings) {
@@ -107,6 +112,7 @@ function rowEditListener() {
                     $('[name="email"]', quick_edit_vendor_form).val(response.data.vendor.email);
                     $('[name="address"]', quick_edit_vendor_form).val(response.data.vendor.address);
                     $('[name="username"]', quick_edit_vendor_form).val(response.data.vendor.username);
+                    $('[name="got_commission_per_order"]', quick_edit_vendor_form).val(response.data.vendor.got_commission_per_order);
                     if (response.data.vendor.location) {
                         state_id_select.setValue([response.data.vendor.state.state_id]);
                         district_id_select.addOption({

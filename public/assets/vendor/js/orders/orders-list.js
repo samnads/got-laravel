@@ -7,13 +7,17 @@ let order_details_modal = new bootstrap.Modal(document.querySelector('.modal.ord
     keyboard: true
 });
 let order_status_change_form = $('form[id="order-status-change"]');
-let order_status_change_select = new TomSelect('select[name="order_status_id"]', {
-    create: false,
-    allowEmptyOption: true,
-    onChange: function (values) {
+order_status_change_select = null;
+function order_status_change_select_init(){
+    order_status_change_select = new TomSelect('select[name="order_status_id"]', {
+        create: false,
+        allowEmptyOption: true,
+        onChange: function (values) {
 
-    }
-});
+        }
+    });
+}
+order_status_change_select_init();
 let datatable = new DataTable('#my-products', {
     processing: true,
     serverSide: true,
@@ -42,10 +46,12 @@ let datatable = new DataTable('#my-products', {
     columns: [
         { data: 'slno', name: 'slno' },
         { data: 'order_reference', name: 'order_reference' },
+        { data: 'order_date_time', name: 'order_date_time' },
         { data: 'customer_name', name: 'customer_name' },
         { data: 'customer_mobile_number_1', name: 'customer_mobile_number_1' },
         { data: 'payment_mode', name: 'payment_mode' },
         { data: 'payment_status', name: 'payment_status' },
+        { data: 'got_commission', name: 'got_commission' },
         { data: 'total_payable', name: 'total_payable' },
         { data: 'order_status_progess', name: 'order_status_progess' },
         { data: 'order_status', name: 'order_status' },
@@ -119,6 +125,7 @@ function createOrderDetailsListeneer() {
                     $('.c-mobile', order_details).html(data.customer.mobile_number_1);
                     $('.c-address', order_details).html(data.delivery_address.address);
                     $('.o-ref', order_details).html(data.order.order_reference);
+                    $('.o-order_date_time', order_details).html(data.order.order_date_time);
                     $('.o-status', order_details).html(data.order_status.labelled);
                     $('.o-service_charge', order_details).html(data.order.got_commission);
                     $('.o-total_payable', order_details).html(data.order.total_payable);
@@ -165,11 +172,43 @@ function createOrderStatusEditListeneer() {
             },
             success: function (response) {
                 if (response.status == true) {
+                    order_status_change_form_validator.resetForm();
                     order_status_change_form.trigger("reset");
-                    order_status_change_select.clear();
+                    order_status_change_select.destroy();
                     $('[name="id"]', order_status_change_form).val(id);
                     $('[name="order_reference"]', order_status_change_form).val(response.data.order.order_reference);
+                    /**
+                     * Show options based on current status
+                     */
+                    $('select[name="order_status_id"] option', order_status_change_form).attr("disabled", false); // Reset
+                    if (response.data.order.order_status_id == 1){
+                        // Pending
+                        $('select[name="order_status_id"] option[value="1"]', order_status_change_form).attr("disabled", true);
+                        $('select[name="order_status_id"] option[value="4"]', order_status_change_form).attr("disabled", true); // Delay
+                        $('select[name="order_status_id"] option[value="5"]', order_status_change_form).attr("disabled", true); // Complete
+                    }
+                    else if (response.data.order.order_status_id == 2) {
+                        // Accepted
+                        $('select[name="order_status_id"] option[value="2"]', order_status_change_form).attr("disabled", true);
+                        $('select[name="order_status_id"] option[value="1"]', order_status_change_form).attr("disabled", true); // Pending
+                        $('select[name="order_status_id"] option[value="3"]', order_status_change_form).attr("disabled", true); // Rejected
+                    }
+                    else if (response.data.order.order_status_id == 3) {
+                        // Rejected
+                        $('select[name="order_status_id"] option', order_status_change_form).attr("disabled", true);
+                    }
+                    else if (response.data.order.order_status_id == 4) {
+                        // Delayed
+                        $('select[name="order_status_id"] option', order_status_change_form).attr("disabled", true);
+                        $('select[name="order_status_id"] option[value="5"]', order_status_change_form).attr("disabled", false); // Complete
+                    }
+                    else if (response.data.order.order_status_id == 5) {
+                        // Completed
+                        $('select[name="order_status_id"] option', order_status_change_form).attr("disabled", true);
+                    }
+                    order_status_change_select_init();
                     order_status_change_select.setValue([response.data.order.order_status_id]);
+                    //order_status_change_select.clear();
                     order_status_change_modal.show();
                 } else {
                     toastStatusFalse(response);

@@ -39,11 +39,13 @@
                         <tr>
                             <th>Sl. No.</th>
                             <th>Order Ref.</th>
+                             <th>Date & Time</th>
                             <th>Vendor</th>
                             <th>Customer</th>
                             <th>Mobile</th>
                             <th>Payment Mode</th>
                             <th>Payment Status</th>
+                            <th>Service Charge</th>
                             <th>Order Amount</th>
                             <th>Progress</th>
                             <th>Order Status</th>
@@ -56,11 +58,13 @@
                         <tr>
                             <th>Sl. No.</th>
                             <th>Order Ref.</th>
+                            <th>Date & Time</th>
                             <th>Vendor</th>
                             <th>Customer</th>
                             <th>Mobile</th>
                             <th>Payment Mode</th>
                             <th>Payment Status</th>
+                            <th>Service Charge</th>
                             <th>Order Amount</th>
                             <th>Progress</th>
                             <th>Order Status</th>

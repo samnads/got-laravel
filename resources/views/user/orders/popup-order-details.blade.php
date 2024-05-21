@@ -39,13 +39,21 @@
                             </div>
                             <div class="card-body p-0">
                                 <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">Order Ref.&emsp;&emsp;:&emsp;&emsp;<span
-                                            class="o-ref"></span>
+                                    <li class="list-group-item">Order
+                                        Ref.&emsp;&emsp;&emsp;&nbsp;&nbsp;:&emsp;&emsp;<span class="o-ref"></span>
+                                    </li>
+                                    <li class="list-group-item">Date & Time&emsp;&emsp;&nbsp;&nbsp;:&emsp;&emsp;<span
+                                            class="o-order_date_time"></span>
                                     </li>
                                     <li class="list-group-item">
-                                        Status&emsp;&emsp;&emsp;&ensp;:&emsp;&emsp;<span class="o-status"></span></li>
+                                        Status&emsp;&emsp;&emsp;&nbsp;&nbsp;&nbsp;&emsp;&ensp;:&emsp;&emsp;<span
+                                            class="o-status"></span></li>
                                     <li class="list-group-item">
-                                        Total Payable :&emsp;&emsp;<span class="o-total_payable fw-bold"></span></li>
+                                        Service Charge&emsp;&nbsp;:&emsp;&emsp;<span
+                                            class="o-service_charge fw-bold"></span></li>
+                                    <li class="list-group-item">
+                                        Total Payable&emsp;&emsp;:&emsp;&emsp;<span
+                                            class="o-total_payable fw-bold"></span></li>
                                 </ul>
                             </div>
                         </div>
