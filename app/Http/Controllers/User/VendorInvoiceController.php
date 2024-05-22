@@ -66,7 +66,7 @@ class VendorInvoiceController extends Controller
                         foreach ($data_table['data'] as $key => $row) {
                             $data_table['data'][$key]['invoice_status'] = '<div class="d-flex justify-content-between"><div class="flex-fill"><span class="badge shadow-sm w-100 ' . $row['is_css_class'] . '">' . $row['is_label'] . '</span></div><div class=""></div></div>';
                             $data_table['data'][$key]['actions_html'] = '<div class="btn-group btn-group-sm" role="group" aria-label="First group">
-                            <button data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Details" data-action="order-details" data-id="' . $row['id'] . '" type="button" class="btn btn-sm btn-primary text-light"><i class="bx bx-info-circle"></i></button>
+                            <button data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Change Status" data-action="change-invoice-status" data-id="' . $row['id'] . '" type="button" class="btn btn-sm btn-primary text-light"><i class="bx bx-info-circle"></i></button>
 										</div>';
                         }
                         return response()->json($data_table, 200, [], JSON_PRETTY_PRINT);
@@ -148,7 +148,7 @@ class VendorInvoiceController extends Controller
             $vendor_invoice->for_month = $request->for_month;
             $vendor_invoice->due_date = $request->due_date;
             $vendor_invoice->total_payable = 0;
-            $vendor_invoice->invoice_status_id = 1; // 1 - Draft
+            $vendor_invoice->invoice_status_id = 2; // 1 - Draft
             $vendor_invoice->invoice_date = now();
             $vendor_invoice->save();
             // Line items add

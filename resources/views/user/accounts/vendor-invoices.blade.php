@@ -73,6 +73,7 @@
         </div>
     </div>
     @include('user.accounts.popup-new-invoice')
+    @include('user.accounts.popup-invoice-status-change')
 @endsection
 @push('link-styles')
     <!-- Pushed Link Styles -->

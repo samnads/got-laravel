@@ -56,6 +56,7 @@ let datatable = new DataTable('#my-products', {
             targets: 'actions_html:name',
             type: 'html',
             sortable: false,
+            visible:false,
             width: 1
         }
     ],
