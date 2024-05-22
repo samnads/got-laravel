@@ -224,13 +224,16 @@ new_invoice_form_validator = new_invoice_form.validate({
         let submit_btn = $('button[type="submit"]', form);
         submit_btn.prop("disabled", true);
         $.ajax({
-            type: 'PUT',
-            url: _base_url + 'orders',
+            type: 'POST',
+            url: _url,
             dataType: 'json',
+            headers: {
+                'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+            },
             data: order_status_change_form.serialize(),
             success: function (response) {
                 if (response.status == true) {
-                    order_status_change_modal.hide();
+                    new_invoice_modal.hide();
                     Swal.fire({
                         title: response.message.title,
                         text: response.message.content,
@@ -252,9 +255,10 @@ new_invoice_form_validator = new_invoice_form.validate({
     }
 });
 $('[data-action="new-invoice"]').click(function () {
-    vendor_id_select.load('');
     let submit_btn = $('button[type="submit"]', new_invoice_form);
     submit_btn.prop("disabled", true);
+    new_invoice_form_validator.resetForm();
+    new_invoice_form.trigger('reset');
     new_invoice_modal.show();
 });
 let invoice_for_month = $('#new-invoice-form [name="for_month"]').flatpickr({
@@ -307,8 +311,10 @@ let vendor_id_select = new TomSelect('.new-invoice [name="vendor_id"]', {
         getLineItemsForInvoice()
     },
 });
+vendor_id_select.load('');
 function getLineItemsForInvoice() {
-    console.log($('[name="for_month"]', new_invoice_form).val());
+    let submit_btn = $('button[type="submit"]', new_invoice_form);
+    submit_btn.prop("disabled", true);
     if ($('[name="for_month"]', new_invoice_form).val() && vendor_id_select.getValue()) {
         $.ajax({
             type: 'GET',
@@ -316,18 +322,34 @@ function getLineItemsForInvoice() {
             dataType: 'json',
             data: {
                 action: "get-orders-by-month-for-invoice",
+                vendor_id: vendor_id_select.getValue(),
                 for_month: $('[name="for_month"]', new_invoice_form).val()
             },
             success: function (response) {
                 if (response.status == true) {
+                    let rows = '';
+                    let got_commission = 0;
+                    $.each(response.data.orders, function (index, order) {
+                        rows += `<tr>
+                        <th scope="row">${index + 1}</th>
+                        <td>${order.order_reference}</td>
+                        <td>${order.os_labelled}</td>
+                        <td>${order.order_date}</td>
+                        <td>${order.got_commission}</td>
+                        </tr>`;
+                        got_commission += parseFloat(order.got_commission);
+                        submit_btn.prop("disabled", false);
+                    });
+                    $('[name="total_payable"]', new_invoice_form).val(got_commission)
+                    $('table#invoice-line-orders > tbody').html(rows);
                 } else {
                     toastStatusFalse(response);
+                    submit_btn.prop("disabled", true);
                 }
-                submit_btn.prop("disabled", false);
             },
             error: function (response) {
                 ajaxError(response);
-                submit_btn.prop("disabled", false);
+                submit_btn.prop("disabled", true);
             },
         });
     }

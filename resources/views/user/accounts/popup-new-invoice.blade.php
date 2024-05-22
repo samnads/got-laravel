@@ -1,6 +1,6 @@
 <!-- Modal -->
 <div class="modal fade new-invoice" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">New Invoice</h5>
@@ -44,7 +44,7 @@
                                 </label>
                                 <div class="position-relative">
                                     <input type="text" class="form-control" id="gsay" name="total_payable"
-                                        placeholder="Due date"/>
+                                        placeholder="0.00" readonly/>
                                 </div>
                             </div>
                         </div>
@@ -54,16 +54,17 @@
                                     <b>Orders</b>
                                 </div>
                                 <div class="card-body p-0">
-                                    <table class="table table-striped table-hover mb-0" id="ordered-products">
+                                    <table class="table table-striped table-hover mb-0" id="invoice-line-orders">
                                         <thead>
                                             <tr>
+                                                <th scope="col">Sl. No.</th>
                                                 <th scope="col">Order Ref</th>
                                                 <th scope="col">Status</th>
                                                 <th scope="col">Date</th>
                                                 <th scope="col">Service Charge</th>
                                             </tr>
                                         </thead>
-                                        <tbody class="order-rows">
+                                        <tbody>
                                         </tbody>
                                     </table>
                                 </div>

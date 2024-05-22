@@ -4,7 +4,10 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\InvoiceStatus;
+use App\Models\Order;
+use App\Models\Vendor;
 use App\Models\VendorInvoice;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use DB;
 
@@ -60,12 +63,51 @@ class VendorInvoiceController extends Controller
                         $data_table['recordsFiltered'] = $rows->count();
                         $data_table['data'] = $rows->offset($request->start)->limit($request->length)->get()->toArray();
                         foreach ($data_table['data'] as $key => $row) {
-                            $data_table['data'][$key]['invoice_status'] = '<div class="d-flex justify-content-between"><div class="flex-fill"><span class="badge shadow-sm w-100 ' . $row['is_css_class'] . '">' . $row['is_label'] .'</span></div><div class=""></div></div>';
+                            $data_table['data'][$key]['invoice_status'] = '<div class="d-flex justify-content-between"><div class="flex-fill"><span class="badge shadow-sm w-100 ' . $row['is_css_class'] . '">' . $row['is_label'] . '</span></div><div class=""></div></div>';
                             $data_table['data'][$key]['actions_html'] = '<div class="btn-group btn-group-sm" role="group" aria-label="First group">
                             <button data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Details" data-action="order-details" data-id="' . $row['id'] . '" type="button" class="btn btn-sm btn-primary text-light"><i class="bx bx-info-circle"></i></button>
 										</div>';
                         }
                         return response()->json($data_table, 200, [], JSON_PRETTY_PRINT);
+                    case 'get-orders-by-month-for-invoice':
+                        $vendor = Vendor::findOrFail($request->vendor_id);
+                        $month_start = Carbon::parse($request->for_month)->startOfMonth()->format('Y-m-d');
+                        $month_end = Carbon::parse($request->for_month)->endOfMonth()->format('Y-m-d');
+                        $orders = Order::
+                            select(
+                                'orders.id',
+                                'orders.order_reference',
+                                'orders.order_status_id',
+                                'orders.got_commission',
+                                DB::raw('DATE_FORMAT(orders.created_at, "%d/%m/%Y") as order_date'),
+                                'os.labelled as os_labelled'
+                            )
+                            ->leftJoin('order_statuses as os', function ($join) {
+                                $join->on('orders.order_status_id', '=', 'os.id');
+                            })
+                            ->where(
+                                [
+                                    ['vendor_id', '=', $request->vendor_id],
+                                    ['order_status_id', '=', 5] // 5 - Completed
+                                ]
+                            )
+                            ->whereBetween('orders.created_at', [$month_start, $month_end])
+                            ->get();
+                        $response = [
+                            'status' => true,
+                            'message' => [
+                                'type' => 'success',
+                                'title' => 'Fetched !',
+                                'content' => 'Orders fetched successfully.'
+                            ],
+                            'data' => [
+                                'vendor' => $vendor,
+                                'orders' => $orders,
+                                'month_start' => Carbon::parse($request->for_month)->startOfMonth()->format('Y-m-d'),
+                                'month_end' => Carbon::parse($request->for_month)->endOfMonth()->format('Y-m-d')
+                            ]
+                        ];
+                        return response()->json($response, 200, [], JSON_PRETTY_PRINT);
                     default:
                         $response = [
                             'status' => false,
@@ -94,6 +136,36 @@ class VendorInvoiceController extends Controller
         }
         $data['invoice_statuses'] = InvoiceStatus::get();
         return view('user.accounts.vendor-invoices', $data);
+    }
+    public function create_invoice(Request $request)
+    {
+        try {
+            DB::beginTransaction();
+            DB::commit();
+            $response = [
+                'status' => true,
+                'message' => [
+                    'type' => 'success',
+                    'title' => 'Invoice Created !',
+                    'content' => 'Invoice created successfully.'
+                ],
+                'data' => []
+            ];
+            return response()->json(@$response ?: [], 200, [], JSON_PRETTY_PRINT);
+        } catch (\Exception $e) {
+            if (DB::transactionLevel() > 0) {
+                DB::rollback();
+            }
+            $response = [
+                'status' => false,
+                'error' => [
+                    'type' => 'error',
+                    'title' => 'Error !',
+                    'content' => $e->getMessage()
+                ]
+            ];
+            return response()->json($response, 200, [], JSON_PRETTY_PRINT);
+        }
     }
 
 }

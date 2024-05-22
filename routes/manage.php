@@ -97,6 +97,7 @@ Route::prefix('')->name('user.')->group(function () {
         });
         Route::prefix('accounts')->name('accounts.')->group(function () {
             Route::get('invoices', [VendorInvoiceController::class, 'invoices'])->name('invoices');
+            Route::post('invoices', [VendorInvoiceController::class, 'create_invoice']);
             Route::get('payments', [VendorPaymentController::class, 'payments'])->name('payments');
         });
     });
