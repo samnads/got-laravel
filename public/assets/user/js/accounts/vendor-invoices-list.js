@@ -1,7 +1,8 @@
-let order_details_modal = new bootstrap.Modal(document.querySelector('.modal.order-details'), {
+let new_invoice_modal = new bootstrap.Modal(document.querySelector('.modal.new-invoice'), {
     backdrop: 'static',
     keyboard: true
 });
+
 let order_status_change_form = $('form[id="order-status-change"]');
 let datatable = new DataTable('#my-products', {
     processing: true,
@@ -199,3 +200,138 @@ order_status_change_form_validator = order_status_change_form.validate({
         });
     }
 });
+/******************************************************************************** */
+let new_invoice_form = $('#new-invoice-form');
+new_invoice_form_validator = new_invoice_form.validate({
+    focusInvalid: false,
+    ignore: [],
+    rules: {
+        "vendor_id": {
+            required: true,
+        },
+        "for_month": {
+            required: true,
+        },
+        "due_date": {
+            required: true,
+        }
+    },
+    messages: {},
+    errorPlacement: function (error, element) {
+        error.insertAfter(element.parent());
+    },
+    submitHandler: function (form) {
+        let submit_btn = $('button[type="submit"]', form);
+        submit_btn.prop("disabled", true);
+        $.ajax({
+            type: 'PUT',
+            url: _base_url + 'orders',
+            dataType: 'json',
+            data: order_status_change_form.serialize(),
+            success: function (response) {
+                if (response.status == true) {
+                    order_status_change_modal.hide();
+                    Swal.fire({
+                        title: response.message.title,
+                        text: response.message.content,
+                        icon: "success",
+                        didOpen: () => Swal.getConfirmButton().blur()
+                    });
+                } else {
+                    toastStatusFalse(response);
+                }
+                submit_btn.prop("disabled", false);
+                datatable.ajax.reload(null, false);
+            },
+            error: function (response) {
+                ajaxError(response);
+                submit_btn.prop("disabled", false);
+                datatable.ajax.reload(null, false);
+            },
+        });
+    }
+});
+$('[data-action="new-invoice"]').click(function () {
+    vendor_id_select.load('');
+    let submit_btn = $('button[type="submit"]', new_invoice_form);
+    submit_btn.prop("disabled", true);
+    new_invoice_modal.show();
+});
+let invoice_for_month = $('#new-invoice-form [name="for_month"]').flatpickr({
+    plugins: [
+        new monthSelectPlugin({
+            shorthand: true, //defaults to false
+            dateFormat: "Y-m-d", //defaults to "F Y"
+
+            theme: "dark" // defaults to "light"
+        })
+    ],
+    onChange: function (selectedDates, dateStr, instance) {
+        getLineItemsForInvoice()
+    },
+});
+let invoice_due_date = $('[name="due_date"]', new_invoice_form).flatpickr({});
+let vendor_id_select = new TomSelect('.new-invoice [name="vendor_id"]', {
+    valueField: 'value',
+    labelField: 'label',
+    searchField: ['label'],
+    create: false,
+    maxItems: 1,
+    load: function (query, callback) {
+        var url = _base_url + 'dropdown/vendors/new-invoice?' + new URLSearchParams({
+            query: encodeURIComponent(query),
+        })
+        fetch(url)
+            .then(response => response.json())
+            .then(json => {
+                callback(json.items);
+            }).catch(() => {
+                callback();
+            });
+    },
+    render: {
+        option: function (item, escape) {
+            return `<div class="py-2 d-flex">${escape(item.label)}</div>`;
+        },
+        no_results: function (data, escape) {
+            return '<div class="no-results">No vendors found for "' + escape(data.input) + '"</div>';
+        },
+        item: function (item, escape) {
+            return `<div>${escape(item.label)}</div>`;
+        }
+    },
+    onItemRemove: function (values) {
+        getLineItemsForInvoice()
+    },
+    onItemAdd: function (values) {
+        getLineItemsForInvoice()
+    },
+});
+function getLineItemsForInvoice() {
+    console.log($('[name="for_month"]', new_invoice_form).val());
+    if ($('[name="for_month"]', new_invoice_form).val() && vendor_id_select.getValue()) {
+        $.ajax({
+            type: 'GET',
+            url: _url,
+            dataType: 'json',
+            data: {
+                action: "get-orders-by-month-for-invoice",
+                for_month: $('[name="for_month"]', new_invoice_form).val()
+            },
+            success: function (response) {
+                if (response.status == true) {
+                } else {
+                    toastStatusFalse(response);
+                }
+                submit_btn.prop("disabled", false);
+            },
+            error: function (response) {
+                ajaxError(response);
+                submit_btn.prop("disabled", false);
+            },
+        });
+    }
+    else {
+
+    }
+}

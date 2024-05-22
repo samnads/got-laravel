@@ -72,13 +72,16 @@
             </div>
         </div>
     </div>
-    @include('user.orders.popup-order-details')
+    @include('user.accounts.popup-new-invoice')
 @endsection
 @push('link-styles')
     <!-- Pushed Link Styles -->
     <link href="https://cdn.datatables.net/2.0.5/css/dataTables.bootstrap5.css" rel="stylesheet">
     <link href="{{ asset('assets/vendor/plugins/tom-select/tom-select.min.css?v=') . config('version.user_assets') }}"
         rel="stylesheet">
+    <link href="{{ asset('assets/user/css/flatpickr.min.css?v=') . config('version.user_assets') }}"
+        rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/monthSelect/style.css">
 @endpush
 @push('inline-styles')
     <!-- Pushed Inline Styles -->
@@ -89,7 +92,11 @@
     <script src="https://cdn.datatables.net/2.0.5/js/dataTables.bootstrap5.js"></script>
     <script src="{{ asset('assets/vendor/plugins/tom-select/tom-select.complete.js?v=') . config('version.user_assets') }}">
     </script>
+    <script src="{{ asset('assets/user/js/flatpickr.js?v=') . config('version.user_assets') }}">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/monthSelect/index.js"></script>
     <script src="{{ asset('assets/user/js/accounts/vendor-invoices-list.js?v=') . config('version.user_assets') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment.min.js"></script>
 @endpush
 @push('inline-scripts')
     <!-- Pushed Inline Scripts -->

@@ -86,6 +86,7 @@ Route::prefix('')->name('user.')->group(function () {
             Route::get('districts/{usage}', [UserDropdownController::class, 'districts']);
             Route::get('locations/{usage}', [UserDropdownController::class, 'locations']);
             Route::get('categories/{usage}', [UserDropdownController::class, 'categories']);
+            Route::get('vendors/{usage}', [UserDropdownController::class, 'vendors']);
         });
         Route::prefix('profile')->name('profile.')->group(function () {
             Route::any('/', [UserProfileController::class, 'index'])->name('index');

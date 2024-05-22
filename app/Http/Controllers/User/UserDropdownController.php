@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\District;
 use App\Models\Location;
 use App\Models\ProductCategories;
+use App\Models\Vendor;
 use Illuminate\Http\Request;
 
 class UserDropdownController extends Controller
@@ -87,6 +88,34 @@ class UserDropdownController extends Controller
                         'product_categories.name',
                     ], 'LIKE', "%" . $query_string . "%")
                     ->take(30)
+                    ->get();
+                $response = [
+                    'status' => true,
+                    'items' => $items
+                ];
+                break;
+            default:
+                $response = [
+                    'status' => false,
+                    'error' => 'Unknown usage.'
+                ];
+        }
+        return response()->json($response, 200, [], JSON_PRETTY_PRINT);
+    }
+    public function vendors(Request $request, $usage)
+    {
+        switch ($usage) {
+            case 'new-invoice':
+                $query_string = @$request->all()['query'];
+                $items = Vendor::
+                    select('vendors.id as value', 'vendors.vendor_name as label', 'vendors.owner_name', 'vendors.mobile_number', 'vendors.address')
+                    ->whereAny([
+                        'vendors.vendor_name',
+                        'vendors.owner_name',
+                        'vendors.mobile_number',
+                        'vendors.address',
+                    ], 'LIKE', "%" . $query_string . "%")
+                    ->take(100)
                     ->get();
                 $response = [
                     'status' => true,
