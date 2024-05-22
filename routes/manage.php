@@ -14,6 +14,8 @@ use App\Http\Controllers\User\UserStateController;
 use App\Http\Controllers\User\UserProductController;
 use App\Http\Controllers\User\UserProfileController;
 use App\Http\Controllers\User\VendorOrderController;
+use App\Http\Controllers\User\VendorInvoiceController;
+use App\Http\Controllers\User\VendorPaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -91,6 +93,10 @@ Route::prefix('')->name('user.')->group(function () {
         });
         Route::prefix('orders')->name('orders.')->group(function () {
             Route::get('/list', [VendorOrderController::class, 'orders_list'])->name('list');
+        });
+        Route::prefix('accounts')->name('accounts.')->group(function () {
+            Route::get('invoices', [VendorInvoiceController::class, 'invoices'])->name('invoices');
+            Route::get('payments', [VendorPaymentController::class, 'payments'])->name('payments');
         });
     });
 })->domain('manage.' . env('DOMAIN'));

@@ -77,6 +77,19 @@
             <a href="javascript:;" class="has-arrow">
                 <div class="parent-icon"><i class="bx bx-cog"></i>
                 </div>
+                <div class="menu-title">Accounts</div>
+            </a>
+            <ul>
+                <li> <a href="{{ route('user.accounts.invoices') }}"><i class='bx bx-radio-circle'></i>Invoices</a>
+                </li>
+                <li> <a href="{{ route('user.accounts.payments') }}"><i class='bx bx-radio-circle'></i>Payments</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="javascript:;" class="has-arrow">
+                <div class="parent-icon"><i class="bx bx-cog"></i>
+                </div>
                 <div class="menu-title">Settings</div>
             </a>
             <ul>

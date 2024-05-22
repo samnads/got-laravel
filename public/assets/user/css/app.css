@@ -5396,3 +5396,20 @@ label>rf::after {
 	line-height: 0;
 	vertical-align: middle;
 }
+
+.badge.inv-stat-draft {
+	background-color: #cbdff3;
+	color: #0f2027;
+}
+.badge.inv-stat-open {
+	background-color: #297bce;
+}
+.badge.inv-stat-paid {
+	background-color: #32b138;
+}
+.badge.inv-stat-uncollectible {
+	background-color: #cc4949;
+}
+.badge.inv-stat-void {
+	background-color: #333333;
+}
