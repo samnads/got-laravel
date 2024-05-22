@@ -8,8 +8,6 @@
             </div>
             <form id="new-payment">
                 @csrf
-                <input type="hidden" name="id">
-                <input type="hidden" name="action" value="order-status-change">
                 <div class="modal-body">
                     <div class="row g-3">
                         <div class="col-md-12">
@@ -24,7 +22,7 @@
                                 <rf />
                             </label>
                             <div class="position-relative">
-                                <input type="text" class="form-control" id="lkys" name="amount"
+                                <input type="number" step="any" class="form-control" id="lkys" name="amount"
                                     placeholder="0.00" readonly />
                             </div>
                         </div>

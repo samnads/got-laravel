@@ -100,6 +100,7 @@ Route::prefix('')->name('user.')->group(function () {
             Route::get('invoices', [VendorInvoiceController::class, 'invoices'])->name('invoices');
             Route::post('invoices', [VendorInvoiceController::class, 'create_invoice']);
             Route::get('payments', [VendorPaymentController::class, 'payments'])->name('payments');
+            Route::post('payments', [VendorPaymentController::class, 'add_payment']);
         });
     });
 })->domain('manage.' . env('DOMAIN'));

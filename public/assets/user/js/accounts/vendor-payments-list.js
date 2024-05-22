@@ -32,6 +32,7 @@ let invoice_id_select = new TomSelect('form[id="new-payment"] [name="invoice_id"
             return '<div class="no-results">No vendors found for "' + escape(data.input) + '"</div>';
         },
         item: function (item, escape) {
+            $('[name="amount"]', new_payment_form).val(item.total_payable);
             return `<div>${escape(item.label)}</div>`;
         }
     },
@@ -125,13 +126,13 @@ new_payment_form_validator = new_payment_form.validate({
         let submit_btn = $('button[type="submit"]', form);
         submit_btn.prop("disabled", true);
         $.ajax({
-            type: 'PUT',
-            url: _base_url + 'orders',
+            type: 'POST',
+            url: _url,
             dataType: 'json',
-            data: order_status_change_form.serialize(),
+            data: new_payment_form.serialize(),
             success: function (response) {
                 if (response.status == true) {
-                    order_status_change_modal.hide();
+                    new_payment_modal.hide();
                     Swal.fire({
                         title: response.message.title,
                         text: response.message.content,

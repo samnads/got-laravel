@@ -189,5 +189,4 @@ class VendorInvoiceController extends Controller
             return response()->json($response, 200, [], JSON_PRETTY_PRINT);
         }
     }
-
 }

@@ -146,4 +146,45 @@ class VendorPaymentController extends Controller
         $data['invoice_statuses'] = InvoiceStatus::get();
         return view('user.accounts.vendor-payments', $data);
     }
+    public function add_payment(Request $request)
+    {
+        try {
+            DB::beginTransaction();
+            // Invoice main data update
+            $vendor_invoice = VendorInvoice::findOrFail($request->invoice_id);
+            $vendor_invoice->invoice_status_id = 3; // 3 - Paid
+            $vendor_invoice->save();
+            // New payment
+            $VendorInvoicePayment = new VendorInvoicePayment;
+            $VendorInvoicePayment->vendor_invoice_id = $vendor_invoice->id;
+            $VendorInvoicePayment->paid_amount = $vendor_invoice->total_payable;
+            $VendorInvoicePayment->save();
+            $VendorInvoicePayment->payment_reference = 'PAY-' . sprintf('%07d', $VendorInvoicePayment->id);
+            $VendorInvoicePayment->save();
+            DB::commit();
+            $response = [
+                'status' => true,
+                'message' => [
+                    'type' => 'success',
+                    'title' => 'Payment Added !',
+                    'content' => 'Payment added successfully.'
+                ],
+                'data' => []
+            ];
+            return response()->json(@$response ?: [], 200, [], JSON_PRETTY_PRINT);
+        } catch (\Exception $e) {
+            if (DB::transactionLevel() > 0) {
+                DB::rollback();
+            }
+            $response = [
+                'status' => false,
+                'error' => [
+                    'type' => 'error',
+                    'title' => 'Error !',
+                    'content' => $e->getMessage()
+                ]
+            ];
+            return response()->json($response, 200, [], JSON_PRETTY_PRINT);
+        }
+    }
 }
