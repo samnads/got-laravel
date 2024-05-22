@@ -230,7 +230,7 @@ new_invoice_form_validator = new_invoice_form.validate({
             headers: {
                 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
             },
-            data: order_status_change_form.serialize(),
+            data: new_invoice_form.serialize(),
             success: function (response) {
                 if (response.status == true) {
                     new_invoice_modal.hide();
@@ -257,6 +257,8 @@ new_invoice_form_validator = new_invoice_form.validate({
 $('[data-action="new-invoice"]').click(function () {
     let submit_btn = $('button[type="submit"]', new_invoice_form);
     submit_btn.prop("disabled", true);
+    vendor_id_select.clear();
+    $('table#invoice-line-orders > tbody').empty();
     new_invoice_form_validator.resetForm();
     new_invoice_form.trigger('reset');
     new_invoice_modal.show();
@@ -266,7 +268,6 @@ let invoice_for_month = $('#new-invoice-form [name="for_month"]').flatpickr({
         new monthSelectPlugin({
             shorthand: true, //defaults to false
             dateFormat: "Y-m-d", //defaults to "F Y"
-
             theme: "dark" // defaults to "light"
         })
     ],
@@ -274,7 +275,7 @@ let invoice_for_month = $('#new-invoice-form [name="for_month"]').flatpickr({
         getLineItemsForInvoice()
     },
 });
-let invoice_due_date = $('[name="due_date"]', new_invoice_form).flatpickr({});
+let invoice_due_date = $('[name="due_date"]', new_invoice_form).flatpickr({ minDate: "today", });
 let vendor_id_select = new TomSelect('.new-invoice [name="vendor_id"]', {
     valueField: 'value',
     labelField: 'label',
@@ -331,7 +332,7 @@ function getLineItemsForInvoice() {
                     let got_commission = 0;
                     $.each(response.data.orders, function (index, order) {
                         rows += `<tr>
-                        <th scope="row">${index + 1}</th>
+                        <th scope="row">${index + 1}<input type="hidden" name="order_ids[]" value="${order.id}"/></th>
                         <td>${order.order_reference}</td>
                         <td>${order.os_labelled}</td>
                         <td>${order.order_date}</td>

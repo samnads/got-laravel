@@ -7,6 +7,7 @@ use App\Models\InvoiceStatus;
 use App\Models\Order;
 use App\Models\Vendor;
 use App\Models\VendorInvoice;
+use App\Models\VendorInvoiceLineItem;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use DB;
@@ -141,6 +142,27 @@ class VendorInvoiceController extends Controller
     {
         try {
             DB::beginTransaction();
+            // Invoice main data
+            $vendor_invoice = new VendorInvoice;
+            $vendor_invoice->vendor_id = $request->vendor_id;
+            $vendor_invoice->for_month = $request->for_month;
+            $vendor_invoice->due_date = $request->due_date;
+            $vendor_invoice->total_payable = 0;
+            $vendor_invoice->invoice_status_id = 1; // 1 - Draft
+            $vendor_invoice->invoice_date = now();
+            $vendor_invoice->save();
+            // Line items add
+            $orders = Order::whereIn('id', $request->order_ids)->where('vendor_id', $request->vendor_id)->get();
+            foreach ($orders as $key => $order) {
+                $VendorInvoiceLineItem = new VendorInvoiceLineItem;
+                $VendorInvoiceLineItem->vendor_invoice_id = $vendor_invoice->id;
+                $VendorInvoiceLineItem->order_id = $order->id;
+                $VendorInvoiceLineItem->amount = $order->got_commission;
+                $VendorInvoiceLineItem->save();
+                $vendor_invoice->total_payable += $order->got_commission;
+            }
+            $vendor_invoice->invoice_reference = 'INV-' . sprintf('%07d', $vendor_invoice->id);
+            $vendor_invoice->save();
             DB::commit();
             $response = [
                 'status' => true,
