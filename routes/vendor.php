@@ -10,6 +10,8 @@ use App\Http\Controllers\Vendor\VendorProductController;
 use App\Http\Controllers\Vendor\VendorOrderController;
 use App\Http\Controllers\Vendor\VendorDeliveryPersonController;
 use App\Http\Middleware\VendorAuthWeb;
+use App\Http\Controllers\Vendor\VendorInvoiceController;
+use App\Http\Controllers\Vendor\VendorPaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -60,5 +62,11 @@ Route::prefix('')->name('vendor.')->group(function () {
         Route::get('/', [VendorController::class, 'vendor_login'])->name('login');
         Route::post('/login', [VendorAuthController::class, 'vendor_login'])->name('do-login');
         Route::post('/logout', [VendorAuthController::class, 'logout'])->name('do-logout');
+    });
+    Route::prefix('accounts')->name('accounts.')->group(function () {
+        Route::get('invoices', [VendorInvoiceController::class, 'invoices'])->name('invoices');
+        Route::post('invoices', [VendorInvoiceController::class, 'create_invoice']);
+        Route::get('payments', [VendorPaymentController::class, 'payments'])->name('payments');
+        Route::post('payments', [VendorPaymentController::class, 'add_payment']);
     });
 })->domain('vendor.' . env('DOMAIN'));

@@ -314,3 +314,72 @@ CHANGE `got_commission_per_order` `got_commission_per_order` decimal(10,2) unsig
 ALTER TABLE `orders`
 CHANGE `got_commission` `got_commission` decimal(10,2) unsigned NOT NULL DEFAULT '0' AFTER `got_commission_type`;
 ---------------------------------------------------------- DONE
+CREATE TABLE `invoice_statuses` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `code` varchar(255) NOT NULL,
+  `label` varchar(255) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `css_class` varchar(255) NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `code` (`code`),
+  UNIQUE KEY `label` (`label`),
+  UNIQUE KEY `css_class` (`css_class`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+INSERT INTO `invoice_statuses` (`id`, `code`, `label`, `description`, `css_class`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1,	'draft',	'Draft',	'The invoice isn’t ready to use. All invoices start in draft status.',	'inv-stat-draft',	'2024-05-22 22:12:21',	'2024-05-22 22:12:21',	NULL),
+(2,	'open',	'Open',	'The invoice is finalized and awaiting payment.',	'inv-stat-open',	'2024-05-22 22:12:21',	'2024-05-22 22:12:21',	NULL),
+(3,	'paid',	'Paid',	'This invoice is paid.',	'inv-stat-paid',	'2024-05-22 22:12:21',	'2024-05-22 22:12:21',	NULL),
+(4,	'void',	'Void',	'This invoice is canceled.',	'inv-stat-void',	'2024-05-22 22:12:21',	'2024-05-22 22:12:21',	NULL),
+(5,	'uncollectible',	'Uncollectible',	'The customer is unlikely to pay the invoice. Normally, you treat it as bad debt in your accounting process.',	'inv-stat-uncollectible',	'2024-05-22 22:12:21',	'2024-05-22 22:12:21',	NULL);
+
+CREATE TABLE `vendor_invoices` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `vendor_id` bigint(20) unsigned NOT NULL,
+  `invoice_reference` varchar(255) DEFAULT NULL,
+  `for_month` date NOT NULL,
+  `due_date` date NOT NULL,
+  `total_payable` decimal(10,2) NOT NULL,
+  `invoice_status_id` bigint(20) unsigned NOT NULL DEFAULT 1,
+  `invoice_date` datetime NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `invoice_reference` (`invoice_reference`),
+  KEY `vendor_id` (`vendor_id`),
+  KEY `invoice_status_id` (`invoice_status_id`),
+  CONSTRAINT `vendor_invoices_ibfk_1` FOREIGN KEY (`vendor_id`) REFERENCES `vendors` (`id`),
+  CONSTRAINT `vendor_invoices_ibfk_2` FOREIGN KEY (`invoice_status_id`) REFERENCES `invoice_statuses` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `vendor_invoice_line_items` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `vendor_invoice_id` bigint(20) NOT NULL,
+  `order_id` bigint(20) unsigned NOT NULL,
+  `amount` decimal(10,2) unsigned NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `vendor_invoice_id` (`vendor_invoice_id`),
+  KEY `order_id` (`order_id`),
+  CONSTRAINT `vendor_invoice_line_items_ibfk_1` FOREIGN KEY (`vendor_invoice_id`) REFERENCES `vendor_invoices` (`id`),
+  CONSTRAINT `vendor_invoice_line_items_ibfk_2` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `vendor_invoice_payments` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `vendor_invoice_id` bigint(20) NOT NULL,
+  `payment_reference` varchar(255) DEFAULT NULL,
+  `paid_amount` decimal(10,2) unsigned NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `vendor_invoice_id` (`vendor_invoice_id`),
+  CONSTRAINT `vendor_invoice_payments_ibfk_1` FOREIGN KEY (`vendor_invoice_id`) REFERENCES `vendor_invoices` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;

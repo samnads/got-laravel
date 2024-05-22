@@ -75,7 +75,7 @@
         </li>
         <li>
             <a href="javascript:;" class="has-arrow">
-                <div class="parent-icon"><i class="bx bx-cog"></i>
+                <div class="parent-icon"><i class="fadeIn animated bx bx-money"></i>
                 </div>
                 <div class="menu-title">Accounts</div>
             </a>
