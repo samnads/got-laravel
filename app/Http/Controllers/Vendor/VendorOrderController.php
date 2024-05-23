@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Models\OrderCustomerAddress;
 use App\Models\OrderProduct;
 use App\Models\OrderStatus;
+use App\Models\Vendor;
 use Illuminate\Http\Request;
 use App\Models\VendorProduct;
 use App\Models\Product;
@@ -301,6 +302,8 @@ class VendorOrderController extends Controller
     public function order_pdf_view(Request $request, $order_id)
     {
         $data['order'] = Order::select('orders.*', DB::raw('DATE_FORMAT(orders.created_at, "%d/%m/%Y %h:%i %p") as order_date_time'))->findOrFail($order_id);
+        $data['vendor'] = Vendor::find($data['order']->vendor_id);
+        $data['order_customer_addresses'] = OrderCustomerAddress::where('order_id', $data['order']->id)->first();
         $data['order_status'] = OrderStatus::findOrFail($data['order']->order_status_id);
         $data['customer'] = Customer::find($data['order']->customer_id);
         $data['delivery_address'] = OrderCustomerAddress::where('order_id', $order_id)->first();
@@ -323,6 +326,7 @@ class VendorOrderController extends Controller
             ->leftJoin('variant_options as vo', 'pv.variant_option_id', '=', 'vo.id')
             ->where('order_id', $order_id)->get();
         $pdf = DomPDF::loadView('vendor.pdf.order-invoice', $data);
+        $pdf->set_option('isHtml5ParserEnabled', true);
         return $pdf->stream($data['order']->order_reference . '.pdf');
     }
 }
