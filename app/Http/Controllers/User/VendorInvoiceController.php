@@ -71,7 +71,6 @@ class VendorInvoiceController extends Controller
                         foreach ($data_table['data'] as $key => $row) {
                             $data_table['data'][$key]['invoice_status'] = '<div class="d-flex justify-content-between"><div class="flex-fill"><span class="badge shadow-sm w-100 ' . $row['is_css_class'] . '">' . $row['is_label'] . '</span></div><div class=""></div></div>';
                             $data_table['data'][$key]['actions_html'] = '<div class="btn-group btn-group-sm" role="group" aria-label="First group">
-                            <button data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Details" data-action="order-details" data-id="' . $row['id'] . '" type="button" class="btn btn-sm btn-primary text-light"><i class="bx bx-info-circle"></i></button>
 											<button data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Print" data-action="print-invoice" data-id="' . $row['id'] . '" type="button" class="btn btn-sm btn-info text-light"><i class="fadeIn animated bx bx-printer"></i></button>
 										</div>';
                         }
@@ -201,7 +200,8 @@ class VendorInvoiceController extends Controller
             select(
                 'vendor_invoices.*',
                 DB::raw('DATE_FORMAT(vendor_invoices.invoice_date, "%d/%m/%Y") as invoice_date'),
-                DB::raw('DATE_FORMAT(vendor_invoices.due_date, "%d/%m/%Y") as due_date')
+                DB::raw('DATE_FORMAT(vendor_invoices.due_date, "%d/%m/%Y") as due_date'),
+                DB::raw('DATE_FORMAT(vendor_invoices.for_month, "%M %Y") as for_month'),
             )
             ->findOrFail($invoice_id);
         $data['vendor_invoice_line_items'] = VendorInvoiceLineItem::

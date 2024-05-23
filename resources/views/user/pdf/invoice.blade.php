@@ -199,6 +199,7 @@
                         <h2 class="invoice-id">{{$vendor_invoice->invoice_reference}}</h2>
                         <div class="date">Invoice Date : {{$vendor_invoice->invoice_date}}</div>
                         <div class="date">Due Date : {{$vendor_invoice->due_date}}</div>
+                        <div class="date">For Month : <b>{{$vendor_invoice->for_month}}</b></div>
                     </div>
                 </div>
                 <table border="0" cellspacing="0" cellpadding="0">
