@@ -54,7 +54,7 @@
 }
 
 .invoice main .thanks {
-    margin-top: -100px;
+    /*margin-top: -100px;*/
     font-size: 2em;
     margin-bottom: 50px
 }
@@ -168,7 +168,7 @@
 }
 </style>
 <!--Author      : @arboshiki-->
-<title>{{$order->order_reference}}</title>
+<title>{{$vendor_invoice->invoice_reference}}</title>
 <div id="invoice">
     <div class="invoice overflow-auto">
         <div style="min-width: 600px">
@@ -179,11 +179,11 @@
                     </div>
                     <div class="col company-details">
                         <h2 class="name">
-                            {{$vendor->vendor_name}}
+                            GOT Online
                         </h2>
-                        <div>{{$vendor->address}}</div>
-                        <div>{{$vendor->mobile_number}}</div>
-                        <div>{{$vendor->email}}</div>
+                        <div>Address Line</div>
+                        <div>Mobile</div>
+                        <div>Email</div>
                     </div>
                 </div>
             </header>
@@ -191,51 +191,40 @@
                 <div class="row contacts">
                     <div class="col invoice-to">
                         <div class="text-gray-light">INVOICE TO:</div>
-                        <h2 class="to">{{$order_customer_addresses->name}}</h2>
-                        <div class="address">{{$order_customer_addresses->address}}</div>
-                        <div class="email"><a href="mailto:{{$customer->email}}">{{$customer->email}}</a></div>
+                        <h2 class="to">{{$vendor->vendor_name}}</h2>
+                        <div class="address">{{$vendor->address}}</div>
+                        <div class="email"><a href="mailto:{{$vendor->email}}">{{$vendor->email}}</a></div>
                     </div>
                     <div class="col invoice-details">
-                        <h2 class="invoice-id">{{$order->order_reference}}</h2>
-                        <div class="date">Date & Time : {{$order->order_date_time}}</div>
+                        <h2 class="invoice-id">{{$vendor_invoice->invoice_reference}}</h2>
+                        <div class="date">Invoice Date : {{$vendor_invoice->invoice_date}}</div>
+                        <div class="date">Due Date : {{$vendor_invoice->due_date}}</div>
                     </div>
                 </div>
                 <table border="0" cellspacing="0" cellpadding="0">
                     <thead>
                         <tr>
                             <th>Sl. No.</th>
-                            <th class="text-left">Product</th>
-                            <th class="text-right">Price</th>
-                            <th class="text-right">Qty.</th>
+                            <th class="text-left">Order Ref.</th>
+                            <th class="text-right">Service Charge</th>
                             <th class="text-right">Total</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($order_products as $key => $order_product)
+                        @foreach($vendor_invoice_line_items as $key => $vendor_invoice_line_item)
                         <tr>
                             <td class="no">{{$key+1}}</td>
-                            <td class="text-left"><h3>{{$order_product->name}}</td>
-                            <td class="unit">{{$order_product->unit_price}}</td>
-                            <td class="qty">{{$order_product->quantity}}</td>
-                            <td class="total">{{$order_product->total_price}}</td>
+                            <td class="text-left"><h3>{{$vendor_invoice_line_item->order_reference}}</td>
+                            <td class="unit">{{$vendor_invoice_line_item->amount}}</td>
+                            <td class="total">{{$vendor_invoice_line_item->amount}}</td>
                         </tr>
                         @endforeach
                     </tbody>
                     <tfoot>
                         <tr>
                             <td colspan="2"></td>
-                            <td colspan="2">Sub Total</td>
-                            <td>{{$order->order_total}}</td>
-                        </tr>
-                        <tr>
-                            <td colspan="2"></td>
-                            <td colspan="2">Service Charge</td>
-                            <td>{{$order->got_commission}}</td>
-                        </tr>
-                        <tr>
-                            <td colspan="2"></td>
-                            <td colspan="2">Total Payable</td>
-                            <td>{{$order->total_payable}}</td>
+                            <td colspan="1">Total Payable</td>
+                            <td>{{$vendor_invoice->total_payable}}</td>
                         </tr>
                     </tfoot>
                 </table>

@@ -98,6 +98,7 @@ Route::prefix('')->name('user.')->group(function () {
         });
         Route::prefix('accounts')->name('accounts.')->group(function () {
             Route::get('invoices', [VendorInvoiceController::class, 'invoices'])->name('invoices');
+            Route::get('/invoices/pdf/{invoice_id}', [VendorInvoiceController::class, 'invoice_pdf_view']);
             Route::post('invoices', [VendorInvoiceController::class, 'create_invoice']);
             Route::get('payments', [VendorPaymentController::class, 'payments'])->name('payments');
             Route::post('payments', [VendorPaymentController::class, 'add_payment']);

@@ -3,12 +3,17 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\Customer;
 use App\Models\InvoiceStatus;
 use App\Models\Order;
+use App\Models\OrderCustomerAddress;
+use App\Models\OrderProduct;
+use App\Models\OrderStatus;
 use App\Models\Vendor;
 use App\Models\VendorInvoice;
 use App\Models\VendorInvoiceLineItem;
 use Carbon\Carbon;
+use Barryvdh\DomPDF\Facade\Pdf as DomPDF;
 use Illuminate\Http\Request;
 use DB;
 
@@ -66,7 +71,8 @@ class VendorInvoiceController extends Controller
                         foreach ($data_table['data'] as $key => $row) {
                             $data_table['data'][$key]['invoice_status'] = '<div class="d-flex justify-content-between"><div class="flex-fill"><span class="badge shadow-sm w-100 ' . $row['is_css_class'] . '">' . $row['is_label'] . '</span></div><div class=""></div></div>';
                             $data_table['data'][$key]['actions_html'] = '<div class="btn-group btn-group-sm" role="group" aria-label="First group">
-                            <button data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Change Status" data-action="change-invoice-status" data-id="' . $row['id'] . '" type="button" class="btn btn-sm btn-primary text-light"><i class="bx bx-info-circle"></i></button>
+                            <button data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Details" data-action="order-details" data-id="' . $row['id'] . '" type="button" class="btn btn-sm btn-primary text-light"><i class="bx bx-info-circle"></i></button>
+											<button data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Print" data-action="print-invoice" data-id="' . $row['id'] . '" type="button" class="btn btn-sm btn-info text-light"><i class="fadeIn animated bx bx-printer"></i></button>
 										</div>';
                         }
                         return response()->json($data_table, 200, [], JSON_PRETTY_PRINT);
@@ -188,5 +194,29 @@ class VendorInvoiceController extends Controller
             ];
             return response()->json($response, 200, [], JSON_PRETTY_PRINT);
         }
+    }
+    public function invoice_pdf_view(Request $request, $invoice_id)
+    {
+        $data['vendor_invoice'] = VendorInvoice::
+            select(
+                'vendor_invoices.*',
+                DB::raw('DATE_FORMAT(vendor_invoices.invoice_date, "%d/%m/%Y") as invoice_date'),
+                DB::raw('DATE_FORMAT(vendor_invoices.due_date, "%d/%m/%Y") as due_date')
+            )
+            ->findOrFail($invoice_id);
+        $data['vendor_invoice_line_items'] = VendorInvoiceLineItem::
+            select(
+                'vendor_invoice_line_items.id',
+                'vendor_invoice_line_items.order_id',
+                'vendor_invoice_line_items.amount',
+                'o.order_reference',
+            )
+            ->where('vendor_invoice_id', $invoice_id)
+            ->leftJoin('orders as o', 'vendor_invoice_line_items.order_id', '=', 'o.id')
+            ->get();
+        $data['vendor'] = Vendor::find($data['vendor_invoice']->vendor_id);
+        $pdf = DomPDF::loadView('user.pdf.invoice', $data);
+        $pdf->set_option('isHtml5ParserEnabled', true);
+        return $pdf->stream($data['vendor_invoice']->invoice_reference . '.pdf');
     }
 }

@@ -56,7 +56,7 @@ let datatable = new DataTable('#my-products', {
             targets: 'actions_html:name',
             type: 'html',
             sortable: false,
-            visible:false,
+            visible: true,
             width: 1
         }
     ],
@@ -64,8 +64,15 @@ let datatable = new DataTable('#my-products', {
         $('[data-bs-toggle="tooltip"]').tooltip({ trigger: 'hover' });
         createOrderStatusEditListeneer();
         createOrderDetailsListeneer();
+        createPrintOrderListener();
     },
 });
+function createPrintOrderListener() {
+    $('[data-action="print-invoice"]').click(function () {
+        let id = this.getAttribute('data-id');
+        window.open(_base_url + 'accounts/invoices/pdf/' + id, '_blank');
+    });
+}
 $('select[name="filter_invoice_status_id"]').change(function () {
     datatable.draw();
 });
