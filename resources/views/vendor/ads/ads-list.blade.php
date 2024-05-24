@@ -1,16 +1,15 @@
-@extends('layouts.user', ['body_css_class' => ''])
-@section('title', 'Ad Requests')
+@extends('layouts.vendor', ['body_css_class' => ''])
+@section('title', 'Advertisements')
 @section('content')
     <!--breadcrumb-->
     <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-        <div class="breadcrumb-title pe-3">Ad Requests</div>
+        <div class="breadcrumb-title pe-3">Advertisements</div>
         <div class="ps-3">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0 p-0">
                     <li class="breadcrumb-item"><i class="bx bx-home-alt"></i>
                     </li>
                     <li class="breadcrumb-item" aria-current="page">Ads</li>
-                    <li class="breadcrumb-item" aria-current="page">Requests</li>
                     <li class="breadcrumb-item active" aria-current="page">List</li>
                 </ol>
             </nav>
@@ -21,13 +20,15 @@
         <button data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Refresh" type="button"
             class="btn btn-sm btn-light border" data-action="dt-refresh"><i class="bx bx-refresh"></i>
         </button>
+        <button data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="New Ad" type="button"
+            class="btn btn-sm btn-light border" data-action="new-ad"><i class="bx bx-plus"></i>
+        </button>
         <div class="bd-highlight">
             <select data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Search By Status"
                 class="form-select form-select-sm" name="filter_status">
                 <option value="">-- All --</option>
-                <option value="1" selected>New</option>
-                <option value="2">Approved</option>
-                <option value="3">Rejected</option>
+                <option value="1" selected>Active</option>
+                <option value="0">Expired</option>
             </select>
         </div>
         <div class="bd-highlight">
@@ -41,7 +42,7 @@
                     <thead>
                         <tr>
                             <th>Sl. No.</th>
-                            <th>Request Ref.</th>
+                            <th>Ad. Ref.</th>
                             <th>Req. By Vendor</th>
                             <th>Banner</th>
                             <th>Banner URL</th>
@@ -66,7 +67,7 @@
             </div>
         </div>
     </div>
-    @include('user.ads.popup-quick-add-ad')
+    @include('vendor.ads.popup-quick-add-ad')
 @endsection
 @push('link-styles')
     <!-- Pushed Link Styles -->
@@ -85,9 +86,9 @@
     <script src="https://cdn.datatables.net/2.0.5/js/dataTables.bootstrap5.js"></script>
     <script src="{{ asset('assets/vendor/plugins/tom-select/tom-select.complete.js?v=') . config('version.user_assets') }}">
     </script>
-    <script src="{{ asset('assets/user/js/flatpickr.js?v=') . config('version.user_assets') }}"></script>
+    <script src="{{ asset('assets/vendor/js/flatpickr.js?v=') . config('version.user_assets') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/monthSelect/index.js"></script>
-    <script src="{{ asset('assets/user/js/ads/request-list.js?v=') . config('version.user_assets') }}"></script>
+    <script src="{{ asset('assets/vendor/js/ads/ads-list.js?v=') . config('version.user_assets') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment.min.js"></script>
 @endpush
 @push('inline-scripts')

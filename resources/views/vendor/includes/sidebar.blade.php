@@ -90,6 +90,19 @@
         </li>
         <li>
             <a href="javascript:;" class="has-arrow">
+                <div class="parent-icon"><i class="lni lni-blackboard"></i>
+                </div>
+                <div class="menu-title">Advertisements</div>
+            </a>
+            <ul>
+                <li> <a href="{{ route('vendor.advertisements.list') }}"><i class='bx bx-radio-circle'></i>My Ads</a>
+                </li>
+                <li> <a href="{{ route('vendor.advertisements.requests') }}"><i class='bx bx-radio-circle'></i>My Requests</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="javascript:;" class="has-arrow">
                 <div class="parent-icon"><i class="bx bx-cog"></i>
                 </div>
                 <div class="menu-title">Settings</div>
