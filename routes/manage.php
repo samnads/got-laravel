@@ -17,6 +17,7 @@ use App\Http\Controllers\User\VendorOrderController;
 use App\Http\Controllers\User\VendorInvoiceController;
 use App\Http\Controllers\User\VendorPaymentController;
 use App\Http\Controllers\User\AdvertisementController;
+use App\Http\Controllers\User\ReviewController;
 
 /*
 |--------------------------------------------------------------------------
@@ -108,6 +109,10 @@ Route::prefix('')->name('user.')->group(function () {
             Route::any('/', [AdvertisementController::class, 'index'])->name('index');
             Route::get('requests', [AdvertisementController::class, 'ads_requests'])->name('requests');
             Route::get('list', [AdvertisementController::class, 'ads_list'])->name('list');
+        });
+        Route::prefix('reviews')->name('reviews.')->group(function () {
+            Route::any('/', [ReviewController::class, 'index'])->name('index');
+            Route::get('list', [ReviewController::class, 'list_reviews'])->name('list');
         });
     });
 })->domain('manage.' . env('DOMAIN'));

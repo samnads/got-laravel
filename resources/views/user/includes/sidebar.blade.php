@@ -100,6 +100,13 @@
             </ul>
         </li>
         <li>
+            <a href="{{ route('user.reviews.list') }}">
+                <div class="parent-icon"><i class='fadeIn animated bx bx-star'></i>
+                </div>
+                <div class="menu-title">Reviews</div>
+            </a>
+        </li>
+        <li>
             <a href="javascript:;" class="has-arrow">
                 <div class="parent-icon"><i class="bx bx-cog"></i>
                 </div>

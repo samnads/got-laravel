@@ -383,3 +383,76 @@ CREATE TABLE `vendor_invoice_payments` (
   KEY `vendor_invoice_id` (`vendor_invoice_id`),
   CONSTRAINT `vendor_invoice_payments_ibfk_1` FOREIGN KEY (`vendor_invoice_id`) REFERENCES `vendor_invoices` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `vendor_ad_requests` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `ref_code` varchar(255) DEFAULT NULL,
+  `vendor_id` bigint(20) unsigned NOT NULL,
+  `banner_file` varchar(255) NOT NULL,
+  `banner_url` varchar(255) DEFAULT NULL,
+  `from` datetime NOT NULL,
+  `to` datetime NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `ref_code` (`ref_code`),
+  KEY `vendor_id` (`vendor_id`),
+  CONSTRAINT `vendor_ad_requests_ibfk_1` FOREIGN KEY (`vendor_id`) REFERENCES `vendors` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `advertisements` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `ref_code` varchar(255) DEFAULT NULL,
+  `name` varchar(255) NOT NULL,
+  `vendor_ad_request_id` bigint(20) unsigned DEFAULT NULL,
+  `vendor_id` bigint(20) unsigned DEFAULT NULL,
+  `banner_file` varchar(255) NOT NULL,
+  `banner_url` varchar(255) DEFAULT NULL,
+  `from` datetime NOT NULL,
+  `to` datetime NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `ref_code` (`ref_code`),
+  KEY `vendor_id` (`vendor_id`),
+  KEY `vendor_ad_request_id` (`vendor_ad_request_id`),
+  CONSTRAINT `advertisements_ibfk_1` FOREIGN KEY (`vendor_id`) REFERENCES `vendors` (`id`),
+  CONSTRAINT `advertisements_ibfk_2` FOREIGN KEY (`vendor_ad_request_id`) REFERENCES `vendor_ad_requests` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `review_levels` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(155) NOT NULL,
+  `level` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`),
+  UNIQUE KEY `level` (`level`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+INSERT INTO `review_levels` (`id`, `name`, `level`) VALUES
+(1,	'Very Poor',	1),
+(2,	'Poor',	2),
+(3,	'Average',	3),
+(4,	'Good',	4),
+(5,	'Excellent',	5);
+
+CREATE TABLE `vendor_reviews` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `customer_id` bigint(20) unsigned NOT NULL,
+  `vendor_id` bigint(20) unsigned NOT NULL,
+  `review_level_id` bigint(20) unsigned NOT NULL,
+  `review_title` varchar(255) NOT NULL,
+  `review` text NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `customer_id_vendor_id` (`customer_id`,`vendor_id`),
+  KEY `review_level_id` (`review_level_id`),
+  KEY `vendor_id` (`vendor_id`),
+  CONSTRAINT `vendor_reviews_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`),
+  CONSTRAINT `vendor_reviews_ibfk_2` FOREIGN KEY (`review_level_id`) REFERENCES `review_levels` (`id`),
+  CONSTRAINT `vendor_reviews_ibfk_3` FOREIGN KEY (`vendor_id`) REFERENCES `vendors` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
