@@ -16,6 +16,7 @@ use App\Http\Controllers\User\UserProfileController;
 use App\Http\Controllers\User\VendorOrderController;
 use App\Http\Controllers\User\VendorInvoiceController;
 use App\Http\Controllers\User\VendorPaymentController;
+use App\Http\Controllers\User\AdvertisementController;
 
 /*
 |--------------------------------------------------------------------------
@@ -102,6 +103,11 @@ Route::prefix('')->name('user.')->group(function () {
             Route::post('invoices', [VendorInvoiceController::class, 'create_invoice']);
             Route::get('payments', [VendorPaymentController::class, 'payments'])->name('payments');
             Route::post('payments', [VendorPaymentController::class, 'add_payment']);
+        });
+        Route::prefix('advertisements')->name('advertisements.')->group(function () {
+            Route::any('/', [AdvertisementController::class, 'index'])->name('index');
+            Route::get('requests', [AdvertisementController::class, 'ads_requests'])->name('requests');
+            Route::get('list', [AdvertisementController::class, 'ads_list'])->name('list');
         });
     });
 })->domain('manage.' . env('DOMAIN'));
