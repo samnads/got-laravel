@@ -12,7 +12,7 @@ use App\Http\Controllers\Vendor\VendorDeliveryPersonController;
 use App\Http\Middleware\VendorAuthWeb;
 use App\Http\Controllers\Vendor\VendorInvoiceController;
 use App\Http\Controllers\Vendor\VendorPaymentController;
-use App\Http\Controllers\vendor\VendorAdvertisementController;
+use App\Http\Controllers\Vendor\VendorAdvertisementController;
 
 /*
 |--------------------------------------------------------------------------
