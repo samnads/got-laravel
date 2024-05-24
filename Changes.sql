@@ -313,7 +313,7 @@ CHANGE `got_commission_per_order` `got_commission_per_order` decimal(10,2) unsig
 
 ALTER TABLE `orders`
 CHANGE `got_commission` `got_commission` decimal(10,2) unsigned NOT NULL DEFAULT '0' AFTER `got_commission_type`;
----------------------------------------------------------- DONE
+----------------------------------------------------------
 CREATE TABLE `invoice_statuses` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `code` varchar(255) NOT NULL,
@@ -456,3 +456,4 @@ CREATE TABLE `vendor_reviews` (
   CONSTRAINT `vendor_reviews_ibfk_2` FOREIGN KEY (`review_level_id`) REFERENCES `review_levels` (`id`),
   CONSTRAINT `vendor_reviews_ibfk_3` FOREIGN KEY (`vendor_id`) REFERENCES `vendors` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+---------------------------------------------------------- DONE

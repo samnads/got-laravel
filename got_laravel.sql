@@ -22,6 +22,29 @@ INSERT INTO `address_types` (`id`, `name`, `created_at`, `updated_at`, `deleted_
 (2,	'Office',	'2024-03-10 16:52:56',	'2024-03-10 16:52:56',	NULL),
 (3,	'Other',	'2024-03-10 16:52:56',	'2024-03-10 16:52:56',	NULL);
 
+DROP TABLE IF EXISTS `advertisements`;
+CREATE TABLE `advertisements` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `ref_code` varchar(255) DEFAULT NULL,
+  `name` varchar(255) NOT NULL,
+  `vendor_ad_request_id` bigint(20) unsigned DEFAULT NULL,
+  `vendor_id` bigint(20) unsigned DEFAULT NULL,
+  `banner_file` varchar(255) NOT NULL,
+  `banner_url` varchar(255) DEFAULT NULL,
+  `from` datetime NOT NULL,
+  `to` datetime NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `ref_code` (`ref_code`),
+  KEY `vendor_id` (`vendor_id`),
+  KEY `vendor_ad_request_id` (`vendor_ad_request_id`),
+  CONSTRAINT `advertisements_ibfk_1` FOREIGN KEY (`vendor_id`) REFERENCES `vendors` (`id`),
+  CONSTRAINT `advertisements_ibfk_2` FOREIGN KEY (`vendor_ad_request_id`) REFERENCES `vendor_ad_requests` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
 DROP TABLE IF EXISTS `brands`;
 CREATE TABLE `brands` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
@@ -908,7 +931,7 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO `users` (`id`, `name`, `username`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1,	'Admin',	'admin',	'admin@example.com',	'2024-03-07 10:49:50',	'$2y$12$bY0PgIczSHHU7UaUhJkQVecMcyENbScxCZuKFgWA4oSYDBpiQRMgq',	'eY1YvKCsLHSqSI77ZH78Dluwme2kH2Ok52trbCtVrzdcJSnk0krs3pBX7WA2',	'2024-03-07 10:49:50',	'2024-05-14 12:17:52',	NULL);
+(1,	'Admin',	'admin',	'admin@example.com',	'2024-03-07 10:49:50',	'$2y$12$bY0PgIczSHHU7UaUhJkQVecMcyENbScxCZuKFgWA4oSYDBpiQRMgq',	'9uD8A2EUCfnwZLkU1FHxjPMBdEppjbyyj9BAZnelxBlSQaPq4zcOaDyKTFth',	'2024-03-07 10:49:50',	'2024-05-14 12:17:52',	NULL);
 
 DROP TABLE IF EXISTS `variants`;
 CREATE TABLE `variants` (
@@ -1031,11 +1054,30 @@ CREATE TABLE `vendors` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO `vendors` (`id`, `vendor_name`, `owner_name`, `gst_number`, `pan_number`, `mobile_number_cc`, `mobile_number`, `district_id`, `location_id`, `address`, `latitude`, `longitude`, `accuracy`, `shop_thumbnail`, `email`, `email_verified_at`, `password`, `username`, `remember_token`, `blocked_at`, `home_delivery_status_id`, `min_order_value`, `min_order_weight`, `max_order_weight`, `got_commission_per_order`, `got_commission_type`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1,	'Vendor ABC',	'Owner 1',	'GST1',	'',	'+91',	'42452445',	1,	17,	'address1',	'455',	'3545',	NULL,	NULL,	'vendor@example.com',	NULL,	'$2y$12$U/Ec779muT2CnJDaCzm0Ku3zzUHQbLpbQZBO9BbclVo.Twz5Pb/SG',	'vendor',	'NMFJRhLGeh94R0AsrNOw2pSKHk7w1TgbH7Eiv8Ll9KLWglpwQ2khpk2kJigX',	NULL,	1,	199.00,	5,	10,	3.00,	'F',	'2024-03-11 18:04:08',	'2024-05-07 13:42:56',	NULL),
+(1,	'Vendor ABC',	'Owner 1',	'GST1',	'',	'+91',	'42452445',	1,	17,	'address1',	'455',	'3545',	NULL,	NULL,	'vendor@example.com',	NULL,	'$2y$12$U/Ec779muT2CnJDaCzm0Ku3zzUHQbLpbQZBO9BbclVo.Twz5Pb/SG',	'vendor',	'FNEUxlkD4ZspMBCO32YtCYQMUcdpf926Zkv60lcEhp0Xqvk68fRUjKgin03s',	NULL,	1,	199.00,	5,	10,	3.00,	'F',	'2024-03-11 18:04:08',	'2024-05-07 13:42:56',	NULL),
 (2,	'Vendor XYZ',	'Owner 2',	'GST2',	'',	'+91',	'123456',	1,	5,	'address1',	'455',	'3545',	NULL,	NULL,	'vendor2@example.com',	NULL,	'$2y$12$fR9TPk/c5V3iBCWu1OWpNeisOi38XWW7fuGA4pI3xld3jGKyy4tQa',	'vendor2@example.com',	NULL,	NULL,	1,	100.00,	1,	10000,	3.00,	'F',	'2024-03-11 18:04:08',	'2024-05-21 13:05:12',	NULL),
 (35,	'Test',	'dffdf',	'434334',	NULL,	'+91',	'343434',	NULL,	3,	'dsdsd',	'656',	'5656',	NULL,	NULL,	NULL,	NULL,	'$2y$12$IFC1D3s1YoUN8v81wHMJJ.TNiIDUU/0jKQ99RpoFellbDbu3Ev22m',	'samnads',	NULL,	NULL,	1,	100.00,	1,	10000,	3.00,	'F',	'2024-03-21 14:01:45',	'2024-04-30 13:05:05',	'2024-04-30 13:05:05'),
 (36,	'test name',	NULL,	NULL,	NULL,	'+91',	'123456789',	NULL,	NULL,	'ttt',	'3.45454545',	'2.45454546',	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	1,	100.00,	1000,	10000,	3.00,	'F',	'2024-05-16 14:47:48',	'2024-05-16 14:47:48',	NULL),
 (37,	'test name',	NULL,	NULL,	NULL,	'+91',	'123456789',	NULL,	NULL,	'ttt',	'3.45454545',	'2.45454546',	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	1,	100.00,	1000,	10000,	3.00,	'F',	'2024-05-16 14:47:51',	'2024-05-16 14:47:51',	NULL);
+
+DROP TABLE IF EXISTS `vendor_ad_requests`;
+CREATE TABLE `vendor_ad_requests` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `ref_code` varchar(255) DEFAULT NULL,
+  `vendor_id` bigint(20) unsigned NOT NULL,
+  `banner_file` varchar(255) NOT NULL,
+  `banner_url` varchar(255) DEFAULT NULL,
+  `from` datetime NOT NULL,
+  `to` datetime NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `ref_code` (`ref_code`),
+  KEY `vendor_id` (`vendor_id`),
+  CONSTRAINT `vendor_ad_requests_ibfk_1` FOREIGN KEY (`vendor_id`) REFERENCES `vendors` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 
 DROP TABLE IF EXISTS `vendor_delivery_persons`;
 CREATE TABLE `vendor_delivery_persons` (
@@ -1103,7 +1145,8 @@ INSERT INTO `vendor_invoices` (`id`, `vendor_id`, `invoice_reference`, `for_mont
 (5,	1,	'DWEW54545',	'2024-05-22',	'2024-05-25',	110.00,	2,	'2024-05-20 22:47:00',	'2024-05-20 22:47:00',	'2024-05-20 22:47:00',	NULL),
 (8,	1,	'INV-0000008',	'2024-05-01',	'2024-05-23',	6.00,	3,	'2024-05-22 20:32:50',	'2024-05-22 20:32:50',	'2024-05-22 21:46:32',	NULL),
 (9,	1,	'INV-0000009',	'2024-05-01',	'2024-05-23',	6.00,	2,	'2024-05-22 21:12:39',	'2024-05-22 21:12:39',	'2024-05-22 21:12:39',	NULL),
-(10,	1,	'INV-0000010',	'2024-05-01',	'2024-05-31',	6.00,	2,	'2024-05-22 21:30:50',	'2024-05-22 21:30:50',	'2024-05-22 21:30:50',	NULL);
+(10,	1,	'INV-0000010',	'2024-05-01',	'2024-05-31',	6.00,	2,	'2024-05-22 21:30:50',	'2024-05-22 21:30:50',	'2024-05-22 21:30:50',	NULL),
+(11,	1,	'INV-0000011',	'2024-05-01',	'2024-05-31',	6.00,	2,	'2024-05-23 19:54:19',	'2024-05-23 19:54:19',	'2024-05-23 19:54:19',	NULL);
 
 DROP TABLE IF EXISTS `vendor_invoice_line_items`;
 CREATE TABLE `vendor_invoice_line_items` (
@@ -1127,7 +1170,9 @@ INSERT INTO `vendor_invoice_line_items` (`id`, `vendor_invoice_id`, `order_id`, 
 (3,	9,	52,	3.00,	'2024-05-22 21:12:39',	'2024-05-22 21:12:39',	NULL),
 (4,	9,	53,	3.00,	'2024-05-22 21:12:39',	'2024-05-22 21:12:39',	NULL),
 (5,	10,	52,	3.00,	'2024-05-22 21:30:50',	'2024-05-22 21:30:50',	NULL),
-(6,	10,	53,	3.00,	'2024-05-22 21:30:50',	'2024-05-22 21:30:50',	NULL);
+(6,	10,	53,	3.00,	'2024-05-22 21:30:50',	'2024-05-22 21:30:50',	NULL),
+(7,	11,	52,	3.00,	'2024-05-23 19:54:19',	'2024-05-23 19:54:19',	NULL),
+(8,	11,	53,	3.00,	'2024-05-23 19:54:19',	'2024-05-23 19:54:19',	NULL);
 
 DROP TABLE IF EXISTS `vendor_invoice_payments`;
 CREATE TABLE `vendor_invoice_payments` (
@@ -1237,4 +1282,4 @@ CREATE TABLE `vendor_reviews` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
--- 2024-05-22 22:07:18
+-- 2024-05-24 20:01:31
