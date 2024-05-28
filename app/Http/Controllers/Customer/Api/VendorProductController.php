@@ -135,7 +135,7 @@ class VendorProductController extends Controller
                 }));
                 $products[] = $vendor_main_product;
             } else {
-                $vendor_main_product['variants'] = null;
+                //$vendor_main_product['variants'] = null;
                 $products[] = $vendor_main_product;
             }
         }
