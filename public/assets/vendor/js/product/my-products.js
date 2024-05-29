@@ -93,7 +93,8 @@ function format(callback, data) {
         dataType: 'json',
         data: {
             action: 'variants',
-            id: data.parent_product_id
+            id: data.parent_product_id,
+            filter_status : $('select[name="filter_status"]').val()
         },
         success: function (response) {
             let rows_html = ``;

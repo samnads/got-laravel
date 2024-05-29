@@ -181,12 +181,11 @@ function format(callback, data) {
                                     <td>${row.variant_option_name}</td>
                                     <td>${row.item_size}</td>
                                     <td>${row.maximum_retail_price}</td>
-                                     <td>${row.status_html}</td>
                                     <td>${row.actions_html}</td>
                                 </tr>`;
                 });
                 rows_html = rows_html || `<tr>
-                                <td colspan="8" class="text-danger text-center">There is no variants currently available !</td>
+                                <td colspan="8" class="text-danger text-center">There is no more variants currently available !</td>
                             </tr>`;
                 callback($(`<table class="table table-sm align-middle table-bordered mb-0">
                         <thead>
@@ -197,7 +196,6 @@ function format(callback, data) {
                             <th scope="col">Variant</th>
                             <th scope="col">SIze</th>
                             <th scope="col">MRP.</th>
-                            <th scope="col">Status</th>
                             <th scope="col">Actions</th>
                             </tr>
                         </thead>

@@ -90,7 +90,12 @@ class VendorProductController extends Controller
                         if (@$request->filter_status == "1") {
                             $rows->where([['vendor_products.deleted_at', '=', null]]);
                         } else if (@$request->filter_status == "0") {
-                            $rows->where([['vendor_products.deleted_at', '!=', null]]);
+                            //$rows->where([['vendor_products.deleted_at', '!=', null]]);
+
+                            $rows->where(function ($query) use ($request) {
+                                $query->where([['vendor_products.deleted_at', '!=', null]]);
+                                $query->orWhere('p.parent_product_id', '!=', null);
+                            });
                         }
                         // filter end
                         $data_table['recordsFiltered'] = $rows->count();
@@ -132,6 +137,7 @@ class VendorProductController extends Controller
                             'u.name as unit',
                             'pc.name as product_category',
                             'products.deleted_at',
+                            'vp.deleted_at as vp_deleted_at',
                             'vo.variant_option_name',
                             'vp.id as vp_id'
                         )
@@ -160,9 +166,13 @@ class VendorProductController extends Controller
                             ->where('products.parent_product_id', '=', $request->id)
                             ->whereColumn('products.parent_product_id', '!=', 'products.id')
                             ->whereNull('products.deleted_at')
-                            ->whereNotNull('vp.id')
-                            ->whereNull('vp.deleted_at')
-                            ->orderBy('products.id', 'asc');
+                            ->whereNotNull('vp.id');
+                        if (@$request->filter_status == "1") {
+                            $rows->where([['vp.deleted_at', '=', null]]);
+                        } else {
+                            $rows->where([['vp.deleted_at', '!=', null]]);
+                        }
+                        $rows = $rows->orderBy('products.id', 'asc');
                         $data_table['data'] = $rows->withTrashed()->get()->toArray();
                         foreach ($data_table['data'] as $key => $row) {
                             $data_table['data'][$key]['slno'] = ($request->start + $key + 1);
@@ -172,7 +182,7 @@ class VendorProductController extends Controller
 											</button>
 										</div>';
                             $data_table['data'][$key]['status_html'] = '<div class="form-check-success form-check form-switch">
-									<input data-action="toggle-status" data-id="' . $row['vp_id'] . '" class="form-check-input" type="checkbox" id="status_' . $row['vp_id'] . '" ' . ($row['deleted_at'] == null ? 'checked' : '') . '>
+									<input data-action="toggle-status" data-id="' . $row['vp_id'] . '" class="form-check-input" type="checkbox" id="status_' . $row['vp_id'] . '" ' . ($row['vp_deleted_at'] == null ? 'checked' : '') . '>
 									<label class="form-check-label" for="status_' . $row['vp_id'] . '"></label>
 								</div>';
                             if ($row['id'] != $row['parent_product_id']) {
@@ -232,8 +242,8 @@ class VendorProductController extends Controller
                                 $response = [
                                     'status' => true,
                                     'data' => [
-                                        'product' => $product
-                                    ]
+                                            'product' => $product
+                                        ]
                                 ];
                                 break;
                             case 'PUT':
@@ -260,10 +270,10 @@ class VendorProductController extends Controller
                                     $response = [
                                         'status' => false,
                                         'error' => [
-                                            'type' => 'error',
-                                            'title' => 'Validation Error !',
-                                            'content' => $validator->errors()->first()
-                                        ]
+                                                'type' => 'error',
+                                                'title' => 'Validation Error !',
+                                                'content' => $validator->errors()->first()
+                                            ]
                                     ];
                                     return response()->json($response, 200, [], JSON_PRETTY_PRINT);
                                 }
@@ -280,10 +290,10 @@ class VendorProductController extends Controller
                                 $response = [
                                     'status' => true,
                                     'message' => [
-                                        'type' => 'success',
-                                        'title' => 'Product Updated',
-                                        'content' => 'Task completed successfully.'
-                                    ]
+                                            'type' => 'success',
+                                            'title' => 'Product Updated',
+                                            'content' => 'Task completed successfully.'
+                                        ]
                                 ];
                                 break;
                             default:
@@ -310,10 +320,10 @@ class VendorProductController extends Controller
                         $response = [
                             'status' => true,
                             'message' => [
-                                'type' => 'success',
-                                'title' => 'Status Updated !',
-                                'content' => 'Product status updated successfully.'
-                            ]
+                                    'type' => 'success',
+                                    'title' => 'Status Updated !',
+                                    'content' => 'Product status updated successfully.'
+                                ]
                         ];
                         break;
                     default:
@@ -334,10 +344,10 @@ class VendorProductController extends Controller
                 $response = [
                     'status' => false,
                     'error' => [
-                        'type' => 'error',
-                        'title' => 'Error !',
-                        'content' => $e->getMessage()
-                    ]
+                            'type' => 'error',
+                            'title' => 'Error !',
+                            'content' => $e->getMessage()
+                        ]
                 ];
                 return response()->json($response, 200, [], JSON_PRETTY_PRINT);
             }
@@ -356,8 +366,13 @@ class VendorProductController extends Controller
                         $data_table['draw'] = $request->draw;
                         DB::statement("SET @count:=" . $request->start);
                         $v_products = VendorProduct::select('product_id')
-                            ->where('vendor_id', Auth::guard('vendor')->id())
-
+                            ->leftJoin('products as p', function ($join) {
+                                $join->on('vendor_products.product_id', '=', 'p.id');
+                            })
+                            ->where(function ($query) use ($request) {
+                                $query->whereNull('p.parent_product_id');
+                            })
+                            ->where('vendor_products.vendor_id', Auth::guard('vendor')->id())
                             ->withTrashed()->get();
                         $vendor_product_ids = array_column($v_products->toArray(), 'product_id');
                         $rows = Product::select(
@@ -486,10 +501,6 @@ class VendorProductController extends Controller
                             $data_table['data'][$key]['actions_html'] = '<div class="btn-group btn-group-sm" role="group" aria-label="First group">
 											<button data-action="add-product" data-id="' . $row['id'] . '" type="button" class="btn btn-sm btn-warning"><i class="fadeIn animated bx bx-plus"></i></button>
 										</div>';
-                            $data_table['data'][$key]['status_html'] = '<div class="form-check-success form-check form-switch">
-									<input data-action="toggle-status" data-id="' . $row['id'] . '" class="form-check-input" type="checkbox" id="status_' . $row['id'] . '" ' . ($row['deleted_at'] == null ? 'checked' : '') . '>
-									<label class="form-check-label" for="status_' . $row['id'] . '"></label>
-								</div>';
                             if ($row['id'] != $row['parent_product_id']) {
                                 // No varint product
                                 //$data_table['data'][$key]['name'] = '';
@@ -509,8 +520,8 @@ class VendorProductController extends Controller
                         $response = [
                             'status' => true,
                             'data' => [
-                                'product' => $product
-                            ]
+                                    'product' => $product
+                                ]
                         ];
                         return response()->json($response, 200, [], JSON_PRETTY_PRINT);
                     case 'save-new-product':
@@ -537,10 +548,10 @@ class VendorProductController extends Controller
                             $response = [
                                 'status' => false,
                                 'error' => [
-                                    'type' => 'error',
-                                    'title' => 'Validation Error !',
-                                    'content' => $validator->errors()->first()
-                                ]
+                                        'type' => 'error',
+                                        'title' => 'Validation Error !',
+                                        'content' => $validator->errors()->first()
+                                    ]
                             ];
                             return response()->json($response, 200, [], JSON_PRETTY_PRINT);
                         }
@@ -548,9 +559,11 @@ class VendorProductController extends Controller
                         $product_master = Product::findOrFail($request->id);
                         if ($product_master->parent_product_id != null && ($product_master->parent_product_id != $product_master->id)) {
                             // Product from variant family
+                            // Check product exist
                             $check = VendorProduct::where([['vendor_id', '=', Auth::guard('vendor')->id()], ['product_id', '=', $product_master->id]])->first();
                             if (!$check) {
-                                $product_new = new VendorProduct();
+                                // add parent first
+                                $product_new = VendorProduct::where([['vendor_id', '=', Auth::guard('vendor')->id()], ['product_id', '=', $product_master->parent_product_id]])->first() ?: new VendorProduct();
                                 $product_new->vendor_id = Auth::guard('vendor')->id();
                                 $product_new->product_id = $product_master->parent_product_id;
                                 $product_new->min_cart_quantity = $request->min_cart_quantity;
@@ -561,6 +574,7 @@ class VendorProductController extends Controller
                             }
                         }
                         /******************************************************************************* */
+                        // add product
                         $product = new VendorProduct();
                         $product->vendor_id = Auth::guard('vendor')->id();
                         $product->product_id = $request->id;
@@ -572,20 +586,20 @@ class VendorProductController extends Controller
                         $response = [
                             'status' => true,
                             'message' => [
-                                'type' => 'success',
-                                'title' => 'Added !',
-                                'content' => 'Product added successfully.'
-                            ]
+                                    'type' => 'success',
+                                    'title' => 'Added !',
+                                    'content' => 'Product added successfully.'
+                                ]
                         ];
                         return response()->json($response, 200, [], JSON_PRETTY_PRINT);
                     default:
                         $response = [
                             'status' => false,
                             'error' => [
-                                'type' => 'error',
-                                'title' => 'Error !',
-                                'content' => 'Unknown action.'
-                            ]
+                                    'type' => 'error',
+                                    'title' => 'Error !',
+                                    'content' => 'Unknown action.'
+                                ]
                         ];
                 }
                 return response()->json($response, 200, [], JSON_PRETTY_PRINT);
@@ -596,10 +610,10 @@ class VendorProductController extends Controller
                 $response = [
                     'status' => false,
                     'error' => [
-                        'type' => 'error',
-                        'title' => 'Error !',
-                        'content' => $e->getMessage()
-                    ]
+                            'type' => 'error',
+                            'title' => 'Error !',
+                            'content' => $e->getMessage()
+                        ]
                 ];
                 return response()->json($response, 200, [], JSON_PRETTY_PRINT);
             }
@@ -682,10 +696,10 @@ class VendorProductController extends Controller
                         $response = [
                             'status' => false,
                             'error' => [
-                                'type' => 'error',
-                                'title' => 'Error !',
-                                'content' => 'Unknown action.'
-                            ]
+                                    'type' => 'error',
+                                    'title' => 'Error !',
+                                    'content' => 'Unknown action.'
+                                ]
                         ];
                 }
                 return response()->json($response, 200, [], JSON_PRETTY_PRINT);
@@ -696,10 +710,10 @@ class VendorProductController extends Controller
                 $response = [
                     'status' => false,
                     'error' => [
-                        'type' => 'error',
-                        'title' => 'Error !',
-                        'content' => $e->getMessage()
-                    ]
+                            'type' => 'error',
+                            'title' => 'Error !',
+                            'content' => $e->getMessage()
+                        ]
                 ];
                 return response()->json($response, 200, [], JSON_PRETTY_PRINT);
             }
@@ -749,10 +763,10 @@ class VendorProductController extends Controller
                             $response = [
                                 'status' => false,
                                 'error' => [
-                                    'type' => 'error',
-                                    'title' => 'Validation Error !',
-                                    'content' => $validator->errors()->first()
-                                ]
+                                        'type' => 'error',
+                                        'title' => 'Validation Error !',
+                                        'content' => $validator->errors()->first()
+                                    ]
                             ];
                             return response()->json($response, 200, [], JSON_PRETTY_PRINT);
                         }
@@ -777,10 +791,10 @@ class VendorProductController extends Controller
                         $response = [
                             'status' => true,
                             'message' => [
-                                'type' => 'success',
-                                'title' => 'Request Sent !',
-                                'content' => 'Product request send successfully.'
-                            ],
+                                    'type' => 'success',
+                                    'title' => 'Request Sent !',
+                                    'content' => 'Product request send successfully.'
+                                ],
                             'redirect' => route('vendor.product.requests')
                         ];
                         //Session::flash('toast', $response['message']);
@@ -789,10 +803,10 @@ class VendorProductController extends Controller
                         $response = [
                             'status' => false,
                             'error' => [
-                                'type' => 'error',
-                                'title' => 'Error !',
-                                'content' => 'Unknown action.'
-                            ]
+                                    'type' => 'error',
+                                    'title' => 'Error !',
+                                    'content' => 'Unknown action.'
+                                ]
                         ];
                 }
                 return response()->json($response, 200, [], JSON_PRETTY_PRINT);
@@ -803,10 +817,10 @@ class VendorProductController extends Controller
                 $response = [
                     'status' => false,
                     'error' => [
-                        'type' => 'error',
-                        'title' => 'Error !',
-                        'content' => $e->getMessage()
-                    ]
+                            'type' => 'error',
+                            'title' => 'Error !',
+                            'content' => $e->getMessage()
+                        ]
                 ];
                 return response()->json($response, 200, [], JSON_PRETTY_PRINT);
             }
