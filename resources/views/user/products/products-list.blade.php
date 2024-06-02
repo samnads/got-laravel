@@ -38,9 +38,10 @@
         <button data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Refresh" type="button"
             class="btn btn-sm btn-light border" data-action="dt-refresh"><i class="bx bx-refresh"></i>
         </button>
-        <button data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Quick Product" type="button"
-            class="btn btn-sm btn-light border" data-action="quick-add-product"><i class="bx bx-plus"></i>
-        </button>
+        <a href="{{ route('user.products.new-product') }}" data-bs-toggle="tooltip" data-bs-placement="top"
+            data-bs-title="New Product" type="button" class="btn btn-sm btn-light border"
+            data-action="quick-add-product"><i class="bx bx-plus"></i>
+        </a>
         <div class="bd-highlight">
             <select data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Search By Status"
                 class="form-select form-select-sm" name="filter_status">
@@ -84,7 +85,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tom-select/2.3.1/css/tom-select.bootstrap5.min.css"
         integrity="sha512-w7Qns0H5VYP5I+I0F7sZId5lsVxTH217LlLUPujdU+nLMWXtyzsRPOP3RCRWTC8HLi77L4rZpJ4agDW3QnF7cw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <link href="https://cdn.datatables.net/buttons/3.0.2/css/buttons.dataTables.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/buttons/3.0.2/css/buttons.dataTables.css" rel="stylesheet">
 @endpush
 @push('inline-styles')
     <!-- Pushed Inline Styles -->
@@ -96,12 +97,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tom-select/2.3.1/js/tom-select.complete.js"
         integrity="sha512-96+GeOCMUo6K6W5zoFwGYN9dfyvJNorkKL4cv+hFVmLYx/JZS5vIxOk77GqiK0qYxnzBB+4LbWRVgu5XcIihAQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        <script src="https://cdn.datatables.net/buttons/3.0.2/js/dataTables.buttons.js"></script>
-        <script src="https://cdn.datatables.net/buttons/3.0.2/js/buttons.dataTables.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
-        <script src="https://cdn.datatables.net/buttons/3.0.2/js/buttons.html5.min.js"></script>
-        <script src="https://cdn.datatables.net/buttons/3.0.2/js/buttons.print.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.0.2/js/dataTables.buttons.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.0.2/js/buttons.dataTables.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.0.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.0.2/js/buttons.print.min.js"></script>
     <script src="{{ asset('assets/user/js/products.list-all.js?v=') . config('version.user_assets') }}"></script>
 @endpush
 @push('inline-scripts')

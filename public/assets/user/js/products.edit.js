@@ -10,7 +10,62 @@
 let new_product_form = $('form[id="new-product-form"]');
 let new_size_variant_html = '';
 $(document).ready(function () {
-    new_size_variant_html = $('div[data-row="size-variant"]')[0].outerHTML;
+    //new_size_variant_html = $('div[data-row="size-variant"]')[0].outerHTML;
+    new_size_variant_html = `<div class="row g-3 pb-3 pt-3 border-bottom" data-row="size-variant">
+                        <input type="hidden" name="variants[]">
+                        <input type="hidden" name="variant_ids[]">
+                        <div class="col-md-2">
+                            <label class="form-label">Code
+                                <rf />
+                            </label>
+                            <div class="position-relative">
+                                <input type="text" class="form-control no-arrow variant_codes" name="variant_codes[0]"
+                                    autocomplete="off" placeholder="GO001234">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">Size
+                                <rf />
+                            </label>
+                            <div class="position-relative">
+                                <input type="number" step="1" class="form-control no-arrow variant_sizes"
+                                    name="variant_sizes[0]" autocomplete="off" placeholder="2">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">Label
+                                <rf />
+                            </label>
+                            <div class="position-relative">
+                                <input type="text" class="form-control no-arrow variant_labels"
+                                    name="variant_labels[0]" autocomplete="off" placeholder="1 kg">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">MRP.
+                                <rf />
+                            </label>
+                            <div class="position-relative">
+                                <input type="number" class="form-control no-arrow variant_mrps" name="variant_mrps[0]"
+                                    placeholder="123.5">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Thumbnail Image (300 x 300px)
+                            </label>
+                            <div class="position-relative">
+                                <input class="form-control variant_thumbnail_images" type="file"
+                                    name="variant_thumbnail_images[0]" accept="image/*">
+                            </div>
+                        </div>
+                        <div class="col-md-1 text-right">
+                            <label class="form-label">&nbsp;</label>
+                            <div class="d-flex justify-content-end"><button data-action="remove-variant" type="button"
+                                    class="btn btn-primary btn-sm btn-danger" disabled><i
+                                        class="bx bx-trash"></i></button></di>
+                            </div>
+                        </div>
+                    </div>`;
     $('[name="have_variations"]', new_product_form).click(function () {
         if (this.value == 1) { // Yes
             $('#size-variants').show();
@@ -21,7 +76,7 @@ $(document).ready(function () {
             $('#size-variants').hide();
             //$('#no-variants').show();
             $('button[data-action="append-variant"]', new_product_form).hide();
-            $('#size-variants').html(new_size_variant_html); // reset
+            //$('#size-variants').html(new_size_variant_html); // reset
         }
     });
     $('button[data-action="append-variant"]', new_product_form).click(function () {
@@ -139,9 +194,10 @@ $(document).ready(function () {
             let submit_btn = $('button[type="submit"]', form);
             submit_btn.prop("disabled", true);
             let formData = new FormData($("#new-product-form")[0]);
+            formData.append('_method', 'PUT');
             $.ajax({
                 type: 'POST',
-                url: _base_url + "products/new",
+                url: _base_url + "products/edit/" + product_id,
                 cache: false,
                 dataType: 'json',
                 contentType: false,
@@ -205,6 +261,8 @@ let category_id_select = new TomSelect('#new-product-form [name="category_id"]',
         }
     },
 });
+category_id_select.addOption(category);
+category_id_select.setValue(category.value);
 category_id_select.load('');
 function removeVariantListener() {
     $('[data-action="remove-variant"]').off("click");

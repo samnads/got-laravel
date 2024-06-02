@@ -149,6 +149,196 @@ class UserProductController extends Controller
             return view('user.products.new-product', $data);
         }
     }
+    public function edit_product(Request $request, $product_id)
+    {
+        if ($request->ajax()) {
+            try {
+                if ($request->method() == 'PUT') {
+                    /*$response = [
+                        'status' => true,
+                        'message' => [
+                            'type' => 'success',
+                            'title' => 'Product Updated !',
+                            'content' => 'Product updated successfully.'
+                        ],
+                    ];
+                    return response()->json(@$response ?: [], 200, [], JSON_PRETTY_PRINT);*/
+                    if ($request->have_variations == "1") {
+                        DB::beginTransaction();
+                        /************************************************************* */
+                        // Variant family identifier
+                        $product = Product::find($product_id);
+                        $product->unit_id = $request->unit_id;
+                        $product->brand_id = $request->brand_id;
+                        $product->name = $request->name;
+                        $product->description = $request->description;
+                        $product->code = $request->code;
+                        $product->item_size = $request->item_size;
+                        $product->maximum_retail_price = $request->maximum_retail_price;
+                        $product->save();
+                        $product->parent_product_id = $product->id;
+                        $parent_product_id = $product->id;
+                        $product->save();
+                        $product_ids[] = $product->id;
+                        /************************************************************* */
+                        Product::where('parent_product_id', $product_id)->where('id', '!=', $product_id)->delete();
+                        foreach ($request->variants as $key => $variant) {
+                            if ($request->variant_ids[$key]) {
+                                $product = Product::withTrashed()->find($request->variant_ids[$key]);
+                                $product->unit_id = $request->unit_id;
+                                $product->brand_id = $request->brand_id;
+                                $product->name = $request->name;
+                                $product->description = $request->description;
+                                $product->code = $request->variant_codes[$key];
+                                $product->item_size = $request->variant_sizes[$key];
+                                $product->maximum_retail_price = $request->variant_mrps[$key];
+                                $product->deleted_at = null;
+                                $product->save();
+                            } else {
+                                $product = new Product();
+                                $product->parent_product_id = $parent_product_id;
+                                $product->unit_id = $request->unit_id;
+                                $product->brand_id = $request->brand_id;
+                                $product->name = $request->name;
+                                $product->description = $request->description;
+                                $product->code = $request->variant_codes[$key];
+                                $product->item_size = $request->variant_sizes[$key];
+                                $product->maximum_retail_price = $request->variant_mrps[$key];
+                                $product->save();
+                            }
+                            $product_ids[] = $product->id;
+                            /************************************* */
+                            if (@$request->file('variant_thumbnail_images')[$key]) {
+                                $file = $request->file('variant_thumbnail_images')[$key];
+                                $image_resize = Image::make($file->getRealPath());
+                                $image_resize->fit(300, 300);
+                                $thumbnail_image_name = $product->id . '-' . $file->hashName();
+                                $image_resize->save(config('filesystems.uploads_path') . ('products/' . $thumbnail_image_name), 100);
+                                $product->thumbnail_image = $thumbnail_image_name;
+                            }
+                            /************************************* */
+                            $product->save();
+                            // Save variant details
+                            $variant_option = VariantOption::where([['variant_id', '=', 1], ['variant_option_name', '=', $request->variant_labels[$key]]])->first();
+                            if (!$variant_option) {
+                                $variant_option = new VariantOption;
+                                $variant_option->variant_id = 1;
+                                $variant_option->variant_option_name = $request->variant_labels[$key];
+                                $variant_option->save();
+                            }
+                            // Map variant to product
+                            if ($request->variant_ids[$key]) {
+                                $product_variant = ProductVariant::where('product_id', $request->variant_ids[$key])->first();
+                                $product_variant->product_id = $product->id;
+                                $product_variant->variant_option_id = $variant_option->id;
+                                $product_variant->save();
+                            } else {
+                                $product_variant = new ProductVariant;
+                                $product_variant->product_id = $product->id;
+                                $product_variant->variant_option_id = $variant_option->id;
+                                $product_variant->save();
+                            }
+                        }
+                        /************************************************************* */
+                        foreach ($product_ids as $product_id1) {
+                            $category_mapping = ProductCategoryMapping::where('product_id', $product_id1)->first() ?: new ProductCategoryMapping;
+                            $category_mapping->product_id = $product_id1;
+                            $category_mapping->category_id = $request->category_id;
+                            $category_mapping->save();
+                        }
+                        DB::commit();
+                    } else {
+                        DB::beginTransaction();
+                        $product = Product::find($product_id);
+                        $product->parent_product_id = null;
+                        $product->unit_id = $request->unit_id;
+                        $product->brand_id = $request->brand_id;
+                        $product->name = $request->name;
+                        $product->description = $request->description;
+                        $product->code = $request->code;
+                        $product->item_size = $request->item_size;
+                        $product->maximum_retail_price = $request->maximum_retail_price;
+                        $product->save();
+                        /************************************* */
+                        if ($request->file('thumbnail_image')) {
+                            $file = $request->file('thumbnail_image');
+                            $image_resize = Image::make($file->getRealPath());
+                            $image_resize->fit(300, 300);
+                            //$image_resize->save(public_path('uploads/products/' . $file->hashName()), 100);
+                            $thumbnail_image_name = $product->id . '-' . $file->hashName();
+                            $image_resize->save(config('filesystems.uploads_path') . ('products/' . $thumbnail_image_name), 100);
+                            $product->thumbnail_image = $thumbnail_image_name;
+                        }
+                        /************************************* */
+                        $product->save();
+                        $category_mapping = ProductCategoryMapping::where('product_id', $product_id)->first() ?: new ProductCategoryMapping;
+                        $category_mapping->product_id = $product->id;
+                        $category_mapping->category_id = $request->category_id;
+                        $category_mapping->save();
+                        DB::commit();
+                    }
+                    $response = [
+                        'status' => true,
+                        'message' => [
+                            'type' => 'success',
+                            'title' => 'Product Updated !',
+                            'content' => 'Product updated successfully.'
+                        ],
+                    ];
+                    return response()->json(@$response ?: [], 200, [], JSON_PRETTY_PRINT);
+                }
+            } catch (\Exception $e) {
+                if (DB::transactionLevel() > 0) {
+                    DB::rollback();
+                }
+                $response = [
+                    'status' => false,
+                    'error' => [
+                        'type' => 'error',
+                        'title' => 'Error !',
+                        'content' => $e->getMessage()
+                    ]
+                ];
+                return response()->json($response, 200, [], JSON_PRETTY_PRINT);
+            }
+        } else {
+            $data['units'] = Unit::select('units.id as value', 'units.name as label', 'units.code')->get();
+            $data['brands'] = Brand::select('brands.id as value', 'brands.name as label')->get();
+            $data['product_categories'] = ProductCategories::select('product_categories.id as value', 'product_categories.name as label')->get();
+            //
+            $data['product'] = Product::
+                select(
+                    'products.*',
+                    'pc.name as category',
+                    'pcm.category_id as category_id'
+                )
+                ->leftJoin('product_category_mappings as pcm', function ($join) {
+                    $join->on('products.id', '=', 'pcm.product_id');
+                })
+                ->leftJoin('product_categories as pc', function ($join) {
+                    $join->on('pcm.category_id', '=', 'pc.id');
+                })
+                ->find($product_id);
+            $data['variants'] = Product::
+                select(
+                    'products.*',
+                    'vo.variant_option_name',
+                )
+                ->leftJoin('product_variants as pv', function ($join) {
+                    $join->on('products.id', '=', 'pv.product_id');
+                })
+                ->leftJoin('variant_options as vo', function ($join) {
+                    $join->on('pv.variant_option_id', '=', 'vo.id');
+                })
+                ->where('parent_product_id', $data['product']->parent_product_id)
+                ->where([
+                    ['parent_product_id', '!=', null],
+                    ['products.id', '!=', $data['product']->parent_product_id]
+                ])
+                ->get();
+            return view('user.products.edit-product', $data);
+        }
+    }
     public function list(Request $request)
     {
         if ($request->ajax()) {
@@ -226,8 +416,8 @@ class UserProductController extends Controller
                             $data_table['data'][$key]['slno'] = ($request->start + $key + 1);
                             $data_table['data'][$key]['thumbnail_image_html'] = '<img src="' . config('url.uploads_cdn') . 'products/' . ($row['thumbnail_image'] ?: 'default.jpg') . '" class="product-img-2" alt="product img">';
                             $data_table['data'][$key]['actions_html'] = '<div class="btn-group btn-group-sm bg-light" role="group">
-											<button type="button" data-action="quick-edit" data-id="' . $row['id'] . '" class="btn btn-outline-primary"><i class="bx bx-pencil"></i>
-											</button>
+											<a href="' . route('user.products.edit-product', $row['id']) . '" type="button" data-action="quick-editD" data-id="' . $row['id'] . '" class="btn btn-outline-primary"><i class="bx bx-pencil"></i>
+											</a>
 										</div>';
                             $data_table['data'][$key]['status_html'] = '<div class="form-check-success form-check form-switch">
 									<input data-action="toggle-status" data-id="' . $row['id'] . '" class="form-check-input" type="checkbox" id="status_' . $row['id'] . '" ' . ($row['deleted_at'] == null ? 'checked' : '') . '>

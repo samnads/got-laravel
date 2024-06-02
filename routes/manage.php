@@ -83,6 +83,7 @@ Route::prefix('')->name('user.')->group(function () {
             Route::get('/list', [UserProductController::class, 'list'])->name('list');
             Route::get('/{id}', [UserProductController::class, 'read']);
             Route::put('/{id}', [UserProductController::class, 'update']);
+            Route::any('/edit/{product_id}', [UserProductController::class, 'edit_product'])->name('edit-product');
         });
         Route::prefix('dropdown')->name('dropdown.')->group(function () {
             Route::get('districts/{usage}', [UserDropdownController::class, 'districts']);
